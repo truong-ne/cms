@@ -13,16 +13,11 @@
     "@nuxt/devtools": "latest",
     "@nuxtjs/color-mode": "^3.3.0",
     "@nuxtjs/tailwindcss": "^6.8.0",
-    "@types/chart.js": "^2.9.39",
-    "@types/node": "^20.8.7",
-    "nuxt": "^3.8.0",
-    "vue": "^3.3.6",
-    "vue-router": "^4.2.5"
+    "nuxt": "^3.8.0"
   },
   "dependencies": {
-    "@vuepic/vue-datepicker": "^7.2.0",
-    "chart.js": "^4.4.0",
+    "apexcharts": "^3.44.0",
     "flowbite": "^1.8.1",
-    "vue-chartjs": "^5.2.0"
+    "vue3-apexcharts": "^1.4.4"
   }
 }

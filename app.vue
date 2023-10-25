@@ -1,13 +1,16 @@
 <template>
   <div>
-    <AppHeader />
+    <!-- <AppHeader />
     <SideBar :class="{ hidden: $route.name === 'login' }" />
     <NuxtPage />
-    <AppFooter />
+    <AppFooter /> -->
+    <NuxtLayout>
+      <NuxtPage />
+    </NuxtLayout>
   </div>
 </template>
+
 <script setup>
-import { onMounted } from "vue";
 import { initFlowbite } from "flowbite";
 
 onMounted(() => {

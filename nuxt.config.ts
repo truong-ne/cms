@@ -5,7 +5,7 @@ export default defineNuxtConfig({
   tailwindcss: { exposeConfig: true },
   app: {
     head: {
-      title: "Analytics",
+      title: "Healthline",
       link: [
         // Favicon
         { rel: "icon", type: "image/x-icon", href: "/favicon.ico" },
