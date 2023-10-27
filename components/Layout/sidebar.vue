@@ -14,11 +14,11 @@
         class="fixed top-0 border-r left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0"
         aria-label="Sidebar">
         <div class="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
-            <a href="https://flowbite.com/" class="flex items-center pl-2.5 mb-5">
+            <a href="https://flowbite.com/" class="flex items-center justify-center  mb-5">
                 <span
                     class="text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-3xl lg:text-3xl dark:text-white"><mark
                         class="px-2 text-white bg-blue-600 rounded dark:bg-blue-500">HealthLine</mark></span>
-                <img src="/logo.png" class="h-10 mr-3" alt="Flowbite Logo" />
+
 
             </a>
             <ul class="pt-4 mt-4 space-y-2 font-medium border-t border-gray-200 dark:border-gray-700">
