@@ -1,105 +1,105 @@
 <template>
-    <ClientOnly>
-        <apexchart :key="series" height="500" width="800" :options="options" :series="series"></apexchart>
-    </ClientOnly>
+    <div class="flex items-center justify-between mb-4">
+        <h5 class="text-xl font-bold leading-none text-gray-900 dark:text-white">Latest Customers</h5>
+        <a href="#" class="text-sm font-medium text-blue-600 hover:underline dark:text-blue-500">
+            View all
+        </a>
+    </div>
+    <div class="flow-root">
+        <ul role="list" class="divide-y divide-gray-200 dark:divide-gray-700">
+            <li class="py-3 sm:py-4">
+                <div class="flex items-center space-x-4">
+                    <div class="flex-shrink-0">
+                        <img class="w-8 h-8 rounded-full" src="/docs/images/people/profile-picture-1.jpg" alt="Neil image">
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
+                            Neil Sims
+                        </p>
+                        <p class="text-sm text-gray-500 truncate dark:text-gray-400">
+                            email@windster.com
+                        </p>
+                    </div>
+                    <div class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
+                        $320
+                    </div>
+                </div>
+            </li>
+            <li class="py-3 sm:py-4">
+                <div class="flex items-center space-x-4">
+                    <div class="flex-shrink-0">
+                        <img class="w-8 h-8 rounded-full" src="/docs/images/people/profile-picture-3.jpg"
+                            alt="Bonnie image">
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
+                            Bonnie Green
+                        </p>
+                        <p class="text-sm text-gray-500 truncate dark:text-gray-400">
+                            email@windster.com
+                        </p>
+                    </div>
+                    <div class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
+                        $3467
+                    </div>
+                </div>
+            </li>
+            <li class="py-3 sm:py-4">
+                <div class="flex items-center space-x-4">
+                    <div class="flex-shrink-0">
+                        <img class="w-8 h-8 rounded-full" src="/docs/images/people/profile-picture-2.jpg"
+                            alt="Michael image">
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
+                            Michael Gough
+                        </p>
+                        <p class="text-sm text-gray-500 truncate dark:text-gray-400">
+                            email@windster.com
+                        </p>
+                    </div>
+                    <div class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
+                        $67
+                    </div>
+                </div>
+            </li>
+            <li class="py-3 sm:py-4">
+                <div class="flex items-center space-x-4">
+                    <div class="flex-shrink-0">
+                        <img class="w-8 h-8 rounded-full" src="/docs/images/people/profile-picture-4.jpg" alt="Lana image">
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
+                            Lana Byrd
+                        </p>
+                        <p class="text-sm text-gray-500 truncate dark:text-gray-400">
+                            email@windster.com
+                        </p>
+                    </div>
+                    <div class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
+                        $367
+                    </div>
+                </div>
+            </li>
+            <li class="pt-3 pb-0 sm:pt-4">
+                <div class="flex items-center space-x-4">
+                    <div class="flex-shrink-0">
+                        <img class="w-8 h-8 rounded-full" src="/docs/images/people/profile-picture-5.jpg"
+                            alt="Thomas image">
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
+                            Thomes Lean
+                        </p>
+                        <p class="text-sm text-gray-500 truncate dark:text-gray-400">
+                            email@windster.com
+                        </p>
+                    </div>
+                    <div class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
+                        $2367
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
 </template>
-
-<script setup>
-const options = ref({
-    chart: {
-        height: "100%",
-        maxWidth: "100%",
-        type: "area",
-        fontFamily: "Inter, sans-serif",
-        dropShadow: {
-            enabled: false,
-        },
-        toolbar: {
-            show: false,
-        },
-    },
-    tooltip: {
-        enabled: true,
-        x: {
-            show: false,
-        },
-    },
-    fill: {
-        type: "gradient",
-        gradient: {
-            opacityFrom: 0.55,
-            opacityTo: 0,
-            shade: "#1C64F2",
-            gradientToColors: ["#1C64F2"],
-        },
-    },
-    title: {
-        text: 'Dynamic Updating Chart',
-        align: 'left',
-        fontFamily: ['Helvetica, Arial, sans-serif']
-    },
-    dataLabels: {
-        enabled: false,
-    },
-    stroke: {
-        curve: 'smooth'
-    },
-    grid: {
-        show: true,
-        strokeDashArray: 4,
-        padding: {
-            left: 18,
-            right: 0,
-            top: 0,
-            bottom: 0
-        },
-    },
-    xaxis: {
-        categories: ['01 Feb', '02 Feb', '03 Feb', '04 Feb', '05 Feb', '06 Feb', '07 Feb'],
-        labels: {
-            show: true,
-        },
-        axisBorder: {
-            show: false,
-        },
-        axisTicks: {
-            show: false,
-        },
-        labels: {
-            style: {
-                fontSize: '15px'
-            }
-        }
-    },
-    yaxis: {
-        show: true,
-        labels: {
-            style: {
-                fontSize: '15px'
-            }
-        }
-    },
-})
-const series = ref()
-const updateChart = () => {
-    options.value = {
-        ...options.value,
-    };
-    series.value = [
-        {
-            name: 'New User',
-            data: [10, 20, 15, 5, 15, 5],
-            color: "#3B56DB",
-        },
-        {
-            name: 'New User',
-            data: [13, 21, 25, 15, 35, 15],
-            color: "#3B56DB",
-        },
-    ];
-};
-onMounted(() => {
-    // updateChart();
-    updatePieChart()
-});
-</script>

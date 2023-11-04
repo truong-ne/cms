@@ -1,0 +1,7 @@
+.bg-screen {
+    background-image: url('https://flowbite.s3.amazonaws.com/blocks/marketing-ui/authentication/illustration.svg');
+    background-size: auto;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 1;
+}

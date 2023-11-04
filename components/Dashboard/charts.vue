@@ -1,16 +1,30 @@
 <template>
-    <div class="grid grid-cols-6 gap-4 mb-4">
-        <div class="col-span-4 flex items-center border-2 rounded-lg justify-center h-96 dark:bg-gray-800">
-            <ClientOnly>
-                <apexchart :key="lineseries" height="100%" width="800" :options="lineoptions" :series="lineseries">
-                </apexchart>
-            </ClientOnly>
+    <div class="grid grid-cols-3 gap-4 mb-4">
+        <div class="col-span-2 relative flex items-center border-2 rounded-lg justify-center dark:bg-gray-800">
+            <div href="https://flowbite.com/" class="flex absolute top-3 left-0 items-center pl-2.5 mb-5">
+                <span
+                    class="text-4xl items font-extrabold leading-none tracking-tight text-gray-900 md:text-3xl lg:text-2xl dark:text-white"><mark
+                        class="px-2 text-white bg-blue-600 rounded dark:bg-blue-500">DOANH THU</mark></span>
+            </div>
+            <div class="h-96 mt-14 border-t">
+                <ClientOnly>
+                    <apexchart :key="lineseries" height="100%" width="800" :options="lineoptions" :series="lineseries">
+                    </apexchart>
+                </ClientOnly>
+            </div>
         </div>
-        <div class="col-span-2 flex items-center border-2 rounded-lg  justify-center h-auto dark:bg-gray-800">
-            <ClientOnly>
-                <apexchart :key="pieseries" height="100%" width="400" :options="pieoptions" :series="pieseries">
-                </apexchart>
-            </ClientOnly>
+        <div class="col-span-1 relative flex items-center border-2 rounded-lg  justify-center h-auto dark:bg-gray-800">
+            <div href="https://flowbite.com/" class="flex absolute top-3 left-0 items-center pl-2.5 mb-5">
+                <span
+                    class="text-4xl items font-extrabold leading-none tracking-tight text-gray-900 md:text-3xl lg:text-2xl dark:text-white"><mark
+                        class="px-2 text-white bg-blue-600 rounded dark:bg-blue-500">CUỘC HẸN</mark></span>
+            </div>
+            <div class="h-96 mt-14 border-t">
+                <ClientOnly>
+                    <apexchart :key="pieseries" height="100%" width="400" :options="pieoptions" :series="pieseries">
+                    </apexchart>
+                </ClientOnly>
+            </div>
         </div>
     </div>
 </template>
@@ -43,20 +57,6 @@ const lineoptions = ref({
             opacityTo: 0,
             shade: "#1C64F2",
             gradientToColors: ["#1C64F2"],
-        },
-    },
-    title: {
-        text: 'DOANH THU',
-        align: 'left',
-        margin: 10,
-        offsetX: 0,
-        offsetY: 0,
-        floating: false,
-        style: {
-            fontSize: '22px',
-            fontWeight: 'bold',
-            fontFamily: 'Helvetica, Arial, sans-serif',
-            color: '#ff5d23'
         },
     },
     dataLabels: {
@@ -104,7 +104,7 @@ const lineoptions = ref({
 const lineseries = ref()
 const updateLineChart = () => {
     lineoptions.value = {
-        ...lineoptions.value,
+        ...lineoptions.value
     };
     lineseries.value = [
         {
@@ -126,20 +126,6 @@ const pieoptions = ref({
         lineCap: "round",
     },
     labels: ["Progress", "Done"],
-    title: {
-        text: 'DOANH THU',
-        align: 'left',
-        margin: 10,
-        offsetX: 0,
-        offsetY: 0,
-        floating: false,
-        style: {
-            fontSize: '22px',
-            fontWeight: 'bold',
-            fontFamily: 'Helvetica, Arial, sans-serif',
-            color: '#ff5d23'
-        },
-    },
     legend: {
         position: 'bottom',
     },
