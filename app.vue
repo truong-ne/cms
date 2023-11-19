@@ -5,7 +5,10 @@
     <NuxtPage />
     <AppFooter /> -->
     <NuxtLayout>
-      <NuxtPage />
+      <div class="bg-white overflow-y-hidden h-full">
+        <NuxtLoadingIndicator color="#348feb" :height="5" />
+        <NuxtPage />
+      </div>
     </NuxtLayout>
   </div>
 </template>

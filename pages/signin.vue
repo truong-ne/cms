@@ -1,8 +1,8 @@
 <template>
-    <div class="grid grid-cols-2 gap-4 bg-gray-50">
-        <section class="dark:bg-gray-900">
-            <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
-                <a href="https://flowbite.com/" class="flex items-center pl-2.5 mb-5">
+    <div class="lg:grid lg:grid-cols-2 gap-4 bg-gray-50">
+        <section class="dark:bg-gray-900 ">
+            <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto h-screen lg:py-0">
+                <a href="#" class="flex items-center pl-2.5 mb-5">
                     <span
                         class="text-4xl items font-extrabold leading-none tracking-tight text-gray-900 md:text-3xl lg:text-3xl dark:text-white"><mark
                             class="px-2 text-white bg-blue-600 rounded dark:bg-blue-500">HealthLine</mark></span>
@@ -53,7 +53,7 @@
                 </div>
             </div>
         </section>
-        <section class="bg-screen"></section>
+        <section class="hidden lg:col-span-1 lg:flex bg-screen"></section>
     </div>
 </template>
 

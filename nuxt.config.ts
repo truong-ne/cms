@@ -25,4 +25,8 @@ export default defineNuxtConfig({
       isCustomElement: (tag) => ["lord-icon"].includes(tag),
     },
   },
+  // Simple usage:
+  ssr: false,
+
+  spaLoadingTemplate: "spa-loading-template.html",
 });
