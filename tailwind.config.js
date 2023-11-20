@@ -6,7 +6,8 @@ export default {
     "./pages/**/*.vue",
     "./plugins/**/*.{js,ts}",
     "./nuxt.config.{js,ts}",
-    "./node_modules/flowbite/**/*.{js,ts}"
+    "./node_modules/flowbite/**/*.{js,ts}",
+    "./*.vue"
   ],
   theme: {
     extend: {
@@ -17,6 +18,7 @@ export default {
   },
   plugins: [
     require('flowbite/plugin'),
+    require('tailwind-scrollbar-hide'),
   ],
 
 }

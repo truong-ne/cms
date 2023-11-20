@@ -387,6 +387,18 @@
 </template>
 
 <script setup>
+import { useDataMedicalRecord } from "@/stores/medical_record";
+
+const isLoading = ref(false)
+
+const dataMedicalRecord = useDataMedicalRecord()
+await dataMedicalRecord.getAllMedicalRecordPerPage(1, 10)
+
+const switchPage = async (index) => {
+  isLoading.value = true
+  await dataMedicalRecord.getAllMedicalRecordPerPage(index, 10)
+  isLoading.value = false
+}
 const doctors = [
   {
     image:
