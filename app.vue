@@ -1,16 +1,14 @@
 <template>
-  <div>
-    <!-- <AppHeader />
+  <!-- <AppHeader />
     <SideBar :class="{ hidden: $route.name === 'login' }" />
     <NuxtPage />
     <AppFooter /> -->
-    <NuxtLayout>
-      <div class="bg-white overflow-y-hidden h-full">
-        <NuxtLoadingIndicator color="#348feb" :height="5" />
-        <NuxtPage />
-      </div>
-    </NuxtLayout>
-  </div>
+  <NuxtLayout>
+    <div class="overflow-y-hidden h-full mt-16 lg:mt-0">
+      <NuxtLoadingIndicator color="#348feb" :height="5" />
+      <NuxtPage />
+    </div>
+  </NuxtLayout>
 </template>
 
 <script setup>
