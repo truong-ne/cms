@@ -15,7 +15,7 @@
                     <h5 class="mb-1 text-base font-medium text-gray-900 dark:text-white">Bonnie Green</h5>
                     <span class="text-sm text-gray-500 dark:text-gray-400">Visual Designer</span>
                     <div class="inline-flex w-64">
-                        <span>consultation</span>
+                        <span class="text-sm text-gray-500">consultation</span>
                         <div class="ml-auto">
                             <span>50,274</span>
                         </div>
