@@ -91,118 +91,8 @@
           </div>
         </div>
       </div>
-      <div
-        class="hidden md:p-4 p-2 w-full"
-        id="profile"
-        role="tabpanel"
-        aria-labelledby="grid-tab"
-      >
-        <div
-          class="grid 2xl:grid-cols-5 xl:grid-cols-4 lg:grid-cols-3 grid-cols-2 md:gap-4 gap-2"
-        >
-          <div
-            class="relative col-span-1 w-full bg-white border border-gray-200 rounded-lg md:p-4 hover:shadow"
-            v-for="doctor in doctors"
-            :key="doctor"
-          >
-            <div class="absolute md:right-5 right-1 md:top-5 top-1">
-              <button
-                id="example-dropdow-button"
-                data-dropdown-toggle="example-dropdow"
-                class="inline-flex items-center p-0.5 text-sm font-medium text-center text-gray-500 hover:text-gray-800 rounded-lg focus:outline-none bg-white"
-                type="button"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="w-5 h-5"
-                  aria-hidden="true"
-                  fill="currentColor"
-                  viewBox="0 0 128 512"
-                >
-                  <path
-                    d="M64 360a56 56 0 1 0 0 112a56 56 0 1 0 0-112zm0-160a56 56 0 1 0 0 112a56 56 0 1 0 0-112zm56-104A56 56 0 1 0 8 96a56 56 0 1 0 112 0z"
-                  />
-                </svg>
-              </button>
-              <div
-                id="example-dropdow"
-                class="hidden z-10 w-44 bg-white rounded divide-y divide-gray-100 shadow"
-              >
-                <ul
-                  class="py-1 text-sm text-gray-700 dark:text-gray-200"
-                  aria-labelledby="apple-imac-27-dropdown-button"
-                >
-                  <li>
-                    <a href="#" class="block py-2 px-4 hover:bg-gray-100"
-                      >Chi tiết</a
-                    >
-                  </li>
-                  <li>
-                    <a href="#" class="block py-2 px-4 hover:bg-gray-100"
-                      >Chỉnh sửa</a
-                    >
-                  </li>
-                </ul>
-                <div class="py-1">
-                  <a
-                    href="#"
-                    class="block py-2 px-4 text-sm text-red-500 hover:bg-gray-100"
-                    >Xoá</a
-                  >
-                </div>
-              </div>
-            </div>
-            <div class="flex flex-col items-start">
-              <img
-                class="w-full md:h-52 h-40 md:rounded-lg rounded-t-lg md:mb-4 mb-2 object-cover"
-                :src="doctors[0].image"
-                alt="Bonnie image"
-              />
 
-              <h5
-                class="mb-1 md:text-lg text-base font-bold text-gray-900 overflow-hidden px-2 md:px-0 truncate ..."
-              >
-                {{ doctor.name }}
-              </h5>
-              <span
-                class="w-full text-xs font-semibold text-gray-500 px-2 md:px-0"
-                >Da liễu</span
-              >
-
-              <span
-                class="w-full text-sm font-thin text-gray-500 px-2 md:px-0 truncate ..."
-                >ledinhtruong@gmail.com</span
-              >
-
-              <div
-                class="flex items-center justify-between w-full mt-4 md:mb-0 mb-2 px-2 md:px-0"
-              >
-                <div class="flex items-center justify-center">
-                  <svg
-                    aria-hidden="true"
-                    class="w-5 h-5 text-yellow-300"
-                    fill="currentColor"
-                    viewbox="0 0 20 20"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
-                    />
-                  </svg>
-                  <span class="text-sm text-gray-500 truncate">4.8</span>
-                </div>
-                <span class="text-sm text-gray-500 truncate">200.000 VNĐ</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div
-        class="hidden p-4 rounded-xl bg-white w-full"
-        id="dashboard"
-        role="tabpanel"
-        aria-labelledby="list-tab"
-      >
+      <div class="p-4 rounded-xl bg-white w-full">
         <div class="overflow-x-auto">
           <table class="w-full text-sm text-left text-gray-500">
             <thead class="text-xs text-gray-700 uppercase bg-gray-50">
@@ -385,8 +275,8 @@
     <!-- </div> -->
   </section>
 </template>
-
-<script setup>
+  
+  <script setup>
 const doctors = [
   {
     image:

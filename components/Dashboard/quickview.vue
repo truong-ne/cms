@@ -1,5 +1,5 @@
 <template>
-  <div class="grid lg:grid-cols-3 gap-4 mb-4">
+  <div class="grid lg:grid-cols-3 md:gap-4 gap-2 md:mb-4 mb-2">
     <!-- <div
       class="col-span-2 flex items-start rounded-xl justify-center h-auto bg-white"
     > -->

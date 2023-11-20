@@ -1,7 +1,7 @@
 <template>
-  <div class="md:grid md:grid-cols-3 gap-4 mb-4 z-0">
+  <div class="md:grid md:grid-cols-3 md:gap-4 gap-2 md:mb-4 mb-2 z-0">
     <div
-      class="col-span-2 relative flex items-center rounded-xl justify-center bg-white md:p-4 w-full mb-4 md:mb-0"
+      class="col-span-2 relative flex items-center rounded-xl justify-center bg-white md:p-4 w-full md:mb-4 mb-2"
     >
       <div class="flex absolute top-4 left-4 items-center">
         <span

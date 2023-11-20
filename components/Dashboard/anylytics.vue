@@ -1,6 +1,6 @@
 <template>
   <div
-    class="grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-4 mb-4"
+    class="grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 grid-cols-1 md:gap-4 gap-2 md:mb-4 mb-2"
   >
     <div class="h-40 bg-white px-4 rounded-xl  grid items-center">
       <div class="block">
@@ -22,14 +22,7 @@
         <div
           class="mt-2 w-full flex items-center text-base font-semibold text-green-500 dark:text-green-500 text-center ml-2 md:ml-0"
         >
-          <lord-icon
-            src="https://cdn.lordicon.com/qhkvfxpn.json"
-            trigger="loop"
-            delay="2000"
-            colors="primary:#0b9f6e"
-            style="width: 20px; height: 20px"
-          >
-          </lord-icon>
+          
           <span>+20.9$</span>
           <span class="text-black ml-1">Tổng số doanh thu</span>
         </div>
@@ -56,14 +49,7 @@
         <div
           class="mt-2 w-full flex items-center text-base font-semibold text-green-500 dark:text-green-500 text-center ml-2 md:ml-0"
         >
-          <lord-icon
-            src="https://cdn.lordicon.com/qhkvfxpn.json"
-            trigger="loop"
-            delay="2000"
-            colors="primary:#0b9f6e"
-            style="width: 20px; height: 20px"
-          >
-          </lord-icon>
+          
 
           <span>+120</span>
           <span class="text-black ml-1">Tổng số cuộc hẹn</span>
@@ -90,14 +76,7 @@
         <div
           class="mt-2 w-full flex items-center text-base font-semibold text-green-500 dark:text-green-500 text-center ml-2 md:ml-0"
         >
-          <lord-icon
-            src="https://cdn.lordicon.com/qhkvfxpn.json"
-            trigger="loop"
-            delay="2000"
-            colors="primary:#0b9f6e"
-            style="width: 20px; height: 20px"
-          >
-          </lord-icon>
+          
 
           <span> +1200 </span>
           <span class="text-black ml-1">Bệnh nhân</span>
@@ -124,14 +103,7 @@
         <div
           class="mt-2 w-full flex items-center text-base font-semibold text-green-500 dark:text-green-500 text-center ml-2 md:ml-0"
         >
-          <lord-icon
-            src="https://cdn.lordicon.com/qhkvfxpn.json"
-            trigger="loop"
-            delay="2000"
-            colors="primary:#0b9f6e"
-            style="width: 20px; height: 20px"
-          >
-          </lord-icon>
+          
 
           <span>+200</span>
           <span class="text-black ml-1">Bác sĩ</span>
