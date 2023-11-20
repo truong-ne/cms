@@ -1,7 +1,12 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   devtools: { enabled: true },
-  modules: ["@nuxtjs/tailwindcss", "@nuxtjs/color-mode"],
+  modules: [
+    "@nuxtjs/tailwindcss", 
+    "@nuxtjs/color-mode",
+    "@nuxtjs/cloudinary",
+    "@pinia/nuxt",
+  ],
   tailwindcss: { exposeConfig: true },
   app: {
     head: {
@@ -27,6 +32,20 @@ export default defineNuxtConfig({
   },
   // Simple usage:
   ssr: false,
-
+  css: ["~/assets/css/tailwind.css"],
+  postcss: {
+    plugins: {
+      tailwindcss: {},
+      autoprefixer: {},
+    },
+  },
+  runtimeConfig: {
+    public: {
+      baseURL: process.env.PUBLIC_API,
+    },
+  },
   spaLoadingTemplate: "spa-loading-template.html",
+  cloudinary: {
+    cloudName: process.env.CLOUDINARY_NAME,
+  },
 });

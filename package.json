@@ -13,11 +13,19 @@
     "@nuxt/devtools": "latest",
     "@nuxtjs/color-mode": "^3.3.0",
     "@nuxtjs/tailwindcss": "^6.8.0",
+    "@types/node": "^18.16.19",
     "nuxt": "^3.8.0"
   },
   "dependencies": {
+    "@nuxtjs/cloudinary": "^2.4.1",
+    "@pinia/nuxt": "^0.5.1",
     "apexcharts": "^3.44.0",
+    "autoprefixer": "^10.4.16",
     "flowbite": "^1.8.1",
+    "pinia": "^2.1.7",
+    "postcss": "^8.4.31",
+    "superstruct": "^1.0.3",
+    "tailwind-scrollbar-hide": "^1.1.7",
     "vue": "^3.3.4",
     "vue3-apexcharts": "^1.4.4"
   }
