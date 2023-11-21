@@ -9,6 +9,7 @@ export default defineNuxtConfig({
   ],
   tailwindcss: { exposeConfig: true },
   app: {
+    pageTransition: { name: "page", mode: "default" },
     head: {
       title: "Healthline",
       link: [

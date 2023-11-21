@@ -1,7 +1,7 @@
 <template>
-  <div class="md:grid md:grid-cols-3 md:gap-4 gap-2 md:mb-4 mb-2 z-0">
+  <div class="md:grid md:grid-cols-3 md:gap-4 gap-2 md:mb-4 mb-2 z-0 h-auto">
     <div
-      class="col-span-2 relative flex items-center rounded-xl justify-center bg-white md:p-4 w-full md:mb-4 mb-2"
+      class="col-span-2 relative flex items-center rounded-xl justify-center bg-white md:p-4 w-full md:mb-4 mb-2 h-full"
     >
       <div class="flex absolute top-4 left-4 items-center">
         <span
@@ -24,7 +24,7 @@
       </div>
     </div>
     <div
-      class="col-span-1 relative flex items-center rounded-xl justify-center h-auto bg-white md:p-4 w-full"
+      class="col-span-1 relative flex items-center rounded-xl justify-center bg-white md:p-4 w-full md:mb-4 mb-2 h-full"
     >
       <div
         href="https://flowbite.com/"
@@ -75,10 +75,10 @@ const lineoptions = ref({
   fill: {
     type: "gradient",
     gradient: {
-      opacityFrom: 0.55,
+      opacityFrom: 1,
       opacityTo: 0,
-      shade: "#1C64F2",
-      gradientToColors: ["#1C64F2"],
+      shade: "#fff",
+      gradientToColors: ["#fff"],
     },
   },
   dataLabels: {
@@ -92,25 +92,25 @@ const lineoptions = ref({
     strokeDashArray: 4,
     padding: {
       left: 20,
-      right: 18,
-      top: 0,
-      bottom: 0,
+      right: 20,
+      top: 10,
+      bottom: 10,
     },
   },
   xaxis: {
     categories: [
-      "Jan",
-      "Feb",
-      "March",
-      "April",
-      "May",
-      "Jun",
-      "Jul",
-      "Aug",
-      "Sep",
-      "Oct",
-      "Nov",
-      "Dec",
+    "Th1",
+      "Th2",
+      "Th3",
+      "Th4",
+      "Th5",
+      "Th6",
+      "Th7",
+      "Th8",
+      "Th9",
+      "Th10",
+      "Th11",
+      "Th12",
     ],
     labels: {
       show: true,
@@ -123,7 +123,7 @@ const lineoptions = ref({
     },
     labels: {
       style: {
-        fontSize: "15px",
+        fontSize: "12px",
       },
     },
   },
@@ -131,7 +131,7 @@ const lineoptions = ref({
     show: true,
     labels: {
       style: {
-        fontSize: "15px",
+        fontSize: "12px",
       },
     },
   },
@@ -143,9 +143,9 @@ const updateLineChart = () => {
   };
   lineseries.value = [
     {
-      name: "current month",
+      name: "Thu nhập hiện tại",
       data: [13, 21, 25, 15, 35, 15, 16, 4, 20, 40, 11, 35],
-      color: "#3B56DB",
+      color: "#0b9f6e",
     },
   ];
 };
@@ -157,10 +157,12 @@ const pieoptions = ref({
     type: "donut",
   },
 
+  colors: ["#2463eb", "#e7b72f","#0b9f6e"],
+
   stroke: {
     lineCap: "round",
   },
-  labels: ["Progress", "Done"],
+  labels: ["Đã huỷ", "Hoàn thành", "Sắp tới"],
   legend: {
     position: "bottom",
   },
@@ -173,7 +175,7 @@ const updatePieChart = () => {
   pieoptions.value = {
     ...pieoptions.value,
   };
-  pieseries.value = [67, 33];
+  pieseries.value = [67, 33, 12];
 };
 onMounted(() => {
   updateLineChart();

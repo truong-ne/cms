@@ -55,12 +55,11 @@
                 d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"
               />
             </svg>
-            Thêm
+            Thêm tài khoản
           </button>
           <div class="flex items-center space-x-3 w-full md:w-auto">
             <button
               id="filterDropdownButton"
-
               class="w-full md:w-auto flex items-center justify-center py-2 px-4 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
               type="button"
             >
@@ -91,35 +90,137 @@
           </div>
         </div>
       </div>
+      <div
+        class="hidden md:p-4 p-2 w-full"
+        id="profile"
+        role="tabpanel"
+        aria-labelledby="grid-tab"
+      >
+        <div
+          class="grid 2xl:grid-cols-5 xl:grid-cols-4 lg:grid-cols-3 grid-cols-2 md:gap-4 gap-2"
+        >
+          <div
+            class="relative col-span-1 w-full bg-white border border-gray-200 rounded-lg md:p-4 hover:shadow"
+            v-for="element in data"
+            :key="element.id"
+          >
+            <div class="absolute md:right-5 right-1 md:top-5 top-1">
+              <button
+                id="example-dropdow-button"
+                data-dropdown-toggle="example-dropdow"
+                class="inline-flex items-center p-0.5 text-sm font-medium text-center text-black rounded-lg focus:outline-none"
+                type="button"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="w-5 h-5"
+                  aria-hidden="true"
+                  fill="currentColor"
+                  viewBox="0 0 128 512"
+                >
+                  <path
+                    d="M64 360a56 56 0 1 0 0 112a56 56 0 1 0 0-112zm0-160a56 56 0 1 0 0 112a56 56 0 1 0 0-112zm56-104A56 56 0 1 0 8 96a56 56 0 1 0 112 0z"
+                  />
+                </svg>
+              </button>
+              <div
+                id="example-dropdow"
+                class="hidden z-10 w-44 bg-white rounded divide-y divide-gray-100 shadow"
+              >
+                <ul
+                  class="py-1 text-sm text-gray-700 dark:text-gray-200"
+                  aria-labelledby="apple-imac-27-dropdown-button"
+                >
+                  <li>
+                    <a
+                      :href="route.path + '/' + element.id"
+                      class="block py-2 px-4 hover:bg-gray-100"
+                      >Chi tiết</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      :href="route.path + '/edit-' + element.id"
+                      class="block py-2 px-4 hover:bg-gray-100"
+                      >Chỉnh sửa</a
+                    >
+                  </li>
+                </ul>
+                <div class="py-1">
+                  <a
+                    href="#"
+                    class="block py-2 px-4 text-sm text-red-500 hover:bg-gray-100"
+                    >Xoá</a
+                  >
+                </div>
+              </div>
+            </div>
+            <div class="flex flex-col items-start">
+              <img
+                class="w-full md:h-52 h-40 md:rounded-lg rounded-t-lg md:mb-4 mb-2 object-cover"
+                :src="element.avatar"
+                :alt="element.name"
+              />
 
-      <div class="p-4 rounded-xl bg-white w-full">
+              <h5
+                class="mb-1 md:text-lg text-base font-bold text-gray-900 overflow-hidden px-2 md:px-0 truncate ..."
+              >
+                {{ element.name }}
+              </h5>
+              <span
+                class="w-full text-xs font-semibold text-gray-500 px-2 md:px-0"
+                >{{ element.email }}</span
+              >
+
+              <span
+                class="w-full text-sm font-thin text-gray-500 px-2 md:px-0 truncate ..."
+                >{{ element.phone }}</span
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="hidden p-4 rounded-xl bg-white w-full"
+        id="dashboard"
+        role="tabpanel"
+        aria-labelledby="list-tab"
+      >
         <div class="overflow-x-auto">
           <table class="w-full text-sm text-left text-gray-500">
             <thead class="text-xs text-gray-700 uppercase bg-gray-50">
               <tr>
-                <th scope="col" class="px-4 py-3">Mã</th>
-                <th scope="col" class="px-4 py-3">Giảm giá</th>
-                <th scope="col" class="px-4 py-3">Thời gian hết hạn</th>
+                <th scope="col" class="px-4 py-3" v-for="f in field" :key="f">
+                  {{ f }}
+                </th>
+
                 <th scope="col" class="px-4 py-3">
                   <span class="sr-only">Actions</span>
                 </th>
               </tr>
             </thead>
-            <tbody v-for="doctor in doctors" :key="doctor">
+            <tbody v-for="element in data" :key="element">
               <tr class="border-b dark:border-gray-700">
                 <th
                   scope="row"
-                  class="flex items-center px-4 py-3 mr-4 font-normal text-gray-900 whitespace-nowrap"
+                  class="flex items-center px-4 py-3 font-normal text-gray-900 whitespace-nowrap"
                 >
-                  {{ doctor.name }}
+                  <img
+                    class="w-8 h-8 rounded-full"
+                    :src="element.avatar"
+                    alt="Neil image"
+                  />
+                  <span class="ml-2">{{ element.name }}</span>
                 </th>
-                <td class="px-4 py-3 mr-4">{{ doctor.specialty }}</td>
 
-                <td class="px-4 py-3 mr-4">{{ doctor.joined }}</td>
+                <td class="px-4 py-3 mr-4">{{ element.phone }}</td>
+                <td class="px-4 py-3 mr-4">{{ element.email }}</td>
+                <td class="px-4 py-3 mr-4">{{ element.dayOfBirth }}</td>
+                <td class="px-4 py-3 mr-4">{{ element.updateAt }}</td>
                 <td class="px-4 py-3 flex items-center justify-end">
                   <button
-                    id="apple-imac-27-dropdown-button"
-                    data-dropdown-toggle="apple-imac-27-dropdown"
+                    :id="'data-' + element.id + '-button'"
+                    :data-dropdown-toggle="'data-' + element.id"
                     class="inline-flex items-center p-0.5 text-sm font-medium text-center text-gray-500 hover:text-gray-800 rounded-lg focus:outline-none dark:text-gray-400 dark:hover:text-gray-100"
                     type="button"
                   >
@@ -136,15 +237,22 @@
                     </svg>
                   </button>
                   <div
-                    id="apple-imac-27-dropdown"
+                    :id="'data-' + element.id"
                     class="hidden z-10 w-44 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600"
                   >
                     <ul
                       class="py-1 text-sm text-gray-700 dark:text-gray-200"
-                      aria-labelledby="apple-imac-27-dropdown-button"
+                      :aria-labelledby="'data-' + element.id + '-button'"
                     >
                       <li>
                         <a href="#" class="block py-2 px-4 hover:bg-gray-100"
+                          >Chi tiết</a
+                        >
+                      </li>
+                      <li>
+                        <a
+                          href="/edit-k"
+                          class="block py-2 px-4 hover:bg-gray-100"
                           >Chỉnh sửa</a
                         >
                       </li>
@@ -258,138 +366,21 @@
     <!-- </div> -->
   </section>
 </template>
-  
-  <script setup>
-const doctors = [
-  {
-    image:
-      "https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/roberta-casas.png",
-    name: "KMFJDKAF23",
-    specialty: "2%",
-    consultation: 123,
-    joined: "12/12/2023",
-    price: 200,
-    patient: 200,
-    rating: 4,
-    account: "harrypotter@hogwart.com",
-    payment: "12000",
-  },
-  {
-    image:
-      "https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/roberta-casas.png",
-    name: "KMFJDKAFD3",
-    specialty: "2%",
-    consultation: 123,
-    joined: "12/12/2023",
-    price: 200,
-    patient: 200,
-    rating: 4,
-    account: "ginnyweasley@hogwart.com",
-    payment: "12000",
-  },
-  {
-    image:
-      "https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/roberta-casas.png",
-    name: "KMFJDKAHAA",
-    specialty: "2%",
-    consultation: 123,
-    joined: "12/12/2023",
-    price: 200,
-    patient: 200,
-    rating: 4,
-    account: "KMFJDKAHAA@hogwart.com",
-    payment: "12000",
-  },
-  {
-    image:
-      "https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/roberta-casas.png",
-    name: "KMFJDKAHA8",
-    specialty: "2%",
-    consultation: 123,
-    joined: "12/12/2023",
-    price: 200,
-    patient: 200,
-    rating: 4,
-    account: "siriusblack@hogwart.com",
-    payment: "12000",
-  },
-  {
-    image:
-      "https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/roberta-casas.png",
-    name: "KMFJDKAHGH",
-    specialty: "2%",
-    consultation: 123,
-    joined: "12/12/2023",
-    price: 200,
-    patient: 200,
-    rating: 4,
-    account: "chochang@hogwart.com",
-    payment: "12000",
-  },
-  {
-    image:
-      "https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/roberta-casas.png",
-    name: "KMFJDKAHGH",
-    specialty: "2%",
-    consultation: 123,
-    joined: "12/12/2023",
-    price: 200,
-    patient: 200,
-    rating: 4,
-    account: "chochang@hogwart.com",
-    payment: "12000",
-  },
-  {
-    image:
-      "https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/roberta-casas.png",
-    name: "KMFJDKAHGH",
-    specialty: "2%",
-    consultation: 123,
-    joined: "12/12/2023",
-    price: 200,
-    patient: 200,
-    rating: 4,
-    account: "chochang@hogwart.com",
-    payment: "12000",
-  },
-  {
-    image:
-      "https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/roberta-casas.png",
-    name: "KMFJDKAHGH",
-    specialty: "2%",
-    consultation: 123,
-    joined: "12/12/2023",
-    price: 200,
-    patient: 200,
-    rating: 4,
-    account: "chochang@hogwart.com",
-    payment: "12000",
-  },
-  {
-    image:
-      "https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/roberta-casas.png",
-    name: "KMFJDKAHGH",
-    specialty: "2%",
-    consultation: 123,
-    joined: "12/12/2023",
-    price: 200,
-    patient: 200,
-    rating: 4,
-    account: "chochang@hogwart.com",
-    payment: "12000",
-  },
-  {
-    image:
-      "https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/roberta-casas.png",
-    name: "KMFJDKAHGH",
-    specialty: "2%",
-    consultation: 123,
-    joined: "12/12/2023",
-    price: 200,
-    patient: 200,
-    rating: 4,
-    account: "chochang@hogwart.com",
-    payment: "12000",
-  },
-];
+    
+    <script setup>
+import { useDataMedicalRecord } from "@/stores/medical_record";
+
+const route = useRoute();
+const { field, data } = defineProps(["field", "data"]);
+
+const isLoading = ref(false);
+
+const dataMedicalRecord = useDataMedicalRecord();
+await dataMedicalRecord.getAllMedicalRecordPerPage(1, 10);
+
+const switchPage = async (index) => {
+  isLoading.value = true;
+  await dataMedicalRecord.getAllMedicalRecordPerPage(index, 10);
+  isLoading.value = false;
+};
 </script>
