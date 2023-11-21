@@ -1,5 +1,5 @@
 <template>
-  <section id="default-tab-content" class="w-full">
+  <section id="default-tab-content" class="w-full md:mb-4">
     <!-- Start coding here -->
     <div class="relative overflow-hidden rounded-xl bg-white w-full">
       <div
@@ -40,6 +40,9 @@
         >
           <button
             type="button"
+            id="updateDoctorButton"
+            data-modal-target="updateDoctor"
+            data-modal-toggle="updateDoctor"
             class="flex items-center justify-center text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800"
           >
             <svg
@@ -60,7 +63,6 @@
           <div class="flex items-center space-x-3 w-full md:w-auto">
             <button
               id="filterDropdownButton"
-              data-dropdown-toggle="filterDropdown"
               class="w-full md:w-auto flex items-center justify-center py-2 px-4 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
               type="button"
             >
@@ -102,14 +104,14 @@
         >
           <div
             class="relative col-span-1 w-full bg-white border border-gray-200 rounded-lg md:p-4 hover:shadow"
-            v-for="doctor in doctors"
-            :key="doctor"
+            v-for="element in data"
+            :key="element.id"
           >
             <div class="absolute md:right-5 right-1 md:top-5 top-1">
               <button
                 id="example-dropdow-button"
                 data-dropdown-toggle="example-dropdow"
-                class="inline-flex items-center p-0.5 text-sm font-medium text-center text-gray-500 hover:text-gray-800 rounded-lg focus:outline-none bg-white"
+                class="inline-flex items-center p-0.5 text-sm font-medium text-center text-black rounded-lg"
                 type="button"
               >
                 <svg
@@ -133,14 +135,22 @@
                   aria-labelledby="apple-imac-27-dropdown-button"
                 >
                   <li>
-                    <a href="#" class="block py-2 px-4 hover:bg-gray-100"
+                    <a
+                      :href="route.path + '/' + element.id"
+                      class="block py-2 px-4 hover:bg-gray-100"
                       >Chi tiết</a
                     >
                   </li>
                   <li>
-                    <a href="#" class="block py-2 px-4 hover:bg-gray-100"
-                      >Chỉnh sửa</a
+                    <button
+                      type="button"
+                      id="updateDoctorButton"
+                      data-modal-target="updateDoctor"
+                      data-modal-toggle="updateDoctor"
+                      class=" py-2 px-4 w-full flex items-start justify-start hover:bg-gray-100"
                     >
+                      Chỉnh sửa
+                    </button>
                   </li>
                 </ul>
                 <div class="py-1">
@@ -155,23 +165,23 @@
             <div class="flex flex-col items-start">
               <img
                 class="w-full md:h-52 h-40 md:rounded-lg rounded-t-lg md:mb-4 mb-2 object-cover"
-                :src="doctors[0].image"
+                :src="element.avatar"
                 alt="Bonnie image"
               />
 
               <h5
                 class="mb-1 md:text-lg text-base font-bold text-gray-900 overflow-hidden px-2 md:px-0 truncate ..."
               >
-                {{ doctor.name }}
+                {{ element.name }}
               </h5>
               <span
                 class="w-full text-xs font-semibold text-gray-500 px-2 md:px-0"
-                >Da liễu</span
+                >{{ element.specialty }}</span
               >
 
               <span
                 class="w-full text-sm font-thin text-gray-500 px-2 md:px-0 truncate ..."
-                >ledinhtruong@gmail.com</span
+                >{{ element.email }}</span
               >
 
               <div
@@ -189,9 +199,13 @@
                       d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
                     />
                   </svg>
-                  <span class="text-sm text-gray-500 truncate">4.8</span>
+                  <span class="text-sm text-gray-500 truncate">{{
+                    element.rating
+                  }}</span>
                 </div>
-                <span class="text-sm text-gray-500 truncate">200.000 VNĐ</span>
+                <span class="text-sm text-gray-500 truncate"
+                  >{{ element.fee }} VND</span
+                >
               </div>
             </div>
           </div>
@@ -207,41 +221,37 @@
           <table class="w-full text-sm text-left text-gray-500">
             <thead class="text-xs text-gray-700 uppercase bg-gray-50">
               <tr>
-                <th scope="col" class="px-4 py-3">Họ và tên</th>
-                <th scope="col" class="px-4 py-3">Ngày sinh</th>
-                <th scope="col" class="px-4 py-3">Email</th>
-                <th scope="col" class="px-4 py-3">Số điện thoại</th>
-                <th scope="col" class="px-4 py-3">Chuyên ngành</th>
-                <th scope="col" class="px-4 py-3">Xếp hạng</th>
-                <th scope="col" class="px-4 py-3">Giá khám</th>
+                <th scope="col" class="px-4 py-3" v-for="f in field" :key="f">
+                  {{ f }}
+                </th>
+
                 <th scope="col" class="px-4 py-3">
                   <span class="sr-only">Actions</span>
                 </th>
               </tr>
             </thead>
-            <tbody v-for="doctor in doctors" :key="doctor">
+            <tbody v-for="element in data" :key="element">
               <tr class="border-b dark:border-gray-700">
                 <th
                   scope="row"
-                  class="flex items-center px-4 py-3 mr-4 font-normal text-gray-900 whitespace-nowrap"
+                  class="flex items-center px-4 py-3 font-normal text-gray-900 whitespace-nowrap"
                 >
                   <img
                     class="w-8 h-8 rounded-full"
-                    :src="doctor.image"
+                    :src="element.avatar"
                     alt="Neil image"
                   />
-                  <span class="ml-2">{{ doctor.name }}</span>
+                  <span class="ml-2">{{ element.name }}</span>
                 </th>
-                <td class="px-4 py-3 mr-4">{{ doctor.specialty }}</td>
-                <td class="px-4 py-3 mr-4">{{ doctor.consultation }}</td>
-                <td class="px-4 py-3 mr-4">{{ doctor.joined }}</td>
-                <td class="px-4 py-3 mr-4">{{ doctor.price }}</td>
-                <td class="px-4 py-3 mr-4">{{ doctor.patient }}</td>
-                <td class="px-4 py-3 mr-4">{{ doctor.rating }}</td>
+
+                <td class="px-4 py-3 mr-4">{{ element.phone }}</td>
+                <td class="px-4 py-3 mr-4">{{ element.email }}</td>
+                <td class="px-4 py-3 mr-4">{{ element.specialty }}</td>
+                <td class="px-4 py-3 mr-4">{{ element.updateAt }}</td>
                 <td class="px-4 py-3 flex items-center justify-end">
                   <button
-                    id="apple-imac-27-dropdown-button"
-                    data-dropdown-toggle="apple-imac-27-dropdown"
+                    :id="'data-' + element.id + '-button'"
+                    :data-dropdown-toggle="'data-' + element.id"
                     class="inline-flex items-center p-0.5 text-sm font-medium text-center text-gray-500 hover:text-gray-800 rounded-lg focus:outline-none dark:text-gray-400 dark:hover:text-gray-100"
                     type="button"
                   >
@@ -258,12 +268,12 @@
                     </svg>
                   </button>
                   <div
-                    id="apple-imac-27-dropdown"
+                    :id="'data-' + element.id"
                     class="hidden z-10 w-44 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600"
                   >
                     <ul
                       class="py-1 text-sm text-gray-700 dark:text-gray-200"
-                      aria-labelledby="apple-imac-27-dropdown-button"
+                      :aria-labelledby="'data-' + element.id + '-button'"
                     >
                       <li>
                         <a href="#" class="block py-2 px-4 hover:bg-gray-100"
@@ -271,7 +281,9 @@
                         >
                       </li>
                       <li>
-                        <a href="#" class="block py-2 px-4 hover:bg-gray-100"
+                        <a
+                          href="/edit-k"
+                          class="block py-2 px-4 hover:bg-gray-100"
                           >Chỉnh sửa</a
                         >
                       </li>
@@ -385,150 +397,21 @@
     <!-- </div> -->
   </section>
 </template>
-
-<script setup>
+  
+  <script setup>
 import { useDataMedicalRecord } from "@/stores/medical_record";
 
-const isLoading = ref(false)
+const route = useRoute();
+const { field, data } = defineProps(["field", "data"]);
 
-const dataMedicalRecord = useDataMedicalRecord()
-await dataMedicalRecord.getAllMedicalRecordPerPage(1, 10)
+const isLoading = ref(false);
+
+const dataMedicalRecord = useDataMedicalRecord();
+await dataMedicalRecord.getAllMedicalRecordPerPage(1, 10);
 
 const switchPage = async (index) => {
-  isLoading.value = true
-  await dataMedicalRecord.getAllMedicalRecordPerPage(index, 10)
-  isLoading.value = false
-}
-const doctors = [
-  {
-    image:
-      "https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/roberta-casas.png",
-    name: "Harry Potter",
-    specialty: "nha khoa",
-    consultation: 123,
-    joined: "12/12/2023",
-    price: 200,
-    patient: 200,
-    rating: 4,
-    account: "harrypotter@hogwart.com",
-    payment: "12000",
-  },
-  {
-    image:
-      "https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/roberta-casas.png",
-    name: "Ginny Weasley",
-    specialty: "nha khoa",
-    consultation: 123,
-    joined: "12/12/2023",
-    price: 200,
-    patient: 200,
-    rating: 4,
-    account: "ginnyweasley@hogwart.com",
-    payment: "12000",
-  },
-  {
-    image:
-      "https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/roberta-casas.png",
-    name: "Dumbledore",
-    specialty: "nha khoa",
-    consultation: 123,
-    joined: "12/12/2023",
-    price: 200,
-    patient: 200,
-    rating: 4,
-    account: "dumbledore@hogwart.com",
-    payment: "12000",
-  },
-  {
-    image:
-      "https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/roberta-casas.png",
-    name: "Sirius Black",
-    specialty: "nha khoa",
-    consultation: 123,
-    joined: "12/12/2023",
-    price: 200,
-    patient: 200,
-    rating: 4,
-    account: "siriusblack@hogwart.com",
-    payment: "12000",
-  },
-  {
-    image:
-      "https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/roberta-casas.png",
-    name: "Cho Chang",
-    specialty: "nha khoa",
-    consultation: 123,
-    joined: "12/12/2023",
-    price: 200,
-    patient: 200,
-    rating: 4,
-    account: "chochang@hogwart.com",
-    payment: "12000",
-  },
-  {
-    image:
-      "https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/roberta-casas.png",
-    name: "Cho Chang",
-    specialty: "nha khoa",
-    consultation: 123,
-    joined: "12/12/2023",
-    price: 200,
-    patient: 200,
-    rating: 4,
-    account: "chochang@hogwart.com",
-    payment: "12000",
-  },
-  {
-    image:
-      "https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/roberta-casas.png",
-    name: "Cho Chang",
-    specialty: "nha khoa",
-    consultation: 123,
-    joined: "12/12/2023",
-    price: 200,
-    patient: 200,
-    rating: 4,
-    account: "chochang@hogwart.com",
-    payment: "12000",
-  },
-  {
-    image:
-      "https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/roberta-casas.png",
-    name: "Cho Chang",
-    specialty: "nha khoa",
-    consultation: 123,
-    joined: "12/12/2023",
-    price: 200,
-    patient: 200,
-    rating: 4,
-    account: "chochang@hogwart.com",
-    payment: "12000",
-  },
-  {
-    image:
-      "https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/roberta-casas.png",
-    name: "Cho Chang",
-    specialty: "nha khoa",
-    consultation: 123,
-    joined: "12/12/2023",
-    price: 200,
-    patient: 200,
-    rating: 4,
-    account: "chochang@hogwart.com",
-    payment: "12000",
-  },
-  {
-    image:
-      "https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/roberta-casas.png",
-    name: "Cho Chang",
-    specialty: "nha khoa",
-    consultation: 123,
-    joined: "12/12/2023",
-    price: 200,
-    patient: 200,
-    rating: 4,
-    account: "chochang@hogwart.com",
-    payment: "12000",
-  },
-];
+  isLoading.value = true;
+  await dataMedicalRecord.getAllMedicalRecordPerPage(index, 10);
+  isLoading.value = false;
+};
 </script>

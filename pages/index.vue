@@ -1,5 +1,5 @@
 <template>
-  <section class="mt-4">
+  <section class="">
     <DashboardAnylytics />
 
     <DashboardCharts />

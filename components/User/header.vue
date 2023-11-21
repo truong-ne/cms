@@ -1,7 +1,7 @@
 
 <template>
   <div
-    class="md:my-4 md:mb-4 mb-2 md:py-4 py-2 md:px-8 px-4 inline-flex gap-2 md:gap-4 items-center w-full bg-white rounded-xl"
+    class=" md:mb-4 mb-2 md:py-4 py-2 md:px-8 px-4 inline-flex gap-2 md:gap-4 items-center w-full bg-white rounded-xl"
   >
     <span
       class="inline-flex items-center justify-center md:text-2xl text-lg font-bold text-black rounded"

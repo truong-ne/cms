@@ -2,14 +2,14 @@
   <div
     class="grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 grid-cols-1 md:gap-4 gap-2 md:mb-4 mb-2"
   >
-    <div class="h-40 bg-white px-4 rounded-xl  grid items-center">
+    <div class="h-40 bg-white px-4 rounded-xl grid items-center">
       <div class="block">
         <div class="flex items-center justify-start w-full">
           <lord-icon
             src="https://cdn.lordicon.com/ncitidvz.json"
             trigger="loop"
             delay="2000"
-            colors="primary:#e8b730"
+            colors="primary:#2463eb"
             style="width: 50px; height: 50px"
           >
           </lord-icon>
@@ -22,13 +22,12 @@
         <div
           class="mt-2 w-full flex items-center text-base font-semibold text-green-500 dark:text-green-500 text-center ml-2 md:ml-0"
         >
-          
           <span>+20.9$</span>
           <span class="text-black ml-1">Tổng số doanh thu</span>
         </div>
       </div>
     </div>
-    <div class="h-40 bg-white px-4 rounded-xl  grid items-center">
+    <div class="h-40 bg-white px-4 rounded-xl grid items-center">
       <div class="block">
         <div class="flex items-center justify-start w-full">
           <lord-icon
@@ -49,21 +48,19 @@
         <div
           class="mt-2 w-full flex items-center text-base font-semibold text-green-500 dark:text-green-500 text-center ml-2 md:ml-0"
         >
-          
-
           <span>+120</span>
           <span class="text-black ml-1">Tổng số cuộc hẹn</span>
         </div>
       </div>
     </div>
-    <div class="h-40 bg-white px-4 rounded-xl  grid items-center">
+    <div class="h-40 bg-white px-4 rounded-xl grid items-center">
       <div class="block">
         <div class="flex items-center justify-start w-full">
           <lord-icon
             src="https://cdn.lordicon.com/hrjifpbq.json"
             trigger="loop"
             delay="3000"
-            colors="primary:#e8b730"
+            colors="primary:#2463eb"
             style="width: 50px; height: 50px"
           >
           </lord-icon>
@@ -76,14 +73,12 @@
         <div
           class="mt-2 w-full flex items-center text-base font-semibold text-green-500 dark:text-green-500 text-center ml-2 md:ml-0"
         >
-          
-
           <span> +1200 </span>
           <span class="text-black ml-1">Bệnh nhân</span>
         </div>
       </div>
     </div>
-    <div class="h-40 bg-white px-4 rounded-xl  grid items-center">
+    <div class="h-40 bg-white px-4 rounded-xl grid items-center">
       <div class="block">
         <div class="flex items-center justify-start w-full">
           <lord-icon
@@ -103,8 +98,6 @@
         <div
           class="mt-2 w-full flex items-center text-base font-semibold text-green-500 dark:text-green-500 text-center ml-2 md:ml-0"
         >
-          
-
           <span>+200</span>
           <span class="text-black ml-1">Bác sĩ</span>
         </div>
