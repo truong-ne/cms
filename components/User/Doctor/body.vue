@@ -147,7 +147,7 @@
                       id="updateDoctorButton"
                       data-modal-target="updateDoctor"
                       data-modal-toggle="updateDoctor"
-                      class=" py-2 px-4 w-full flex items-start justify-start hover:bg-gray-100"
+                      class="py-2 px-4 w-full flex items-start justify-start hover:bg-gray-100"
                     >
                       Chỉnh sửa
                     </button>
