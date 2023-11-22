@@ -2,8 +2,8 @@
   <section>
     <UserHeader :header="header" />
     <UserDoctorBody :field="field" :data="data" />
-    <UserDoctorFormcreate />
-    <UserDoctorFormupdate />
+    <!-- <UserDoctorFormcreate />
+    <UserDoctorFormupdate /> -->
   </section>
 </template>
 
