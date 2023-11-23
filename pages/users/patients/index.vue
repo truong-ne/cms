@@ -2,6 +2,8 @@
   <section>
     <UserHeader :header="header" />
     <UserPatientBody :field="field" :data="data" />
+    <UserPatientFormcreate/>
+    <UserPatientFormupdate/>
   </section>
 </template>
 

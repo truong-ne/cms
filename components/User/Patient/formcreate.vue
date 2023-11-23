@@ -1,7 +1,7 @@
 <template>
   <!-- Create modal -->
   <div
-    id="updateDoctor"
+    id="createPatient"
     tabindex="-1"
     aria-hidden="true"
     class="hidden sm:overflow-y-auto sm:overflow-x-hidden sm:fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full"
@@ -15,14 +15,14 @@
         <div
           class="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5"
         >
-          <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
-            Chỉnh sửa thông tin
+          <h3 class="text-lg font-semibold text-gray-900">
+            Thêm tài khoản bệnh nhân
           </h3>
           <button
             type="button"
             class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
-            data-modal-target="updateDoctor"
-            data-modal-toggle="updateDoctor"
+            data-modal-target="createPatient"
+            data-modal-toggle="createPatient"
           >
             <svg
               aria-hidden="true"
@@ -46,7 +46,7 @@
             <div class="sm:col-span-2">
               <label
                 for="name"
-                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                class="block mb-2 text-sm font-medium text-gray-900"
                 >Họ tên</label
               >
               <input
@@ -60,26 +60,22 @@
             </div>
             <div class="sm:col-span-1">
               <label
-                for="specialty"
-                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                >Chuyên ngành</label
-              >
-              <select
-                id="specialty"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5"
-              >
-                <option selected disabled>Chọn chuyên ngành</option>
-                <option value="TV">TV/Monitors</option>
-                <option value="PC">PC</option>
-                <option value="GA">Gaming/Console</option>
-                <option value="PH">Phones</option>
-              </select>
+                for="avatar"
+                class="block mb-2 text-sm font-medium text-gray-900"
+                >Ảnh</label
+              ><input
+                type="file"
+                name="avatar"
+                id="avatar"
+                accept=".png, jpg, jpeg, svg"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-auto"
+                required
+              />
             </div>
-
             <div class="sm:col-span-2">
               <label
                 for="email"
-                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                class="block mb-2 text-sm font-medium text-gray-900"
                 >Email</label
               ><input
                 type="email"
@@ -93,7 +89,7 @@
             <div class="sm:col-span-1">
               <label
                 for="phone"
-                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                class="block mb-2 text-sm font-medium text-gray-900"
                 >Số điện thoại</label
               >
               <input
@@ -105,59 +101,19 @@
                 required
               />
             </div>
-            <div class="sm:col-span-1">
-              <label
-                for="experience"
-                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                >Kinh nghiệm</label
-              ><input
-                type="number"
-                name="experience"
-                id="experience"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                placeholder="1"
-                required
-              />
-            </div>
-            <div class="sm:col-span-1">
-              <label
-                for="fee"
-                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                >Phí mỗi phút</label
-              ><input
-                type="number"
-                name="fee"
-                id="fee"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                placeholder="1,000"
-                required
-              />
-            </div>
-            <div class="sm:col-span-1">
-              <label
-                for="avatar"
-                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                >Ảnh</label
-              ><input
-                type="file"
-                name="avatar"
-                id="avatar"
-                accept=".png, jpg, jpeg, svg"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-auto"
-                required
-              />
-            </div>
             <div class="sm:col-span-3">
               <label
-                for="biography"
-                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                >Tiểu sử</label
-              ><textarea
-                id="biography"
-                rows="4"
-                class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500"
-                placeholder="Thông tin bác sĩ"
-              ></textarea>
+                for="address"
+                class="block mb-2 text-sm font-medium text-gray-900"
+                >Địa chỉ</label
+              ><input
+                type="text"
+                name="address"
+                id="address"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                placeholder="Tổ/Thôn/Phường/Xã..."
+                required
+              />
             </div>
           </div>
           <div class="w-full flex items-center justify-center">
@@ -177,7 +133,7 @@
                   clip-rule="evenodd"
                 />
               </svg>
-              Cập nhật
+              Tạo tài khoản
             </button>
           </div>
         </form>

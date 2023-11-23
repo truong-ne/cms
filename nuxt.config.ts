@@ -31,8 +31,10 @@ export default defineNuxtConfig({
       isCustomElement: (tag) => ["lord-icon"].includes(tag),
     },
   },
-  // Simple usage:
-  ssr: false,
+  // // Simple usage:
+  // ssr: false,
+  // spaLoadingTemplate: "spa-loading-template.html",
+
   css: ["~/assets/css/tailwind.css"],
   postcss: {
     plugins: {
@@ -45,7 +47,6 @@ export default defineNuxtConfig({
       baseURL: process.env.PUBLIC_API,
     },
   },
-  spaLoadingTemplate: "spa-loading-template.html",
   cloudinary: {
     cloudName: process.env.CLOUDINARY_NAME,
   },

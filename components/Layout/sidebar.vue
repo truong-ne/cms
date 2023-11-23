@@ -148,7 +148,7 @@
             <span class="flex-1 ml-3 whitespace-nowrap">Tin tức</span>
           </a>
         </li>
-        <li>
+        <!-- <li>
           <a
             href="/services"
             class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group"
@@ -162,7 +162,7 @@
             </lord-icon>
             <span class="flex-1 ml-3 whitespace-nowrap">Dịch vụ</span>
           </a>
-        </li>
+        </li> -->
       </ul>
       <ul class="pt-4 mt-4 space-y-2 font-medium border-t border-gray-200">
         <li>

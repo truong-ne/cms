@@ -1,9 +1,9 @@
 <template>
   <div
-    class="md:flex gap-4 w-full items-start justify-start bg-white rounded-xl md:p-8 p-4"
+    class="md:grid md:grid-cols-3 grid-cols-1 gap-4 w-full items-start justify-start bg-white rounded-xl md:p-8 p-4"
   >
     <div
-      class="flex flex-col items-center justify-center mb-2 md:mb-4 pr-8 md:w-1/3 w-full"
+      class="flex flex-col items-center justify-start mb-2 md:mb-4 pr-8 md:col-span-1 md:border-r h-full"
     >
       <div class="md:w-40 md:h-40 w-40 h-40 mb-2">
         <img
@@ -69,7 +69,7 @@
     </div>
 
     <div
-      class="flex flex-col items-start justify-start md:pl-4 md:border-l md:w-2/3 w-full"
+      class="col-span-2 flex flex-col items-start justify-start md:pl-4 "
     >
       <span
         class="mb-1 lg:text-md md:text-base text-sm font-bold leading-none text-black"

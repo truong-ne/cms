@@ -40,9 +40,9 @@
         >
           <button
             type="button"
-            id="updateDoctorButton"
-            data-modal-target="updateDoctor"
-            data-modal-toggle="updateDoctor"
+            id="createDoctorButton"
+            data-modal-target="createDoctor"
+            data-modal-toggle="createDoctor"
             class="flex items-center justify-center text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800"
           >
             <svg
@@ -102,12 +102,13 @@
         <div
           class="grid 2xl:grid-cols-5 xl:grid-cols-4 lg:grid-cols-3 grid-cols-2 md:gap-4 gap-2"
         >
-          <div
-            class="relative col-span-1 w-full bg-white border border-gray-200 rounded-lg md:p-4 hover:shadow"
+          <a
+            :href="route.path + '/' + element.id"
+            class="relative col-span-1 w-full bg-white border-gray-200 shadow hover:border-gray-200 rounded-lg md:p-4 border-4 border-transparent group"
             v-for="element in data"
             :key="element.id"
           >
-            <div class="absolute md:right-5 right-1 md:top-5 top-1">
+            <div class="absolute md:right-5 right-1 md:top-5 top-1 z-10">
               <button
                 id="example-dropdow-button"
                 data-dropdown-toggle="example-dropdow"
@@ -163,11 +164,15 @@
               </div>
             </div>
             <div class="flex flex-col items-start">
-              <img
-                class="w-full md:h-52 h-40 md:rounded-lg rounded-t-lg md:mb-4 mb-2 object-cover"
-                :src="element.avatar"
-                alt="Bonnie image"
-              />
+              <div
+                class="md:h-52 h-40 w-full md:rounded-lg rounded-t-lg md:mb-4 mb-2 overflow-hidden"
+              >
+                <img
+                  class="object-cover group-hover:scale-[1.15] duration-200 transform ease-linear"
+                  :src="element.avatar"
+                  :alt="element.name"
+                />
+              </div>
 
               <h5
                 class="mb-1 md:text-lg text-base font-bold text-gray-900 overflow-hidden px-2 md:px-0 truncate ..."
@@ -208,7 +213,7 @@
                 >
               </div>
             </div>
-          </div>
+          </a>
         </div>
       </div>
       <div
@@ -231,7 +236,7 @@
               </tr>
             </thead>
             <tbody v-for="element in data" :key="element">
-              <tr class="border-b dark:border-gray-700">
+              <tr class="border-b hover:bg-gray-200">
                 <th
                   scope="row"
                   class="flex items-center px-4 py-3 font-normal text-gray-900 whitespace-nowrap"
@@ -276,16 +281,22 @@
                       :aria-labelledby="'data-' + element.id + '-button'"
                     >
                       <li>
-                        <a href="#" class="block py-2 px-4 hover:bg-gray-100"
+                        <a
+                          :href="route.path + '/' + element.id"
+                          class="block py-2 px-4 hover:bg-gray-100"
                           >Chi tiết</a
                         >
                       </li>
                       <li>
-                        <a
-                          href="/edit-k"
-                          class="block py-2 px-4 hover:bg-gray-100"
-                          >Chỉnh sửa</a
+                        <button
+                          type="button"
+                          id="updateDoctorButton"
+                          data-modal-target="updateDoctor"
+                          data-modal-toggle="updateDoctor"
+                          class="py-2 px-4 w-full flex items-start justify-start hover:bg-gray-100"
                         >
+                          Chỉnh sửa
+                        </button>
                       </li>
                     </ul>
                     <div class="py-1">
