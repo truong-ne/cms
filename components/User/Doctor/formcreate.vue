@@ -121,13 +121,13 @@
             </div>
             <div class="sm:col-span-1">
               <label
-                for="experience"
+                for="fee"
                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                 >Phí mỗi phút</label
               ><input
                 type="number"
-                name="experience"
-                id="experience"
+                name="fee"
+                id="fee"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                 placeholder="1,000"
                 required

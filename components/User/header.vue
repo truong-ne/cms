@@ -25,10 +25,12 @@
         role="tab"
         aria-controls="profile"
         aria-selected="false"
+        @click="chooseGridView"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          class="w-5 h-5 hover:w-6 hover:h-6 text-gray-500 dark:text-white"
+          class="w-5 h-5 hover:w-6 hover:h-6 dark:text-white"
+          :class="gridView?'text-black':'text-gray-500'"
           aria-hidden="true"
           viewBox="0 0 448 512"
           fill="currentColor"
@@ -46,10 +48,13 @@
         role="tab"
         aria-controls="dashboard"
         aria-selected="false"
+        @click="chooseListView"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          class="w-5 h-5 hover:w-6 hover:h-6 text-gray-500 dark:text-white"
+          class="w-5 h-5 hover:w-6 hover:h-6 "
+          :class="!gridView?'text-black':'text-gray-500'"
+
           viewBox="0 0 512 512"
           fill="currentColor"
         >
@@ -65,4 +70,13 @@
 <script setup lang="ts">
 import { defineProps } from "vue";
 const { header } = defineProps(["header"]);
+
+const gridView = ref(true);
+
+function chooseGridView(){
+  gridView.value=true;
+}
+function chooseListView(){
+  gridView.value=false;
+}
 </script>

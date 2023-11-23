@@ -121,15 +121,10 @@ const updateBarChart = () => {
   };
   barseries.value = [
     {
-      name: "Tiền vào",
+      name: "Voucher",
       data: [13, 21, 25, 15, 35, 15, 16, 4, 20, 40, 11, 35],
-      color: "#9ADE7B",
-    },
-    {
-      name: "Tiền gốc",
-      data: [18, 11, 20, 25, 15, 15, 17, 1, 22, 60, 15, 45],
-      color: "#FF8F8F",
-    },
+      color: "#0b9f6e",
+    }
   ];
 };
 
