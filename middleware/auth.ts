@@ -4,7 +4,6 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
   // try {
   const authStore = useAuthStore();
   if (authStore.accessToken != "") {
-    console.log("CHECKKKK");
     if (to.path == "/authenticate") {
       return navigateTo("/");
     }
