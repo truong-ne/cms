@@ -1,11 +1,19 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   devtools: { enabled: true },
+  imports: {
+    dirs: ["stores", "utils"],
+  },
   modules: [
-    "@nuxtjs/tailwindcss", 
+    "@nuxtjs/tailwindcss",
     "@nuxtjs/color-mode",
     "@nuxtjs/cloudinary",
-    "@pinia/nuxt",
+    [
+      "@pinia/nuxt",
+      {
+        autoImports: ["defineStore", "acceptHMRUpdate"],
+      },
+    ],
   ],
   tailwindcss: { exposeConfig: true },
   app: {
@@ -22,6 +30,10 @@ export default defineNuxtConfig({
       script: [
         {
           src: "https://cdn.lordicon.com/lordicon-1.2.0.js",
+        },
+        {
+          src: "https://cdn.jsdelivr.net/npm/ldrs/dist/auto/jelly.js",
+          type: "module",
         },
       ],
     },
