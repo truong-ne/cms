@@ -1,9 +1,9 @@
 import { useAuthStore } from "@/stores/auth";
 
 export default defineNuxtRouteMiddleware(async (to, from) => {
-  // try {
+  try {
   const authStore = useAuthStore();
-  if (authStore.accessToken != "") {
+  if (authStore.getAccesToken != "") {
     if (to.path == "/authenticate") {
       return navigateTo("/");
     }
@@ -13,8 +13,8 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
       return navigateTo("/authenticate");
     } else return;
   }
-  // } catch (e) {
-  //   console.log(e);
-  //   navigateTo("/authenticate");
-  // }
+  } catch (e) {
+    console.log(e);
+    navigateTo("/authenticate");
+  }
 });

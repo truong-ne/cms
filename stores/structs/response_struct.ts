@@ -1,9 +1,9 @@
-import { string, number, array, record, object, size, optional, defaulted, assign, type Infer } from 'superstruct'
+import { string, number, array, record, object, size, optional, defaulted, assign, type Infer, any } from 'superstruct'
 
 
 export const DataObjectSchema = object({
-  code: number(),
-  message: string(),
+  code: any(),
+  message: any(),
   data: object()
 })
 

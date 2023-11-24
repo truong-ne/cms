@@ -3750,6 +3750,11 @@ lazystream@^1.0.0:
   dependencies:
     readable-stream "^2.0.5"
 
+ldrs@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.npmjs.org/ldrs/-/ldrs-1.0.1.tgz#38128d2e36f2b9321da171fbe4c532b656e8e28c"
+  integrity sha512-eeCP1XEG72Yz6JX50zlYWRJcEfNBrpp8QSzyjD3HHhxrnt4steLX4iDHF3Dezjbnnj5qtuJn7lr1nln+/kpUIQ==
+
 lilconfig@^2.0.5, lilconfig@^2.1.0:
   version "2.1.0"
   resolved "https://registry.npmjs.org/lilconfig/-/lilconfig-2.1.0.tgz"
