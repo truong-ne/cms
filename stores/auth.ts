@@ -20,6 +20,7 @@ export const useAuthStore = defineStore("auth", {
   },
   actions: {
     async login(username: string, password: string) {
+      console.log(username + password);
       try {
         // const { data, pending, error, refresh } =
         const { data, error } = await useFetch("/common/admin/auth", {
@@ -34,10 +35,12 @@ export const useAuthStore = defineStore("auth", {
           }),
         });
 
+        console.log(data);
+        console.log(error);
+
         if (data.value != null) {
           this.accessToken = data.value.data.jwt_token;
           localStorage.setItem("access_token", data.value.data.jwt_token);
-          localStorage.setItem("auth_doctor", "1");
 
           return navigateTo("/");
         } else if (error.value != null) {

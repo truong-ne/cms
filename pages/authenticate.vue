@@ -112,12 +112,8 @@ const { defineInputBinds, resetForm, isSubmitting, handleSubmit, errors } =
 
 resetForm();
 
-const username = defineInputBinds("username", {
-  validateOnInput: true,
-});
-const password = defineInputBinds("password", {
-  validateOnInput: true,
-});
+const username = defineInputBinds("username");
+const password = defineInputBinds("password");
 
 const storeToast = toastStore();
 const toastStatus = ref("");
@@ -134,14 +130,21 @@ const onSubmit = handleSubmit(async (values) => {
   toastStatus.value = "success";
   message.value = "Đăng nhập thành công!";
   const authStore = useAuthStore();
-  await authStore.login(values.username, values.password).catch(() => {
-    toastStatus.value = "error";
-    message.value = "Tên hoặc mật khẩu không đúng";
-  });
-
+  await authStore
+    .login(values.username, values.password)
+    // .then(() => {
+    //   toastStatus.value = "success";
+    //   message.value = "Đăng nhập thành công!";
+    //   addToast();
+    //   return true;
+    // })
+    .catch(() => {
+      toastStatus.value = "error";
+      message.value = "Tên hoặc mật khẩu không đúng";
+    });
   addToast();
-  resetForm();
-  navigateTo("/authenticate");
+
+  // resetForm();
 });
 
 definePageMeta({
