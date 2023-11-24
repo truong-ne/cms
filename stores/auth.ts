@@ -6,7 +6,7 @@ import { mask } from "superstruct";
 
 export const useAuthStore = defineStore("auth", {
   state: () => ({
-    accessToken: '',
+    accessToken: "",
   }),
   getters: {
     getAccesToken: (state) => {
@@ -14,7 +14,7 @@ export const useAuthStore = defineStore("auth", {
       return state.accessToken;
     },
     getAuthenticated: (state) => {
-      return state.accessToken!='' && getCookie("admin_token")!=null;
+      return state.accessToken != "" && getCookie("admin_token") != null;
       // return false;
     },
   },
@@ -33,16 +33,28 @@ export const useAuthStore = defineStore("auth", {
             password: password,
           }),
         });
-        if (data.value !== null) {
-          const message = mask(data.value, DataObjectSchema);
-          var response = mask(message.data, AuthenticateSchema);
-          this.accessToken = response.jwt_token;
-          localStorage.setItem("access_token", this.accessToken);
+
+        if (data.value != null) {
+          this.accessToken = data.value.data.jwt_token;
+          localStorage.setItem("access_token", data.value.data.jwt_token);
+          localStorage.setItem("auth_doctor", "1");
+
           return navigateTo("/");
         } else if (error.value != null) {
           console.log(error.value);
           throw error;
         }
+        // if (data.value !== null) {
+
+        //   const message = mask(data.value, DataObjectSchema);
+        //   var response = mask(message.data, AuthenticateSchema);
+        //   this.accessToken = response.jwt_token;
+        //   localStorage.setItem("access_token", this.accessToken);
+        //   return navigateTo("/");
+        // } else if (error.value != null) {
+        //   console.log(error.value);
+        //   throw error;
+        // }
       } catch (error) {
         throw error;
       }
