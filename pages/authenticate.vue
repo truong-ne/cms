@@ -40,6 +40,9 @@
                   id="username"
                   class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   placeholder="Tên đăng nhập"
+                  required
+                  oninvalid="this.setCustomValidity('Vui lòng nhập tên đăng nhập')"
+                  oninput="setCustomValidity('')"
                 />
               </div>
               <div>
@@ -54,15 +57,36 @@
                   id="password"
                   v-bind="password"
                   placeholder="••••••••"
+                  required
+                  oninvalid="this.setCustomValidity('Vui lòng nhập mật khẩu')"
+                  oninput="setCustomValidity('')"
                   class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 />
               </div>
+              <span
+                class="w-full px-5 py-2.5"
+                :class="!isSubmitting ? 'hidden' : ''"
+              >
+                <l-jelly size="40" speed="0.9" color="white"></l-jelly>
+              </span>
 
               <button
                 type="submit"
-                class="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+                :class="
+                  isSubmitting
+                    ? ' bg-transparent'
+                    : ' bg-primary-600 hover:bg-primary-700'
+                "
+                :disabled="isSubmitting"
+                class="w-full overflow-hidden text-white focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm pb-3 pt-3.5 text-center"
               >
-                Xác thực
+                <l-jelly
+                  size="40"
+                  speed="0.9"
+                  color="blue"
+                  v-if="isSubmitting"
+                ></l-jelly>
+                <span v-else> Xác thực </span>
               </button>
             </form>
           </div>
@@ -81,7 +105,7 @@ import * as yup from "yup";
 const { defineInputBinds, resetForm, isSubmitting, handleSubmit, errors } =
   useForm({
     validationSchema: yup.object({
-      username: yup.string().trim().required("Vui lòng nhập Email"),
+      username: yup.string().trim(),
       password: yup.string().trim(),
     }),
   });
@@ -110,12 +134,15 @@ const onSubmit = handleSubmit(async (values) => {
   toastStatus.value = "success";
   message.value = "Đăng nhập thành công!";
   const authStore = useAuthStore();
+  console.log(authStore.getAccesToken);
   await authStore.login(username.value, password.value).catch((error) => {
     toastStatus.value = "error";
     message.value = "Tên hoặc mật khẩu không đúng";
   });
 
   addToast();
+  resetForm();
+  navigateTo("/authenticate");
 });
 
 definePageMeta({

@@ -31,6 +31,10 @@ export default defineNuxtConfig({
         {
           src: "https://cdn.lordicon.com/lordicon-1.2.0.js",
         },
+        {
+          src: "https://cdn.jsdelivr.net/npm/ldrs/dist/auto/jelly.js",
+          type: "module",
+        },
       ],
     },
   },
