@@ -7,10 +7,6 @@ export const DataObjectSchema = object({
   data: object()
 })
 
-export const DataObjectLoginSchema = object({
-  data: object()
-})
-
 export const DataArraySchema = object({
   code: number(),
   message: string(),
