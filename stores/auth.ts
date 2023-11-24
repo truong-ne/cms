@@ -14,7 +14,7 @@ export const useAuthStore = defineStore("auth", {
       return state.accessToken;
     },
     getAuthenticated: (state) => {
-      return state.accessToken != "" && getCookie("admin_token") != null;
+      return state.accessToken != "";
       // return false;
     },
   },
