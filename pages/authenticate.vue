@@ -132,12 +132,6 @@ const onSubmit = handleSubmit(async (values) => {
   const authStore = useAuthStore();
   await authStore
     .login(values.username, values.password)
-    // .then(() => {
-    //   toastStatus.value = "success";
-    //   message.value = "Đăng nhập thành công!";
-    //   addToast();
-    //   return true;
-    // })
     .catch(() => {
       toastStatus.value = "error";
       message.value = "Tên hoặc mật khẩu không đúng";
