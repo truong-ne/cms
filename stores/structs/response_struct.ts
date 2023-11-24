@@ -7,6 +7,10 @@ export const DataObjectSchema = object({
   data: object()
 })
 
+export const DataObjectLoginSchema = object({
+  data: object()
+})
+
 export const DataArraySchema = object({
   code: number(),
   message: string(),
@@ -22,3 +26,4 @@ export const DataStringSchema = object({
 export type DataObject = Infer<typeof DataObjectSchema>
 export type DataArray = Infer<typeof DataArraySchema>
 export type DataString = Infer<typeof DataStringSchema>
+export type DataObjectLogin = Infer<typeof DataObjectLoginSchema>

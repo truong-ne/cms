@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
 import { getCookie, deleteCookie } from "@/utils/cookie-utils";
 import { AuthenticateSchema } from "./structs/auth_struct";
-import { DataObjectSchema } from "./structs/response_struct";
+import { DataObjectLoginSchema, DataObjectSchema } from "./structs/response_struct";
 import { mask } from "superstruct";
 
 export const useAuthStore = defineStore("auth", {
@@ -20,9 +20,8 @@ export const useAuthStore = defineStore("auth", {
   },
   actions: {
     async login(username: string, password: string) {
-      console.log(username + password);
       try {
-        // const { data, pending, error, refresh } =
+        console.log(username, password)
         const { data, error } = await useFetch("/common/admin/auth", {
           baseURL: useRuntimeConfig().public.baseURL,
           method: "POST",
@@ -35,29 +34,16 @@ export const useAuthStore = defineStore("auth", {
           }),
         });
 
-        console.log(data);
-        console.log(error);
-
         if (data.value != null) {
-          this.accessToken = data.value.data.jwt_token;
-          localStorage.setItem("access_token", data.value.data.jwt_token);
+          const message = mask(data.value, DataObjectLoginSchema)
 
+          this.accessToken = mask(message.data, AuthenticateSchema).jwt_token;
+          localStorage.setItem("access_token", this.accessToken);
           return navigateTo("/");
         } else if (error.value != null) {
           console.log(error.value);
-          throw error;
+          throw error.value?.data.message || "";
         }
-        // if (data.value !== null) {
-
-        //   const message = mask(data.value, DataObjectSchema);
-        //   var response = mask(message.data, AuthenticateSchema);
-        //   this.accessToken = response.jwt_token;
-        //   localStorage.setItem("access_token", this.accessToken);
-        //   return navigateTo("/");
-        // } else if (error.value != null) {
-        //   console.log(error.value);
-        //   throw error;
-        // }
       } catch (error) {
         throw error;
       }
