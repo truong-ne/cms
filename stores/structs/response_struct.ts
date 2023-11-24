@@ -19,6 +19,13 @@ export const DataStringSchema = object({
   data: string()
 })
 
+export const DataNumberSchema = object({
+  code: number(),
+  message: string(),
+  data: number()
+})
+
 export type DataObject = Infer<typeof DataObjectSchema>
 export type DataArray = Infer<typeof DataArraySchema>
 export type DataString = Infer<typeof DataStringSchema>
+export type DataNumber = Infer<typeof DataNumberSchema>

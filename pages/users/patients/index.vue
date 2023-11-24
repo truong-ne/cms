@@ -13,7 +13,7 @@ const header = {
   quantity: 200,
   name: "patient",
 };
-const field = ["Họ tên","Số điện thoại", "Email", "Ngày sinh", "Cập nhật"];
+const field = ["Họ tên","Giới tính", "Quan hệ", "Ngày sinh", "Địa chỉ", "Cập nhật"];
 const data = [
   {
     avatar:

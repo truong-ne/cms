@@ -8,6 +8,7 @@ export const MedicalRecordSchema = object({
     relationship: string(),
     avatar: string(),
     address: string(),
+    updated_at: string()
 })
 
 export const PatientRecordSchema = object({
