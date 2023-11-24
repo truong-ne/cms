@@ -22,11 +22,7 @@
             >
               Đăng nhập
             </span>
-            <form
-              class="space-y-4 md:space-y-6"
-              action="#"
-              @submit.prevent="onSubmit"
-            >
+            <form class="space-y-4 md:space-y-6" action="#">
               <div>
                 <label
                   for="username"
@@ -36,13 +32,12 @@
                 <input
                   type="username"
                   name="username"
-                  v-bind="username"
                   id="username"
+                  v-model="username"
                   class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   placeholder="Tên đăng nhập"
                   required
                   oninvalid="this.setCustomValidity('Vui lòng nhập tên đăng nhập')"
-                  oninput="setCustomValidity('')"
                 />
               </div>
               <div>
@@ -55,37 +50,43 @@
                   type="password"
                   name="password"
                   id="password"
-                  v-bind="password"
+                  v-model="password"
                   placeholder="••••••••"
                   required
                   oninvalid="this.setCustomValidity('Vui lòng nhập mật khẩu')"
-                  oninput="setCustomValidity('')"
                   class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 />
               </div>
               <span
                 class="w-full px-5 py-2.5"
-                :class="!isSubmitting ? 'hidden' : ''"
+                :class="!loading ? 'hidden' : ''"
               >
                 <l-jelly size="40" speed="0.9" color="white"></l-jelly>
               </span>
 
               <button
-                type="submit"
+                type="button"
                 :class="
-                  isSubmitting
+                  loading
                     ? ' bg-transparent'
                     : ' bg-primary-600 hover:bg-primary-700'
                 "
-                :disabled="isSubmitting"
+                :disabled="loading"
+                @click="handleSubmit"
                 class="w-full overflow-hidden text-white focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm pb-3 pt-3.5 text-center"
               >
                 <l-jelly
                   size="40"
                   speed="0.9"
                   color="blue"
-                  v-if="isSubmitting"
+                  v-if="loading"
                 ></l-jelly>
+                <!-- <l-jelly
+                  v-if="loading"
+                  size="40"
+                  speed="0.9"
+                  color="blue"
+                ></l-jelly> -->
                 <span v-else> Xác thực </span>
               </button>
             </form>
@@ -99,25 +100,17 @@
 </template>
 
 <script setup>
-import { useForm } from "vee-validate";
-import * as yup from "yup";
+// import { jelly } from "ldrs";
 
-const { defineInputBinds, resetForm, isSubmitting, handleSubmit, errors } =
-  useForm({
-    validationSchema: yup.object({
-      username: yup.string().trim(),
-      password: yup.string().trim(),
-    }),
-  });
+// jelly.register();
 
-resetForm();
-
-const username = defineInputBinds("username");
-const password = defineInputBinds("password");
+const username = ref("");
+const password = ref("");
 
 const storeToast = toastStore();
 const toastStatus = ref("");
 const message = ref("");
+const loading = ref(false);
 
 function addToast() {
   storeToast.add({
@@ -126,20 +119,23 @@ function addToast() {
   });
 }
 
-const onSubmit = handleSubmit(async (values) => {
+async function handleSubmit() {
+  loading.value = true;
   toastStatus.value = "success";
   message.value = "Đăng nhập thành công!";
   const authStore = useAuthStore();
-  await authStore
-    .login(values.username, values.password)
-    .catch(() => {
-      toastStatus.value = "error";
-      message.value = "Tên hoặc mật khẩu không đúng";
-    });
+  try {
+    await authStore.login(username.value, password.value);
+  } catch (e) {
+    console.log("ERRROR");
+    toastStatus.value = "error";
+    message.value = "Tên hoặc mật khẩu không đúng";
+  }
+  loading.value = false;
   addToast();
 
   // resetForm();
-});
+}
 
 definePageMeta({
   layout: false,
