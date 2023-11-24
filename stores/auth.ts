@@ -34,17 +34,32 @@ export const useAuthStore = defineStore("auth", {
           }),
         });
 
-        if (data.value != null) {
-          const message = mask(data.value, DataObjectLoginSchema)
+        console.log(data.value);
+        console.log(error.value);
 
-          this.accessToken = mask(message.data, AuthenticateSchema).jwt_token;
+        // if (data.value != null) {
+        //   this.accessToken = data.value.data.jwt_token;
+        //   localStorage.setItem("access_token", data.value.data.jwt_token);
+
+        //   return navigateTo("/");
+        // } else if (error.value != null) {
+        //   console.log(error.value);
+        //   throw error;
+        // }
+        if (data.value !== null) {
+          console.log("SC");
+          const message = mask(data.value, DataObjectSchema);
+          var response = mask(message.data, AuthenticateSchema);
+          this.accessToken = response.jwt_token;
           localStorage.setItem("access_token", this.accessToken);
           return navigateTo("/");
         } else if (error.value != null) {
+          console.log("ER");
           console.log(error.value);
-          throw error.value?.data.message || "";
+          throw error;
         }
       } catch (error) {
+        console.log(error);
         throw error;
       }
     },
