@@ -22,20 +22,24 @@
             >
               Đăng nhập
             </span>
-            <form class="space-y-4 md:space-y-6" action="#">
+            <form
+              class="space-y-4 md:space-y-6"
+              action="#"
+              @submit.prevent="onSubmit"
+            >
               <div>
                 <label
-                  for="phone"
+                  for="username"
                   class="block mb-2 text-sm font-medium text-gray-900"
-                  >Số điện thoại</label
+                  >Tên đăng nhập</label
                 >
                 <input
-                  type="phone"
-                  name="phone"
-                  id="phone"
+                  type="username"
+                  name="username"
+                  v-bind="username"
+                  id="username"
                   class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                  placeholder="+84"
-                  required
+                  placeholder="Tên đăng nhập"
                 />
               </div>
               <div>
@@ -48,9 +52,9 @@
                   type="password"
                   name="password"
                   id="password"
+                  v-bind="password"
                   placeholder="••••••••"
                   class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                  required
                 />
               </div>
 
@@ -67,9 +71,53 @@
     </section>
     <section class="hidden lg:col-span-1 lg:flex bg-screen"></section>
   </div>
+  <ToastList />
 </template>
 
 <script setup>
+import { useForm } from "vee-validate";
+import * as yup from "yup";
+
+const { defineInputBinds, resetForm, isSubmitting, handleSubmit, errors } =
+  useForm({
+    validationSchema: yup.object({
+      username: yup.string().trim().required("Vui lòng nhập Email"),
+      password: yup.string().trim(),
+    }),
+  });
+
+resetForm();
+
+const username = defineInputBinds("username", {
+  validateOnInput: true,
+});
+const password = defineInputBinds("password", {
+  validateOnInput: true,
+});
+
+const storeToast = toastStore();
+const toastStatus = ref("");
+const message = ref("");
+
+function addToast() {
+  storeToast.add({
+    message: message.value,
+    toastStatus: toastStatus.value,
+  });
+}
+
+const onSubmit = handleSubmit(async (values) => {
+  toastStatus.value = "success";
+  message.value = "Đăng nhập thành công!";
+  const authStore = useAuthStore();
+  await authStore.login(username.value, password.value).catch((error) => {
+    toastStatus.value = "error";
+    message.value = "Tên hoặc mật khẩu không đúng";
+  });
+
+  addToast();
+});
+
 definePageMeta({
   layout: false,
 });
