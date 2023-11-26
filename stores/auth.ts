@@ -48,7 +48,7 @@ export const useAuthStore = defineStore("auth", {
         // }
         if (data.value !== null) {
           console.log("SC");
-          const message = mask(data.value, DataObjectSchema);
+          const message = mask(data.value, DataObjectLoginSchema);
           var response = mask(message.data, AuthenticateSchema);
           this.accessToken = response.jwt_token;
           localStorage.setItem("access_token", this.accessToken);
