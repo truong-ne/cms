@@ -197,5 +197,6 @@
 async function logoutClick() {
   const authStore = useAuthStore();
   await authStore.logout();
+  navigateTo('/authenticate')
 }
 </script>

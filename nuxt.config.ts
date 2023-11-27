@@ -34,7 +34,7 @@ export default defineNuxtConfig({
     },
   },
   // // Simple usage:
-  // ssr: false,
+  ssr: false,
   // spaLoadingTemplate: "spa-loading-template.html",
 
   css: ["~/assets/css/tailwind.css"],

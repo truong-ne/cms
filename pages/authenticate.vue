@@ -121,8 +121,8 @@
       </div>
     </section>
     <section class="hidden lg:col-span-1 lg:flex bg-screen"></section>
+    <ToastList />
   </div>
-  <ToastList />
 </template>
 
 <script setup>
@@ -153,6 +153,7 @@ async function handleSubmit() {
   try {
     await authStore.login(username.value, password.value);
   } catch (e) {
+    console.log(e);
     toastStatus.value = "error";
     message.value = "Tên hoặc mật khẩu không đúng";
   }

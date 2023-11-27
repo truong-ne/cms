@@ -6,48 +6,62 @@ import { mask } from "superstruct";
 
 export const useAuthStore = defineStore("auth", {
   state: () => ({
-    accessToken: "",
+    accessToken: localStorage.getItem("access_token"),
   }),
   getters: {
     getAccesToken: (state) => {
-      state.accessToken = localStorage.getItem("access_token") ?? "";
-      console.log(state.accessToken);
+      state.accessToken = localStorage.getItem("access_token");
       return state.accessToken;
     },
     getAuthenticated: (state) => {
-      return state.accessToken != "";
+      return state.accessToken != null;
       // return false;
     },
   },
   actions: {
     async login(username: string, password: string) {
-      try {
-        console.log(username, password);
-        const { data, error } = await useFetch("/common/admin/auth", {
-          baseURL: useRuntimeConfig().public.baseURL,
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            username: username,
-            password: password,
-          }),
-        });
-        if (data.value !== null) {
-          const message = mask(data.value, DataObjectLoginSchema);
-          var response = mask(message.data, AuthenticateSchema);
-          this.accessToken = response.jwt_token;
-          localStorage.setItem("access_token", this.accessToken);
-          return navigateTo("/");
-        } else if (error.value != null) {
-          console.log(error.value);
-          throw error;
-        }
-      } catch (error) {
-        console.log(error);
+      // try {
+      console.log(username, password);
+      const { data, error, refresh } = await useFetch("/common/admin/auth", {
+        baseURL: useRuntimeConfig().public.baseURL,
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username: username,
+          password: password,
+        }),
+      });
+      // refresh();
+      // .then((res) => {
+      //   const message = mask(res.data.value, DataObjectLoginSchema);
+      //   var response = mask(message.data, AuthenticateSchema);
+      //   this.accessToken = response.jwt_token;
+      //   localStorage.setItem("access_token", this.accessToken);
+      //   console.log("CHECKK1");
+      // })
+      // .catch((e) => {
+      //   console.log("CHECKK2");
+
+      //   throw e;
+      // });
+      console.log("CHECKK1");
+      if (data.value !== null) {
+        const message = mask(data.value, DataObjectLoginSchema);
+        var response = mask(message.data, AuthenticateSchema);
+        this.accessToken = response.jwt_token;
+        localStorage.setItem("access_token", this.accessToken);
+        console.log("CHECKK2");
+        navigateTo("/");
+      } else if (error.value != null) {
+        console.log("CHECKK3");
         throw error;
       }
+      // } catch (error) {
+      //   console.log(error);
+      //   throw error;
+      // }
     },
     async refreshToken() {
       try {
@@ -71,8 +85,6 @@ export const useAuthStore = defineStore("auth", {
             this.accessToken = response.jwt_token;
             localStorage.setItem("access_token", this.accessToken);
           } else if (error.value != null) {
-            console.log(error.value);
-            this.logout();
             throw error;
           }
         }
