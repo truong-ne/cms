@@ -1,8 +1,14 @@
 <template>
-  <section class="flex flex-col md:gap-4 gap-2">
+  <div class="flex flex-col md:gap-4 gap-2">
+    <!-- <UserPatientCharts /> -->
     <UserPatientProfile />
-    <UserPatientCharts />
-  </section>
+    <!-- <UserPatientTest /> -->
+
+  </div>
 </template>
-<script>
+<script setup>
+import { useDataMedicalRecord } from '@/stores/medical_record'
+
+const dataMedicalRecord = useDataMedicalRecord()
+await dataMedicalRecord.getMedicalRecordInfomation(useRoute().params.slug)
 </script>

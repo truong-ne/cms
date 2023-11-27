@@ -20,7 +20,7 @@
     "nuxt": "^3.8.0"
   },
   "dependencies": {
-    "@nuxtjs/cloudinary": "^2.4.1",
+    "@nuxtjs/cloudinary": "^2.4.3",
     "@pinia/nuxt": "^0.5.1",
     "@vee-validate/yup": "^4.11.8",
     "apexcharts": "^3.44.0",
@@ -32,6 +32,7 @@
     "tailwind-scrollbar-hide": "^1.1.7",
     "vee-validate": "^4.11.8",
     "vue": "^3.3.4",
+    "vue-server-renderer": "^2.7.15",
     "vue3-apexcharts": "^1.4.4"
   }
 }

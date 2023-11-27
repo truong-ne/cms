@@ -994,9 +994,9 @@
     vite-plugin-checker "^0.6.2"
     vue-bundle-renderer "^2.0.0"
 
-"@nuxtjs/cloudinary@^2.4.1":
+"@nuxtjs/cloudinary@^2.4.3":
   version "2.4.3"
-  resolved "https://registry.npmjs.org/@nuxtjs/cloudinary/-/cloudinary-2.4.3.tgz"
+  resolved "https://registry.yarnpkg.com/@nuxtjs/cloudinary/-/cloudinary-2.4.3.tgz#8adb778f6c1c8dd4d45d48ec1b5a0e1ceebafc2e"
   integrity sha512-sBXYjEAaCjjrfMPZZjcQzZ5CqTyJF+LLDX3H3DuRwyMzi56Epmcu0RmVXHMKT6eFs0azBovLo0cq2KG6PbOQfQ==
   dependencies:
     "@cloudinary-util/url-loader" "^3.10.0"
@@ -3196,6 +3196,11 @@ hasown@^2.0.0:
   dependencies:
     function-bind "^1.1.2"
 
+he@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/he/-/he-1.2.0.tgz#84ae65fa7eafb165fddb61566ae14baf05664f0f"
+  integrity sha512-F/1DnUGPopORZi0ni+CvrCgHQ5FyEAHRLSApuYWMmrbSwoN2Mn/7k+Gl38gJnR7yyDZk6WLXwiGod1JOWNDKGw==
+
 hookable@^5.5.3:
   version "5.5.3"
   resolved "https://registry.npmjs.org/hookable/-/hookable-5.5.3.tgz"
@@ -5352,7 +5357,7 @@ resolve-path@^1.4.0:
     http-errors "~1.6.2"
     path-is-absolute "1.0.1"
 
-resolve@^1.1.7, resolve@^1.22.1, resolve@^1.22.2:
+resolve@^1.1.7, resolve@^1.22.0, resolve@^1.22.1, resolve@^1.22.2:
   version "1.22.8"
   resolved "https://registry.npmjs.org/resolve/-/resolve-1.22.8.tgz"
   integrity sha512-oKWePCxqpd6FlLvGV1VU0x7bkPmmCNolxzjMf4NczoDnQcIWrAF+cPtZn5i6n+RfD2d9i0tzpKnG6Yk168yIyw==
@@ -5469,7 +5474,7 @@ send@0.18.0:
     range-parser "~1.2.1"
     statuses "2.0.1"
 
-serialize-javascript@^6.0.1:
+serialize-javascript@^6.0.0, serialize-javascript@^6.0.1:
   version "6.0.1"
   resolved "https://registry.npmjs.org/serialize-javascript/-/serialize-javascript-6.0.1.tgz"
   integrity sha512-owoXEFjWRllis8/M1Q+Cw5k8ZH40e3zhp/ovX+Xr/vi1qj6QesbyXXViFbpNvWvPNAD62SutwEXavefrLJWj7w==
@@ -5621,6 +5626,11 @@ source-map-support@~0.5.20:
   dependencies:
     buffer-from "^1.0.0"
     source-map "^0.6.0"
+
+source-map@0.5.6:
+  version "0.5.6"
+  resolved "https://registry.yarnpkg.com/source-map/-/source-map-0.5.6.tgz#75ce38f52bf0733c5a7f0c118d81334a2bb5f412"
+  integrity sha512-MjZkVp0NHr5+TPihLcadqnlVoGIoWo4IBHptutGh9wI3ttUYvCG26HkSuDi+K6lsZ25syXJXcctwgyVCt//xqA==
 
 source-map@^0.6.0:
   version "0.6.1"
@@ -6446,6 +6456,20 @@ vue-router@^4.2.5:
   integrity sha512-DIUpKcyg4+PTQKfFPX88UWhlagBEBEfJ5A8XDXRJLUnZOvcpMF8o/dnL90vpVkGaPbjvXazV/rC1qBKrZlFugw==
   dependencies:
     "@vue/devtools-api" "^6.5.0"
+
+vue-server-renderer@^2.7.15:
+  version "2.7.15"
+  resolved "https://registry.yarnpkg.com/vue-server-renderer/-/vue-server-renderer-2.7.15.tgz#814fe0bb309843e5d3e343d456f7e449dbc2cd5e"
+  integrity sha512-5Wy6ls7ErawmgxlogoScTDOQzqBp4+B9CKV1Dl4280xVPBs1+iHpghW1nlKNd1JWKI3O2s4X4vwmg1C7Rvy7oA==
+  dependencies:
+    chalk "^4.1.2"
+    hash-sum "^2.0.0"
+    he "^1.2.0"
+    lodash.template "^4.5.0"
+    lodash.uniq "^4.5.0"
+    resolve "^1.22.0"
+    serialize-javascript "^6.0.0"
+    source-map "0.5.6"
 
 vue3-apexcharts@^1.4.4:
   version "1.4.4"

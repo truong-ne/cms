@@ -209,7 +209,7 @@
         role="tabpanel"
         aria-labelledby="list-tab"
       >
-        <div class="overflow-x-auto" v-if="!isLoading">
+        <div class="overflow-x-auto" id="testnha" :class="isLoading ? 'hidden' : ''">
           <table class="w-full text-sm text-left text-gray-500">
             <thead class="text-xs text-gray-700 uppercase bg-gray-50">
               <tr>
@@ -424,34 +424,39 @@ async function previousPage() {
   }
 }
 
+const dropdown = () => {
+  for(let e of dataMedicalRecord.medicals) {
+    const $targetEl = document.getElementById('dropdownMenu' + e.id);
+
+    const $triggerEl = document.getElementById('dropdownButton' + e.id);
+
+    // options with default values
+    const options = {
+        placement: 'bottom',
+        triggerType: 'click',
+        offsetSkidding: 0,
+        offsetDistance: 10,
+        delay: 300,
+        ignoreClickOutsideClass: false,
+    };
+
+    // instance options object
+    const instanceOptions = {
+      id: 'dropdownMenu',
+      override: true
+    };
+
+    const dropdown = new Dropdown($targetEl, $triggerEl, options, instanceOptions);
+  }
+}
+
 const switchPage = async (index) => {
   isLoading.value = true;
   await dataMedicalRecord.getAllMedicalRecordPerPage(index, 10);
   isLoading.value = false;
+  dropdown()
 };
 
-onMounted(() => {
-const $targetEl = document.getElementById('dropdownMenu');
-
-const $triggerEl = document.getElementById('dropdownButton');
-
-// options with default values
-const options = {
-    placement: 'bottom',
-    triggerType: 'click',
-    offsetSkidding: 0,
-    offsetDistance: 10,
-    delay: 300,
-    ignoreClickOutsideClass: false,
-  };
-
-  // instance options object
-  const instanceOptions = {
-    id: 'dropdownMenu',
-    override: true
-  };
-
-  const dropdown = new Dropdown($targetEl, $triggerEl, options, instanceOptions);
-})
+onMounted(dropdown)
 
 </script>
