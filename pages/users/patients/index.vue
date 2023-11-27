@@ -8,6 +8,10 @@
 </template>
 
 <script setup lang="ts">
+
+definePageMeta({
+  middleware:['auth']
+});
 const header = {
   title: "Bệnh nhân",
   quantity: 200,

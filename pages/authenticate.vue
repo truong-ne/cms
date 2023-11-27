@@ -120,6 +120,7 @@ async function handleSubmit() {
 
 definePageMeta({
   layout: false,
+  middleware:['auth']
 });
 </script>
 

@@ -284,7 +284,7 @@
     <!-- <div
       class=" flex items-start border-1 rounded-lg justify-center h-auto bg-gray-50 dark:bg-gray-800"
     > -->
-    <div class="col-span-1 w-full max-w-md p-4 bg-white border rounded-xl">
+    <div class="col-span-1 w-full max-w-md p-4 bg-white rounded-xl">
       <div class="flex items-center justify-between mb-4">
         <h5 class="text-lg leading-none font-bold text-gray-900">
           Hoạt động gần đây

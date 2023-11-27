@@ -2,6 +2,21 @@
   <div
     class="md:grid md:grid-cols-3 grid-cols-1 gap-4 w-full items-start justify-start bg-white rounded-xl md:p-8 p-4"
   >
+    <a
+      href="/users/doctors"
+      class="hover:bg-gray-200 p-3 absolute rounded-full"
+      rel="noopener noreferrer"
+      ><svg
+        xmlns="http://www.w3.org/2000/svg"
+        aria-hidden="true"
+        class="h-5 w-5 text-gray-900"
+        fill="currentColor"
+        viewBox="0 0 448 512"
+      >
+        <path
+          d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.2 288H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H109.3l105.3-105.4c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"
+        /></svg
+    ></a>
     <div
       class="flex flex-col items-center justify-start mb-2 md:mb-4 pr-8 md:col-span-1 md:border-r h-full"
     >
@@ -68,9 +83,7 @@
       <!-- </div> -->
     </div>
 
-    <div
-      class="col-span-2 flex flex-col items-start justify-start md:pl-4 "
-    >
+    <div class="col-span-2 flex flex-col items-start justify-start md:pl-4">
       <span
         class="mb-1 lg:text-md md:text-base text-sm font-bold leading-none text-black"
       >

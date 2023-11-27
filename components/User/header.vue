@@ -1,7 +1,7 @@
 
 <template>
   <div
-    class=" md:mb-4 mb-2 md:py-4 py-2 md:px-8 px-4 inline-flex gap-2 md:gap-4 items-center w-full bg-white rounded-xl"
+    class="md:mb-4 mb-2 md:py-4 py-2 md:px-8 px-4 inline-flex gap-2 md:gap-4 items-center w-full bg-white rounded-xl"
   >
     <span
       class="inline-flex items-center justify-center md:text-2xl text-lg font-bold text-black rounded"
@@ -20,17 +20,17 @@
       <button
         class="pr-4"
         id="grid-tab"
-        data-tabs-target="#profile"
+        data-tabs-target="#gridView"
         type="button"
         role="tab"
-        aria-controls="profile"
-        aria-selected="false"
+        aria-controls="gridView"
+        :aria-selected="gridView"
         @click="chooseGridView"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          class="w-5 h-5 hover:w-6 hover:h-6 dark:text-white"
-          :class="gridView?'text-black':'text-gray-500'"
+          class="w-5 h-5 hover:text-black"
+          :class="gridView ? 'text-black' : 'text-gray-500'"
           aria-hidden="true"
           viewBox="0 0 448 512"
           fill="currentColor"
@@ -41,20 +41,18 @@
         </svg>
       </button>
       <button
-        class=" "
         id="list-tab"
-        data-tabs-target="#dashboard"
+        data-tabs-target="#listView"
         type="button"
         role="tab"
-        aria-controls="dashboard"
-        aria-selected="false"
+        aria-controls="listView"
+        :aria-selected="!gridView"
         @click="chooseListView"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          class="w-5 h-5 hover:w-6 hover:h-6 "
-          :class="!gridView?'text-black':'text-gray-500'"
-
+          class="w-5 h-5 hover:text-black"
+          :class="!gridView ? 'text-black' : 'text-gray-500'"
           viewBox="0 0 512 512"
           fill="currentColor"
         >
@@ -73,10 +71,10 @@ const { header } = defineProps(["header"]);
 
 const gridView = ref(true);
 
-function chooseGridView(){
-  gridView.value=true;
+function chooseGridView() {
+  gridView.value = true;
 }
-function chooseListView(){
-  gridView.value=false;
+function chooseListView() {
+  gridView.value = false;
 }
 </script>

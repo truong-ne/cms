@@ -95,7 +95,7 @@
       </div>
       <div
         class="hidden md:p-4 p-2 w-full"
-        id="profile"
+        id="gridView"
         role="tabpanel"
         aria-labelledby="grid-tab"
       >
@@ -167,17 +167,26 @@
               <div
                 class="md:h-52 h-40 w-full md:rounded-lg rounded-t-lg md:mb-4 mb-2 overflow-hidden"
               >
-                <img
-                  class="object-cover group-hover:scale-[1.15] duration-200 transform ease-linear"
+                <CldImage
+                  v-if="element.avatar"
+                  width="700"
+                  height="700"
                   :src="element.avatar"
-                  :alt="element.name"
+                  :alt="element.full_name"
+                  class="object-cover group-hover:scale-[1.15] duration-200 transform ease-linear"
+                />
+                <img
+                  v-else
+                  class="object-cover group-hover:scale-[1.15] duration-200 transform ease-linear"
+                  src="/default.png"
+                  :alt="element.full_name"
                 />
               </div>
 
               <h5
                 class="mb-1 md:text-lg text-base font-bold text-gray-900 overflow-hidden px-2 md:px-0 truncate ..."
               >
-                {{ element.name }}
+                {{ element.full_name }}
               </h5>
               <span
                 class="w-full text-xs font-semibold text-gray-500 px-2 md:px-0"
@@ -205,11 +214,11 @@
                     />
                   </svg>
                   <span class="text-sm text-gray-500 truncate">{{
-                    element.rating
+                    element.ratings
                   }}</span>
                 </div>
                 <span class="text-sm text-gray-500 truncate"
-                  >{{ element.fee }} VND</span
+                  >{{ element.fee_per_minutes }} VND</span
                 >
               </div>
             </div>
@@ -218,7 +227,7 @@
       </div>
       <div
         class="hidden p-4 rounded-xl bg-white w-full"
-        id="dashboard"
+        id="listView"
         role="tabpanel"
         aria-labelledby="list-tab"
       >
@@ -226,33 +235,55 @@
           <table class="w-full text-sm text-left text-gray-500">
             <thead class="text-xs text-gray-700 uppercase bg-gray-50">
               <tr>
-                <th scope="col" class="px-4 py-3" v-for="f in field" :key="f">
-                  {{ f }}
-                </th>
+                <th scope="col" class="px-4 py-3">Họ tên</th>
+                <th scope="col" class="px-4 py-3">Email</th>
+                <th scope="col" class="px-4 py-3">Chuyên ngành</th>
+                <th scope="col" class="px-4 py-3">Phí / phút</th>
+                <th scope="col" class="px-4 py-3">Rating</th>
+                <th scope="col" class="px-4 py-3">Số lần khám</th>
 
                 <th scope="col" class="px-4 py-3">
                   <span class="sr-only">Actions</span>
                 </th>
               </tr>
             </thead>
-            <tbody v-for="element in data" :key="element">
+            <tbody v-for="element in data" :key="element.id">
               <tr class="border-b hover:bg-gray-200">
                 <th
                   scope="row"
                   class="flex items-center px-4 py-3 font-normal text-gray-900 whitespace-nowrap"
                 >
-                  <img
+                  <div class="w-8 h-8 rounded-full overflow-hidden">
+                    <!-- <img
                     class="w-8 h-8 rounded-full"
                     :src="element.avatar"
                     alt="Neil image"
-                  />
-                  <span class="ml-2">{{ element.name }}</span>
+                  /> -->
+                    <CldImage
+                      v-if="element.avatar"
+                      width="400"
+                      height="400"
+                      :src="element.avatar"
+                      :alt="element.full_name"
+                      class="object-cover group-hover:scale-[1.15] duration-200 transform ease-linear"
+                    />
+                    <img
+                      v-else
+                      class="object-cover group-hover:scale-[1.15] duration-200 transform ease-linear"
+                      src="/default.png"
+                      :alt="element.full_name"
+                    />
+                  </div>
+                  <span class="ml-2">{{ element.full_name }}</span>
                 </th>
 
-                <td class="px-4 py-3 mr-4">{{ element.phone }}</td>
                 <td class="px-4 py-3 mr-4">{{ element.email }}</td>
                 <td class="px-4 py-3 mr-4">{{ element.specialty }}</td>
-                <td class="px-4 py-3 mr-4">{{ element.updateAt }}</td>
+                <td class="px-4 py-3 mr-4">{{ element.fee_per_minutes }}</td>
+                <td class="px-4 py-3 mr-4">{{ element.ratings }}</td>
+                <td class="px-4 py-3 mr-4">
+                  {{ element.number_of_consultation }}
+                </td>
                 <td class="px-4 py-3 flex items-center justify-end">
                   <button
                     :id="'data-' + element.id + '-button'"
@@ -409,20 +440,21 @@
   </section>
 </template>
   
-  <script setup>
-import { useDataMedicalRecord } from "@/stores/medical_record";
-
+<script setup>
+// import { useDataDoctor } from "@/stores/doctor";
 const route = useRoute();
-const { field, data } = defineProps(["field", "data"]);
 
 const isLoading = ref(false);
+const { data } = defineProps(["data"]);
 
-const dataMedicalRecord = useDataMedicalRecord();
-await dataMedicalRecord.getAllMedicalRecordPerPage(1, 10);
-
-const switchPage = async (index) => {
-  isLoading.value = true;
-  await dataMedicalRecord.getAllMedicalRecordPerPage(index, 10);
-  isLoading.value = false;
-};
+onMounted(() => {
+  data.forEach((e) => {
+    console.log(e);
+  });
+});
+// const switchPage = async (index) => {
+//   isLoading.value = true;
+//   await dataMedicalRecord.getAllMedicalRecordPerPage(index, 10);
+//   isLoading.value = false;
+// };
 </script>

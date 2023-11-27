@@ -20,8 +20,7 @@ export const useAuthStore = defineStore("auth", {
   },
   actions: {
     async login(username: string, password: string): Promise<any> {
-      // try {
-      const { data, pending, error, refresh } = await useFetch("/common/admin/auth", {
+      const { data, error } = await useFetch("/common/admin/auth", {
         baseURL: useRuntimeConfig().public.baseURL,
         method: "POST",
         headers: {
@@ -32,20 +31,6 @@ export const useAuthStore = defineStore("auth", {
           password: password,
         }),
       });
-
-      // refresh();
-      // .then((res) => {
-      //   const message = mask(res.data.value, DataObjectLoginSchema);
-      //   var response = mask(message.data, AuthenticateSchema);
-      //   this.accessToken = response.jwt_token;
-      //   localStorage.setItem("access_token", this.accessToken);
-      //   console.log("CHECKK1");
-      // })
-      // .catch((e) => {
-      //   console.log("CHECKK2");
-
-      //   throw e;
-      // });
       if (data.value !== null) {
         const message = mask(data.value, DataObjectLoginSchema);
         var response = mask(message.data, AuthenticateSchema);
@@ -55,10 +40,6 @@ export const useAuthStore = defineStore("auth", {
       } else if (error.value != null) {
         throw error;
       }
-      // } catch (error) {
-      //   console.log(error);
-      //   throw error;
-      // }
     },
     async refreshToken() {
       try {

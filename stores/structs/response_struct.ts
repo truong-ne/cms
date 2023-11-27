@@ -9,11 +9,12 @@ import {
   defaulted,
   assign,
   type Infer,
+  any,
 } from "superstruct";
 
 export const DataObjectSchema = object({
-  code: number(),
-  message: string(),
+  code: any(),
+  message: any(),
   data: object(),
 });
 
@@ -22,10 +23,11 @@ export const DataObjectLoginSchema = object({
 });
 
 export const DataArraySchema = object({
-  code: number(),
-  message: string(),
+  code: any(),
+  message: any(),
   data: array(),
 });
+
 
 export const DataStringSchema = object({
   code: number(),
@@ -34,8 +36,8 @@ export const DataStringSchema = object({
 });
 
 export const DataNumberSchema = object({
-  code: number(),
-  message: string(),
+  code: any(),
+  message: any(),
   data: number(),
 });
 

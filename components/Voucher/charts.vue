@@ -50,17 +50,39 @@ const baroptions = ref({
     toolbar: {
       show: false,
     },
-    stacked: true,
   },
   tooltip: {
-    enabled: true,
-    x: {
-      show: false,
+    shared: true,
+    intersect: false,
+    style: {
+      fontFamily: "Inter, sans-serif",
+    },
+  },
+  plotOptions: {
+    bar: {
+      horizontal: false,
+      columnWidth: "70%",
+      borderRadiusApplication: "end",
+      borderRadius: 5,
+    },
+  },
+  states: {
+    hover: {
+      filter: {
+        type: "darken",
+        value: 1,
+      },
     },
   },
   fill: {
     opacity: 1,
+    color: "#F4CE14",
   },
+  legend: {
+    show: true,
+    position: "bottom",
+  },
+
   dataLabels: {
     enabled: false,
   },
@@ -72,30 +94,30 @@ const baroptions = ref({
     strokeDashArray: 4,
     padding: {
       left: 20,
-      right: 18,
+      right: 10,
       top: 0,
       bottom: 0,
     },
   },
   xaxis: {
     categories: [
-      "Jan",
-      "Feb",
-      "March",
-      "April",
-      "May",
-      "Jun",
-      "Jul",
-      "Aug",
-      "Sep",
-      "Oct",
-      "Nov",
-      "Dec",
+      "Tháng 1",
+      "Tháng 2",
+      "Tháng 3",
+      "Tháng 4",
+      "Tháng 5",
+      "Tháng 6",
+      "Tháng 7",
+      "Tháng 8",
+      "Tháng 9",
+      "Tháng 10",
+      "Tháng 11",
+      "Tháng 12",
     ],
     labels: {
       show: true,
       style: {
-        fontSize: "15px",
+        fontSize: "12px",
       },
     },
     axisBorder: {
@@ -109,7 +131,7 @@ const baroptions = ref({
     show: true,
     labels: {
       style: {
-        fontSize: "15px",
+        fontSize: "12px",
       },
     },
   },
@@ -121,15 +143,14 @@ const updateBarChart = () => {
   };
   barseries.value = [
     {
-      name: "Voucher",
-      data: [13, 21, 25, 15, 35, 15, 16, 4, 20, 40, 11, 35],
-      color: "#0b9f6e",
-    }
+      name: "Số lần khám",
+      data: [1, 3, 2, 1, 0, 0, 1, 1, 4, 1, 0, 0],
+      color: "#e7b72f",
+    },
   ];
 };
 
 onMounted(() => {
   updateBarChart();
-
 });
 </script>
