@@ -106,6 +106,7 @@ async function handleSubmit() {
   message.value = "Đăng nhập thành công!";
   const authStore = useAuthStore();
   try {
+    clearNuxtData()
     await authStore.login(username.value, password.value);
   } catch (e) {
     toastStatus.value = "error";

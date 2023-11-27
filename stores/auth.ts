@@ -33,9 +33,6 @@ export const useAuthStore = defineStore("auth", {
         }),
       });
 
-      watchEffect(() => {
-        refresh()
-      })
       // refresh();
       // .then((res) => {
       //   const message = mask(res.data.value, DataObjectLoginSchema);
