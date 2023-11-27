@@ -9,7 +9,6 @@
 
 <script setup>
 import { initFlowbite } from "flowbite";
-
 onMounted(() => {
   initFlowbite();
 });
@@ -20,6 +19,7 @@ onMounted(() => {
 .page-leave-active {
   transition: all 0.4s;
 }
+
 .page-enter-from,
 .page-leave-to {
   opacity: 0;

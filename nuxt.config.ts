@@ -8,6 +8,7 @@ export default defineNuxtConfig({
     "@nuxtjs/tailwindcss",
     "@nuxtjs/color-mode",
     "@nuxtjs/cloudinary",
+    'nuxt-meilisearch',
     [
       "@pinia/nuxt",
       {
@@ -52,4 +53,9 @@ export default defineNuxtConfig({
   cloudinary: {
     cloudName: process.env.CLOUDINARY_NAME,
   },
+  meilisearch: {
+    hostUrl: 'https://meilisearch-truongne.koyeb.app',
+    searchApiKey: 'CHOPPER_LOVE_MEILISEARCH',
+    useInstantSearch: true
+  }
 });
