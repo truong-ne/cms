@@ -26,7 +26,7 @@
 
   <aside
     id="cta-button-sidebar"
-    class="fixed top-0 left-0 z-50 w-64 lg:w-80 bg-gray-100 lg:pl-4 lg:py-8 h-screen transition-transform -translate-x-full lg:translate-x-0"
+    class="fixed top-0 left-0 z-50 w-64 lg:w-80 bg-gray-100 lg:pl-4 lg:py-8 h-full transition-transform -translate-x-full lg:translate-x-0"
     aria-label="Sidebar"
   >
     <div class="h-full px-3 py-4 overflow-y-auto bg-white lg:rounded-xl">
@@ -166,9 +166,10 @@
       </ul>
       <ul class="pt-4 mt-4 space-y-2 font-medium border-t border-gray-200">
         <li>
-          <a
-            href="#"
-            class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group"
+          <button
+            type="button"
+            @click="logoutClick"
+            class="flex items-center justify-start p-2 text-gray-900 rounded-lg hover:bg-gray-100 group w-full"
           >
             <svg
               class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-900"
@@ -185,10 +186,16 @@
                 d="M1 8h11m0 0L8 4m4 4-4 4m4-11h3a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-3"
               />
             </svg>
-            <span class="flex-1 ml-3 whitespace-nowrap">Đăng xuất</span>
-          </a>
+            <span class="ml-5">Đăng xuất</span>
+          </button>
         </li>
       </ul>
     </div>
   </aside>
 </template>
+<script setup>
+async function logoutClick() {
+  const authStore = useAuthStore();
+  await authStore.logout();
+}
+</script>

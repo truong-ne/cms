@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
 import { getCookie, deleteCookie } from "@/utils/cookie-utils";
 import { AuthenticateSchema } from "./structs/auth_struct";
-import { DataObjectLoginSchema, DataObjectSchema } from "./structs/response_struct";
+import { DataObjectLoginSchema } from "./structs/response_struct";
 import { mask } from "superstruct";
 
 export const useAuthStore = defineStore("auth", {
@@ -11,6 +11,7 @@ export const useAuthStore = defineStore("auth", {
   getters: {
     getAccesToken: (state) => {
       state.accessToken = localStorage.getItem("access_token") ?? "";
+      console.log(state.accessToken);
       return state.accessToken;
     },
     getAuthenticated: (state) => {
@@ -21,7 +22,7 @@ export const useAuthStore = defineStore("auth", {
   actions: {
     async login(username: string, password: string) {
       try {
-        console.log(username, password)
+        console.log(username, password);
         const { data, error } = await useFetch("/common/admin/auth", {
           baseURL: useRuntimeConfig().public.baseURL,
           method: "POST",
@@ -33,28 +34,13 @@ export const useAuthStore = defineStore("auth", {
             password: password,
           }),
         });
-
-        console.log(data.value);
-        console.log(error.value);
-
-        // if (data.value != null) {
-        //   this.accessToken = data.value.data.jwt_token;
-        //   localStorage.setItem("access_token", data.value.data.jwt_token);
-
-        //   return navigateTo("/");
-        // } else if (error.value != null) {
-        //   console.log(error.value);
-        //   throw error;
-        // }
         if (data.value !== null) {
-          console.log("SC");
           const message = mask(data.value, DataObjectLoginSchema);
           var response = mask(message.data, AuthenticateSchema);
           this.accessToken = response.jwt_token;
           localStorage.setItem("access_token", this.accessToken);
           return navigateTo("/");
         } else if (error.value != null) {
-          console.log("ER");
           console.log(error.value);
           throw error;
         }
@@ -80,7 +66,7 @@ export const useAuthStore = defineStore("auth", {
           });
 
           if (data.value !== null) {
-            const message = mask(data.value, DataObjectSchema);
+            const message = mask(data.value, DataObjectLoginSchema);
             var response = mask(message.data, AuthenticateSchema);
             this.accessToken = response.jwt_token;
             localStorage.setItem("access_token", this.accessToken);
@@ -96,27 +82,18 @@ export const useAuthStore = defineStore("auth", {
       }
     },
     async logout() {
-      try {
-        await useFetch("common/admin/logout", {
-          baseURL: useRuntimeConfig().public.baseURL,
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          credentials: "include",
-        })
-          .then((res) => {
-            localStorage.removeItem("access_token");
-            this.accessToken = "";
-            deleteCookie("admin_token");
-            navigateTo("/");
-          })
-          .catch((error) => {
-            throw error;
-          });
-      } catch (error) {
-        throw error;
-      }
+      await useFetch("common/admin/logout", {
+        baseURL: useRuntimeConfig().public.baseURL,
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+      });
+      localStorage.removeItem("access_token");
+      this.accessToken = "";
+      deleteCookie("admin_token");
+      return;
     },
   },
 });

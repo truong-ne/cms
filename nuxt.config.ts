@@ -17,23 +17,13 @@ export default defineNuxtConfig({
   ],
   tailwindcss: { exposeConfig: true },
   app: {
-    pageTransition: { name: "page", mode: "default" },
+    pageTransition: { name: "page", mode: "out-in" },
     head: {
       title: "Healthline",
-      link: [
-        // Favicon
-        { rel: "icon", type: "image/x-icon", href: "/favicon.ico" },
-        //Inter font
-        // { rel: "stylesheet", href: "https://rsms.me/inter/inter.css" },
-        // { rel: "preconnect", href: "https://rsms.me/" },
-      ],
+      link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }],
       script: [
         {
           src: "https://cdn.lordicon.com/lordicon-1.2.0.js",
-        },
-        {
-          src: "https://cdn.jsdelivr.net/npm/ldrs/dist/auto/jelly.js",
-          type: "module",
         },
       ],
     },
