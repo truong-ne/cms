@@ -19,10 +19,9 @@ export const useAuthStore = defineStore("auth", {
     },
   },
   actions: {
-    async login(username: string, password: string) {
+    async login(username: string, password: string): Promise<any> {
       // try {
-      console.log(username, password);
-      const { data, error, refresh } = await useFetch("/common/admin/auth", {
+      const { data, pending, error, refresh } = await useFetch("/common/admin/auth", {
         baseURL: useRuntimeConfig().public.baseURL,
         method: "POST",
         headers: {
@@ -33,6 +32,10 @@ export const useAuthStore = defineStore("auth", {
           password: password,
         }),
       });
+
+      watchEffect(() => {
+        refresh()
+      })
       // refresh();
       // .then((res) => {
       //   const message = mask(res.data.value, DataObjectLoginSchema);
@@ -46,16 +49,13 @@ export const useAuthStore = defineStore("auth", {
 
       //   throw e;
       // });
-      console.log("CHECKK1");
       if (data.value !== null) {
         const message = mask(data.value, DataObjectLoginSchema);
         var response = mask(message.data, AuthenticateSchema);
         this.accessToken = response.jwt_token;
         localStorage.setItem("access_token", this.accessToken);
-        console.log("CHECKK2");
         navigateTo("/");
       } else if (error.value != null) {
-        console.log("CHECKK3");
         throw error;
       }
       // } catch (error) {
