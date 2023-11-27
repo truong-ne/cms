@@ -2,7 +2,11 @@
   <section
     class="grid xl:grid-cols-3 md:grid-cols-2 grid-cols-1 items-start justify-center md:gap-4 gap-2"
   >
-    <article v-for="i in 20" :key="i" class="group md:p-8 p-4 bg-white rounded-xl">
+    <article
+      v-for="i in 20"
+      :key="i"
+      class="group md:p-8 p-4 bg-white rounded-xl"
+    >
       <div class="flex justify-between items-center mb-5 text-gray-500">
         <span
           class="bg-primary-100 text-primary-800 text-xs font-medium inline-flex items-center px-2.5 py-0.5 rounded"
@@ -27,7 +31,7 @@
       <h2
         class="mb-2 w-full text-2xl font-bold tracking-tight text-gray-900 transform duration-500 ease-in-out md:group-hover:scale-[1.1]"
       >
-        <a href="#">How to quickly deploy a static website</a>
+        How to quickly deploy a static website
       </h2>
       <p
         class="mb-5 font-light text-justify text-gray-500 dark:text-gray-400 transform duration-500 ease-in-out md:group-hover:scale-[1.1]"

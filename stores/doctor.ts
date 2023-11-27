@@ -51,7 +51,8 @@ export const useDataDoctor = defineStore("medical_record", () => {
       doctors.value = mask(message.data, array(DoctorSchema));
     } else {
       console.log(error);
-      navigateTo("/error");
+      // navigateTo("/error");
+      doctors.value = [];
     }
   }
 

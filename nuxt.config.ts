@@ -10,6 +10,20 @@ export default defineNuxtConfig({
     "@nuxtjs/cloudinary",
     "nuxt-meilisearch",
     [
+      "@vee-validate/nuxt",
+      {
+        // disable or enable auto imports
+        autoImports: true,
+        // Use different names for components
+        componentNames: {
+          Form: "VeeForm",
+          Field: "VeeField",
+          FieldArray: "VeeFieldArray",
+          ErrorMessage: "VeeErrorMessage",
+        },
+      },
+    ],
+    [
       "@pinia/nuxt",
       {
         autoImports: ["defineStore", "acceptHMRUpdate"],

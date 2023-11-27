@@ -1,7 +1,7 @@
 <template>
   <section>
     <UserHeader :header="header" />
-    <UserDoctorBody :data="dataDoctor.doctors" />
+    <UserDoctorBody :data="dataDoctor" />
     <UserDoctorFormcreate />
     <UserDoctorFormupdate />
   </section>
