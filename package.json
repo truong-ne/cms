@@ -17,15 +17,18 @@
     "@nuxtjs/color-mode": "^3.3.0",
     "@nuxtjs/tailwindcss": "^6.8.0",
     "@types/node": "^18.16.19",
-    "nuxt": "^3.8.0"
+    "nuxt": "^3.8.0",
+    "nuxt-meilisearch": "^1.1.0"
   },
   "dependencies": {
     "@nuxtjs/cloudinary": "^2.4.3",
     "@pinia/nuxt": "^0.5.1",
-    "@vee-validate/yup": "^4.11.8",
+    "@vee-validate/nuxt": "^4.12.0",
+    "@vee-validate/yup": "^4.12.0",
     "apexcharts": "^3.44.0",
     "autoprefixer": "^10.4.16",
     "flowbite": "^1.8.1",
+    "ldrs": "^1.0.1",
     "pinia": "^2.1.7",
     "postcss": "^8.4.31",
     "superstruct": "^1.0.3",

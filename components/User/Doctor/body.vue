@@ -43,76 +43,47 @@
             id="createDoctorButton"
             data-modal-target="createDoctor"
             data-modal-toggle="createDoctor"
-            class="flex items-center justify-center text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800"
+            class="flex items-center justify-center text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-4 py-2"
           >
             <svg
+              xmlns="http://www.w3.org/2000/svg"
               class="h-3.5 w-3.5 mr-2"
               fill="currentColor"
-              viewbox="0 0 20 20"
-              xmlns="http://www.w3.org/2000/svg"
               aria-hidden="true"
+              viewBox="0 0 448 512"
             >
               <path
-                clip-rule="evenodd"
-                fill-rule="evenodd"
-                d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"
+                d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32v144H48c-17.7 0-32 14.3-32 32s14.3 32 32 32h144v144c0 17.7 14.3 32 32 32s32-14.3 32-32V288h144c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z"
               />
             </svg>
             Thêm tài khoản
           </button>
-          <div class="flex items-center space-x-3 w-full md:w-auto">
-            <button
-              id="filterDropdownButton"
-              class="w-full md:w-auto flex items-center justify-center py-2 px-4 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
-              type="button"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                aria-hidden="true"
-                class="h-4 w-4 mr-2 text-gray-400"
-                viewBox="0 0 576 512"
-                fill="currentColor"
-              >
-                <path
-                  d="M183.6 469.6C177.5 476.2 169 480 160 480s-17.5-3.8-23.6-10.4l-88-96c-11.9-13-11.1-33.3 2-45.2s33.3-11.1 45.2 2l32.4 35.3V64c0-17.7 14.3-32 32-32s32 14.3 32 32v301.7l32.4-35.4c11.9-13 32.2-13.9 45.2-2s13.9 32.2 2 45.2l-88 96zM320 64c0-17.7 14.3-32 32-32h128c12.9 0 24.6 7.8 29.6 19.8s2.2 25.7-6.9 34.9L429.3 160H480c17.7 0 32 14.3 32 32s-14.3 32-32 32H352c-12.9 0-24.6-7.8-29.6-19.8s-2.2-25.7 6.9-34.9L402.7 96H352c-17.7 0-32-14.3-32-32zm96 192c12.1 0 23.2 6.8 28.6 17.7l64 128l16 32c7.9 15.8 1.5 35-14.3 42.9s-35 1.5-42.9-14.3l-7.2-14.3h-88.4l-7.2 14.3c-7.9 15.8-27.1 22.2-42.9 14.3s-22.2-27.1-14.3-42.9l16-32l64-128c5.4-10.8 16.5-17.7 28.6-17.7zm-20.2 144h40.4L416 359.6L395.8 400z"
-                />
-              </svg>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                aria-hidden="true"
-                class="h-4 w-4 mr-2 text-gray-400"
-                viewBox="0 0 576 512"
-                fill="currentColor"
-              >
-                <path
-                  d="M183.6 42.4C177.5 35.8 169 32 160 32s-17.5 3.8-23.6 10.4l-88 96c-11.9 13-11.1 33.3 2 45.2s33.3 11.1 45.2-2l32.4-35.3V448c0 17.7 14.3 32 32 32s32-14.3 32-32V146.3l32.4 35.4c11.9 13 32.2 13.9 45.2 2s13.9-32.2 2-45.2l-88-96zM320 64c0 17.7 14.3 32 32 32h50.7l-73.4 73.4c-9.2 9.2-11.9 22.9-6.9 34.9s16.6 19.8 29.6 19.8h128c17.7 0 32-14.3 32-32s-14.3-32-32-32h-50.7l73.4-73.4c9.2-9.2 11.9-22.9 6.9-34.9S493 32 480 32H352c-17.7 0-32 14.3-32 32zm96 192c-12.1 0-23.2 6.8-28.6 17.7l-64 128l-16 32c-7.9 15.8-1.5 35 14.3 42.9s35 1.5 42.9-14.3l7.2-14.3h88.4l7.2 14.3c7.9 15.8 27.1 22.2 42.9 14.3s22.2-27.1 14.3-42.9l-16-32l-64-128c-5.4-10.9-16.5-17.7-28.6-17.7zm-20.2 144l20.2-40.4l20.2 40.4h-40.4z"
-                />
-              </svg>
-              Sắp xếp
-            </button>
-          </div>
         </div>
       </div>
       <div
         class="hidden md:p-4 p-2 w-full"
-        id="profile"
+        id="gridView"
         role="tabpanel"
         aria-labelledby="grid-tab"
       >
         <div
           class="grid 2xl:grid-cols-5 xl:grid-cols-4 lg:grid-cols-3 grid-cols-2 md:gap-4 gap-2"
         >
-          <a
-            :href="route.path + '/' + element.id"
+          <div
             class="relative col-span-1 w-full bg-white border-gray-200 shadow hover:border-gray-200 rounded-lg md:p-4 border-4 border-transparent group"
-            v-for="element in data"
+            v-for="element in data.doctors"
             :key="element.id"
           >
-            <div class="absolute md:right-5 right-1 md:top-5 top-1 z-10">
+            <a
+              :href="route.path + '/' + element.id"
+              class="w-full h-full absolute z-10"
+            ></a>
+
+            <div class="absolute md:right-5 right-1 md:top-5 top-1 z-20 group">
               <button
                 id="example-dropdow-button"
                 data-dropdown-toggle="example-dropdow"
-                class="inline-flex items-center p-0.5 text-sm font-medium text-center text-black rounded-lg"
+                class="inline-flex items-center p-0.5 text-sm font-medium text-center text-black rounded-lg hover:bg-white"
                 type="button"
               >
                 <svg
@@ -167,26 +138,35 @@
               <div
                 class="md:h-52 h-40 w-full md:rounded-lg rounded-t-lg md:mb-4 mb-2 overflow-hidden"
               >
-                <img
-                  class="object-cover group-hover:scale-[1.15] duration-200 transform ease-linear"
+                <CldImage
+                  v-if="element.avatar"
+                  width="700"
+                  height="700"
                   :src="element.avatar"
-                  :alt="element.name"
+                  :alt="element.full_name"
+                  class="object-cover group-hover:scale-[1.15] duration-200 transform ease-linear"
+                />
+                <img
+                  v-else
+                  class="object-cover group-hover:scale-[1.15] duration-200 transform ease-linear"
+                  src="/default.png"
+                  :alt="element.full_name"
                 />
               </div>
 
               <h5
                 class="mb-1 md:text-lg text-base font-bold text-gray-900 overflow-hidden px-2 md:px-0 truncate ..."
               >
-                {{ element.name }}
+                {{ element.full_name }}
               </h5>
               <span
                 class="w-full text-xs font-semibold text-gray-500 px-2 md:px-0"
-                >{{ element.specialty }}</span
+                >{{ getByKey(element.specialty) }}</span
               >
 
               <span
                 class="w-full text-sm font-thin text-gray-500 px-2 md:px-0 truncate ..."
-                >{{ element.email }}</span
+                >{{ element.email ?? "Không xác định" }}</span
               >
 
               <div
@@ -205,20 +185,20 @@
                     />
                   </svg>
                   <span class="text-sm text-gray-500 truncate">{{
-                    element.rating
+                    element.ratings
                   }}</span>
                 </div>
                 <span class="text-sm text-gray-500 truncate"
-                  >{{ element.fee }} VND</span
+                  >{{ element.fee_per_minutes }} VND</span
                 >
               </div>
             </div>
-          </a>
+          </div>
         </div>
       </div>
       <div
         class="hidden p-4 rounded-xl bg-white w-full"
-        id="dashboard"
+        id="listView"
         role="tabpanel"
         aria-labelledby="list-tab"
       >
@@ -226,33 +206,55 @@
           <table class="w-full text-sm text-left text-gray-500">
             <thead class="text-xs text-gray-700 uppercase bg-gray-50">
               <tr>
-                <th scope="col" class="px-4 py-3" v-for="f in field" :key="f">
-                  {{ f }}
-                </th>
+                <th scope="col" class="px-4 py-3">Họ tên</th>
+                <th scope="col" class="px-4 py-3">Email</th>
+                <th scope="col" class="px-4 py-3">Chuyên ngành</th>
+                <th scope="col" class="px-4 py-3">Phí / phút</th>
+                <th scope="col" class="px-4 py-3">Rating</th>
+                <th scope="col" class="px-4 py-3">Số lần khám</th>
 
                 <th scope="col" class="px-4 py-3">
                   <span class="sr-only">Actions</span>
                 </th>
               </tr>
             </thead>
-            <tbody v-for="element in data" :key="element">
+            <tbody v-for="element in data.doctors" :key="element.id">
               <tr class="border-b hover:bg-gray-200">
                 <th
                   scope="row"
                   class="flex items-center px-4 py-3 font-normal text-gray-900 whitespace-nowrap"
                 >
-                  <img
+                  <div class="w-8 h-8 rounded-full overflow-hidden">
+                    <!-- <img
                     class="w-8 h-8 rounded-full"
                     :src="element.avatar"
                     alt="Neil image"
-                  />
-                  <span class="ml-2">{{ element.name }}</span>
+                  /> -->
+                    <CldImage
+                      v-if="element.avatar"
+                      width="400"
+                      height="400"
+                      :src="element.avatar"
+                      :alt="element.full_name"
+                      class="object-cover group-hover:scale-[1.15] duration-200 transform ease-linear"
+                    />
+                    <img
+                      v-else
+                      class="object-cover group-hover:scale-[1.15] duration-200 transform ease-linear"
+                      src="/default.png"
+                      :alt="element.full_name"
+                    />
+                  </div>
+                  <span class="ml-2">{{ element.full_name }}</span>
                 </th>
 
-                <td class="px-4 py-3 mr-4">{{ element.phone }}</td>
                 <td class="px-4 py-3 mr-4">{{ element.email }}</td>
                 <td class="px-4 py-3 mr-4">{{ element.specialty }}</td>
-                <td class="px-4 py-3 mr-4">{{ element.updateAt }}</td>
+                <td class="px-4 py-3 mr-4">{{ element.fee_per_minutes }}</td>
+                <td class="px-4 py-3 mr-4">{{ element.ratings }}</td>
+                <td class="px-4 py-3 mr-4">
+                  {{ element.number_of_consultation }}
+                </td>
                 <td class="px-4 py-3 flex items-center justify-end">
                   <button
                     :id="'data-' + element.id + '-button'"
@@ -319,14 +321,19 @@
       >
         <span class="text-sm font-normal text-gray-500 dark:text-gray-400">
           Hiển thị
-          <span class="font-semibold text-gray-900 dark:text-white">1-10</span>
-          of
-          <span class="font-semibold text-gray-900 dark:text-white">1000</span>
+          <span class="font-semibold text-gray-900 dark:text-white"
+            >{{ pagePrevious * 10 + 1 }}-{{ pageCurrent * 10 }}</span
+          >
+          của
+          <span class="font-semibold text-gray-900 dark:text-white">{{
+            data.doctorQuantity
+          }}</span>
         </span>
         <ul class="inline-flex items-stretch -space-x-px">
           <li>
-            <a
-              href="#"
+            <button
+              type="button"
+              @click="previousPage"
               class="flex items-center justify-center h-full py-1.5 px-3 ml-0 text-gray-500 bg-white rounded-l-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
             >
               <span class="sr-only">Trước</span>
@@ -343,9 +350,11 @@
                   clip-rule="evenodd"
                 />
               </svg>
-            </a>
+            </button>
           </li>
-          <li>
+          <!-- <li v-for="i in data.doctorQuantity / 10" :key="i">
+          <div @click="switchPage">{{ i }}</div></li> -->
+          <!-- <li>
             <a
               href="#"
               class="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
@@ -380,10 +389,11 @@
               class="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
               >100</a
             >
-          </li>
+          </li> -->
           <li>
-            <a
-              href="#"
+            <button
+              type="button"
+              @click="nextPage"
               class="flex items-center justify-center h-full py-1.5 px-3 leading-tight text-gray-500 bg-white rounded-r-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
             >
               <span class="sr-only">Tiếp</span>
@@ -400,7 +410,7 @@
                   clip-rule="evenodd"
                 />
               </svg>
-            </a>
+            </button>
           </li>
         </ul>
       </nav>
@@ -409,20 +419,56 @@
   </section>
 </template>
   
-  <script setup>
-import { useDataMedicalRecord } from "@/stores/medical_record";
+<script setup lang="ts">
+import { Specialty } from "~/stores/enums/enum";
 
+const mapSpecialty = Object.entries(Specialty).map(([key, value]) => ({
+  key: key,
+  value: value,
+}));
 const route = useRoute();
-const { field, data } = defineProps(["field", "data"]);
 
 const isLoading = ref(false);
+const { data } = defineProps(["data"]);
 
-const dataMedicalRecord = useDataMedicalRecord();
-await dataMedicalRecord.getAllMedicalRecordPerPage(1, 10);
+onMounted(() => {
+  data.doctors.forEach((element: any) => {
+    console.log(element);
+  });
+});
 
-const switchPage = async (index) => {
+const pagePrevious = ref(0);
+const pageCurrent = ref(1);
+const pageNext = ref(2);
+
+function getByKey(searchKey: string) {
+  for (let { key, value } of mapSpecialty) {
+    if (key === searchKey) return value;
+  }
+  return "Không xác định";
+}
+
+async function nextPage() {
+  if (pageCurrent.value < Math.ceil(data.quantity / 10)) {
+    pagePrevious.value = pageCurrent.value;
+    pageCurrent.value = pageNext.value;
+    pageNext.value = pageNext.value + 1;
+    switchPage(pageCurrent.value);
+  }
+}
+
+async function previousPage() {
+  if (pageCurrent.value > 1) {
+    pageNext.value = pageCurrent.value;
+    pageCurrent.value = pagePrevious.value;
+    pagePrevious.value = pagePrevious.value - 1;
+    switchPage(pageCurrent.value);
+  }
+}
+
+const switchPage = async (index: number) => {
   isLoading.value = true;
-  await dataMedicalRecord.getAllMedicalRecordPerPage(index, 10);
+  await data.getAllDoctorPerPage(index, 10);
   isLoading.value = false;
 };
 </script>

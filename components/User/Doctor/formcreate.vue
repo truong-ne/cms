@@ -15,9 +15,7 @@
         <div
           class="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5"
         >
-          <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
-            Thêm bác sĩ
-          </h3>
+          <h3 class="text-lg font-semibold text-gray-900">Thêm bác sĩ</h3>
           <button
             type="button"
             class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
@@ -41,116 +39,197 @@
           </button>
         </div>
         <!-- Modal body -->
-        <form action="#">
+        <form action="#" @submit.prevent="onSubmit">
           <div class="grid gap-4 mb-4 sm:grid-cols-3 w-full">
             <div class="sm:col-span-2">
               <label
                 for="name"
-                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                :class="{
+                  'text-gray-500  peer-focus:text-blue-600 ': !errors.fullName,
+                  'text-red-500 peer-focus:text-red-600 ': errors.fullName,
+                }"
+                class="block mb-2 text-sm font-medium text-gray-900"
                 >Họ tên</label
               >
               <input
                 type="text"
                 name="name"
                 id="name"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                v-bind="fullName"
+                class="bg-gray-50 border text-gray-900 text-sm rounded-lg block w-full p-2.5"
+                :class="{
+                  'border-gray-300 focus:border-blue-600 focus:ring-primary-600':
+                    !errors.fullName,
+                  'border-red-300 focus:border-red-600 focus:ring-red-600':
+                    errors.fullName,
+                }"
                 placeholder="Họ và tên bác sĩ"
-                required
               />
+              <span for="name" class="text-xs text-red-500">
+                {{ errors.fullName }}</span
+              >
             </div>
             <div class="sm:col-span-1">
               <label
                 for="specialty"
-                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                :class="{
+                  'text-gray-500  peer-focus:text-blue-600 ': !errors.specialty,
+                  'text-red-500 peer-focus:text-red-600 ': errors.specialty,
+                }"
+                class="block mb-2 text-sm font-medium text-gray-900"
                 >Chuyên ngành</label
               >
               <select
+                v-bind="specialty"
                 id="specialty"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5"
+                :class="{
+                  'border-gray-300  focus:border-blue-600 focus:ring-primary-500':
+                    !errors.specialty,
+                  'border-red-300  focus:border-red-600 focus:ring-red-500':
+                    errors.specialty,
+                }"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
               >
-                <option selected disabled>Chọn chuyên ngành</option>
-                <option value="TV">TV/Monitors</option>
-                <option value="PC">PC</option>
-                <option value="GA">Gaming/Console</option>
-                <option value="PH">Phones</option>
+                <option selected disabled value="">Chọn chuyên ngành</option>
+                <option
+                  v-for="{ key, value } in mapSpecialty"
+                  :value="key"
+                  :key="key"
+                >
+                  {{ value }}
+                </option>
               </select>
+              <span for="specialty" class="text-xs text-red-500">
+                {{ errors.specialty }}</span
+              >
             </div>
 
             <div class="sm:col-span-2">
               <label
                 for="email"
-                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                :class="{
+                  'text-gray-500  peer-focus:text-blue-600 ': !errors.email,
+                  'text-red-500 peer-focus:text-red-600 ': errors.email,
+                }"
+                class="block mb-2 text-sm font-medium text-gray-900"
                 >Email</label
               ><input
                 type="email"
                 name="email"
                 id="email"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                v-bind="email"
+                :class="{
+                  'border-gray-300  focus:border-blue-600 focus:ring-primary-600':
+                    !errors.email,
+                  'border-red-300  focus:border-red-600 focus:ring-red-600':
+                    errors.email,
+                }"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
                 placeholder="example@gmail.com"
-                required
               />
+              <span for="email" class="text-xs text-red-500">
+                {{ errors.email }}
+              </span>
             </div>
             <div class="sm:col-span-1">
               <label
                 for="phone"
-                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                :class="{
+                  'text-gray-500  peer-focus:text-blue-600 ': !errors.phone,
+                  'text-red-500 peer-focus:text-red-600 ': errors.phone,
+                }"
+                class="block mb-2 text-sm font-medium text-gray-900"
                 >Số điện thoại</label
               >
               <input
                 type="phone"
                 name="phone"
+                v-bind="phone"
                 id="phone"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                :class="{
+                  'border-gray-300  focus:border-blue-600 focus:ring-primary-600':
+                    !errors.phone,
+                  'border-red-300  focus:border-red-600 focus:ring-red-600':
+                    errors.phone,
+                }"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
                 placeholder="+84 "
-                required
               />
+              <span for="phone" class="text-xs text-red-500">
+                {{ errors.phone }}</span
+              >
             </div>
-            <div class="sm:col-span-1">
+            <div>
               <label
                 for="experience"
-                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                :class="{
+                  'text-gray-500  peer-focus:text-blue-600 ': !errors.email,
+                  'text-red-500 peer-focus:text-red-600 ': errors.email,
+                }"
+                class="block mb-2 text-sm font-medium text-gray-900"
                 >Kinh nghiệm</label
               ><input
                 type="number"
                 name="experience"
                 id="experience"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                v-bind="experience"
+                :class="{
+                  'border-gray-300  focus:border-blue-600 focus:ring-primary-600':
+                    !errors.email,
+                  'border-red-300  focus:border-red-600 focus:ring-red-600':
+                    errors.email,
+                }"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
                 placeholder="1"
-                required
               />
+              <span for="experience" class="text-xs text-red-500">
+                {{ errors.experience }}</span
+              >
             </div>
-            <div class="sm:col-span-1">
+            <div>
               <label
                 for="fee"
-                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                :class="{
+                  'text-gray-500  peer-focus:text-blue-600 ': !errors.email,
+                  'text-red-500 peer-focus:text-red-600 ': errors.email,
+                }"
+                class="block mb-2 text-sm font-medium text-gray-900"
                 >Phí mỗi phút</label
               ><input
                 type="number"
                 name="fee"
                 id="fee"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                v-bind="feePerMinute"
+                :class="{
+                  'border-gray-300  focus:border-blue-600 focus:ring-primary-600':
+                    !errors.email,
+                  'border-red-300  focus:border-red-600 focus:ring-red-600':
+                    errors.email,
+                }"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
                 placeholder="1,000"
-                required
               />
+              <span for="fee" class="text-xs text-red-500">
+                {{ errors.feePerMinute }}</span
+              >
             </div>
-            <div class="sm:col-span-1">
+            <!-- <div class="sm:col-span-1">
               <label
                 for="avatar"
-                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                class="block mb-2 text-sm font-medium text-gray-900"
                 >Ảnh</label
               ><input
                 type="file"
                 name="avatar"
                 id="avatar"
                 accept=".png, jpg, jpeg, svg"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-auto"
-                required
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-auto"
               />
             </div>
             <div class="sm:col-span-3">
               <label
                 for="biography"
-                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                class="block mb-2 text-sm font-medium text-gray-900"
                 >Tiểu sử</label
               ><textarea
                 id="biography"
@@ -158,23 +237,22 @@
                 class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500"
                 placeholder="Thông tin bác sĩ"
               ></textarea>
-            </div>
+            </div> -->
           </div>
           <div class="w-full flex items-center justify-center">
             <button
               type="submit"
-              class="text-white inline-flex items-center justify-center bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center w-full sm:w-auto"
+              class="flex items-center justify-center text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-4 py-2"
             >
               <svg
-                class="mr-1 -ml-1 w-6 h-6"
-                fill="currentColor"
-                viewbox="0 0 20 20"
                 xmlns="http://www.w3.org/2000/svg"
+                class="h-3.5 w-3.5 mr-2"
+                fill="currentColor"
+                aria-hidden="true"
+                viewBox="0 0 448 512"
               >
                 <path
-                  fill-rule="evenodd"
-                  d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
-                  clip-rule="evenodd"
+                  d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32v144H48c-17.7 0-32 14.3-32 32s14.3 32 32 32h144v144c0 17.7 14.3 32 32 32s32-14.3 32-32V288h144c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z"
                 />
               </svg>
               Tạo tài khoản
@@ -185,3 +263,77 @@
     </div>
   </div>
 </template>
+
+<script setup lang="ts">
+import { Specialty } from "~/stores/enums/enum";
+import * as yup from "yup";
+import { useForm } from "vee-validate";
+
+const mapSpecialty = Object.entries(Specialty).map(([key, value]) => ({
+  key: key,
+  value: value,
+}));
+
+const { defineInputBinds, resetForm, isSubmitting, handleSubmit, errors } =
+  useForm({
+    validationSchema: yup.object({
+      fullName: yup
+        .string()
+        .trim()
+        .required("Họ và tên không hợp lệ")
+        .min(2, "Họ và tên không hợp lệ"),
+      email: yup
+        .string()
+        .trim()
+        .email("Email không hợp lệ")
+        .required("Email không hợp lệ"),
+      phone: yup
+        .string()
+        .trim()
+        .matches(
+          /([\+84|0]+(3|5|7|8|9|1[2|6|8|9]))+([0-9]{8})\b/,
+          "Số điện thoại phải bắt đầu: +84 hoặc 03, 09, ..."
+        )
+        .required("Số điện thoại không hợp lệ"),
+      experience: yup
+        .number()
+        .typeError("Số năm kinh nghiệm không hợp lệ")
+        .min(0, "Số năm kinh nghiệm không thể âm")
+        .max(70, "Số năm kinh nghiệm không thể lớp hơn 70")
+        .positive("Số năm kinh nghiệm không thể âm")
+        .integer("Số năm kinh nghiệm không hợp lệ")
+        .required("Số năm kinh nghiệm không hợp lệ"),
+      feePerMinute: yup
+        .number()
+        .typeError("Phí khám không hợp lệ")
+        .min(0, "Phí khám không thể âm")
+        .required("Phí khám không hợp lệ"),
+      specialty: yup.string().trim().required("Bạn chưa chọn chuyên ngành"),
+    }),
+  });
+
+resetForm();
+
+const fullName = defineInputBinds("fullName", {
+  validateOnInput: true,
+});
+const phone = defineInputBinds("phone", {
+  validateOnInput: true,
+});
+const email = defineInputBinds("email", {
+  validateOnInput: true,
+});
+const experience = defineInputBinds("experience", {
+  validateOnInput: true,
+});
+const feePerMinute = defineInputBinds("feePerMinute", {
+  validateOnInput: true,
+});
+const specialty = defineInputBinds("specialty", {
+  validateOnInput: true,
+});
+
+const onSubmit = handleSubmit(async (values) => {
+  console.log("OK");
+});
+</script>

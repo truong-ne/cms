@@ -1,50 +1,43 @@
 import { defineStore } from "pinia";
 import { getCookie, deleteCookie } from "@/utils/cookie-utils";
 import { AuthenticateSchema } from "./structs/auth_struct";
-import { DataObjectLoginSchema, DataObjectSchema } from "./structs/response_struct";
+import { DataObjectLoginSchema } from "./structs/response_struct";
 import { mask } from "superstruct";
 
 export const useAuthStore = defineStore("auth", {
   state: () => ({
-    accessToken: "",
+    accessToken: localStorage.getItem("access_token"),
   }),
   getters: {
     getAccesToken: (state) => {
-      state.accessToken = localStorage.getItem("access_token") ?? "";
+      state.accessToken = localStorage.getItem("access_token");
       return state.accessToken;
     },
     getAuthenticated: (state) => {
-      return state.accessToken != "";
+      return state.accessToken != null;
       // return false;
     },
   },
   actions: {
-    async login(username: string, password: string) {
-      try {
-        console.log(username, password)
-        const { data, error } = await useFetch("/common/admin/auth", {
-          baseURL: useRuntimeConfig().public.baseURL,
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            username: username,
-            password: password,
-          }),
-        });
-
-        if (data.value != null) {
-          const message = mask(data.value, DataObjectLoginSchema)
-
-          this.accessToken = mask(message.data, AuthenticateSchema).jwt_token;
-          localStorage.setItem("access_token", this.accessToken);
-          return navigateTo("/");
-        } else if (error.value != null) {
-          console.log(error.value);
-          throw error.value?.data.message || "";
-        }
-      } catch (error) {
+    async login(username: string, password: string): Promise<any> {
+      const { data, error } = await useFetch("/common/admin/auth", {
+        baseURL: useRuntimeConfig().public.baseURL,
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username: username,
+          password: password,
+        }),
+      });
+      if (data.value !== null) {
+        const message = mask(data.value, DataObjectLoginSchema);
+        var response = mask(message.data, AuthenticateSchema);
+        this.accessToken = response.jwt_token;
+        localStorage.setItem("access_token", this.accessToken);
+        navigateTo("/");
+      } else if (error.value != null) {
         throw error;
       }
     },
@@ -65,13 +58,11 @@ export const useAuthStore = defineStore("auth", {
           });
 
           if (data.value !== null) {
-            const message = mask(data.value, DataObjectSchema);
+            const message = mask(data.value, DataObjectLoginSchema);
             var response = mask(message.data, AuthenticateSchema);
             this.accessToken = response.jwt_token;
             localStorage.setItem("access_token", this.accessToken);
           } else if (error.value != null) {
-            console.log(error.value);
-            this.logout();
             throw error;
           }
         }
@@ -81,27 +72,18 @@ export const useAuthStore = defineStore("auth", {
       }
     },
     async logout() {
-      try {
-        await useFetch("common/admin/logout", {
-          baseURL: useRuntimeConfig().public.baseURL,
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          credentials: "include",
-        })
-          .then((res) => {
-            localStorage.removeItem("access_token");
-            this.accessToken = "";
-            deleteCookie("admin_token");
-            navigateTo("/");
-          })
-          .catch((error) => {
-            throw error;
-          });
-      } catch (error) {
-        throw error;
-      }
+      await useFetch("common/admin/logout", {
+        baseURL: useRuntimeConfig().public.baseURL,
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+      });
+      localStorage.removeItem("access_token");
+      this.accessToken = "";
+      deleteCookie("admin_token");
+      return;
     },
   },
 });

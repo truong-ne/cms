@@ -26,7 +26,7 @@
   </section>
 </template>
   
-  <script setup lang="ts">
+<script setup lang="ts">
 //linechart
 const baroptions = ref({
   chart: {
