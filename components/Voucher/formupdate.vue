@@ -1,7 +1,7 @@
 <template>
   <!-- Create modal -->
   <div
-    id="updateDoctor"
+    id="updateDiscount"
     tabindex="-1"
     aria-hidden="true"
     class="hidden sm:overflow-y-auto sm:overflow-x-hidden sm:fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full"
@@ -15,14 +15,14 @@
         <div
           class="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5"
         >
-          <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
-            Chỉnh sửa thông tin
+          <h3 class="text-lg font-semibold text-gray-900">
+            Chỉnh sửa phiếu giảm giá
           </h3>
           <button
             type="button"
             class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
-            data-modal-target="updateDoctor"
-            data-modal-toggle="updateDoctor"
+            data-modal-target="createDiscount"
+            data-modal-toggle="createDiscount"
           >
             <svg
               aria-hidden="true"
@@ -42,204 +42,139 @@
         </div>
         <!-- Modal body -->
         <form action="#" @submit.prevent="onSubmit">
-          <div class="grid gap-4 mb-4 sm:grid-cols-3 w-full">
-            <div class="sm:col-span-2">
+          <div class="grid gap-4 mb-4 sm:grid-cols-2 w-full">
+            <div class="sm:col-span-1">
               <label
-                for="name"
+                for="code"
                 :class="{
-                  'text-gray-500  peer-focus:text-blue-600 ': !errors.fullName,
-                  'text-red-500 peer-focus:text-red-600 ': errors.fullName,
+                  'text-gray-500  peer-focus:text-blue-600 ': !errors.code,
+                  'text-red-500 peer-focus:text-red-600 ': errors.code,
                 }"
                 class="block mb-2 text-sm font-medium text-gray-900"
-                >Họ tên</label
+                >Mã giảm giá</label
               >
               <input
                 type="text"
-                name="name"
-                id="name"
-                v-bind="fullName"
+                name="code"
+                id="code"
+                v-bind="code"
                 class="bg-gray-50 border text-gray-900 text-sm rounded-lg block w-full p-2.5"
                 :class="{
                   'border-gray-300 focus:border-blue-600 focus:ring-primary-600':
-                    !errors.fullName,
+                    !errors.code,
                   'border-red-300 focus:border-red-600 focus:ring-red-600':
-                    errors.fullName,
+                    errors.code,
                 }"
                 placeholder="Họ và tên bác sĩ"
               />
-              <span for="name" class="text-xs text-red-500">
-                {{ errors.fullName }}</span
+              <span for="code" class="text-xs text-red-500">
+                {{ errors.code }}</span
               >
             </div>
             <div class="sm:col-span-1">
               <label
-                for="specialty"
+                for="type"
                 :class="{
-                  'text-gray-500  peer-focus:text-blue-600 ': !errors.specialty,
-                  'text-red-500 peer-focus:text-red-600 ': errors.specialty,
+                  'text-gray-500  peer-focus:text-blue-600 ': !errors.type,
+                  'text-red-500 peer-focus:text-red-600 ': errors.type,
                 }"
                 class="block mb-2 text-sm font-medium text-gray-900"
-                >Chuyên ngành</label
+                >Loại</label
               >
               <select
-                v-bind="specialty"
-                id="specialty"
+                v-bind="type"
+                id="type"
                 :class="{
                   'border-gray-300  focus:border-blue-600 focus:ring-primary-500':
-                    !errors.specialty,
+                    !errors.type,
                   'border-red-300  focus:border-red-600 focus:ring-red-500':
-                    errors.specialty,
+                    errors.type,
                 }"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
               >
-                <option selected disabled value="">Chọn chuyên ngành</option>
-                <option
+                <option selected disabled value="">Chọn loại</option>
+                <!-- <option
                   v-for="{ key, value } in mapSpecialty"
                   :value="key"
                   :key="key"
                 >
                   {{ value }}
-                </option>
+                </option> -->
               </select>
-              <span for="specialty" class="text-xs text-red-500">
-                {{ errors.specialty }}</span
+              <span for="type" class="text-xs text-red-500">
+                {{ errors.type }}</span
               >
             </div>
 
-            <div class="sm:col-span-2">
+            <div class="sm:col-span-1">
               <label
-                for="email"
+                for="value"
                 :class="{
-                  'text-gray-500  peer-focus:text-blue-600 ': !errors.email,
-                  'text-red-500 peer-focus:text-red-600 ': errors.email,
+                  'text-gray-500  peer-focus:text-blue-600 ': !errors.value,
+                  'text-red-500 peer-focus:text-red-600 ': errors.value,
                 }"
                 class="block mb-2 text-sm font-medium text-gray-900"
-                >Email</label
+                >value</label
               ><input
-                type="email"
-                name="email"
-                id="email"
-                v-bind="email"
+                type="number"
+                name="value"
+                id="value"
+                v-bind="value"
                 :class="{
                   'border-gray-300  focus:border-blue-600 focus:ring-primary-600':
-                    !errors.email,
+                    !errors.value,
                   'border-red-300  focus:border-red-600 focus:ring-red-600':
-                    errors.email,
+                    errors.value,
                 }"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
                 placeholder="example@gmail.com"
               />
-              <span for="email" class="text-xs text-red-500">
-                {{ errors.email }}
+              <span for="value" class="text-xs text-red-500">
+                {{ errors.value }}
               </span>
             </div>
-            <div class="sm:col-span-1">
+
+            <!-- <div class="relative max-w-sm"></div> -->
+            <div class="relative sm:col-span-1">
               <label
-                for="phone"
+                for="expirationTime"
                 :class="{
-                  'text-gray-500  peer-focus:text-blue-600 ': !errors.phone,
-                  'text-red-500 peer-focus:text-red-600 ': errors.phone,
+                  'text-gray-500  peer-focus:text-blue-600 ':
+                    !errors.expirationTime,
+                  'text-red-500 peer-focus:text-red-600 ':
+                    errors.expirationTime,
                 }"
                 class="block mb-2 text-sm font-medium text-gray-900"
-                >Số điện thoại</label
+                >Ngày hết hạn</label
               >
+              <div
+                class="absolute inset-y-0 left-0 flex items-center ps-3 pt-6 pointer-events-none"
+              >
+                <svg
+                  class="w-4 h-4 text-gray-500 dark:text-gray-400"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"
+                  />
+                </svg>
+              </div>
               <input
-                type="phone"
-                name="phone"
-                v-bind="phone"
-                id="phone"
-                :class="{
-                  'border-gray-300  focus:border-blue-600 focus:ring-primary-600':
-                    !errors.phone,
-                  'border-red-300  focus:border-red-600 focus:ring-red-600':
-                    errors.phone,
-                }"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
-                placeholder="+84 "
+                id="expirationTime"
+                v-bind="expirationTime"
+                datepicker
+                datepicker-format="mm/dd/yyyy"
+                type="text"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                placeholder="Chọn ngày"
               />
-              <span for="phone" class="text-xs text-red-500">
-                {{ errors.phone }}</span
+              <span for="expirationTime" class="text-xs text-red-500">
+                {{ errors.expirationTime }}</span
               >
             </div>
-            <div>
-              <label
-                for="experience"
-                :class="{
-                  'text-gray-500  peer-focus:text-blue-600 ': !errors.email,
-                  'text-red-500 peer-focus:text-red-600 ': errors.email,
-                }"
-                class="block mb-2 text-sm font-medium text-gray-900"
-                >Kinh nghiệm</label
-              ><input
-                type="number"
-                name="experience"
-                id="experience"
-                v-bind="experience"
-                :class="{
-                  'border-gray-300  focus:border-blue-600 focus:ring-primary-600':
-                    !errors.email,
-                  'border-red-300  focus:border-red-600 focus:ring-red-600':
-                    errors.email,
-                }"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
-                placeholder="1"
-              />
-              <span for="experience" class="text-xs text-red-500">
-                {{ errors.experience }}</span
-              >
-            </div>
-            <div>
-              <label
-                for="fee"
-                :class="{
-                  'text-gray-500  peer-focus:text-blue-600 ': !errors.email,
-                  'text-red-500 peer-focus:text-red-600 ': errors.email,
-                }"
-                class="block mb-2 text-sm font-medium text-gray-900"
-                >Phí mỗi phút</label
-              ><input
-                type="number"
-                name="fee"
-                id="fee"
-                v-bind="feePerMinute"
-                :class="{
-                  'border-gray-300  focus:border-blue-600 focus:ring-primary-600':
-                    !errors.email,
-                  'border-red-300  focus:border-red-600 focus:ring-red-600':
-                    errors.email,
-                }"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
-                placeholder="1,000"
-              />
-              <span for="fee" class="text-xs text-red-500">
-                {{ errors.feePerMinute }}</span
-              >
-            </div>
-            <!-- <div class="sm:col-span-1">
-              <label
-                for="avatar"
-                class="block mb-2 text-sm font-medium text-gray-900"
-                >Ảnh</label
-              ><input
-                type="file"
-                name="avatar"
-                id="avatar"
-                accept=".png, jpg, jpeg, svg"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-auto"
-              />
-            </div>
-            <div class="sm:col-span-3">
-              <label
-                for="biography"
-                class="block mb-2 text-sm font-medium text-gray-900"
-                >Tiểu sử</label
-              ><textarea
-                id="biography"
-                rows="4"
-                class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500"
-                placeholder="Thông tin bác sĩ"
-              ></textarea>
-            </div> -->
           </div>
           <div class="w-full flex items-center justify-center">
             <button
@@ -265,72 +200,42 @@
     </div>
   </div>
 </template>
+
 <script setup lang="ts">
-import { Specialty } from "~/stores/enums/enum";
 import * as yup from "yup";
 import { useForm } from "vee-validate";
-
-const mapSpecialty = Object.entries(Specialty).map(([key, value]) => ({
-  key: key,
-  value: value,
-}));
 
 const { defineInputBinds, resetForm, isSubmitting, handleSubmit, errors } =
   useForm({
     validationSchema: yup.object({
-      fullName: yup
+      code: yup
         .string()
         .trim()
-        .required("Họ và tên không hợp lệ")
-        .min(2, "Họ và tên không hợp lệ"),
-      email: yup
-        .string()
-        .trim()
-        .email("Email không hợp lệ")
-        .required("Email không hợp lệ"),
-      phone: yup
-        .string()
-        .trim()
-        .matches(
-          /([\+84|0]+(3|5|7|8|9|1[2|6|8|9]))+([0-9]{8})\b/,
-          "Số điện thoại phải bắt đầu: +84 hoặc 03, 09, ..."
-        )
-        .required("Số điện thoại không hợp lệ"),
-      experience: yup
+        .required("Bạn phải nhập mã giảm giá")
+        .min(8, "Mã giảm giá không hợp lệ"),
+      value: yup
         .number()
-        .typeError("Số năm kinh nghiệm không hợp lệ")
-        .min(0, "Số năm kinh nghiệm không thể âm")
-        .max(70, "Số năm kinh nghiệm không thể lớp hơn 70")
-        .positive("Số năm kinh nghiệm không thể âm")
-        .integer("Số năm kinh nghiệm không hợp lệ")
-        .required("Số năm kinh nghiệm không hợp lệ"),
-      feePerMinute: yup
-        .number()
-        .typeError("Phí khám không hợp lệ")
-        .min(0, "Phí khám không thể âm")
-        .required("Phí khám không hợp lệ"),
-      specialty: yup.string().trim().required("Bạn chưa chọn chuyên ngành"),
+        .positive("Giá trị phải lớn hơn 0")
+        .required("Bạn phải nhập giá trị "),
+
+      type: yup.string().trim().required("Bạn chưa chọn loại"),
+      expirationTime: yup.date().required("Bạn phải nhập ngày hết hạn"),
     }),
   });
 
 resetForm();
 
-const fullName = defineInputBinds("fullName", {
+const code = defineInputBinds("code", {
   validateOnInput: true,
 });
-const phone = defineInputBinds("phone", {
+const value = defineInputBinds("value", {
   validateOnInput: true,
 });
-const email = defineInputBinds("email", {
+
+const type = defineInputBinds("type", {
   validateOnInput: true,
 });
-const experience = defineInputBinds("experience", {
-  validateOnInput: true,
-});
-const feePerMinute = defineInputBinds("feePerMinute", {
-  validateOnInput: true,
-});
-const specialty = defineInputBinds("specialty", {
+const expirationTime = defineInputBinds("expirationTime", {
   validateOnInput: true,
 });
 

@@ -143,7 +143,7 @@ const updateBarChart = () => {
   };
   barseries.value = [
     {
-      name: "Số lần khám",
+      name: "Số phiếu",
       data: [1, 3, 2, 1, 0, 0, 1, 1, 4, 1, 0, 0],
       color: "#e7b72f",
     },

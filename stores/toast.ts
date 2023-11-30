@@ -2,7 +2,7 @@ import { defineStore } from "pinia";
 
 export const toastStore = defineStore("toastStore", {
   state: () => ({
-    toasts: [],
+    toasts: ref<[]>([]),
   }),
   actions: {
     add(toast: { message: string; toastStatus: string }) {

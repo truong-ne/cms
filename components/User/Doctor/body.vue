@@ -120,6 +120,7 @@
                       data-modal-target="updateDoctor"
                       data-modal-toggle="updateDoctor"
                       class="py-2 px-4 w-full flex items-start justify-start hover:bg-gray-100"
+                      @click="data.idChoosed=element.id"
                     >
                       Chỉnh sửa
                     </button>
@@ -430,12 +431,7 @@ const route = useRoute();
 
 const isLoading = ref(false);
 const { data } = defineProps(["data"]);
-
-onMounted(() => {
-  data.doctors.forEach((element: any) => {
-    console.log(element);
-  });
-});
+onMounted(() => {});
 
 const pagePrevious = ref(0);
 const pageCurrent = ref(1);

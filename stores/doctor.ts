@@ -8,6 +8,7 @@ import { DataArraySchema, DataObjectSchema } from "./structs/response_struct";
 export const useDataDoctor = defineStore("doctor", () => {
   const doctorQuantity = ref<number>(0);
   const doctors = ref<Doctor[]>([]);
+  const idChoosed = ref<string>();
   const storeAuth = useAuthStore();
   const authorization = "Bearer " + (storeAuth.getAccesToken ?? "");
 
@@ -41,8 +42,7 @@ export const useDataDoctor = defineStore("doctor", () => {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          Authorization:
-            "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImhlYWx0aGxpbmV2biIsImlkIjoid2dfcmozQWZSRXQwcTZSTGRXNUg5IiwiaWF0IjoxNzAxMDcwODA3LCJleHAiOjE3MDE0MTY0MDd9.AsBkOlsxPsAZCTRzG6FQKA0xo0LYBbz2TD13IGdIIi4",
+          Authorization: authorization,
         },
       }
     );
@@ -57,8 +57,37 @@ export const useDataDoctor = defineStore("doctor", () => {
       doctors.value = [];
     }
   }
+  async function createDoctor(doctor: Doctor) {
+    const { data, error } = await useFetch("/doctor-management/doctor/", {
+      baseURL: useRuntimeConfig().public.baseURL,
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: authorization,
+      },
+      body: JSON.stringify({
+        phone: doctor.phone,
+        password: "",
+        full_name: doctor.full_name,
+        specialty: doctor.specialty,
+        experience: doctor.experience,
+        fee_per_minutes: doctor.fee_per_minutes,
+        fixed_times: [],
+      }),
+    });
+
+    if (data.value !== null) {
+      // const message = mask(data.value, DataArraySchema);
+      // doctors.value = mask(message.data, array(DoctorSchema));
+    } else {
+      // console.log(error);
+      // // navigateTo("/error");
+      // doctors.value = [];
+    }
+  }
 
   return {
+    idChoosed,
     doctors,
     doctorQuantity,
     getQuantityDoctor,

@@ -165,8 +165,9 @@
               <label
                 for="experience"
                 :class="{
-                  'text-gray-500  peer-focus:text-blue-600 ': !errors.email,
-                  'text-red-500 peer-focus:text-red-600 ': errors.email,
+                  'text-gray-500  peer-focus:text-blue-600 ':
+                    !errors.experience,
+                  'text-red-500 peer-focus:text-red-600 ': errors.experience,
                 }"
                 class="block mb-2 text-sm font-medium text-gray-900"
                 >Kinh nghiệm</label
@@ -177,9 +178,9 @@
                 v-bind="experience"
                 :class="{
                   'border-gray-300  focus:border-blue-600 focus:ring-primary-600':
-                    !errors.email,
+                    !errors.experience,
                   'border-red-300  focus:border-red-600 focus:ring-red-600':
-                    errors.email,
+                    errors.experience,
                 }"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
                 placeholder="1"
@@ -192,8 +193,9 @@
               <label
                 for="fee"
                 :class="{
-                  'text-gray-500  peer-focus:text-blue-600 ': !errors.email,
-                  'text-red-500 peer-focus:text-red-600 ': errors.email,
+                  'text-gray-500  peer-focus:text-blue-600 ':
+                    !errors.feePerMinute,
+                  'text-red-500 peer-focus:text-red-600 ': errors.feePerMinute,
                 }"
                 class="block mb-2 text-sm font-medium text-gray-900"
                 >Phí mỗi phút</label
@@ -204,9 +206,9 @@
                 v-bind="feePerMinute"
                 :class="{
                   'border-gray-300  focus:border-blue-600 focus:ring-primary-600':
-                    !errors.email,
+                    !errors.feePerMinute,
                   'border-red-300  focus:border-red-600 focus:ring-red-600':
-                    errors.email,
+                    errors.feePerMinute,
                 }"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
                 placeholder="1,000"
@@ -244,6 +246,12 @@
 import { Specialty } from "~/stores/enums/enum";
 import * as yup from "yup";
 import { useForm } from "vee-validate";
+
+const { data } = defineProps(["data"]);
+
+onMounted(() => {
+  console.log(data.idChoosed);
+});
 
 const mapSpecialty = Object.entries(Specialty).map(([key, value]) => ({
   key: key,

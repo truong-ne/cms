@@ -2,8 +2,8 @@
   <section>
     <UserHeader :header="header" />
     <UserDoctorBody :data="dataDoctor" />
-    <UserDoctorFormcreate />
-    <UserDoctorFormupdate />
+    <UserDoctorFormcreate :data="dataDoctor" />
+    <UserDoctorFormupdate :data="dataDoctor" />
   </section>
 </template>
 
@@ -21,4 +21,5 @@ const header = {
   quantity: dataDoctor.doctorQuantity,
   name: "Doctor",
 };
+
 </script>

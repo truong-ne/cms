@@ -163,7 +163,8 @@
               <label
                 for="experience"
                 :class="{
-                  'text-gray-500  peer-focus:text-blue-600 ': !errors.experience,
+                  'text-gray-500  peer-focus:text-blue-600 ':
+                    !errors.experience,
                   'text-red-500 peer-focus:text-red-600 ': errors.experience,
                 }"
                 class="block mb-2 text-sm font-medium text-gray-900"
@@ -190,7 +191,8 @@
               <label
                 for="fee"
                 :class="{
-                  'text-gray-500  peer-focus:text-blue-600 ': !errors.feePerMinute,
+                  'text-gray-500  peer-focus:text-blue-600 ':
+                    !errors.feePerMinute,
                   'text-red-500 peer-focus:text-red-600 ': errors.feePerMinute,
                 }"
                 class="block mb-2 text-sm font-medium text-gray-900"
@@ -268,6 +270,9 @@
 import { Specialty } from "~/stores/enums/enum";
 import * as yup from "yup";
 import { useForm } from "vee-validate";
+import { type Doctor } from "~/stores/structs/doctor_struct";
+
+const { data } = defineProps(["data"]);
 
 const mapSpecialty = Object.entries(Specialty).map(([key, value]) => ({
   key: key,
@@ -334,6 +339,14 @@ const specialty = defineInputBinds("specialty", {
 });
 
 const onSubmit = handleSubmit(async (values) => {
-  console.log("OK");
+  const doctor: Doctor = {
+    full_name: values.fullName,
+    specialty: values.specialty,
+    email: values.email,
+    phone: values.phone,
+    experience: values.experience,
+    fee_per_minutes: values.feePerMinute,
+  };
+  console.log(doctor);
 });
 </script>

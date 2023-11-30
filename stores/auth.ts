@@ -5,6 +5,7 @@ import { DataObjectLoginSchema } from "./structs/response_struct";
 import { mask } from "superstruct";
 
 export const useAuthStore = defineStore("auth", {
+  
   state: () => ({
     accessToken: localStorage.getItem("access_token"),
   }),

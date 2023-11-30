@@ -65,7 +65,7 @@
                   'border-red-300 focus:border-red-600 focus:ring-red-600':
                     errors.code,
                 }"
-                placeholder="Họ và tên bác sĩ"
+                placeholder="FREESHIP"
               />
               <span for="code" class="text-xs text-red-500">
                 {{ errors.code }}</span
@@ -93,13 +93,7 @@
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
               >
                 <option selected disabled value="">Chọn loại</option>
-                <!-- <option
-                  v-for="{ key, value } in mapSpecialty"
-                  :value="key"
-                  :key="key"
-                >
-                  {{ value }}
-                </option> -->
+                <option value="%">%</option>
               </select>
               <span for="type" class="text-xs text-red-500">
                 {{ errors.type }}</span
@@ -114,9 +108,9 @@
                   'text-red-500 peer-focus:text-red-600 ': errors.value,
                 }"
                 class="block mb-2 text-sm font-medium text-gray-900"
-                >value</label
+                >Giá trị</label
               ><input
-                type="value"
+                type="number"
                 name="value"
                 id="value"
                 v-bind="value"
@@ -127,7 +121,7 @@
                     errors.value,
                 }"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
-                placeholder="example@gmail.com"
+                placeholder="--"
               />
               <span for="value" class="text-xs text-red-500">
                 {{ errors.value }}
@@ -135,126 +129,60 @@
             </div>
 
             <!-- <div class="relative max-w-sm"></div> -->
-            <div class="relative sm:col-span-1">
-              <label
-                for="phone"
-                :class="{
-                  'text-gray-500  peer-focus:text-blue-600 ': !errors.phone,
-                  'text-red-500 peer-focus:text-red-600 ': errors.phone,
-                }"
-                class="block mb-2 text-sm font-medium text-gray-900"
-                >Số điện thoại</label
-              >
-              <div
-                class="absolute inset-y-0 left-0 flex items-center ps-3 pt-6 pointer-events-none"
-              >
-                <svg
-                  class="w-4 h-4 text-gray-500 dark:text-gray-400"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
+            <ClientOnly>
+              <div class="relative sm:col-span-1">
+                <label
+                  for="expirationTime"
+                  :class="{
+                    'text-gray-500  peer-focus:text-blue-600 ':
+                      !errors.expirationTime,
+                    'text-red-500 peer-focus:text-red-600 ':
+                      errors.expirationTime,
+                  }"
+                  class="block mb-2 text-sm font-medium text-gray-900"
+                  >Ngày hết hạn</label
                 >
-                  <path
-                    d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"
-                  />
-                </svg>
+                <div
+                  class="absolute inset-y-0 left-0 flex items-center ps-3 pointer-events-none"
+                  :class="{
+                    'pt-6': !errors.expirationTime,
+                    'pt-1': errors.expirationTime,
+                  }"
+                >
+                  <svg
+                    class="w-4 h-4 text-gray-500 dark:text-gray-400"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                  >
+                    <path
+                      d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"
+                    />
+                  </svg>
+                </div>
+                <input
+                  id="expirationTime"
+                  v-bind="expirationTime"
+                  datepicker
+                  datepicker-format="mm/dd/yyyy"
+                  type="text"
+                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 ps-10"
+                  :class="{
+                    'border-gray-300  focus:border-blue-600 focus:ring-primary-600':
+                      !errors.expirationTime,
+                    'border-red-300  focus:border-red-600 focus:ring-red-600':
+                      errors.expirationTime,
+                  }"
+                  placeholder="Chọn ngày"
+                />
+                <span for="expirationTime" class="text-xs text-red-500">
+                  {{ errors.expirationTime }}</span
+                >
               </div>
-              <input
-                datepicker
-                datepicker-format="mm/dd/yyyy"
-                type="text"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                placeholder="Select date"
-              />
-              <span for="phone" class="text-xs text-red-500">
-                {{ errors.phone }}</span
-              >
-            </div>
-
-            <!-- <div class="sm:col-span-1">
-              <label
-                for="phone"
-                :class="{
-                  'text-gray-500  peer-focus:text-blue-600 ': !errors.phone,
-                  'text-red-500 peer-focus:text-red-600 ': errors.phone,
-                }"
-                class="block mb-2 text-sm font-medium text-gray-900"
-                >Số điện thoại</label
-              >
-              <input
-                type="phone"
-                name="phone"
-                v-bind="phone"
-                id="phone"
-                :class="{
-                  'border-gray-300  focus:border-blue-600 focus:ring-primary-600':
-                    !errors.phone,
-                  'border-red-300  focus:border-red-600 focus:ring-red-600':
-                    errors.phone,
-                }"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
-                placeholder="+84 "
-              />
-              <span for="phone" class="text-xs text-red-500">
-                {{ errors.phone }}</span
-              >
-            </div>
-            <div>
-              <label
-                for="experience"
-                :class="{
-                  'text-gray-500  peer-focus:text-blue-600 ': !errors.email,
-                  'text-red-500 peer-focus:text-red-600 ': errors.email,
-                }"
-                class="block mb-2 text-sm font-medium text-gray-900"
-                >Kinh nghiệm</label
-              ><input
-                type="number"
-                name="experience"
-                id="experience"
-                v-bind="experience"
-                :class="{
-                  'border-gray-300  focus:border-blue-600 focus:ring-primary-600':
-                    !errors.email,
-                  'border-red-300  focus:border-red-600 focus:ring-red-600':
-                    errors.email,
-                }"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
-                placeholder="1"
-              />
-              <span for="experience" class="text-xs text-red-500">
-                {{ errors.experience }}</span
-              >
-            </div>
-            <div>
-              <label
-                for="fee"
-                :class="{
-                  'text-gray-500  peer-focus:text-blue-600 ': !errors.email,
-                  'text-red-500 peer-focus:text-red-600 ': errors.email,
-                }"
-                class="block mb-2 text-sm font-medium text-gray-900"
-                >Phí mỗi phút</label
-              ><input
-                type="number"
-                name="fee"
-                id="fee"
-                v-bind="feePerMinute"
-                :class="{
-                  'border-gray-300  focus:border-blue-600 focus:ring-primary-600':
-                    !errors.email,
-                  'border-red-300  focus:border-red-600 focus:ring-red-600':
-                    errors.email,
-                }"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
-                placeholder="1,000"
-              />
-              <span for="fee" class="text-xs text-red-500">
-                {{ errors.feePerMinute }}</span
-              >
-            </div> -->
+            </ClientOnly>
           </div>
+
           <div class="w-full flex items-center justify-center">
             <button
               type="submit"
@@ -271,7 +199,7 @@
                   d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32v144H48c-17.7 0-32 14.3-32 32s14.3 32 32 32h144v144c0 17.7 14.3 32 32 32s32-14.3 32-32V288h144c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z"
                 />
               </svg>
-              Tạo tài khoản
+              Tạo phiếu
             </button>
           </div>
         </form>
@@ -281,14 +209,19 @@
 </template>
 
 <script setup lang="ts">
-import { Specialty } from "~/stores/enums/enum";
 import * as yup from "yup";
 import { useForm } from "vee-validate";
+import { type Discount } from "~/stores/structs/discount_struct";
+const storeToast = toastStore();
+const toastStatus = ref("");
+const message = ref("");
 
-const mapSpecialty = Object.entries(Specialty).map(([key, value]) => ({
-  key: key,
-  value: value,
-}));
+function addToast() {
+  storeToast.add({
+    message: message.value,
+    toastStatus: toastStatus.value,
+  });
+}
 
 const { defineInputBinds, resetForm, isSubmitting, handleSubmit, errors } =
   useForm({
@@ -304,6 +237,7 @@ const { defineInputBinds, resetForm, isSubmitting, handleSubmit, errors } =
         .required("Bạn phải nhập giá trị "),
 
       type: yup.string().trim().required("Bạn chưa chọn loại"),
+      expirationTime: yup.string().required("Bạn phải nhập ngày hết hạn"),
     }),
   });
 
@@ -319,8 +253,28 @@ const value = defineInputBinds("value", {
 const type = defineInputBinds("type", {
   validateOnInput: true,
 });
+const expirationTime = defineInputBinds("expirationTime", {
+  validateOnInput: true,
+});
+const dataDiscount = useDataDiscount();
 
 const onSubmit = handleSubmit(async (values) => {
-  console.log("OK");
+  const discount: Discount = {
+    code: values.code,
+    value: values.value,
+    type: values.type,
+    expiration_time: values.expirationTime,
+  };
+
+  toastStatus.value = "success";
+  message.value = "Thêm thành công";
+
+  clearNuxtData();
+  await dataDiscount.createDiscount(discount).catch((e) => {
+    toastStatus.value = "error";
+    message.value = e;
+  });
+
+  addToast();
 });
 </script>

@@ -15,14 +15,17 @@ import {
 } from "superstruct";
 
 export const DoctorSchema = object({
-  id: string(),
-  full_name: string(),
+  id: any(),
+  full_name: any(),
   avatar: any(),
   email: any(),
-  specialty: string(),
-  fee_per_minutes: number(),
-  ratings: number(),
-  number_of_consultation: number(),
+  phone:any(),
+  specialty: any(),
+  fee_per_minutes: any(),
+  experience:any(),
+  ratings: any(),
+  number_of_consultation: any(),
+  fixed_times:any(),
 });
 
 // export const DoctorInfoSchema = object({

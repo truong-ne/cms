@@ -1,7 +1,7 @@
-import { any, date, number, object, string, type Infer } from "superstruct";
+import { any, date, number, object, string, type Infer, nullable } from "superstruct";
 
 export const DiscountSchema = object({
-  id: string(),
+  id: any(),
   code:string(),
   value: number(),
   type: string(),
