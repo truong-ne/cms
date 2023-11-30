@@ -15,7 +15,6 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
       } else return;
     }
   } catch (e) {
-    console.log(e);
     navigateTo("/authenticate");
   }
 });

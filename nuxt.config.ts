@@ -30,6 +30,9 @@ export default defineNuxtConfig({
       },
     ],
   ],
+  pinia: {
+    storesDirs: ["./stores/**", "./custom-folder/stores/**"],
+  },
   tailwindcss: { exposeConfig: true },
   app: {
     pageTransition: { name: "page", mode: "out-in" },
@@ -39,6 +42,9 @@ export default defineNuxtConfig({
       script: [
         {
           src: "https://cdn.lordicon.com/lordicon-1.2.0.js",
+        },
+        {
+          src: "https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.0/datepicker.min.js",
         },
       ],
     },

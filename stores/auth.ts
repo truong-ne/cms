@@ -14,6 +14,7 @@ export const useAuthStore = defineStore("auth", {
       return state.accessToken;
     },
     getAuthenticated: (state) => {
+      state.accessToken = localStorage.getItem("access_token");
       return state.accessToken != null;
       // return false;
     },
@@ -23,9 +24,6 @@ export const useAuthStore = defineStore("auth", {
       const { data, error } = await useFetch("/common/admin/auth", {
         baseURL: useRuntimeConfig().public.baseURL,
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
         body: JSON.stringify({
           username: username,
           password: password,
@@ -36,7 +34,7 @@ export const useAuthStore = defineStore("auth", {
         var response = mask(message.data, AuthenticateSchema);
         this.accessToken = response.jwt_token;
         localStorage.setItem("access_token", this.accessToken);
-        navigateTo("/");
+        window.location.href='/';
       } else if (error.value != null) {
         throw error;
       }
@@ -51,10 +49,6 @@ export const useAuthStore = defineStore("auth", {
           const { data, error } = await useFetch("common/admin/refresh", {
             baseURL: useRuntimeConfig().public.baseURL,
             method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            credentials: "include",
           });
 
           if (data.value !== null) {
@@ -75,10 +69,6 @@ export const useAuthStore = defineStore("auth", {
       await useFetch("common/admin/logout", {
         baseURL: useRuntimeConfig().public.baseURL,
         method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
       });
       localStorage.removeItem("access_token");
       this.accessToken = "";

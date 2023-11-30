@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex items-center p-4 mb-4 text-gray-500 bg-white rounded-lg shadow dark:text-gray-400 dark:bg-gray-800"
+    class="flex items-center p-4 mb-4 text-gray-500 bg-white rounded-lg shadow-md "
     role="alert"
   >
     <!-- <p>{{ enumStatus.success }}</p> -->

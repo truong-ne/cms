@@ -2,6 +2,8 @@
   <section >
     <VoucherCharts />
     <VoucherTables />
+    <VoucherFormcreate/>
+    <VoucherFormupdate/>
   </section>
 </template>
 

@@ -5,11 +5,14 @@ import { DataArraySchema, DataObjectSchema } from "./structs/response_struct";
 // import { useAuthStore } from "./auth";
 // import { toastStore } from "./toast";
 
-export const useDataDoctor = defineStore("medical_record", () => {
+export const useDataDoctor = defineStore("doctor", () => {
   const doctorQuantity = ref<number>(0);
   const doctors = ref<Doctor[]>([]);
+  const storeAuth = useAuthStore();
+  const authorization = "Bearer " + (storeAuth.getAccesToken ?? "");
 
   async function getQuantityDoctor() {
+    if (authorization === "Bearer ") return;
     const { data, error } = await useFetch(
       "doctor-management/doctor/quantity",
       {
@@ -17,8 +20,7 @@ export const useDataDoctor = defineStore("medical_record", () => {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          Authorization:
-            "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImhlYWx0aGxpbmV2biIsImlkIjoid2dfcmozQWZSRXQwcTZSTGRXNUg5IiwiaWF0IjoxNzAxMDcwODA3LCJleHAiOjE3MDE0MTY0MDd9.AsBkOlsxPsAZCTRzG6FQKA0xo0LYBbz2TD13IGdIIi4",
+          Authorization: authorization,
         },
       }
     );

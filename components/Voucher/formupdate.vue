@@ -1,7 +1,7 @@
 <template>
   <!-- Create modal -->
   <div
-    id="createDoctor"
+    id="updateDoctor"
     tabindex="-1"
     aria-hidden="true"
     class="hidden sm:overflow-y-auto sm:overflow-x-hidden sm:fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full"
@@ -15,12 +15,14 @@
         <div
           class="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5"
         >
-          <h3 class="text-lg font-semibold text-gray-900">Thêm bác sĩ</h3>
+          <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
+            Chỉnh sửa thông tin
+          </h3>
           <button
             type="button"
             class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
-            data-modal-target="createDoctor"
-            data-modal-toggle="createDoctor"
+            data-modal-target="updateDoctor"
+            data-modal-toggle="updateDoctor"
           >
             <svg
               aria-hidden="true"
@@ -163,8 +165,8 @@
               <label
                 for="experience"
                 :class="{
-                  'text-gray-500  peer-focus:text-blue-600 ': !errors.experience,
-                  'text-red-500 peer-focus:text-red-600 ': errors.experience,
+                  'text-gray-500  peer-focus:text-blue-600 ': !errors.email,
+                  'text-red-500 peer-focus:text-red-600 ': errors.email,
                 }"
                 class="block mb-2 text-sm font-medium text-gray-900"
                 >Kinh nghiệm</label
@@ -175,9 +177,9 @@
                 v-bind="experience"
                 :class="{
                   'border-gray-300  focus:border-blue-600 focus:ring-primary-600':
-                    !errors.experience,
+                    !errors.email,
                   'border-red-300  focus:border-red-600 focus:ring-red-600':
-                    errors.experience,
+                    errors.email,
                 }"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
                 placeholder="1"
@@ -190,8 +192,8 @@
               <label
                 for="fee"
                 :class="{
-                  'text-gray-500  peer-focus:text-blue-600 ': !errors.feePerMinute,
-                  'text-red-500 peer-focus:text-red-600 ': errors.feePerMinute,
+                  'text-gray-500  peer-focus:text-blue-600 ': !errors.email,
+                  'text-red-500 peer-focus:text-red-600 ': errors.email,
                 }"
                 class="block mb-2 text-sm font-medium text-gray-900"
                 >Phí mỗi phút</label
@@ -202,9 +204,9 @@
                 v-bind="feePerMinute"
                 :class="{
                   'border-gray-300  focus:border-blue-600 focus:ring-primary-600':
-                    !errors.feePerMinute,
+                    !errors.email,
                   'border-red-300  focus:border-red-600 focus:ring-red-600':
-                    errors.feePerMinute,
+                    errors.email,
                 }"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
                 placeholder="1,000"
@@ -255,7 +257,7 @@
                   d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32v144H48c-17.7 0-32 14.3-32 32s14.3 32 32 32h144v144c0 17.7 14.3 32 32 32s32-14.3 32-32V288h144c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z"
                 />
               </svg>
-              Tạo tài khoản
+              Cập nhật
             </button>
           </div>
         </form>
@@ -263,7 +265,6 @@
     </div>
   </div>
 </template>
-
 <script setup lang="ts">
 import { Specialty } from "~/stores/enums/enum";
 import * as yup from "yup";
