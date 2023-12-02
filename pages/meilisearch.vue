@@ -9,10 +9,11 @@ const data = ref('')
 
 async function meilisearch() {
     if (input.value.trim() !== "") {
-        await search(input.value.trim(), {
+        const result = await search(input.value.trim(), {
             hitsPerPage: 10,
             page: 2,
         });
+        searchData.value = result.hits
     } else {
         result.value = null;
     }
