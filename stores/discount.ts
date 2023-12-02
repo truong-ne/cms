@@ -13,13 +13,23 @@ export const useDataDiscount = defineStore("discount", () => {
   const authorization = "Bearer " + (storeAuth.getAccesToken ?? "");
 
   function chooseDiscount(id: string) {
-    discount.value = {
-      id: "fQ5s_2YycIjlke75SIP24",
-      expiration_time: "2023-12-12T00:00:00.000Z",
-      code: "NOEL_CHOPPERa",
-      value: 200000,
-      type: "%",
-    };
+    discounts.value.forEach((e) => {
+      if (e.id == id) {
+        discount.value = e;
+        return;
+      }
+    });
+    // discount.value = {
+    //   id: "fQ5s_2YycIjlke75SIP24",
+    //   expiration_time: "2023-12-12T00:00:00.000Z",
+    //   code: "NOEL_CHOPPERa",
+    //   value: 200000,
+    //   type: "%",
+    // };
+  }
+
+  function saveDiscounts(listDiscount: Discount[]) {
+    discounts.value = listDiscount;
   }
 
   async function createDiscount(discount: Discount) {
@@ -95,13 +105,13 @@ export const useDataDiscount = defineStore("discount", () => {
       });
 
       if (data.value !== null) {
-        const response = mask(data.value, DataObjectSchema);
+        const response = mask(data.value, DataStringSchema);
         return response.message;
       } else if (error.value != null) {
         throw error;
       }
     } catch (error) {
-      navigateTo("/error");
+      throw error;
     }
   }
 
@@ -110,6 +120,7 @@ export const useDataDiscount = defineStore("discount", () => {
   return {
     discount,
     discounts,
+    saveDiscounts,
     chooseDiscount,
     createDiscount,
     updateDiscount,

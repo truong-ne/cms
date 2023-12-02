@@ -1,6 +1,5 @@
 <template>
   <section id="default-tab-content" class="w-full md:mb-4">
-    <!-- Start coding here -->
     <div class="relative overflow-hidden rounded-xl bg-white w-full">
       <div
         class="flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 md:p-4 p-2"
@@ -38,14 +37,32 @@
           </div>
         </div>
         <div
-          class="w-full md:w-auto flex flex-col md:flex-row space-y-2 md:space-y-0 items-stretch md:items-center justify-end md:space-x-3 flex-shrink-0"
+          class="w-full md:w-2/3 flex flex-col md:flex-row space-y-2 md:space-y-0 items-stretch md:items-center justify-end md:space-x-3 flex-shrink-0"
         >
+          <button
+            type="button"
+            v-show="currentId"
+            class="block py-2 px-4 text-sm text-red-500 hover:bg-red-100 rounded-lg"
+            @click="deleteDiscount()"
+          >
+            Xoá
+          </button>
+          <button
+            v-show="currentId"
+            type="button"
+            id="updateDiscountButton"
+            data-modal-target="updateDiscount"
+            data-modal-toggle="updateDiscount"
+            class="flex items-center justify-center w-full md:w-auto text-primary-700 bg-white hover:bg-primary-300 hover:text-primary-900 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-4 py-2 focus:outline-none"
+          >
+            Chỉnh sửa
+          </button>
           <button
             type="button"
             id="createDiscountButton"
             data-modal-target="createDiscount"
             data-modal-toggle="createDiscount"
-            class="flex items-center justify-center text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800"
+            class="flex items-center justify-center w-full md:w-auto text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-4 py-2 focus:outline-none"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -72,13 +89,17 @@
                 <th scope="col" class="px-4 py-3">Giá trị</th>
                 <th scope="col" class="px-4 py-3">Loại</th>
                 <th scope="col" class="px-4 py-3">Thời gian hết hạn</th>
-                <th scope="col" class="px-4 py-3">
-                  <span class="sr-only">Actions</span>
-                </th>
               </tr>
             </thead>
             <tbody v-for="item in resultSearch" :key="item.item">
-              <tr class="border-b hover:bg-gray-100">
+              <tr
+                class="border-b"
+                :class="{
+                  'bg-gray-300': currentId == item.id,
+                  'hover:bg-gray-100': currentId != item.id,
+                }"
+                @click="chooseDiscount(item.id)"
+              >
                 <th
                   scope="row"
                   class="flex items-center px-4 py-3 mr-4 font-normal text-gray-900 whitespace-nowrap"
@@ -89,57 +110,6 @@
 
                 <td class="px-4 py-3 mr-4">{{ item.type }}</td>
                 <td class="px-4 py-3 mr-4">{{ item.expiration_time }}</td>
-                <td class="px-4 py-3 flex items-center justify-end">
-                  <button
-                    :id="'discount-dropdown' + item.id + '-button'"
-                    :data-dropdown-toggle="'discount-dropdown' + item.id"
-                    class="inline-flex items-center p-0.5 text-sm font-medium text-center text-gray-500 hover:text-gray-800 rounded-lg focus:outline-none dark:text-gray-400 dark:hover:text-gray-100"
-                    type="button"
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      class="w-5 h-5"
-                      aria-hidden="true"
-                      fill="currentColor"
-                      viewBox="0 0 448 512"
-                    >
-                      <path
-                        d="M8 256a56 56 0 1 1 112 0a56 56 0 1 1-112 0zm160 0a56 56 0 1 1 112 0a56 56 0 1 1-112 0zm216-56a56 56 0 1 1 0 112a56 56 0 1 1 0-112z"
-                      />
-                    </svg>
-                  </button>
-                  <div
-                    :id="'discount-dropdown' + item.id"
-                    class="hidden z-10 w-44 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600"
-                  >
-                    <ul
-                      class="py-1 text-sm text-gray-700 dark:text-gray-200"
-                      :aria-labelledby="
-                        'discount-dropdown' + item.id + '-button'
-                      "
-                    >
-                      <li>
-                        <button
-                          type="button"
-                          :id="'updateDiscountButton' + item.id"
-                          data-modal-target="updateDiscount"
-                          data-modal-toggle="updateDiscount"
-                          class="py-2 px-4 w-full flex items-start justify-start hover:bg-gray-100"
-                          @click="chooseDiscount('')"
-                        >
-                          Chỉnh sửa
-                        </button>
-                      </li>
-                    </ul>
-                    <div class="py-1">
-                      <a
-                        href="#"
-                        class="block py-2 px-4 text-sm text-red-500 hover:bg-gray-100"
-                        >Xoá</a
-                      >
-                    </div>
-                  </div>
-                </td>
               </tr>
             </tbody>
           </table>
@@ -283,6 +253,18 @@ const hitsPerPage = ref(10);
 const currentPage = ref(1);
 const totalPages = ref();
 const totalHits = ref(0);
+const currentId = ref();
+
+const storeToast = toastStore();
+const toastStatus = ref("");
+const message = ref("");
+
+function addToast() {
+  storeToast.add({
+    message: message.value,
+    toastStatus: toastStatus.value,
+  });
+}
 
 onMounted(async () => {
   result.value = await search(keySearch.value.trim(), {
@@ -292,7 +274,25 @@ onMounted(async () => {
   resultSearch.value = result.value.hits;
   totalHits.value = result.value.totalHits;
   totalPages.value = result.value.totalPages;
+  data.saveDiscounts(resultSearch.value);
 });
+
+async function deleteDiscount() {
+  clearNuxtData();
+  await data
+    .deleteDiscount(currentId.value)
+    .then(() => {
+      toastStatus.value = "success";
+      message.value = "Thêm thành công";
+      currentId.value = undefined;
+    })
+    .catch((e: string) => {
+      toastStatus.value = "error";
+      message.value = e;
+    });
+
+  addToast();
+}
 
 async function previous() {
   if (currentPage.value > 1) {
@@ -301,9 +301,11 @@ async function previous() {
       hitsPerPage: hitsPerPage.value,
       page: currentPage.value,
     });
+    currentId.value = undefined;
     resultSearch.value = result.value.hits;
     totalHits.value = result.value.totalHits;
     totalPages.value = result.value.totalPages;
+    data.saveDiscounts(resultSearch.value);
   }
 }
 
@@ -314,9 +316,11 @@ async function next() {
       hitsPerPage: hitsPerPage.value,
       page: currentPage.value,
     });
+    currentId.value = undefined;
     resultSearch.value = result.value.hits;
     totalHits.value = result.value.totalHits;
     totalPages.value = result.value.totalPages;
+    data.saveDiscounts(resultSearch.value);
   }
 }
 async function choosePage(page: number) {
@@ -326,9 +330,11 @@ async function choosePage(page: number) {
       hitsPerPage: hitsPerPage.value,
       page: currentPage.value,
     });
+    currentId.value = undefined;
     resultSearch.value = result.value.hits;
     totalHits.value = result.value.totalHits;
     totalPages.value = result.value.totalPages;
+    data.saveDiscounts(resultSearch.value);
   }
 }
 
@@ -339,14 +345,18 @@ async function meilisearch() {
     hitsPerPage: hitsPerPage.value,
     page: 1,
   });
+  currentId.value = undefined;
   resultSearch.value = result.value.hits;
   totalHits.value = result.value.totalHits;
   totalPages.value = result.value.totalPages;
+  data.saveDiscounts(resultSearch.value);
+
   // }
 }
 
 const { data } = defineProps(["data"]);
 function chooseDiscount(id: string) {
+  currentId.value = id;
   data.chooseDiscount(id);
 }
 </script>

@@ -30,9 +30,9 @@ export const DataArraySchema = object({
 
 
 export const DataStringSchema = object({
-  code: number(),
-  message: string(),
-  data: string(),
+  code: any(),
+  message: any(),
+  data: any(),
 });
 
 export const DataNumberSchema = object({

@@ -13,7 +13,7 @@ function remove(index) {
     enter-active-class="duration-500"
     leave-active-class="duration-500"
     leave-to-class="translate-x-full opacity-0"
-    class="fixed z-1000 top-20 right-5 space-y-4 w-full max-w-xs"
+    class="fixed z-50 top-20 right-5 space-y-4 w-full max-w-xs"
   >
     <Toast
       v-for="(item, index) in storeToast.toasts"

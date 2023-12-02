@@ -16,6 +16,7 @@ export const useDataDoctor = defineStore("doctor", () => {
     doctors.value.forEach((e) => {
       if (e.id == id) {
         doctor.value = e;
+        return;
       }
     });
   }
