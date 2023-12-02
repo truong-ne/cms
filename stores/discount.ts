@@ -6,11 +6,21 @@ import { DataArraySchema, DataObjectSchema } from "./structs/response_struct";
 // import { toastStore } from "./toast";
 
 export const useDataDiscount = defineStore("discount", () => {
-  
+  const discount = ref<Discount>();
   const discounts = ref<Discount[]>([]);
 
   const storeAuth = useAuthStore();
   const authorization = "Bearer " + (storeAuth.getAccesToken ?? "");
+
+  function chooseDiscount(id: string) {
+    discount.value = {
+      id: "fQ5s_2YycIjlke75SIP24",
+      expiration_time: "2023-12-12T00:00:00.000Z",
+      code: "NOEL_CHOPPERa",
+      value: 200000,
+      type: "%",
+    };
+  }
 
   async function createDiscount(discount: Discount) {
     try {
@@ -68,7 +78,7 @@ export const useDataDiscount = defineStore("discount", () => {
         throw error;
       }
     } catch (error) {
-      navigateTo("/error");
+      throw error;
     }
   }
 
@@ -95,13 +105,12 @@ export const useDataDiscount = defineStore("discount", () => {
     }
   }
 
-  async function getDiscounts() {
-  }
-
+  async function getDiscounts() {}
 
   return {
+    discount,
     discounts,
-    getDiscounts,
+    chooseDiscount,
     createDiscount,
     updateDiscount,
     deleteDiscount,

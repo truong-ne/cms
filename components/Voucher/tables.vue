@@ -6,7 +6,7 @@
         class="flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 md:p-4 p-2"
       >
         <div class="w-full md:w-1/3">
-          <form class="flex items-center">
+          <div class="flex items-center">
             <label for="simple-search" class="sr-only">Search</label>
             <div class="relative w-full">
               <div
@@ -29,11 +29,13 @@
               <input
                 type="text"
                 id="simple-search"
+                v-model="keySearch"
+                @input="meilisearch"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-gray-500 focus:border-gray-500 block w-full pl-10 p-2"
                 placeholder="Tìm kiếm"
               />
             </div>
-          </form>
+          </div>
         </div>
         <div
           class="w-full md:w-auto flex flex-col md:flex-row space-y-2 md:space-y-0 items-stretch md:items-center justify-end md:space-x-3 flex-shrink-0"
@@ -67,28 +69,30 @@
             <thead class="text-xs text-gray-700 uppercase bg-gray-50">
               <tr>
                 <th scope="col" class="px-4 py-3">Mã</th>
-                <th scope="col" class="px-4 py-3">Giảm giá</th>
+                <th scope="col" class="px-4 py-3">Giá trị</th>
+                <th scope="col" class="px-4 py-3">Loại</th>
                 <th scope="col" class="px-4 py-3">Thời gian hết hạn</th>
                 <th scope="col" class="px-4 py-3">
                   <span class="sr-only">Actions</span>
                 </th>
               </tr>
             </thead>
-            <tbody v-for="doctor in doctors" :key="doctor">
-              <tr class="border-b dark:border-gray-700">
+            <tbody v-for="item in resultSearch" :key="item.item">
+              <tr class="border-b hover:bg-gray-100">
                 <th
                   scope="row"
                   class="flex items-center px-4 py-3 mr-4 font-normal text-gray-900 whitespace-nowrap"
                 >
-                  {{ doctor.name }}
+                  {{ item.code }}
                 </th>
-                <td class="px-4 py-3 mr-4">{{ doctor.specialty }}</td>
+                <td class="px-4 py-3 mr-4">{{ item.value }}</td>
 
-                <td class="px-4 py-3 mr-4">{{ doctor.joined }}</td>
+                <td class="px-4 py-3 mr-4">{{ item.type }}</td>
+                <td class="px-4 py-3 mr-4">{{ item.expiration_time }}</td>
                 <td class="px-4 py-3 flex items-center justify-end">
                   <button
-                    id="apple-imac-27-dropdown-button"
-                    data-dropdown-toggle="apple-imac-27-dropdown"
+                    :id="'discount-dropdown' + item.id + '-button'"
+                    :data-dropdown-toggle="'discount-dropdown' + item.id"
                     class="inline-flex items-center p-0.5 text-sm font-medium text-center text-gray-500 hover:text-gray-800 rounded-lg focus:outline-none dark:text-gray-400 dark:hover:text-gray-100"
                     type="button"
                   >
@@ -105,17 +109,26 @@
                     </svg>
                   </button>
                   <div
-                    id="apple-imac-27-dropdown"
+                    :id="'discount-dropdown' + item.id"
                     class="hidden z-10 w-44 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600"
                   >
                     <ul
                       class="py-1 text-sm text-gray-700 dark:text-gray-200"
-                      aria-labelledby="apple-imac-27-dropdown-button"
+                      :aria-labelledby="
+                        'discount-dropdown' + item.id + '-button'
+                      "
                     >
                       <li>
-                        <a href="#" class="block py-2 px-4 hover:bg-gray-100"
-                          >Chỉnh sửa</a
+                        <button
+                          type="button"
+                          :id="'updateDiscountButton' + item.id"
+                          data-modal-target="updateDiscount"
+                          data-modal-toggle="updateDiscount"
+                          class="py-2 px-4 w-full flex items-start justify-start hover:bg-gray-100"
+                          @click="chooseDiscount('')"
                         >
+                          Chỉnh sửa
+                        </button>
                       </li>
                     </ul>
                     <div class="py-1">
@@ -138,15 +151,27 @@
       >
         <span class="text-sm font-normal text-gray-500 dark:text-gray-400">
           Hiển thị
-          <span class="font-semibold text-gray-900 dark:text-white">1-10</span>
-          of
-          <span class="font-semibold text-gray-900 dark:text-white">1000</span>
+          <span class="font-semibold text-gray-900 dark:text-white"
+            >{{ hitsPerPage * (currentPage - 1) + 1 }}-{{
+              hitsPerPage * currentPage
+            }}</span
+          >
+          của
+          <span class="font-semibold text-gray-900 dark:text-white">{{
+            totalHits
+          }}</span>
         </span>
         <ul class="inline-flex items-stretch -space-x-px">
           <li>
-            <a
-              href="#"
-              class="flex items-center justify-center h-full py-1.5 px-3 ml-0 text-gray-500 bg-white rounded-l-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+            <button
+              type="button"
+              :class="
+                currentPage != 1
+                  ? 'border-gray-300 hover:bg-gray-100 hover:text-gray-700 text-gray-500'
+                  : 'text-gray-300'
+              "
+              @click="previous"
+              class="flex items-center justify-center h-full py-1.5 px-3 ml-0 bg-white rounded-l-lg border"
             >
               <span class="sr-only">Trước</span>
               <svg
@@ -162,48 +187,69 @@
                   clip-rule="evenodd"
                 />
               </svg>
-            </a>
+            </button>
           </li>
+
           <li>
-            <a
-              href="#"
-              class="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-              >1</a
+            <button
+              type="button"
+              @click="choosePage(currentPage - 2)"
+              v-if="currentPage - 2 >= 1"
+              class="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700"
             >
+              {{ currentPage - 2 }}
+            </button>
           </li>
           <li>
-            <a
-              href="#"
-              class="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-              >2</a
+            <button
+              type="button"
+              @click="choosePage(currentPage - 1)"
+              v-if="currentPage - 1 >= 1"
+              class="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700"
             >
+              {{ currentPage - 1 }}
+            </button>
           </li>
           <li>
-            <a
-              href="#"
-              aria-current="page"
-              class="flex items-center justify-center text-sm z-10 py-2 px-3 leading-tight text-primary-600 bg-primary-50 border border-primary-300 hover:bg-primary-100 hover:text-primary-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white"
-              >3</a
+            <button
+              type="button"
+              @click="choosePage(currentPage)"
+              class="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-primary-100 border border-gray-300 hover:bg-primary-100 hover:text-primary-700"
             >
+              {{ currentPage }}
+            </button>
           </li>
           <li>
-            <a
-              href="#"
-              class="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-              >...</a
+            <button
+              type="button"
+              @click="choosePage(currentPage + 1)"
+              v-if="currentPage + 1 <= totalPages"
+              class="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700"
             >
+              {{ currentPage + 1 }}
+            </button>
           </li>
           <li>
-            <a
-              href="#"
-              class="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-              >100</a
+            <button
+              type="button"
+              @click="choosePage(currentPage + 2)"
+              v-if="currentPage + 2 <= totalPages"
+              class="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700"
             >
+              {{ currentPage + 2 }}
+            </button>
           </li>
+
           <li>
-            <a
+            <button
               href="#"
-              class="flex items-center justify-center h-full py-1.5 px-3 leading-tight text-gray-500 bg-white rounded-r-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+              :class="
+                totalPages != currentPage && totalHits > 0
+                  ? 'border-gray-300 hover:bg-gray-100 hover:text-gray-700 text-gray-500'
+                  : 'text-gray-300'
+              "
+              @click="next"
+              class="flex items-center justify-center h-full py-1.5 px-3 leading-tight bg-white rounded-r-lg border b"
             >
               <span class="sr-only">Tiếp</span>
               <svg
@@ -219,7 +265,7 @@
                   clip-rule="evenodd"
                 />
               </svg>
-            </a>
+            </button>
           </li>
         </ul>
       </nav>
@@ -228,137 +274,79 @@
   </section>
 </template>
   
-  <script setup>
-const doctors = [
-  {
-    image:
-      "https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/roberta-casas.png",
-    name: "KMFJDKAF23",
-    specialty: "2%",
-    consultation: 123,
-    joined: "12/12/2023",
-    price: 200,
-    patient: 200,
-    rating: 4,
-    account: "harrypotter@hogwart.com",
-    payment: "12000",
-  },
-  {
-    image:
-      "https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/roberta-casas.png",
-    name: "KMFJDKAFD3",
-    specialty: "2%",
-    consultation: 123,
-    joined: "12/12/2023",
-    price: 200,
-    patient: 200,
-    rating: 4,
-    account: "ginnyweasley@hogwart.com",
-    payment: "12000",
-  },
-  {
-    image:
-      "https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/roberta-casas.png",
-    name: "KMFJDKAHAA",
-    specialty: "2%",
-    consultation: 123,
-    joined: "12/12/2023",
-    price: 200,
-    patient: 200,
-    rating: 4,
-    account: "KMFJDKAHAA@hogwart.com",
-    payment: "12000",
-  },
-  {
-    image:
-      "https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/roberta-casas.png",
-    name: "KMFJDKAHA8",
-    specialty: "2%",
-    consultation: 123,
-    joined: "12/12/2023",
-    price: 200,
-    patient: 200,
-    rating: 4,
-    account: "siriusblack@hogwart.com",
-    payment: "12000",
-  },
-  {
-    image:
-      "https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/roberta-casas.png",
-    name: "KMFJDKAHGH",
-    specialty: "2%",
-    consultation: 123,
-    joined: "12/12/2023",
-    price: 200,
-    patient: 200,
-    rating: 4,
-    account: "chochang@hogwart.com",
-    payment: "12000",
-  },
-  {
-    image:
-      "https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/roberta-casas.png",
-    name: "KMFJDKAHGH",
-    specialty: "2%",
-    consultation: 123,
-    joined: "12/12/2023",
-    price: 200,
-    patient: 200,
-    rating: 4,
-    account: "chochang@hogwart.com",
-    payment: "12000",
-  },
-  {
-    image:
-      "https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/roberta-casas.png",
-    name: "KMFJDKAHGH",
-    specialty: "2%",
-    consultation: 123,
-    joined: "12/12/2023",
-    price: 200,
-    patient: 200,
-    rating: 4,
-    account: "chochang@hogwart.com",
-    payment: "12000",
-  },
-  {
-    image:
-      "https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/roberta-casas.png",
-    name: "KMFJDKAHGH",
-    specialty: "2%",
-    consultation: 123,
-    joined: "12/12/2023",
-    price: 200,
-    patient: 200,
-    rating: 4,
-    account: "chochang@hogwart.com",
-    payment: "12000",
-  },
-  {
-    image:
-      "https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/roberta-casas.png",
-    name: "KMFJDKAHGH",
-    specialty: "2%",
-    consultation: 123,
-    joined: "12/12/2023",
-    price: 200,
-    patient: 200,
-    rating: 4,
-    account: "chochang@hogwart.com",
-    payment: "12000",
-  },
-  {
-    image:
-      "https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/roberta-casas.png",
-    name: "KMFJDKAHGH",
-    specialty: "2%",
-    consultation: 123,
-    joined: "12/12/2023",
-    price: 200,
-    patient: 200,
-    rating: 4,
-    account: "chochang@hogwart.com",
-    payment: "12000",
-  },
-];
+<script setup lang="ts">
+const { search, result } = useMeiliSearch("discount");
+
+const keySearch = ref("");
+const resultSearch = ref();
+const hitsPerPage = ref(10);
+const currentPage = ref(1);
+const totalPages = ref();
+const totalHits = ref(0);
+
+onMounted(async () => {
+  result.value = await search(keySearch.value.trim(), {
+    hitsPerPage: hitsPerPage.value,
+    page: currentPage.value,
+  });
+  resultSearch.value = result.value.hits;
+  totalHits.value = result.value.totalHits;
+  totalPages.value = result.value.totalPages;
+});
+
+async function previous() {
+  if (currentPage.value > 1) {
+    currentPage.value = currentPage.value - 1;
+    result.value = await search(keySearch.value.trim(), {
+      hitsPerPage: hitsPerPage.value,
+      page: currentPage.value,
+    });
+    resultSearch.value = result.value.hits;
+    totalHits.value = result.value.totalHits;
+    totalPages.value = result.value.totalPages;
+  }
+}
+
+async function next() {
+  if (currentPage.value < totalPages.value) {
+    currentPage.value = currentPage.value + 1;
+    result.value = await search(keySearch.value.trim(), {
+      hitsPerPage: hitsPerPage.value,
+      page: currentPage.value,
+    });
+    resultSearch.value = result.value.hits;
+    totalHits.value = result.value.totalHits;
+    totalPages.value = result.value.totalPages;
+  }
+}
+async function choosePage(page: number) {
+  if (page >= 1 && page <= totalPages.value) {
+    currentPage.value = page;
+    result.value = await search(keySearch.value.trim(), {
+      hitsPerPage: hitsPerPage.value,
+      page: currentPage.value,
+    });
+    resultSearch.value = result.value.hits;
+    totalHits.value = result.value.totalHits;
+    totalPages.value = result.value.totalPages;
+  }
+}
+
+async function meilisearch() {
+  // if (keySearch.value.trim() !== "") {
+  currentPage.value = 1;
+  result.value = await search(keySearch.value.trim(), {
+    hitsPerPage: hitsPerPage.value,
+    page: 1,
+  });
+  resultSearch.value = result.value.hits;
+  totalHits.value = result.value.totalHits;
+  totalPages.value = result.value.totalPages;
+  // }
+}
+
+const { data } = defineProps(["data"]);
+function chooseDiscount(id: string) {
+  data.chooseDiscount(id);
+}
 </script>

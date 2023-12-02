@@ -1,5 +1,8 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+  build: {
+    transpile: ["@vuepic/vue-datepicker"],
+  },
   devtools: { enabled: true },
   imports: {
     dirs: ["stores", "utils"],
@@ -7,8 +10,8 @@ export default defineNuxtConfig({
   modules: [
     "@nuxtjs/tailwindcss",
     "@nuxtjs/color-mode",
-    "@nuxtjs/cloudinary",
     "nuxt-meilisearch",
+    "@nuxt/image",
     [
       "@vee-validate/nuxt",
       {
@@ -49,6 +52,18 @@ export default defineNuxtConfig({
       ],
     },
   },
+  image: {
+    format: ["webp"],
+    domains: ["avatars0.githubusercontent.com"],
+    provider: "cloudinary",
+    cloudinary: {
+      baseURL: "https://res.cloudinary.com/dsvlwyl7i/image/upload/",
+      modifiers: {
+        effect: "sharpen:100",
+        quality: "auto:best",
+      },
+    },
+  },
   vue: {
     compilerOptions: {
       isCustomElement: (tag) => ["lord-icon"].includes(tag),
@@ -72,14 +87,16 @@ export default defineNuxtConfig({
       cloudApiKey: process.env.CLOUDINARY_API_KEY,
       cloudApiSecret: process.env.CLOUDINARY_API_SECRET,
       cloudPreset: process.env.CLOUDINARY_PRESET,
+      meilisearchURL: process.env.MEILISEARCH_URL,
+      meilisearchKey: process.env.MEILISEARCH_KEY,
     },
   },
-  cloudinary: {
-    cloudName: process.env.CLOUDINARY_NAME,
-  },
+  // cloudinary: {
+  //   cloudName: process.env.CLOUDINARY_NAME,
+  // },
   meilisearch: {
-    hostUrl: "https://meilisearch-truongne.koyeb.app",
-    searchApiKey: "CHOPPER_LOVE_MEILISEARCH",
+    hostUrl: process.env.MEILISEARCH_URL,
+    searchApiKey: process.env.MEILISEARCH_KEY,
     useInstantSearch: true,
   },
 });

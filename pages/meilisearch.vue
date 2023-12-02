@@ -8,11 +8,13 @@ const component = ref(false)
 const data = ref('')
 
 async function meilisearch() {
-    if (input.value.trim() !== '') {
-        const result = await search(input.value);
-        searchData.value = result.hits;
+    if (input.value.trim() !== "") {
+        await search(input.value.trim(), {
+            hitsPerPage: 10,
+            page: 2,
+        });
     } else {
-        searchData.value = '';
+        result.value = null;
     }
 }
 

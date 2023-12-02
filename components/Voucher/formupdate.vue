@@ -21,8 +21,8 @@
           <button
             type="button"
             class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
-            data-modal-target="createDiscount"
-            data-modal-toggle="createDiscount"
+            data-modal-target="updateDiscount"
+            data-modal-toggle="updateDiscount"
           >
             <svg
               aria-hidden="true"
@@ -41,7 +41,11 @@
           </button>
         </div>
         <!-- Modal body -->
-        <form action="#" @submit.prevent="onSubmit">
+        <form
+          action="#"
+          @submit.prevent="onSubmit"
+          v-if="data.discount != null"
+        >
           <div class="grid gap-4 mb-4 sm:grid-cols-2 w-full">
             <div class="sm:col-span-1">
               <label
@@ -93,13 +97,7 @@
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
               >
                 <option selected disabled value="">Chọn loại</option>
-                <!-- <option
-                  v-for="{ key, value } in mapSpecialty"
-                  :value="key"
-                  :key="key"
-                >
-                  {{ value }}
-                </option> -->
+                <option value="%">%</option>
               </select>
               <span for="type" class="text-xs text-red-500">
                 {{ errors.type }}</span
@@ -137,42 +135,66 @@
             <!-- <div class="relative max-w-sm"></div> -->
             <div class="relative sm:col-span-1">
               <label
-                for="expirationTime"
                 :class="{
                   'text-gray-500  peer-focus:text-blue-600 ':
-                    !errors.expirationTime,
-                  'text-red-500 peer-focus:text-red-600 ':
-                    errors.expirationTime,
+                    !errorExpirationTime,
+                  'text-red-500 peer-focus:text-red-600 ': errorExpirationTime,
                 }"
                 class="block mb-2 text-sm font-medium text-gray-900"
                 >Ngày hết hạn</label
               >
-              <div
-                class="absolute inset-y-0 left-0 flex items-center ps-3 pt-6 pointer-events-none"
-              >
-                <svg
-                  class="w-4 h-4 text-gray-500 dark:text-gray-400"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                >
-                  <path
-                    d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"
-                  />
-                </svg>
-              </div>
-              <input
-                id="expirationTime"
-                v-bind="expirationTime"
-                datepicker
-                datepicker-format="mm/dd/yyyy"
-                type="text"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                placeholder="Chọn ngày"
-              />
-              <span for="expirationTime" class="text-xs text-red-500">
-                {{ errors.expirationTime }}</span
+              <VueDatePicker
+                v-model="expirationTime"
+                :enable-time-picker="false"
+                locale="vi-VN"
+                cancelText="Huỷ"
+                selectText="Chọn"
+                :format-locale="vi"
+                :month-change-on-scroll="false"
+                class="absolute z-50"
+                ><template #calendar-header="{ day }">
+                  <div class="text-xs font-medium">
+                    {{ day }}
+                  </div> </template
+                ><template #dp-input="{ value }">
+                  <div class="w-full">
+                    <div
+                      class="absolute inset-y-0 left-0 flex items-center pl-3.5 peer-focus:pt-1.5 pointer-events-none"
+                      :class="{
+                        'pb-0': !errorExpirationTime,
+                        'pb-6': errorExpirationTime,
+                      }"
+                    >
+                      <svg
+                        class="w-4 h-4 text-gray-500"
+                        aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                      >
+                        <path
+                          d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"
+                        />
+                      </svg>
+                    </div>
+                    <input
+                      id="expirationTime"
+                      name="expirationTime"
+                      type="text"
+                      :value="value"
+                      :class="{
+                        'border-gray-300  focus:border-blue-600 focus:ring-primary-600':
+                          !errorExpirationTime,
+                        'border-red-300  focus:border-red-600 focus:ring-red-600':
+                          errorExpirationTime,
+                      }"
+                      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 ps-10"
+                      placeholder="Ngày  hết hạn"
+                    /><span for="email" class="text-xs text-red-500">
+                      {{ errorExpirationTime }}
+                    </span>
+                  </div>
+                </template></VueDatePicker
               >
             </div>
           </div>
@@ -202,26 +224,48 @@
 </template>
 
 <script setup lang="ts">
+import VueDatePicker from "@vuepic/vue-datepicker";
+import "@vuepic/vue-datepicker/dist/main.css";
+import { vi } from "date-fns/locale";
 import * as yup from "yup";
 import { useForm } from "vee-validate";
+import { type Discount } from "~/stores/structs/discount_struct";
 
-const { defineInputBinds, resetForm, isSubmitting, handleSubmit, errors } =
-  useForm({
-    validationSchema: yup.object({
-      code: yup
-        .string()
-        .trim()
-        .required("Bạn phải nhập mã giảm giá")
-        .min(8, "Mã giảm giá không hợp lệ"),
-      value: yup
-        .number()
-        .positive("Giá trị phải lớn hơn 0")
-        .required("Bạn phải nhập giá trị "),
+const { data } = defineProps(["data"]);
 
-      type: yup.string().trim().required("Bạn chưa chọn loại"),
-      expirationTime: yup.date().required("Bạn phải nhập ngày hết hạn"),
-    }),
+const storeToast = toastStore();
+const toastStatus = ref("");
+const message = ref("");
+
+function addToast() {
+  storeToast.add({
+    message: message.value,
+    toastStatus: toastStatus.value,
   });
+}
+
+const {
+  defineInputBinds,
+  resetForm,
+  isSubmitting,
+  handleSubmit,
+  errors,
+  setFieldValue,
+} = useForm({
+  validationSchema: yup.object({
+    code: yup
+      .string()
+      .trim()
+      .required("Bạn phải nhập mã giảm giá")
+      .min(8, "Mã giảm giá không hợp lệ"),
+    value: yup
+      .number()
+      .positive("Giá trị phải lớn hơn 0")
+      .required("Bạn phải nhập giá trị "),
+
+    type: yup.string().trim().required("Bạn chưa chọn loại"),
+  }),
+});
 
 resetForm();
 
@@ -235,11 +279,49 @@ const value = defineInputBinds("value", {
 const type = defineInputBinds("type", {
   validateOnInput: true,
 });
-const expirationTime = defineInputBinds("expirationTime", {
-  validateOnInput: true,
+const expirationTime = ref();
+const errorExpirationTime = ref();
+const currentId = ref();
+onUpdated(() => {
+  if (currentId.value != data.discount.id) {
+    currentId.value = data.discount.id;
+    setFieldValue("code", data.discount.code);
+    setFieldValue("value", data.discount.value);
+    setFieldValue("type", data.discount.type);
+    expirationTime.value = data.discount.expiration_time;
+    if (expirationTime.value == undefined || expirationTime.value == null) {
+      errorExpirationTime.value = "Vui lòng chọn ngày hết hanj";
+    }
+  }
 });
 
 const onSubmit = handleSubmit(async (values) => {
-  console.log("OK");
+  if (expirationTime.value == undefined || expirationTime.value == "") {
+    errorExpirationTime.value = "Vui lòng chọn ngày hết hạn";
+    return;
+  } else {
+    errorExpirationTime.value = undefined;
+    const discount: Discount = {
+      id:currentId.value,
+      code: values.code,
+      value: values.value,
+      type: values.type,
+      expiration_time: expirationTime.value.toString(),
+    };
+
+    clearNuxtData();
+    await data
+      .updateDiscount(discount)
+      .then(() => {
+        toastStatus.value = "success";
+        message.value = "Thêm thành công";
+      })
+      .catch((e: string) => {
+        toastStatus.value = "error";
+        message.value = e;
+      });
+
+    addToast();
+  }
 });
 </script>

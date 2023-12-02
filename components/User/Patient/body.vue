@@ -134,10 +134,19 @@
               <div
                 class="md:h-52 h-40 w-full md:rounded-lg rounded-t-lg md:mb-4 mb-2 overflow-hidden"
               >
-                <img
-                  class="object-cover group-hover:scale-[1.15] duration-200 transform ease-linear"
+                <CldImage
+                  v-if="element.avatar"
+                  width="700"
+                  height="700"
                   :src="element.avatar"
-                  :alt="element.name"
+                  :alt="element.full_name"
+                  class="object-cover group-hover:scale-[1.15] duration-200 transform ease-linear"
+                />
+                <img
+                  v-else
+                  class="object-cover group-hover:scale-[1.15] duration-200 transform ease-linear"
+                  src="/default.png"
+                  :alt="element.full_name"
                 />
               </div>
 
@@ -190,7 +199,11 @@
         role="tabpanel"
         aria-labelledby="list-tab"
       >
-        <div class="overflow-x-auto" id="testnha" :class="isLoading ? 'hidden' : ''">
+        <div
+          class="overflow-x-auto"
+          id="testnha"
+          :class="isLoading ? 'hidden' : ''"
+        >
           <table class="w-full text-sm text-left text-gray-500">
             <thead class="text-xs text-gray-700 uppercase bg-gray-50">
               <tr>
@@ -203,17 +216,36 @@
                 </th>
               </tr>
             </thead>
-            <tbody v-for="element in dataMedicalRecord.medicals" :key="element.id">
+            <tbody
+              v-for="element in dataMedicalRecord.medicals"
+              :key="element.id"
+            >
               <tr class="border-b dark:border-gray-700 hover:bg-gray-200">
                 <th
                   scope="row"
                   class="flex items-center px-4 py-3 font-normal text-gray-900 whitespace-nowrap"
                 >
-                  <!-- <img
+                  <div class="w-8 h-8 rounded-full overflow-hidden">
+                    <!-- <img
                     class="w-8 h-8 rounded-full"
                     :src="element.avatar"
                     alt="Neil image"
                   /> -->
+                    <CldImage
+                      v-if="element.avatar"
+                      width="400"
+                      height="400"
+                      :src="element.avatar"
+                      :alt="element.full_name"
+                      class="object-cover group-hover:scale-[1.15] duration-200 transform ease-linear"
+                    />
+                    <img
+                      v-else
+                      class="object-cover group-hover:scale-[1.15] duration-200 transform ease-linear"
+                      src="/default.png"
+                      :alt="element.full_name"
+                    />
+                  </div>
                   <span class="ml-2">{{ element.full_name }}</span>
                 </th>
 
@@ -419,38 +451,42 @@ async function previousPage() {
 }
 
 const dropdown = () => {
-  for(let e of dataMedicalRecord.medicals) {
-    const $targetEl = document.getElementById('dropdownMenu' + e.id);
+  for (let e of dataMedicalRecord.medicals) {
+    const $targetEl = document.getElementById("dropdownMenu" + e.id);
 
-    const $triggerEl = document.getElementById('dropdownButton' + e.id);
+    const $triggerEl = document.getElementById("dropdownButton" + e.id);
 
     // options with default values
     const options = {
-        placement: 'bottom',
-        triggerType: 'click',
-        offsetSkidding: 0,
-        offsetDistance: 10,
-        delay: 300,
-        ignoreClickOutsideClass: false,
+      placement: "bottom",
+      triggerType: "click",
+      offsetSkidding: 0,
+      offsetDistance: 10,
+      delay: 300,
+      ignoreClickOutsideClass: false,
     };
 
     // instance options object
     const instanceOptions = {
-      id: 'dropdownMenu',
-      override: true
+      id: "dropdownMenu",
+      override: true,
     };
 
-    const dropdown = new Dropdown($targetEl, $triggerEl, options, instanceOptions);
+    const dropdown = new Dropdown(
+      $targetEl,
+      $triggerEl,
+      options,
+      instanceOptions
+    );
   }
-}
+};
 
 const switchPage = async (index) => {
   isLoading.value = true;
   await dataMedicalRecord.getAllMedicalRecordPerPage(index, 10);
   isLoading.value = false;
-  dropdown()
+  dropdown();
 };
 
-onMounted(dropdown)
-
+onMounted(dropdown);
 </script>

@@ -41,7 +41,7 @@
           </button>
         </div>
         <!-- Modal body -->
-        <form action="#" @submit.prevent="onSubmit">
+        <form action="#" @submit.prevent="onSubmit" v-if="data.doctor != null">
           <div class="grid gap-4 mb-4 sm:grid-cols-3 w-full">
             <div class="sm:col-span-2">
               <label
@@ -92,7 +92,6 @@
                 }"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
               >
-                <option selected disabled value="">Chọn chuyên ngành</option>
                 <option
                   v-for="{ key, value } in mapSpecialty"
                   :value="key"
@@ -249,8 +248,13 @@ import { useForm } from "vee-validate";
 
 const { data } = defineProps(["data"]);
 
-onMounted(() => {
-  console.log(data.idChoosed);
+onUpdated(() => {
+  setFieldValue("fullName", data.doctor.full_name);
+  setFieldValue("email", data.doctor.email);
+  setFieldValue("phone", data.doctor.phone);
+  setFieldValue("experience", data.doctor.experience);
+  setFieldValue("feePerMinute", data.doctor.fee_per_minutes);
+  setFieldValue("specialty", data.doctor.specialty);
 });
 
 const mapSpecialty = Object.entries(Specialty).map(([key, value]) => ({
@@ -258,43 +262,49 @@ const mapSpecialty = Object.entries(Specialty).map(([key, value]) => ({
   value: value,
 }));
 
-const { defineInputBinds, resetForm, isSubmitting, handleSubmit, errors } =
-  useForm({
-    validationSchema: yup.object({
-      fullName: yup
-        .string()
-        .trim()
-        .required("Họ và tên không hợp lệ")
-        .min(2, "Họ và tên không hợp lệ"),
-      email: yup
-        .string()
-        .trim()
-        .email("Email không hợp lệ")
-        .required("Email không hợp lệ"),
-      phone: yup
-        .string()
-        .trim()
-        .matches(
-          /([\+84|0]+(3|5|7|8|9|1[2|6|8|9]))+([0-9]{8})\b/,
-          "Số điện thoại phải bắt đầu: +84 hoặc 03, 09, ..."
-        )
-        .required("Số điện thoại không hợp lệ"),
-      experience: yup
-        .number()
-        .typeError("Số năm kinh nghiệm không hợp lệ")
-        .min(0, "Số năm kinh nghiệm không thể âm")
-        .max(70, "Số năm kinh nghiệm không thể lớp hơn 70")
-        .positive("Số năm kinh nghiệm không thể âm")
-        .integer("Số năm kinh nghiệm không hợp lệ")
-        .required("Số năm kinh nghiệm không hợp lệ"),
-      feePerMinute: yup
-        .number()
-        .typeError("Phí khám không hợp lệ")
-        .min(0, "Phí khám không thể âm")
-        .required("Phí khám không hợp lệ"),
-      specialty: yup.string().trim().required("Bạn chưa chọn chuyên ngành"),
-    }),
-  });
+const {
+  defineInputBinds,
+  resetForm,
+  isSubmitting,
+  handleSubmit,
+  errors,
+  setFieldValue,
+} = useForm({
+  validationSchema: yup.object({
+    fullName: yup
+      .string()
+      .trim()
+      .required("Họ và tên không hợp lệ")
+      .min(2, "Họ và tên không hợp lệ"),
+    email: yup
+      .string()
+      .trim()
+      .email("Email không hợp lệ")
+      .required("Email không hợp lệ"),
+    phone: yup
+      .string()
+      .trim()
+      .matches(
+        /([\+84|0]+(3|5|7|8|9|1[2|6|8|9]))+([0-9]{8})\b/,
+        "Số điện thoại phải bắt đầu: +84 hoặc 03, 09, ..."
+      )
+      .required("Số điện thoại không hợp lệ"),
+    experience: yup
+      .number()
+      .typeError("Số năm kinh nghiệm không hợp lệ")
+      .min(0, "Số năm kinh nghiệm không thể âm")
+      .max(70, "Số năm kinh nghiệm không thể lớp hơn 70")
+      .positive("Số năm kinh nghiệm không thể âm")
+      .integer("Số năm kinh nghiệm không hợp lệ")
+      .required("Số năm kinh nghiệm không hợp lệ"),
+    feePerMinute: yup
+      .number()
+      .typeError("Phí khám không hợp lệ")
+      .min(0, "Phí khám không thể âm")
+      .required("Phí khám không hợp lệ"),
+    specialty: yup.string().trim().required("Bạn chưa chọn chuyên ngành"),
+  }),
+});
 
 resetForm();
 
