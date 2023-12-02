@@ -1,14 +1,15 @@
 <template>
-  <section >
+  <section>
     <VoucherCharts />
-    <VoucherTables />
-    <VoucherFormcreate/>
-    <VoucherFormupdate/>
+    <VoucherTables :data="dataDiscount"/>
+    <VoucherFormcreate :data="dataDiscount" />
+    <VoucherFormupdate :data="dataDiscount" />
   </section>
 </template>
 
 <script setup lang="ts">
+const dataDiscount =useDataDiscount();
 definePageMeta({
-  middleware:['auth']
+  middleware: ["auth"],
 });
 </script>

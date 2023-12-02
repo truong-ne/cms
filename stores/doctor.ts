@@ -12,9 +12,9 @@ export const useDataDoctor = defineStore("doctor", () => {
   const storeAuth = useAuthStore();
   const authorization = "Bearer " + (storeAuth.getAccesToken ?? "");
 
-  function chooseId(value: string) {
+  function chooseDoctor(id: string) {
     doctors.value.forEach((e) => {
-      if (e.id == value) {
+      if (e.id == id) {
         doctor.value = e;
       }
     });
@@ -98,7 +98,7 @@ export const useDataDoctor = defineStore("doctor", () => {
     doctor,
     doctors,
     doctorQuantity,
-    chooseId,
+    chooseDoctor,
     getQuantityDoctor,
     getAllDoctorPerPage,
   };

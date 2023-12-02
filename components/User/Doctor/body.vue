@@ -402,8 +402,8 @@ const isLoading = ref(false);
 const { data } = defineProps(["data"]);
 onMounted(() => {});
 
-function chooseDoctor(value: string) {
-  data.chooseId(value);
+function chooseDoctor(id: string) {
+  data.chooseDoctor(id);
 }
 
 const pagePrevious = ref(0);
