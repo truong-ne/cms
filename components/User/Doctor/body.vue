@@ -82,7 +82,7 @@
             <div class="absolute md:right-5 right-1 md:top-5 top-1 z-20 group">
               <button
                 id="example-dropdow-button"
-                data-dropdown-toggle="example-dropdow"
+                :data-dropdown-toggle="'example-dropdow' + element.id"
                 class="inline-flex items-center p-0.5 text-sm font-medium text-center text-black rounded-lg hover:bg-white"
                 type="button"
               >
@@ -99,7 +99,7 @@
                 </svg>
               </button>
               <div
-                id="example-dropdow"
+                :id="'example-dropdow' + element.id"
                 class="hidden z-10 w-44 bg-white rounded divide-y divide-gray-100 shadow"
               >
                 <ul
@@ -116,11 +116,11 @@
                   <li>
                     <button
                       type="button"
-                      id="updateDoctorButton"
+                      :id="'updateDoctorButton' + element.id"
                       data-modal-target="updateDoctor"
                       data-modal-toggle="updateDoctor"
                       class="py-2 px-4 w-full flex items-start justify-start hover:bg-gray-100"
-                      @click="data.idChoosed=element.id"
+                      @click="chooseDoctor(element.id)"
                     >
                       Chỉnh sửa
                     </button>
@@ -139,19 +139,22 @@
               <div
                 class="md:h-52 h-40 w-full md:rounded-lg rounded-t-lg md:mb-4 mb-2 overflow-hidden"
               >
-                <CldImage
+                <NuxtImg
                   v-if="element.avatar"
+                  provider="cloudinary"
+                  :src="element.avatar"
                   width="700"
                   height="700"
-                  :src="element.avatar"
-                  :alt="element.full_name"
                   class="object-cover group-hover:scale-[1.15] duration-200 transform ease-linear"
+                  :alt="element.full_name"
                 />
                 <img
                   v-else
-                  class="object-cover group-hover:scale-[1.15] duration-200 transform ease-linear"
                   src="/default.png"
                   :alt="element.full_name"
+                  width="700"
+                  height="700"
+                  class="object-cover group-hover:scale-[1.15] duration-200 transform ease-linear"
                 />
               </div>
 
@@ -231,14 +234,16 @@
                     :src="element.avatar"
                     alt="Neil image"
                   /> -->
-                    <CldImage
+                    <NuxtImg
                       v-if="element.avatar"
+                      provider="cloudinary"
                       width="400"
                       height="400"
                       :src="element.avatar"
                       :alt="element.full_name"
                       class="object-cover group-hover:scale-[1.15] duration-200 transform ease-linear"
                     />
+
                     <img
                       v-else
                       class="object-cover group-hover:scale-[1.15] duration-200 transform ease-linear"
@@ -293,10 +298,11 @@
                       <li>
                         <button
                           type="button"
-                          id="updateDoctorButton"
+                          :id="'updateDoctorButton' + element.id"
                           data-modal-target="updateDoctor"
                           data-modal-toggle="updateDoctor"
                           class="py-2 px-4 w-full flex items-start justify-start hover:bg-gray-100"
+                          @click="chooseDoctor(element.id)"
                         >
                           Chỉnh sửa
                         </button>
@@ -353,44 +359,7 @@
               </svg>
             </button>
           </li>
-          <!-- <li v-for="i in data.doctorQuantity / 10" :key="i">
-          <div @click="switchPage">{{ i }}</div></li> -->
-          <!-- <li>
-            <a
-              href="#"
-              class="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-              >1</a
-            >
-          </li>
-          <li>
-            <a
-              href="#"
-              class="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-              >2</a
-            >
-          </li>
-          <li>
-            <a
-              href="#"
-              aria-current="page"
-              class="flex items-center justify-center text-sm z-10 py-2 px-3 leading-tight text-primary-600 bg-primary-50 border border-primary-300 hover:bg-primary-100 hover:text-primary-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white"
-              >3</a
-            >
-          </li>
-          <li>
-            <a
-              href="#"
-              class="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-              >...</a
-            >
-          </li>
-          <li>
-            <a
-              href="#"
-              class="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-              >100</a
-            >
-          </li> -->
+
           <li>
             <button
               type="button"
@@ -432,6 +401,10 @@ const route = useRoute();
 const isLoading = ref(false);
 const { data } = defineProps(["data"]);
 onMounted(() => {});
+
+function chooseDoctor(value: string) {
+  data.chooseId(value);
+}
 
 const pagePrevious = ref(0);
 const pageCurrent = ref(1);

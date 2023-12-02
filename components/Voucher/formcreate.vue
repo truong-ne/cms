@@ -4,11 +4,9 @@
     id="createDiscount"
     tabindex="-1"
     aria-hidden="true"
-    class="hidden sm:overflow-y-auto sm:overflow-x-hidden sm:fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full"
+    class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] md:max-h-md p-2"
   >
-    <div
-      class="fixed overflow-y-auto overflow-x-hidden top-0 right-0 left-0 z-50 sm:relative p-4 w-full max-w-3xl max-h-full"
-    >
+    <div class="relative w-full max-w-3xl md:max-h-full">
       <!-- Modal content -->
       <div class="sm:relative p-4 bg-white rounded-lg shadow sm:p-5">
         <!-- Modal header -->
@@ -135,49 +133,63 @@
                   for="expirationTime"
                   :class="{
                     'text-gray-500  peer-focus:text-blue-600 ':
-                      !errors.expirationTime,
+                      !errorExpirationTime,
                     'text-red-500 peer-focus:text-red-600 ':
-                      errors.expirationTime,
+                      errorExpirationTime,
                   }"
                   class="block mb-2 text-sm font-medium text-gray-900"
                   >Ngày hết hạn</label
                 >
-                <div
-                  class="absolute inset-y-0 left-0 flex items-center ps-3 pointer-events-none"
-                  :class="{
-                    'pt-6': !errors.expirationTime,
-                    'pt-1': errors.expirationTime,
-                  }"
-                >
-                  <svg
-                    class="w-4 h-4 text-gray-500 dark:text-gray-400"
-                    aria-hidden="true"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                  >
-                    <path
-                      d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"
-                    />
-                  </svg>
-                </div>
-                <input
-                  id="expirationTime"
-                  v-bind="expirationTime"
-                  datepicker
-                  datepicker-format="mm/dd/yyyy"
-                  type="text"
-                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 ps-10"
-                  :class="{
-                    'border-gray-300  focus:border-blue-600 focus:ring-primary-600':
-                      !errors.expirationTime,
-                    'border-red-300  focus:border-red-600 focus:ring-red-600':
-                      errors.expirationTime,
-                  }"
-                  placeholder="Chọn ngày"
-                />
-                <span for="expirationTime" class="text-xs text-red-500">
-                  {{ errors.expirationTime }}</span
+                <VueDatePicker
+                  v-model="expirationTime"
+                  :enable-time-picker="false"
+                  locale="vi-VN"
+                  cancelText="Huỷ"
+                  selectText="Chọn"
+                  :format-locale="vi"
+                  :month-change-on-scroll="false"
+                  class="absolute z-50"
+                  ><template #calendar-header="{ day }">
+                    <div class="text-xs font-medium">
+                      {{ day }}
+                    </div> </template
+                  ><template #dp-input="{ value }">
+                    <div class="w-full">
+                      <div
+                        class="absolute inset-y-0 left-0 flex items-center pl-3.5 peer-focus:pt-1.5 pointer-events-none"
+                        :class="{
+                          'pb-0': !errorExpirationTime,
+                          'pb-6': errorExpirationTime,
+                        }"
+                      >
+                        <svg
+                          class="w-4 h-4 text-gray-500"
+                          aria-hidden="true"
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="currentColor"
+                          viewBox="0 0 20 20"
+                        >
+                          <path
+                            d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"
+                          />
+                        </svg>
+                      </div>
+                      <input
+                        type="text"
+                        :value="value"
+                        :class="{
+                          'border-gray-300  focus:border-blue-600 focus:ring-primary-600':
+                            !errorExpirationTime,
+                          'border-red-300  focus:border-red-600 focus:ring-red-600':
+                            errorExpirationTime,
+                        }"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 ps-10"
+                        placeholder="Ngày sinh"
+                      /><span for="email" class="text-xs text-red-500">
+                        {{ errorExpirationTime }}
+                      </span>
+                    </div>
+                  </template></VueDatePicker
                 >
               </div>
             </ClientOnly>
@@ -209,9 +221,13 @@
 </template>
 
 <script setup lang="ts">
+import VueDatePicker from "@vuepic/vue-datepicker";
+import "@vuepic/vue-datepicker/dist/main.css";
+import { vi } from "date-fns/locale";
 import * as yup from "yup";
 import { useForm } from "vee-validate";
 import { type Discount } from "~/stores/structs/discount_struct";
+
 const storeToast = toastStore();
 const toastStatus = ref("");
 const message = ref("");
@@ -237,7 +253,6 @@ const { defineInputBinds, resetForm, isSubmitting, handleSubmit, errors } =
         .required("Bạn phải nhập giá trị "),
 
       type: yup.string().trim().required("Bạn chưa chọn loại"),
-      expirationTime: yup.string().required("Bạn phải nhập ngày hết hạn"),
     }),
   });
 
@@ -253,28 +268,37 @@ const value = defineInputBinds("value", {
 const type = defineInputBinds("type", {
   validateOnInput: true,
 });
-const expirationTime = defineInputBinds("expirationTime", {
-  validateOnInput: true,
-});
+const expirationTime = ref();
+const errorExpirationTime = ref();
 const dataDiscount = useDataDiscount();
 
 const onSubmit = handleSubmit(async (values) => {
-  const discount: Discount = {
-    code: values.code,
-    value: values.value,
-    type: values.type,
-    expiration_time: values.expirationTime,
-  };
+  console.log(expirationTime.value);
+  if (expirationTime.value == undefined || expirationTime.value == "") {
+    errorExpirationTime.value = "Vui lòng chọn ngày hết hạn";
+    return;
+  } else {
+    errorExpirationTime.value = undefined;
+    const discount: Discount = {
+      code: values.code,
+      value: values.value,
+      type: values.type,
+      expiration_time: expirationTime.value.toString(),
+    };
 
-  toastStatus.value = "success";
-  message.value = "Thêm thành công";
+    clearNuxtData();
+    await dataDiscount
+      .createDiscount(discount)
+      .then((res) => {
+        toastStatus.value = "success";
+        message.value = "Thêm thành công";
+      })
+      .catch((e) => {
+        toastStatus.value = "error";
+        message.value = e;
+      });
 
-  clearNuxtData();
-  await dataDiscount.createDiscount(discount).catch((e) => {
-    toastStatus.value = "error";
-    message.value = e;
-  });
-
-  addToast();
+    addToast();
+  }
 });
 </script>

@@ -5,7 +5,6 @@ import { DataObjectLoginSchema } from "./structs/response_struct";
 import { mask } from "superstruct";
 
 export const useAuthStore = defineStore("auth", {
-  
   state: () => ({
     accessToken: localStorage.getItem("access_token"),
   }),
@@ -35,7 +34,7 @@ export const useAuthStore = defineStore("auth", {
         var response = mask(message.data, AuthenticateSchema);
         this.accessToken = response.jwt_token;
         localStorage.setItem("access_token", this.accessToken);
-        window.location.href='/';
+        window.location.href = "/";
       } else if (error.value != null) {
         throw error;
       }

@@ -21,10 +21,11 @@
     "nuxt-meilisearch": "^1.1.0"
   },
   "dependencies": {
-    "@nuxtjs/cloudinary": "^2.4.3",
+    "@nuxt/image": "^1.1.0",
     "@pinia/nuxt": "^0.5.1",
     "@vee-validate/nuxt": "^4.12.0",
     "@vee-validate/yup": "^4.12.0",
+    "@vuepic/vue-datepicker": "^7.3.0",
     "apexcharts": "^3.44.0",
     "autoprefixer": "^10.4.16",
     "flowbite": "^1.8.1",

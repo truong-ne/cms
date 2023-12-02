@@ -8,9 +8,17 @@ import { DataArraySchema, DataObjectSchema } from "./structs/response_struct";
 export const useDataDoctor = defineStore("doctor", () => {
   const doctorQuantity = ref<number>(0);
   const doctors = ref<Doctor[]>([]);
-  const idChoosed = ref<string>();
+  const doctor = ref<Doctor>();
   const storeAuth = useAuthStore();
   const authorization = "Bearer " + (storeAuth.getAccesToken ?? "");
+
+  function chooseId(value: string) {
+    doctors.value.forEach((e) => {
+      if (e.id == value) {
+        doctor.value = e;
+      }
+    });
+  }
 
   async function getQuantityDoctor() {
     if (authorization === "Bearer ") return;
@@ -87,9 +95,10 @@ export const useDataDoctor = defineStore("doctor", () => {
   }
 
   return {
-    idChoosed,
+    doctor,
     doctors,
     doctorQuantity,
+    chooseId,
     getQuantityDoctor,
     getAllDoctorPerPage,
   };
