@@ -24,6 +24,7 @@ async function test(id) {
         id: id,
     }
     component.value = true
+    
 }
 </script>
 
