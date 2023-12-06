@@ -35,7 +35,8 @@ export const useDataMedicalRecord = defineStore('medical_record', () => {
         medicalQuantity.value = mask(message.data, number())
 
         } else {
-            window.location.href = 'error'
+            console.log(error)
+            // window.location.href = 'error'
         }   
     }
 
@@ -87,7 +88,8 @@ export const useDataMedicalRecord = defineStore('medical_record', () => {
         medicalInfo.value = mask(message.data, MedicalRecordInfoSchema)
 
         } else {
-            window.location.href = 'error'
+            console.log(error)
+            // window.location.href = 'error'
         }   
     }
   

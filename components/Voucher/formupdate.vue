@@ -98,6 +98,7 @@
               >
                 <option selected disabled value="">Chọn loại</option>
                 <option value="%">%</option>
+                <option value="vnd">VNĐ</option>
               </select>
               <span for="type" class="text-xs text-red-500">
                 {{ errors.type }}</span
@@ -302,7 +303,7 @@ const onSubmit = handleSubmit(async (values) => {
   } else {
     errorExpirationTime.value = undefined;
     const discount: Discount = {
-      id:currentId.value,
+      id: currentId.value,
       code: values.code,
       value: values.value,
       type: values.type,

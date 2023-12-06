@@ -279,6 +279,17 @@ const mapSpecialty = Object.entries(Specialty).map(([key, value]) => ({
   value: value,
 }));
 
+const storeToast = toastStore();
+const toastStatus = ref("");
+const message = ref("");
+
+function addToast() {
+  storeToast.add({
+    message: message.value,
+    toastStatus: toastStatus.value,
+  });
+}
+
 const { defineInputBinds, resetForm, isSubmitting, handleSubmit, errors } =
   useForm({
     validationSchema: yup.object({
@@ -347,6 +358,18 @@ const onSubmit = handleSubmit(async (values) => {
     experience: values.experience,
     fee_per_minutes: values.feePerMinute,
   };
-  console.log(doctor);
+
+  clearNuxtData();
+  await data
+    .createDoctor(doctor)
+    .then(() => {
+      toastStatus.value = "success";
+      message.value = "Thêm thành công";
+    })
+    .catch((e: string) => {
+      toastStatus.value = "error";
+      message.value = e;
+    });
+  addToast();
 });
 </script>

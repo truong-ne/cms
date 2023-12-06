@@ -54,14 +54,10 @@ export default defineNuxtConfig({
   },
   image: {
     format: ["webp"],
-    domains: ["avatars0.githubusercontent.com"],
     provider: "cloudinary",
     cloudinary: {
       baseURL: "https://res.cloudinary.com/dsvlwyl7i/image/upload/",
-      modifiers: {
-        effect: "sharpen:100",
-        quality: "auto:best",
-      },
+      
     },
   },
   vue: {

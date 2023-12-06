@@ -43,7 +43,7 @@
             id="createPatientButton"
             data-modal-target="createPatient"
             data-modal-toggle="createPatient"
-            class="flex items-center justify-center text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800"
+            class="flex items-center justify-center text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-4 py-2"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -62,24 +62,28 @@
       </div>
       <div
         class="hidden md:p-4 p-2 w-full"
-        id="profile"
+        id="gridView"
         role="tabpanel"
         aria-labelledby="grid-tab"
       >
         <div
           class="grid 2xl:grid-cols-5 xl:grid-cols-4 lg:grid-cols-3 grid-cols-2 md:gap-4 gap-2"
         >
-          <a
-            :href="route.path + '/' + element.id"
+          <div
             class="relative col-span-1 w-full bg-white border-gray-200 shadow hover:border-gray-200 rounded-lg md:p-4 border-4 border-transparent group"
-            v-for="element in data"
+            v-for="element in data.medicals"
             :key="element.id"
           >
-            <div class="absolute md:right-5 right-1 md:top-5 top-1 z-10">
+            <a
+              :href="route.path + '/' + element.id"
+              class="w-full h-full absolute z-10"
+            ></a>
+
+            <div class="absolute md:right-5 right-1 md:top-5 top-1 z-20 group">
               <button
                 id="example-dropdow-button"
-                data-dropdown-toggle="example-dropdow"
-                class="inline-flex items-center p-0.5 text-sm font-medium text-center text-black rounded-lg focus:outline-none"
+                :data-dropdown-toggle="'example-dropdow' + element.id"
+                class="inline-flex items-center p-0.5 text-sm font-medium text-center text-black rounded-lg hover:bg-white"
                 type="button"
               >
                 <svg
@@ -95,7 +99,7 @@
                 </svg>
               </button>
               <div
-                id="example-dropdow"
+                :id="'example-dropdow' + element.id"
                 class="hidden z-10 w-44 bg-white rounded divide-y divide-gray-100 shadow"
               >
                 <ul
@@ -112,10 +116,11 @@
                   <li>
                     <button
                       type="button"
-                      id="updatePatientButton"
+                      :id="'updatePatientButton' + element.id"
                       data-modal-target="updatePatient"
                       data-modal-toggle="updatePatient"
                       class="py-2 px-4 w-full flex items-start justify-start hover:bg-gray-100"
+                      @click="choosePatient(element.id)"
                     >
                       Chỉnh sửa
                     </button>
@@ -134,93 +139,84 @@
               <div
                 class="md:h-52 h-40 w-full md:rounded-lg rounded-t-lg md:mb-4 mb-2 overflow-hidden"
               >
-                <CldImage
-                  v-if="element.avatar"
+                <NuxtImg
+                  v-if="element.avatar && element.avatar != 'default'"
+                  provider="cloudinary"
+                  :src="element.avatar"
                   width="700"
                   height="700"
-                  :src="element.avatar"
-                  :alt="element.full_name"
                   class="object-cover group-hover:scale-[1.15] duration-200 transform ease-linear"
+                  :alt="element.full_name"
                 />
                 <img
                   v-else
-                  class="object-cover group-hover:scale-[1.15] duration-200 transform ease-linear"
                   src="/default.png"
                   :alt="element.full_name"
+                  width="700"
+                  height="700"
+                  class="object-cover group-hover:scale-[1.15] duration-200 transform ease-linear"
                 />
               </div>
 
               <h5
                 class="mb-1 md:text-lg text-base font-bold text-gray-900 overflow-hidden px-2 md:px-0 truncate ..."
               >
-                {{ element.name }}
+                {{ element.full_name }}
               </h5>
-              <span
-                class="w-full text-xs font-semibold text-gray-500 px-2 md:px-0"
-                >{{ element.email }}</span
-              >
+              <div class="flex items-center w-full px-2 md:px-0">
+                <span class="text-xs text-gray-500 truncate">Giới tính:</span>
+                <span class="text-xs font-semibold text-gray-500">{{
+                  getByKey(element.gender)
+                }}</span>
+              </div>
+              <div class="flex items-center w-full px-2 md:px-0">
+                <span class="text-xs text-gray-500 truncate">Ngày sinh:</span>
+                <span
+                  class="text-xs font-semibold text-gray-500"
+                  v-if="element.date_of_birth"
+                  >{{ getDate(element.date_of_birth) }}</span
+                >
+              </div>
 
-              <span
-                class="w-full text-sm font-thin text-gray-500 px-2 md:px-0 truncate ..."
-                >{{ element.phone }}</span
+              <div
+                class="flex items-center justify-between w-full mt-4 md:mb-0 mb-2 px-2 md:px-0"
               >
+                <span class="text-xs text-gray-500 truncate"
+                  >Cập nhật lần cuối:</span
+                >
+                <span
+                  class="text-xs text-gray-500 truncate"
+                  v-if="element.updated_at"
+                  >{{ getDate(element.updated_at) }}</span
+                >
+              </div>
             </div>
-          </a>
-        </div>
-      </div>
-      <div class="bg-white shadow-xl" v-if="isLoading">
-        <div
-          class="flex flex-col items-center justify-center px-4 py-6 sm:px-8 sm:py-10"
-        >
-          <div role="status">
-            <svg
-              aria-hidden="true"
-              class="inline w-12 h-12 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-gray-600"
-              viewBox="0 0 100 101"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
-                fill="currentColor"
-              />
-              <path
-                d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
-                fill="currentFill"
-              />
-            </svg>
-            <span class="sr-only">Loading...</span>
           </div>
         </div>
       </div>
       <div
         class="hidden p-4 rounded-xl bg-white w-full"
-        id="dashboard"
+        id="listView"
         role="tabpanel"
         aria-labelledby="list-tab"
       >
-        <div
-          class="overflow-x-auto"
-          id="testnha"
-          :class="isLoading ? 'hidden' : ''"
-        >
+        <div class="overflow-x-auto">
           <table class="w-full text-sm text-left text-gray-500">
             <thead class="text-xs text-gray-700 uppercase bg-gray-50">
               <tr>
-                <th scope="col" class="px-4 py-3" v-for="f in field" :key="f">
-                  {{ f }}
-                </th>
+                <th scope="col" class="px-4 py-3">Họ tên</th>
+                <th scope="col" class="px-4 py-3">Ngày sinh</th>
+                <th scope="col" class="px-4 py-3">Giới tính</th>
+                <th scope="col" class="px-4 py-3">Địa chỉ</th>
+                <th scope="col" class="px-4 py-3">Cập nhật lần cuối</th>
 
                 <th scope="col" class="px-4 py-3">
                   <span class="sr-only">Actions</span>
                 </th>
               </tr>
             </thead>
-            <tbody
-              v-for="element in dataMedicalRecord.medicals"
-              :key="element.id"
-            >
-              <tr class="border-b dark:border-gray-700 hover:bg-gray-200">
+            <tbody v-for="element in data.medicals" :key="element.id">
+              <tr class="border-b hover:bg-gray-200">
                 <th
                   scope="row"
                   class="flex items-center px-4 py-3 font-normal text-gray-900 whitespace-nowrap"
@@ -231,14 +227,16 @@
                     :src="element.avatar"
                     alt="Neil image"
                   /> -->
-                    <CldImage
-                      v-if="element.avatar"
+                    <NuxtImg
+                      v-if="element.avatar && element.avatar != 'default'"
+                      provider="cloudinary"
                       width="400"
                       height="400"
                       :src="element.avatar"
                       :alt="element.full_name"
                       class="object-cover group-hover:scale-[1.15] duration-200 transform ease-linear"
                     />
+
                     <img
                       v-else
                       class="object-cover group-hover:scale-[1.15] duration-200 transform ease-linear"
@@ -249,25 +247,20 @@
                   <span class="ml-2">{{ element.full_name }}</span>
                 </th>
 
-                <td class="px-4 py-3 mr-4">{{ element.gender }}</td>
-                <td class="px-4 py-3 mr-4">
-                  {{
-                    element.relationship === ""
-                      ? "Main Profile"
-                      : element.relationship
-                  }}
+                <td class="px-4 py-3 mr-4" v-if="element.date_of_birth">
+                  {{ getDate(element.date_of_birth) }}
                 </td>
-                <td class="px-4 py-3 mr-4">
-                  {{ element.date_of_birth.split("T")[0] }}
-                </td>
+                <td v-else></td>
+                <td class="px-4 py-3 mr-4">{{ getByKey(element.gender) }}</td>
                 <td class="px-4 py-3 mr-4">{{ element.address }}</td>
-                <td class="px-4 py-3 mr-4">
-                  {{ element.updated_at.split("T")[0] }}
+                <td class="px-4 py-3 mr-4" v-if="element.updated_at">
+                  {{ getDate(element.updated_at) }}
                 </td>
+                <td v-else></td>
                 <td class="px-4 py-3 flex items-center justify-end">
-                  <!-- <a :href="'/users/patients/' + element.id">* * *</a> -->
                   <button
-                    :id="'dropdownButton' + element.id"
+                    :id="'data-' + element.id + '-button'"
+                    :data-dropdown-toggle="'data-' + element.id"
                     class="inline-flex items-center p-0.5 text-sm font-medium text-center text-gray-500 hover:text-gray-800 rounded-lg focus:outline-none dark:text-gray-400 dark:hover:text-gray-100"
                     type="button"
                   >
@@ -284,10 +277,13 @@
                     </svg>
                   </button>
                   <div
-                    :id="'dropdownMenu' + element.id"
+                    :id="'data-' + element.id"
                     class="hidden z-10 w-44 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600"
                   >
-                    <ul class="py-1 text-sm text-gray-700 dark:text-gray-200">
+                    <ul
+                      class="py-1 text-sm text-gray-700 dark:text-gray-200"
+                      :aria-labelledby="'data-' + element.id + '-button'"
+                    >
                       <li>
                         <a
                           :href="route.path + '/' + element.id"
@@ -298,10 +294,11 @@
                       <li>
                         <button
                           type="button"
-                          id="updatePatientButton"
+                          :id="'updatePatientButton' + element.id"
                           data-modal-target="updatePatient"
                           data-modal-toggle="updatePatient"
                           class="py-2 px-4 w-full flex items-start justify-start hover:bg-gray-100"
+                          @click="choosePatient(element.id)"
                         >
                           Chỉnh sửa
                         </button>
@@ -326,22 +323,23 @@
         aria-label="Table navigation"
       >
         <span class="text-sm font-normal text-gray-500 dark:text-gray-400">
-          Showing
+          Hiển thị
           <span class="font-semibold text-gray-900 dark:text-white"
             >{{ pagePrevious * 10 + 1 }}-{{ pageCurrent * 10 }}</span
           >
-          of
+          của
           <span class="font-semibold text-gray-900 dark:text-white">{{
-            dataMedicalRecord.medicalQuantity
+            data.doctorQuantity
           }}</span>
         </span>
         <ul class="inline-flex items-stretch -space-x-px">
           <li>
-            <div
+            <button
+              type="button"
               @click="previousPage"
               class="flex items-center justify-center h-full py-1.5 px-3 ml-0 text-gray-500 bg-white rounded-l-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
             >
-              <span class="sr-only">Previous</span>
+              <span class="sr-only">Trước</span>
               <svg
                 class="w-5 h-5"
                 aria-hidden="true"
@@ -355,43 +353,16 @@
                   clip-rule="evenodd"
                 />
               </svg>
-            </div>
-          </li>
-          <li>
-            <div
-              v-if="pagePrevious > 0"
-              @click="previousPage"
-              class="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-            >
-              {{ pagePrevious }}
-            </div>
-          </li>
-          <li>
-            <div
-              aria-current="page"
-              class="flex items-center justify-center text-sm z-10 py-2 px-3 leading-tight text-primary-600 bg-primary-50 border border-primary-300 hover:bg-primary-100 hover:text-primary-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white"
-            >
-              {{ pageCurrent }}
-            </div>
-          </li>
-          <li>
-            <div
-              v-if="
-                Math.ceil(dataMedicalRecord.medicalQuantity / 10) >= pageNext
-              "
-              @click="nextPage"
-              class="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-            >
-              {{ pageNext }}
-            </div>
+            </button>
           </li>
 
           <li>
-            <div
+            <button
+              type="button"
               @click="nextPage"
               class="flex items-center justify-center h-full py-1.5 px-3 leading-tight text-gray-500 bg-white rounded-r-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
             >
-              <span class="sr-only">Next</span>
+              <span class="sr-only">Tiếp</span>
               <svg
                 class="w-5 h-5"
                 aria-hidden="true"
@@ -405,7 +376,7 @@
                   clip-rule="evenodd"
                 />
               </svg>
-            </div>
+            </button>
           </li>
         </ul>
       </nav>
@@ -413,27 +384,41 @@
     <!-- </div> -->
   </section>
 </template>
-    
-<script setup>
-import { Dropdown } from "flowbite";
-import { ref, onMounted, nextTick } from "vue";
-import { useDataMedicalRecord } from "@/stores/medical_record";
+  
+<script setup lang="ts">
+import { Gender } from "~/stores/enums/enum";
+import {getDate} from '~/utils/datetime';
 
+const mapGender = Object.entries(Gender).map(([key, value]) => ({
+  key: key,
+  value: value,
+}));
 const route = useRoute();
-const { field, data } = defineProps(["field", "data"]);
 
 const isLoading = ref(false);
+const { data } = defineProps(["data"]);
+onMounted(() => {});
 
-const dataMedicalRecord = useDataMedicalRecord();
-await dataMedicalRecord.getAllMedicalRecordPerPage(1, 10);
-await dataMedicalRecord.getQuantityPatient();
+function choosePatient(id: string) {
+  data.choosePatient(id);
+}
 
 const pagePrevious = ref(0);
 const pageCurrent = ref(1);
 const pageNext = ref(2);
 
+function getByKey(searchKey: string) {
+  const keySearch = searchKey.toLowerCase();
+  for (let { key, value } of mapGender) {
+    if (key === keySearch) return value;
+  }
+  return "Không xác định";
+}
+
+
+
 async function nextPage() {
-  if (pageCurrent.value < Math.ceil(dataMedicalRecord.medicalQuantity / 10)) {
+  if (pageCurrent.value < Math.ceil(data.quantity / 10)) {
     pagePrevious.value = pageCurrent.value;
     pageCurrent.value = pageNext.value;
     pageNext.value = pageNext.value + 1;
@@ -450,43 +435,9 @@ async function previousPage() {
   }
 }
 
-const dropdown = () => {
-  for (let e of dataMedicalRecord.medicals) {
-    const $targetEl = document.getElementById("dropdownMenu" + e.id);
-
-    const $triggerEl = document.getElementById("dropdownButton" + e.id);
-
-    // options with default values
-    const options = {
-      placement: "bottom",
-      triggerType: "click",
-      offsetSkidding: 0,
-      offsetDistance: 10,
-      delay: 300,
-      ignoreClickOutsideClass: false,
-    };
-
-    // instance options object
-    const instanceOptions = {
-      id: "dropdownMenu",
-      override: true,
-    };
-
-    const dropdown = new Dropdown(
-      $targetEl,
-      $triggerEl,
-      options,
-      instanceOptions
-    );
-  }
-};
-
-const switchPage = async (index) => {
+const switchPage = async (index: number) => {
   isLoading.value = true;
-  await dataMedicalRecord.getAllMedicalRecordPerPage(index, 10);
+  await data.getAllDoctorPerPage(index, 10);
   isLoading.value = false;
-  dropdown();
 };
-
-onMounted(dropdown);
 </script>

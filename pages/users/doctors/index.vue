@@ -10,7 +10,7 @@
 <script setup lang="ts">
 const dataDoctor = useDataDoctor();
 
-await dataDoctor.getAllDoctorPerPage(1, 10);
+// await dataDoctor.getAllDoctorPerPage(1, 10);
 await dataDoctor.getQuantityDoctor();
 
 definePageMeta({

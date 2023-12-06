@@ -109,7 +109,10 @@
                 <td class="px-4 py-3 mr-4">{{ item.value }}</td>
 
                 <td class="px-4 py-3 mr-4">{{ item.type }}</td>
-                <td class="px-4 py-3 mr-4">{{ item.expiration_time }}</td>
+                <td class="px-4 py-3 mr-4" v-if="item.expiration_time">
+                  {{ getDate(item.expiration_time) }}
+                </td>
+                <td class="px-4 py-3 mr-4" v-else></td>
               </tr>
             </tbody>
           </table>
@@ -123,7 +126,9 @@
           Hiển thị
           <span class="font-semibold text-gray-900 dark:text-white"
             >{{ hitsPerPage * (currentPage - 1) + 1 }}-{{
-              hitsPerPage * currentPage
+              hitsPerPage * currentPage > totalHits
+                ? totalHits
+                : hitsPerPage * currentPage
             }}</span
           >
           của
@@ -245,6 +250,8 @@
 </template>
   
 <script setup lang="ts">
+import { getDate } from "~/utils/datetime";
+
 const { search, result } = useMeiliSearch("discount");
 
 const keySearch = ref("");

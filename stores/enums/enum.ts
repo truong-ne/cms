@@ -27,3 +27,9 @@ export enum Specialty {
   obstetrician = "Bác sĩ sản khoa",
   paeditrician = "Bác sĩ nhi khoa",
 }
+
+export enum Gender {
+  male = "Nam",
+  female = "Nữ",
+  other = "Khác",
+}

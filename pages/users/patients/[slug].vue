@@ -7,8 +7,8 @@
   </div>
 </template>
 <script setup>
-import { useDataMedicalRecord } from '@/stores/medical_record'
+// import { useDataMedicalRecord } from '@/stores/medical_record'
 
-const dataMedicalRecord = useDataMedicalRecord()
-await dataMedicalRecord.getMedicalRecordInfomation(useRoute().params.slug)
+// const dataMedicalRecord = useDataMedicalRecord()
+// await dataMedicalRecord.getMedicalRecordInfomation(useRoute().params.slug)
 </script>

@@ -1,113 +1,24 @@
 <template>
   <section>
     <UserHeader :header="header" />
-    <UserPatientBody :field="field" :data="data" />
+    <UserPatientBody  :data="dataDoctor" />
     <UserPatientFormcreate/>
     <UserPatientFormupdate/>
   </section>
 </template>
 
 <script setup lang="ts">
+const dataDoctor = useDataMedicalRecord();
+
+await dataDoctor.getAllMedicalRecordPerPage(1, 10);
+await dataDoctor.getQuantityPatient();
 
 definePageMeta({
-  middleware:['auth']
+  middleware: ["auth"],
 });
 const header = {
   title: "Bệnh nhân",
-  quantity: 200,
-  name: "patient",
+  quantity: dataDoctor.medicalQuantity,
+  name: "Doctor",
 };
-const field = ["Họ tên","Giới tính", "Quan hệ", "Ngày sinh", "Địa chỉ", "Cập nhật"];
-const data = [
-  {
-    avatar:
-      "https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/roberta-casas.png",
-    name: "Trần Huỳnh Tấn Phát",
-    phone: "0389052811",
-    email: "example@gmail.com",
-    dayOfBirth: "01/01/2002",
-    updateAt: "12/11/2023",
-  },
-  {
-    avatar:
-      "https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/roberta-casas.png",
-    name: "Trần Huỳnh Tấn Phát",
-    phone: "0389052811",
-    email: "example@gmail.com",
-    dayOfBirth: "01/01/2002",
-    updateAt: "12/11/2023",
-  },
-  {
-    avatar:
-      "https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/roberta-casas.png",
-    name: "Trần Huỳnh Tấn Phát",
-    phone: "0389052811",
-    email: "example@gmail.com",
-    dayOfBirth: "01/01/2002",
-    updateAt: "12/11/2023",
-  },
-  {
-    avatar:
-      "https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/roberta-casas.png",
-    name: "Trần Huỳnh Tấn Phát",
-    phone: "0389052811",
-    email: "example@gmail.com",
-    dayOfBirth: "01/01/2002",
-    updateAt: "12/11/2023",
-  },
-  {
-    avatar:
-      "https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/roberta-casas.png",
-    name: "Trần Huỳnh Tấn Phát",
-    phone: "0389052811",
-    email: "example@gmail.com",
-    dayOfBirth: "01/01/2002",
-    updateAt: "12/11/2023",
-  },
-  {
-    avatar:
-      "https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/roberta-casas.png",
-    name: "Trần Huỳnh Tấn Phát",
-    phone: "0389052811",
-    email: "example@gmail.com",
-    dayOfBirth: "01/01/2002",
-    updateAt: "12/11/2023",
-  },
-  {
-    avatar:
-      "https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/roberta-casas.png",
-    name: "Trần Huỳnh Tấn Phát",
-    phone: "0389052811",
-    email: "example@gmail.com",
-    dayOfBirth: "01/01/2002",
-    updateAt: "12/11/2023",
-  },
-  {
-    avatar:
-      "https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/roberta-casas.png",
-    name: "Trần Huỳnh Tấn Phát",
-    phone: "0389052811",
-    email: "example@gmail.com",
-    dayOfBirth: "01/01/2002",
-    updateAt: "12/11/2023",
-  },
-  {
-    avatar:
-      "https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/roberta-casas.png",
-    name: "Trần Huỳnh Tấn Phát",
-    phone: "0389052811",
-    email: "example@gmail.com",
-    dayOfBirth: "01/01/2002",
-    updateAt: "12/11/2023",
-  },
-  {
-    avatar:
-      "https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/roberta-casas.png",
-    name: "Trần Huỳnh Tấn Phát",
-    phone: "0389052811",
-    email: "example@gmail.com",
-    dayOfBirth: "01/01/2002",
-    updateAt: "12/11/2023",
-  },
-];
 </script>

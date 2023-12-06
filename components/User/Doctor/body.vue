@@ -29,8 +29,10 @@
               <input
                 type="text"
                 id="simple-search"
+                v-model="keySearch"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-gray-500 focus:border-gray-500 block w-full pl-10 p-2"
                 placeholder="Tìm kiếm"
+                @input="meilisearch()"
               />
             </div>
           </form>
@@ -38,6 +40,23 @@
         <div
           class="w-full md:w-auto flex flex-col md:flex-row space-y-2 md:space-y-0 items-stretch md:items-center justify-end md:space-x-3 flex-shrink-0"
         >
+          <button
+            type="button"
+            v-show="currentId"
+            class="block py-2 px-4 text-sm text-red-500 hover:bg-red-100 rounded-lg"
+          >
+            Xoá
+          </button>
+          <button
+            v-show="currentId"
+            type="button"
+            id="updateDoctorButton"
+            data-modal-target="updateDoctor"
+            data-modal-toggle="updateDoctor"
+            class="flex items-center justify-center w-full md:w-auto text-primary-700 bg-white hover:bg-primary-300 hover:text-primary-900 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-4 py-2 focus:outline-none"
+          >
+            Chỉnh sửa
+          </button>
           <button
             type="button"
             id="createDoctorButton"
@@ -70,107 +89,59 @@
           class="grid 2xl:grid-cols-5 xl:grid-cols-4 lg:grid-cols-3 grid-cols-2 md:gap-4 gap-2"
         >
           <div
-            class="relative col-span-1 w-full bg-white border-gray-200 shadow hover:border-gray-200 rounded-lg md:p-4 border-4 border-transparent group"
-            v-for="element in data.doctors"
-            :key="element.id"
+            class="relative col-span-1 w-full bg-white shadow rounded-lg border-4 group cursor-pointer"
+            :class="{
+              'border-gray-200': currentId == doctor.id,
+              'border-transparent hover:border-gray-200':
+                currentId != doctor.id,
+            }"
+            v-for="doctor in resultSearch"
+            :key="doctor.id"
+            @click="chooseDoctor(doctor.id)"
           >
             <a
-              :href="route.path + '/' + element.id"
-              class="w-full h-full absolute z-10"
-            ></a>
-
-            <div class="absolute md:right-5 right-1 md:top-5 top-1 z-20 group">
-              <button
-                id="example-dropdow-button"
-                :data-dropdown-toggle="'example-dropdow' + element.id"
-                class="inline-flex items-center p-0.5 text-sm font-medium text-center text-black rounded-lg hover:bg-white"
-                type="button"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="w-5 h-5"
-                  aria-hidden="true"
-                  fill="currentColor"
-                  viewBox="0 0 128 512"
-                >
-                  <path
-                    d="M64 360a56 56 0 1 0 0 112a56 56 0 1 0 0-112zm0-160a56 56 0 1 0 0 112a56 56 0 1 0 0-112zm56-104A56 56 0 1 0 8 96a56 56 0 1 0 112 0z"
-                  />
-                </svg>
-              </button>
-              <div
-                :id="'example-dropdow' + element.id"
-                class="hidden z-10 w-44 bg-white rounded divide-y divide-gray-100 shadow"
-              >
-                <ul
-                  class="py-1 text-sm text-gray-700 dark:text-gray-200"
-                  aria-labelledby="apple-imac-27-dropdown-button"
-                >
-                  <li>
-                    <a
-                      :href="route.path + '/' + element.id"
-                      class="block py-2 px-4 hover:bg-gray-100"
-                      >Chi tiết</a
-                    >
-                  </li>
-                  <li>
-                    <button
-                      type="button"
-                      :id="'updateDoctorButton' + element.id"
-                      data-modal-target="updateDoctor"
-                      data-modal-toggle="updateDoctor"
-                      class="py-2 px-4 w-full flex items-start justify-start hover:bg-gray-100"
-                      @click="chooseDoctor(element.id)"
-                    >
-                      Chỉnh sửa
-                    </button>
-                  </li>
-                </ul>
-                <div class="py-1">
-                  <a
-                    href="#"
-                    class="block py-2 px-4 text-sm text-red-500 hover:bg-gray-100"
-                    >Xoá</a
-                  >
-                </div>
-              </div>
-            </div>
-            <div class="flex flex-col items-start">
+              v-show="currentId == doctor.id"
+              :href="route.path + '/' + doctor.id"
+              class="w-full h-full absolute z-10 brightness-50 items-center grid text-center bg-gradient-to-b from-transparent from-90%  via-gray-50 via-10% to-transparent to-90% rounded-md"
+              ></a
+            >
+            <div class="flex flex-col items-start md:p-4">
               <div
                 class="md:h-52 h-40 w-full md:rounded-lg rounded-t-lg md:mb-4 mb-2 overflow-hidden"
               >
                 <NuxtImg
-                  v-if="element.avatar"
+                  v-if="doctor.avatar"
                   provider="cloudinary"
-                  :src="element.avatar"
+                  :src="doctor.avatar"
                   width="700"
                   height="700"
                   class="object-cover group-hover:scale-[1.15] duration-200 transform ease-linear"
-                  :alt="element.full_name"
+                  :alt="doctor.full_name"
                 />
-                <img
+                <NuxtImg
                   v-else
-                  src="/default.png"
-                  :alt="element.full_name"
+                  provider="cloudinary"
+                  src="healthline/avatar/doctors/default"
                   width="700"
                   height="700"
                   class="object-cover group-hover:scale-[1.15] duration-200 transform ease-linear"
+                  :alt="doctor.full_name"
                 />
               </div>
 
               <h5
                 class="mb-1 md:text-lg text-base font-bold text-gray-900 overflow-hidden px-2 md:px-0 truncate ..."
               >
-                {{ element.full_name }}
+                {{ doctor.full_name }}
               </h5>
               <span
                 class="w-full text-xs font-semibold text-gray-500 px-2 md:px-0"
-                >{{ getByKey(element.specialty) }}</span
+                >{{ getByKey(doctor.specialty) }}</span
               >
 
               <span
                 class="w-full text-sm font-thin text-gray-500 px-2 md:px-0 truncate ..."
-                >{{ element.email ?? "Không xác định" }}</span
+                >{{ doctor.email ?? "Không xác định" }}</span
               >
 
               <div
@@ -189,11 +160,11 @@
                     />
                   </svg>
                   <span class="text-sm text-gray-500 truncate">{{
-                    element.ratings
+                    doctor.ratings
                   }}</span>
                 </div>
                 <span class="text-sm text-gray-500 truncate"
-                  >{{ element.fee_per_minutes }} VND</span
+                  >{{ doctor.fee_per_minutes }} VND</span
                 >
               </div>
             </div>
@@ -222,7 +193,7 @@
                 </th>
               </tr>
             </thead>
-            <tbody v-for="element in data.doctors" :key="element.id">
+            <tbody v-for="doctor in resultSearch" :key="doctor.id">
               <tr class="border-b hover:bg-gray-200">
                 <th
                   scope="row"
@@ -231,16 +202,16 @@
                   <div class="w-8 h-8 rounded-full overflow-hidden">
                     <!-- <img
                     class="w-8 h-8 rounded-full"
-                    :src="element.avatar"
+                    :src="doctor.avatar"
                     alt="Neil image"
                   /> -->
                     <NuxtImg
-                      v-if="element.avatar"
+                      v-if="doctor.avatar"
                       provider="cloudinary"
                       width="400"
                       height="400"
-                      :src="element.avatar"
-                      :alt="element.full_name"
+                      :src="doctor.avatar"
+                      :alt="doctor.full_name"
                       class="object-cover group-hover:scale-[1.15] duration-200 transform ease-linear"
                     />
 
@@ -248,23 +219,23 @@
                       v-else
                       class="object-cover group-hover:scale-[1.15] duration-200 transform ease-linear"
                       src="/default.png"
-                      :alt="element.full_name"
+                      :alt="doctor.full_name"
                     />
                   </div>
-                  <span class="ml-2">{{ element.full_name }}</span>
+                  <span class="ml-2">{{ doctor.full_name }}</span>
                 </th>
 
-                <td class="px-4 py-3 mr-4">{{ element.email }}</td>
-                <td class="px-4 py-3 mr-4">{{ element.specialty }}</td>
-                <td class="px-4 py-3 mr-4">{{ element.fee_per_minutes }}</td>
-                <td class="px-4 py-3 mr-4">{{ element.ratings }}</td>
+                <td class="px-4 py-3 mr-4">{{ doctor.email }}</td>
+                <td class="px-4 py-3 mr-4">{{ doctor.specialty }}</td>
+                <td class="px-4 py-3 mr-4">{{ doctor.fee_per_minutes }}</td>
+                <td class="px-4 py-3 mr-4">{{ doctor.ratings }}</td>
                 <td class="px-4 py-3 mr-4">
-                  {{ element.number_of_consultation }}
+                  {{ doctor.number_of_consultation }}
                 </td>
                 <td class="px-4 py-3 flex items-center justify-end">
                   <button
-                    :id="'data-' + element.id + '-button'"
-                    :data-dropdown-toggle="'data-' + element.id"
+                    :id="'data-' + doctor.id + '-button'"
+                    :data-dropdown-toggle="'data-' + doctor.id"
                     class="inline-flex items-center p-0.5 text-sm font-medium text-center text-gray-500 hover:text-gray-800 rounded-lg focus:outline-none dark:text-gray-400 dark:hover:text-gray-100"
                     type="button"
                   >
@@ -281,16 +252,16 @@
                     </svg>
                   </button>
                   <div
-                    :id="'data-' + element.id"
+                    :id="'data-' + doctor.id"
                     class="hidden z-10 w-44 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600"
                   >
                     <ul
                       class="py-1 text-sm text-gray-700 dark:text-gray-200"
-                      :aria-labelledby="'data-' + element.id + '-button'"
+                      :aria-labelledby="'data-' + doctor.id + '-button'"
                     >
                       <li>
                         <a
-                          :href="route.path + '/' + element.id"
+                          :href="route.path + '/' + doctor.id"
                           class="block py-2 px-4 hover:bg-gray-100"
                           >Chi tiết</a
                         >
@@ -298,11 +269,11 @@
                       <li>
                         <button
                           type="button"
-                          :id="'updateDoctorButton' + element.id"
+                          :id="'updateDoctorButton' + doctor.id"
                           data-modal-target="updateDoctor"
                           data-modal-toggle="updateDoctor"
                           class="py-2 px-4 w-full flex items-start justify-start hover:bg-gray-100"
-                          @click="chooseDoctor(element.id)"
+                          @click="chooseDoctor(doctor.id)"
                         >
                           Chỉnh sửa
                         </button>
@@ -329,19 +300,28 @@
         <span class="text-sm font-normal text-gray-500 dark:text-gray-400">
           Hiển thị
           <span class="font-semibold text-gray-900 dark:text-white"
-            >{{ pagePrevious * 10 + 1 }}-{{ pageCurrent * 10 }}</span
+            >{{ hitsPerPage * (currentPage - 1) + 1 }}-{{
+              hitsPerPage * currentPage > totalHits
+                ? totalHits
+                : hitsPerPage * currentPage
+            }}</span
           >
           của
           <span class="font-semibold text-gray-900 dark:text-white">{{
-            data.doctorQuantity
+            totalHits
           }}</span>
         </span>
         <ul class="inline-flex items-stretch -space-x-px">
           <li>
             <button
               type="button"
-              @click="previousPage"
-              class="flex items-center justify-center h-full py-1.5 px-3 ml-0 text-gray-500 bg-white rounded-l-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+              :class="
+                currentPage != 1
+                  ? 'border-gray-300 hover:bg-gray-100 hover:text-gray-700 text-gray-500'
+                  : 'text-gray-300'
+              "
+              @click="previous"
+              class="flex items-center justify-center h-full py-1.5 px-3 ml-0 bg-white rounded-l-lg border"
             >
               <span class="sr-only">Trước</span>
               <svg
@@ -363,8 +343,63 @@
           <li>
             <button
               type="button"
-              @click="nextPage"
-              class="flex items-center justify-center h-full py-1.5 px-3 leading-tight text-gray-500 bg-white rounded-r-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+              @click="choosePage(currentPage - 2)"
+              v-if="currentPage - 2 >= 1"
+              class="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700"
+            >
+              {{ currentPage - 2 }}
+            </button>
+          </li>
+          <li>
+            <button
+              type="button"
+              @click="choosePage(currentPage - 1)"
+              v-if="currentPage - 1 >= 1"
+              class="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700"
+            >
+              {{ currentPage - 1 }}
+            </button>
+          </li>
+          <li>
+            <button
+              type="button"
+              @click="choosePage(currentPage)"
+              class="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-primary-100 border border-gray-300 hover:bg-primary-100 hover:text-primary-700"
+            >
+              {{ currentPage }}
+            </button>
+          </li>
+          <li>
+            <button
+              type="button"
+              @click="choosePage(currentPage + 1)"
+              v-if="currentPage + 1 <= totalPages"
+              class="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700"
+            >
+              {{ currentPage + 1 }}
+            </button>
+          </li>
+          <li>
+            <button
+              type="button"
+              @click="choosePage(currentPage + 2)"
+              v-if="currentPage + 2 <= totalPages"
+              class="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700"
+            >
+              {{ currentPage + 2 }}
+            </button>
+          </li>
+
+          <li>
+            <button
+              href="#"
+              :class="
+                totalPages != currentPage && totalHits > 0
+                  ? 'border-gray-300 hover:bg-gray-100 hover:text-gray-700 text-gray-500'
+                  : 'text-gray-300'
+              "
+              @click="next"
+              class="flex items-center justify-center h-full py-1.5 px-3 leading-tight bg-white rounded-r-lg border b"
             >
               <span class="sr-only">Tiếp</span>
               <svg
@@ -392,6 +427,8 @@
 <script setup lang="ts">
 import { Specialty } from "~/stores/enums/enum";
 
+const { search, result } = useMeiliSearch("doctors");
+
 const mapSpecialty = Object.entries(Specialty).map(([key, value]) => ({
   key: key,
   value: value,
@@ -400,15 +437,29 @@ const route = useRoute();
 
 const isLoading = ref(false);
 const { data } = defineProps(["data"]);
-onMounted(() => {});
+onMounted(async () => {
+  result.value = await search(keySearch.value.trim(), {
+    hitsPerPage: hitsPerPage.value,
+    page: currentPage.value,
+  });
+  resultSearch.value = result.value.hits;
+  totalHits.value = result.value.totalHits;
+  totalPages.value = result.value.totalPages;
+  data.saveDoctors(resultSearch.value);
+});
 
 function chooseDoctor(id: string) {
+  currentId.value = id;
   data.chooseDoctor(id);
 }
 
-const pagePrevious = ref(0);
-const pageCurrent = ref(1);
-const pageNext = ref(2);
+const keySearch = ref("");
+const resultSearch = ref();
+const hitsPerPage = ref(10);
+const currentPage = ref(1);
+const totalPages = ref();
+const totalHits = ref(0);
+const currentId = ref();
 
 function getByKey(searchKey: string) {
   for (let { key, value } of mapSpecialty) {
@@ -417,27 +468,63 @@ function getByKey(searchKey: string) {
   return "Không xác định";
 }
 
-async function nextPage() {
-  if (pageCurrent.value < Math.ceil(data.quantity / 10)) {
-    pagePrevious.value = pageCurrent.value;
-    pageCurrent.value = pageNext.value;
-    pageNext.value = pageNext.value + 1;
-    switchPage(pageCurrent.value);
+async function previous() {
+  if (currentPage.value > 1) {
+    currentPage.value = currentPage.value - 1;
+    result.value = await search(keySearch.value.trim(), {
+      hitsPerPage: hitsPerPage.value,
+      page: currentPage.value,
+    });
+    currentId.value = undefined;
+    resultSearch.value = result.value.hits;
+    totalHits.value = result.value.totalHits;
+    totalPages.value = result.value.totalPages;
+    data.saveDoctors(resultSearch.value);
   }
 }
 
-async function previousPage() {
-  if (pageCurrent.value > 1) {
-    pageNext.value = pageCurrent.value;
-    pageCurrent.value = pagePrevious.value;
-    pagePrevious.value = pagePrevious.value - 1;
-    switchPage(pageCurrent.value);
+async function next() {
+  if (currentPage.value < totalPages.value) {
+    currentPage.value = currentPage.value + 1;
+    result.value = await search(keySearch.value.trim(), {
+      hitsPerPage: hitsPerPage.value,
+      page: currentPage.value,
+    });
+    currentId.value = undefined;
+    resultSearch.value = result.value.hits;
+    totalHits.value = result.value.totalHits;
+    totalPages.value = result.value.totalPages;
+    data.saveDoctors(resultSearch.value);
+  }
+}
+async function choosePage(page: number) {
+  if (page >= 1 && page <= totalPages.value) {
+    currentPage.value = page;
+    result.value = await search(keySearch.value.trim(), {
+      hitsPerPage: hitsPerPage.value,
+      page: currentPage.value,
+    });
+    currentId.value = undefined;
+    resultSearch.value = result.value.hits;
+    totalHits.value = result.value.totalHits;
+    totalPages.value = result.value.totalPages;
+    data.saveDoctors(resultSearch.value);
   }
 }
 
-const switchPage = async (index: number) => {
-  isLoading.value = true;
-  await data.getAllDoctorPerPage(index, 10);
-  isLoading.value = false;
-};
+async function meilisearch() {
+  // if (keySearch.value.trim() !== "") {
+  currentPage.value = 1;
+  result.value = await search(keySearch.value.trim(), {
+    hitsPerPage: hitsPerPage.value,
+    page: 1,
+  });
+  currentId.value = undefined;
+  resultSearch.value = result.value.hits;
+  totalHits.value = result.value.totalHits;
+  totalPages.value = result.value.totalPages;
+  data.saveDoctors(resultSearch.value);
+
+  // }
+}
 </script>

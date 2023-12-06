@@ -22,76 +22,96 @@ export const useDataDoctor = defineStore("doctor", () => {
   }
 
   async function getQuantityDoctor() {
-    if (authorization === "Bearer ") return;
-    const { data, error } = await useFetch(
-      "doctor-management/doctor/quantity",
-      {
-        baseURL: useRuntimeConfig().public.baseURL,
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: authorization,
-        },
-      }
-    );
+    try {
+      if (authorization === "Bearer ") throw "Không thể xác định danh tính";
+      const { data, error } = await useFetch(
+        "doctor-management/doctor/quantity",
+        {
+          baseURL: useRuntimeConfig().public.baseURL,
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: authorization,
+          },
+        }
+      );
 
-    if (data.value !== null) {
-      const message = mask(data.value, DataObjectSchema);
-      doctorQuantity.value = mask(message.data.quantity, number());
-    } else {
-      navigateTo("error");
+      if (data.value !== null) {
+        const response = mask(data.value, DataObjectSchema);
+        doctorQuantity.value = mask(response.data.quantity, number());
+      } else {
+        throw error;
+      }
+    } catch (error) {
+      throw error;
     }
   }
-
-  async function getAllDoctorPerPage(page: number, num: number) {
-    const { data, error } = await useFetch(
-      "/doctor-management/doctor/information/" + page + "/" + num,
-      {
-        baseURL: useRuntimeConfig().public.baseURL,
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: authorization,
-        },
-      }
-    );
-
-    if (data.value !== null) {
-      const message = mask(data.value, DataArraySchema);
-
-      doctors.value = mask(message.data, array(DoctorSchema));
-    } else {
-      console.log(error);
-      // navigateTo("/error");
-      doctors.value = [];
-    }
+  function saveDoctors(listDoctor: Doctor[]) {
+    doctors.value = listDoctor;
   }
+  // async function getAllDoctorPerPage(page: number, num: number) {
+  //   try {
+  //     if (authorization === "Bearer ") throw "Không thể xác định danh tính";
+
+  //     const { data, error } = await useFetch(
+  //       "/doctor-management/doctor/information/" + page + "/" + 50,
+  //       {
+  //         baseURL: useRuntimeConfig().public.baseURL,
+  //         method: "GET",
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //           Authorization: authorization,
+  //         },
+  //       }
+  //     );
+
+  //     if (data.value !== null) {
+  //       const response = mask(data.value, DataArraySchema);
+
+  //       doctors.value = mask(response.data, array(DoctorSchema));
+  //     } else {
+  //       console.log(error);
+  //       // navigateTo("/error");
+  //       doctors.value = [];
+  //       throw error;
+  //     }
+  //   } catch (error) {
+  //     throw error;
+  //   }
+  // }
   async function createDoctor(doctor: Doctor) {
-    const { data, error } = await useFetch("/doctor-management/doctor/", {
-      baseURL: useRuntimeConfig().public.baseURL,
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: authorization,
-      },
-      body: JSON.stringify({
-        phone: doctor.phone,
-        password: "",
-        full_name: doctor.full_name,
-        specialty: doctor.specialty,
-        experience: doctor.experience,
-        fee_per_minutes: doctor.fee_per_minutes,
-        fixed_times: [],
-      }),
-    });
+    try {
+      if (authorization === "Bearer ") throw "Không thể xác định danh tính";
 
-    if (data.value !== null) {
-      // const message = mask(data.value, DataArraySchema);
-      // doctors.value = mask(message.data, array(DoctorSchema));
-    } else {
-      // console.log(error);
-      // // navigateTo("/error");
-      // doctors.value = [];
+      const { data, error } = await useFetch("/doctor-management/doctor/", {
+        baseURL: useRuntimeConfig().public.baseURL,
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: authorization,
+        },
+        body: JSON.stringify({
+          phone: doctor.phone,
+          email: doctor.email,
+          full_name: doctor.full_name,
+          specialty: doctor.specialty,
+          experience: doctor.experience,
+          fee_per_minutes: doctor.fee_per_minutes,
+          fixed_times: [],
+        }),
+      });
+
+      if (data.value !== null) {
+        // const response = mask(data.value, DataArraySchema);
+        // doctors.value = mask(response.data, array(DoctorSchema));
+      } else {
+        console.log(error);
+        // navigateTo("/error");
+        doctors.value = [];
+        throw "Thêm tài khoản thất bại";
+      }
+    } catch (error) {
+      throw error;
     }
   }
 
@@ -101,6 +121,7 @@ export const useDataDoctor = defineStore("doctor", () => {
     doctorQuantity,
     chooseDoctor,
     getQuantityDoctor,
-    getAllDoctorPerPage,
+    saveDoctors,
+    createDoctor,
   };
 });

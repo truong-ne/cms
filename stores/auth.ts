@@ -21,35 +21,53 @@ export const useAuthStore = defineStore("auth", {
   },
   actions: {
     async login(username: string, password: string): Promise<any> {
-      const res = await $fetch("/common/admin/auth", {
-        baseURL: useRuntimeConfig().public.baseURL,
-        method: "POST",
-        body: JSON.stringify({ username: username, password: password }),
-        credentials: 'include',
-        onResponse({ request, response, options }) {
-          console.log(response._data);
-          console.log(response.headers.getSetCookie());
-
-          response.headers.forEach((e) => console.log(e));
-        },
-      });
-      // const { data, error } = await useFetch("/common/admin/auth", {
+      // const res = await $fetch("/common/admin/auth", {
       //   baseURL: useRuntimeConfig().public.baseURL,
       //   method: "POST",
-      //   body: JSON.stringify({
-      //     username: username,
-      //     password: password,
-      //   }),
+      //   body: JSON.stringify({ username: username, password: password }),
+
+      //   onResponse({ request, response, options }) {
+      //     console.log(response._data);
+      //     console.log(response.headers.getSetCookie());
+
+      //     response.headers.forEach((e) => console.log(e));
+      //   },
       // });
-      // if (data.value !== null) {
-      //   const message = mask(data.value, DataObjectLoginSchema);
-      //   var response = mask(message.data, AuthenticateSchema);
-      //   this.accessToken = response.jwt_token;
-      //   localStorage.setItem("access_token", this.accessToken);
-      //   window.location.href = "/";
-      // } else if (error.value != null) {
-      //   throw error;
-      // }
+      // const { data, pending, error, refresh } = await useAsyncData(
+      //   "login",
+      //   () =>
+      //     $fetch(useRuntimeConfig().public.baseURL + "/common/admin/auth", {
+      //       method: "POST",
+      //       body: JSON.stringify({ username: username, password: password }),
+      //       onResponse({ request, response, options }) {
+      //         console.log("REQUEST");
+      //         console.log(request);
+      //         console.log("RESPONSE");
+      //         console.log(response.headers.getSetCookie());
+      //         response.headers.forEach((e) => console.log(e));
+      //         console.log("OPTIONS");
+      //         console.log(options.headers?.values);
+      //       },
+      //     })
+      // );
+      // console.log(data.value);
+      const { data, error } = await useFetch("/common/admin/auth", {
+        baseURL: useRuntimeConfig().public.baseURL,
+        method: "POST",
+        body: JSON.stringify({
+          username: username,
+          password: password,
+        }),
+      });
+      if (data.value !== null) {
+        const message = mask(data.value, DataObjectLoginSchema);
+        var response = mask(message.data, AuthenticateSchema);
+        this.accessToken = response.jwt_token;
+        localStorage.setItem("access_token", this.accessToken);
+        window.location.href = "/";
+      } else if (error.value != null) {
+        throw error;
+      }
     },
     async refreshToken() {
       try {
