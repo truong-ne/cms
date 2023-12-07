@@ -267,7 +267,6 @@
 </template>
 
 <script setup lang="ts">
-import { Specialty } from "~/stores/enums/enum";
 import * as yup from "yup";
 import { useForm } from "vee-validate";
 import { type Doctor } from "~/stores/structs/doctor_struct";

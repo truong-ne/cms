@@ -387,7 +387,6 @@
 </template>
   
 <script setup lang="ts">
-import { Gender } from "~/stores/enums/enum";
 import { getDate } from "~/utils/datetime";
 import { converCurrency } from "~/utils/currency";
 
