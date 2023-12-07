@@ -114,6 +114,41 @@ export const useDataDoctor = defineStore("doctor", () => {
       throw error;
     }
   }
+  async function updateDoctor(doctor: Doctor) {
+    try {
+      if (authorization === "Bearer ") throw "Không thể xác định danh tính";
+
+      const { data, error } = await useFetch("/doctor-management/doctor/modify", {
+        baseURL: useRuntimeConfig().public.baseURL,
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: authorization,
+        },
+        body: JSON.stringify({
+          doctor_id:doctor.id,
+          phone: doctor.phone,
+          email: doctor.email,
+          full_name: doctor.full_name,
+          specialty: doctor.specialty,
+          experience: doctor.experience,
+          fee_per_minutes: doctor.fee_per_minutes,
+        }),
+      });
+
+      if (data.value !== null) {
+        // const response = mask(data.value, DataArraySchema);
+        // doctors.value = mask(response.data, array(DoctorSchema));
+      } else {
+        console.log(error);
+        // navigateTo("/error");
+        doctors.value = [];
+        throw "Thêm tài khoản thất bại";
+      }
+    } catch (error) {
+      throw error;
+    }
+  }
 
   return {
     doctor,
@@ -121,6 +156,7 @@ export const useDataDoctor = defineStore("doctor", () => {
     doctorQuantity,
     chooseDoctor,
     getQuantityDoctor,
+    updateDoctor,
     saveDoctors,
     createDoctor,
   };

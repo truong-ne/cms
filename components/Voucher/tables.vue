@@ -91,26 +91,28 @@
                 <th scope="col" class="px-4 py-3">Thời gian hết hạn</th>
               </tr>
             </thead>
-            <tbody v-for="item in resultSearch" :key="item.item">
+            <tbody v-for="discount in resultSearch" :key="discount.discount">
               <tr
                 class="border-b"
                 :class="{
-                  'bg-gray-300': currentId == item.id,
-                  'hover:bg-gray-100': currentId != item.id,
+                  'bg-gray-300': currentId == discount.id,
+                  'hover:bg-gray-100': currentId != discount.id,
                 }"
-                @click="chooseDiscount(item.id)"
+                @click="chooseDiscount(discount.id)"
               >
                 <th
                   scope="row"
                   class="flex items-center px-4 py-3 mr-4 font-normal text-gray-900 whitespace-nowrap"
                 >
-                  {{ item.code }}
+                  {{ discount.code }}
                 </th>
-                <td class="px-4 py-3 mr-4">{{ item.value }}</td>
+                <td class="px-4 py-3 mr-4">
+                  {{ getValue(discount.value, discount.type) }}
+                </td>
 
-                <td class="px-4 py-3 mr-4">{{ item.type }}</td>
-                <td class="px-4 py-3 mr-4" v-if="item.expiration_time">
-                  {{ getDate(item.expiration_time) }}
+                <td class="px-4 py-3 mr-4">{{ getType(discount.type) }}</td>
+                <td class="px-4 py-3 mr-4" v-if="discount.expiration_time">
+                  {{ getDate(discount.expiration_time) }}
                 </td>
                 <td class="px-4 py-3 mr-4" v-else></td>
               </tr>
@@ -251,6 +253,7 @@
   
 <script setup lang="ts">
 import { getDate } from "~/utils/datetime";
+import { converCurrency } from "~/utils/currency";
 
 const { search, result } = useMeiliSearch("discount");
 
@@ -271,6 +274,16 @@ function addToast() {
     message: message.value,
     toastStatus: toastStatus.value,
   });
+}
+
+function getType(type: string) {
+  return type.toUpperCase();
+}
+
+function getValue(value: string, type: string) {
+  if (type === "vnd") {
+    return converCurrency(value);
+  } else return value;
 }
 
 onMounted(async () => {

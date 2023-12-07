@@ -11,7 +11,7 @@
         v-if="blog.photo"
         provider="cloudinary"
         :src="blog.photo"
-        class="h-auto w-auto object-contain absolute blur-2xl"
+        class="h-auto w-auto object-contain absolute blur-2xl opacity-20 group-hover:opacity-70 duration-200 transform ease-linear"
         :alt="blog.title"
       />
 
@@ -50,7 +50,7 @@
         <div class="flex justify-between items-center">
           <a
             href="#"
-            class="inline-flex items-center font-normal px-3 py-2 border border-gray-200 rounded-lg text-gray-200 hover:border-primary-600 hover:bg-primary-600 hover:text-white"
+            class="inline-flex items-center font-normal px-3 py-2 border border-gray-700 rounded-lg text-gray-700 hover:border-primary-600 hover:bg-primary-600 hover:text-white"
           >
             Cập nhật
           </a>

@@ -246,15 +246,32 @@ import { Specialty } from "~/stores/enums/enum";
 import * as yup from "yup";
 import { useForm } from "vee-validate";
 
+
+const storeToast = toastStore();
+const toastStatus = ref("");
+const message = ref("");
+
+function addToast() {
+  storeToast.add({
+    message: message.value,
+    toastStatus: toastStatus.value,
+  });
+}
+
 const { data } = defineProps(["data"]);
 
+const currentId = ref();
+
 onUpdated(() => {
-  setFieldValue("fullName", data.doctor.full_name);
-  setFieldValue("email", data.doctor.email);
-  setFieldValue("phone", data.doctor.phone);
-  setFieldValue("experience", data.doctor.experience);
-  setFieldValue("feePerMinute", data.doctor.fee_per_minutes);
-  setFieldValue("specialty", data.doctor.specialty);
+  if (currentId.value != data.doctor.id) {
+    currentId.value = data.doctor.id;
+    setFieldValue("fullName", data.doctor.full_name);
+    setFieldValue("email", data.doctor.email);
+    setFieldValue("phone", data.doctor.phone);
+    setFieldValue("experience", data.doctor.experience);
+    setFieldValue("feePerMinute", data.doctor.fee_per_minutes);
+    setFieldValue("specialty", data.doctor.specialty);
+  }
 });
 
 const mapSpecialty = Object.entries(Specialty).map(([key, value]) => ({
@@ -328,6 +345,27 @@ const specialty = defineInputBinds("specialty", {
 });
 
 const onSubmit = handleSubmit(async (values) => {
-  console.log("OK");
+  const doctor: Doctor = {
+    id: data.doctor.id,
+    full_name: values.fullName,
+    specialty: values.specialty,
+    email: values.email,
+    phone: values.phone,
+    experience: values.experience,
+    fee_per_minutes:values.feePerMinute
+  };
+
+  clearNuxtData();
+  await data
+    .updateDoctor(doctor)
+    .then(() => {
+      toastStatus.value = "success";
+      message.value = "Thêm thành công";
+    })
+    .catch((e: string) => {
+      toastStatus.value = "error";
+      message.value = e;
+    });
+  addToast();
 });
 </script>

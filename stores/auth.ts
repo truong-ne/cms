@@ -58,7 +58,10 @@ export const useAuthStore = defineStore("auth", {
           username: username,
           password: password,
         }),
+        credentials: 'include',
       });
+      console.log(data.value)
+
       if (data.value !== null) {
         const message = mask(data.value, DataObjectLoginSchema);
         var response = mask(message.data, AuthenticateSchema);
