@@ -89,33 +89,42 @@
           class="grid 2xl:grid-cols-5 xl:grid-cols-4 lg:grid-cols-3 grid-cols-2 md:gap-4 gap-2"
         >
           <div
-            class="relative col-span-1 w-full bg-white shadow rounded-lg border-4 group cursor-pointer"
-            :class="{
-              'border-gray-200': currentId == doctor.id,
-              'border-transparent hover:border-gray-200':
-                currentId != doctor.id,
-            }"
+            class="relative col-span-1 w-full bg-white shadow rounded-lg group cursor-pointer border-transparent border-4 hover:border-gray-200"
             v-for="doctor in resultSearch"
             :key="doctor.id"
             @click="chooseDoctor(doctor.id)"
           >
-            <a
-              v-show="currentId == doctor.id"
-              :href="route.path + '/' + doctor.id"
-              class="w-full h-full absolute z-10 brightness-50 items-center grid text-center bg-gradient-to-b from-transparent from-90%  via-gray-50 via-10% to-transparent to-90% rounded-md"
-              ></a
-            >
-            <div class="flex flex-col items-start md:p-4">
+            <div class="flex flex-col items-start md:p-4 relative">
               <div
-                class="md:h-52 h-40 w-full md:rounded-lg rounded-t-lg md:mb-4 mb-2 overflow-hidden"
+                class="md:h-52 h-40 w-full md:rounded-lg rounded-t-lg md:mb-4 mb-2 overflow-hidden relative"
               >
+                <div
+                  class="w-full h-full absolute z-10 items-center text-center justify-center bg-opacity-50 bg-black rounded-md grid"
+                  :class="{
+                    'opacity-0 group-hover:opacity-100 transition duration-200':
+                      currentId != doctor.id,
+                    'opacity-100': currentId == doctor.id,
+                  }"
+                >
+                  <a
+                    :href="route.path + '/' + doctor.id"
+                    class="w-auto h-auto bg-white rounded-md px-3 py-1 font-medium text-sm"
+                  >
+                    Chi tiết
+                  </a>
+                </div>
                 <NuxtImg
                   v-if="doctor.avatar"
                   provider="cloudinary"
                   :src="doctor.avatar"
                   width="700"
                   height="700"
-                  class="object-cover group-hover:scale-[1.15] duration-200 transform ease-linear"
+                  class="object-cover"
+                  :class="{
+                    'group-hover:scale-[1.15] duration-200 transform ease-linear':
+                      currentId != doctor.id,
+                    'scale-[1.15] ': currentId == doctor.id,
+                  }"
                   :alt="doctor.full_name"
                 />
                 <NuxtImg
@@ -124,7 +133,12 @@
                   src="healthline/avatar/doctors/default"
                   width="700"
                   height="700"
-                  class="object-cover group-hover:scale-[1.15] duration-200 transform ease-linear"
+                  class="object-cover"
+                  :class="{
+                    'group-hover:scale-[1.15] duration-200 transform ease-linear':
+                      currentId != doctor.id,
+                    'scale-[1.15] ': currentId == doctor.id,
+                  }"
                   :alt="doctor.full_name"
                 />
               </div>
@@ -163,9 +177,9 @@
                     doctor.ratings
                   }}</span>
                 </div>
-                <span class="text-sm text-gray-500 truncate"
-                  >{{ doctor.fee_per_minutes }} VND</span
-                >
+                <span class="text-sm text-gray-500 truncate">{{
+                  converCurrency(doctor.fee_per_minutes)
+                }}</span>
               </div>
             </div>
           </div>
@@ -194,17 +208,19 @@
               </tr>
             </thead>
             <tbody v-for="doctor in resultSearch" :key="doctor.id">
-              <tr class="border-b hover:bg-gray-200">
+              <tr
+                class="border-b"
+                :class="{
+                  'bg-gray-300 transition duration-200': currentId == doctor.id,
+                  'hover:bg-gray-100': currentId != doctor.id,
+                }"
+                @click="chooseDoctor(doctor.id)"
+              >
                 <th
                   scope="row"
                   class="flex items-center px-4 py-3 font-normal text-gray-900 whitespace-nowrap"
                 >
                   <div class="w-8 h-8 rounded-full overflow-hidden">
-                    <!-- <img
-                    class="w-8 h-8 rounded-full"
-                    :src="doctor.avatar"
-                    alt="Neil image"
-                  /> -->
                     <NuxtImg
                       v-if="doctor.avatar"
                       provider="cloudinary"
@@ -215,10 +231,13 @@
                       class="object-cover group-hover:scale-[1.15] duration-200 transform ease-linear"
                     />
 
-                    <img
+                    <NuxtImg
                       v-else
+                      provider="cloudinary"
+                      src="healthline/avatar/doctors/default"
+                      width="700"
+                      height="700"
                       class="object-cover group-hover:scale-[1.15] duration-200 transform ease-linear"
-                      src="/default.png"
                       :alt="doctor.full_name"
                     />
                   </div>
@@ -227,65 +246,28 @@
 
                 <td class="px-4 py-3 mr-4">{{ doctor.email }}</td>
                 <td class="px-4 py-3 mr-4">{{ doctor.specialty }}</td>
-                <td class="px-4 py-3 mr-4">{{ doctor.fee_per_minutes }}</td>
+                <td class="px-4 py-3 mr-4">
+                  {{ converCurrency(doctor.fee_per_minutes) }}
+                </td>
                 <td class="px-4 py-3 mr-4">{{ doctor.ratings }}</td>
                 <td class="px-4 py-3 mr-4">
                   {{ doctor.number_of_consultation }}
                 </td>
-                <td class="px-4 py-3 flex items-center justify-end">
-                  <button
-                    :id="'data-' + doctor.id + '-button'"
-                    :data-dropdown-toggle="'data-' + doctor.id"
-                    class="inline-flex items-center p-0.5 text-sm font-medium text-center text-gray-500 hover:text-gray-800 rounded-lg focus:outline-none dark:text-gray-400 dark:hover:text-gray-100"
-                    type="button"
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      class="w-5 h-5"
-                      aria-hidden="true"
-                      fill="currentColor"
-                      viewBox="0 0 448 512"
-                    >
-                      <path
-                        d="M8 256a56 56 0 1 1 112 0a56 56 0 1 1-112 0zm160 0a56 56 0 1 1 112 0a56 56 0 1 1-112 0zm216-56a56 56 0 1 1 0 112a56 56 0 1 1 0-112z"
-                      />
-                    </svg>
-                  </button>
+                <td class="px-4 py-3 mr-4 relative">
                   <div
-                    :id="'data-' + doctor.id"
-                    class="hidden z-10 w-44 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600"
+                    class="w-full h-full items-center text-center justify-center rounded-md hidden lg:grid"
+                    :class="{
+                      'opacity-0 group-hover:opacity-100 transition duration-200':
+                        currentId != doctor.id,
+                      'opacity-100': currentId == doctor.id,
+                    }"
                   >
-                    <ul
-                      class="py-1 text-sm text-gray-700 dark:text-gray-200"
-                      :aria-labelledby="'data-' + doctor.id + '-button'"
+                    <a
+                      :href="route.path + '/' + doctor.id"
+                      class="w-auto h-auto bg-white rounded-md px-3 py-1 font-medium text-sm"
                     >
-                      <li>
-                        <a
-                          :href="route.path + '/' + doctor.id"
-                          class="block py-2 px-4 hover:bg-gray-100"
-                          >Chi tiết</a
-                        >
-                      </li>
-                      <li>
-                        <button
-                          type="button"
-                          :id="'updateDoctorButton' + doctor.id"
-                          data-modal-target="updateDoctor"
-                          data-modal-toggle="updateDoctor"
-                          class="py-2 px-4 w-full flex items-start justify-start hover:bg-gray-100"
-                          @click="chooseDoctor(doctor.id)"
-                        >
-                          Chỉnh sửa
-                        </button>
-                      </li>
-                    </ul>
-                    <div class="py-1">
-                      <a
-                        href="#"
-                        class="block py-2 px-4 text-sm text-red-500 hover:bg-gray-100"
-                        >Xoá</a
-                      >
-                    </div>
+                      Chi tiết
+                    </a>
                   </div>
                 </td>
               </tr>
@@ -426,6 +408,7 @@
   
 <script setup lang="ts">
 import { Specialty } from "~/stores/enums/enum";
+import { converCurrency } from "~/utils/currency";
 
 const { search, result } = useMeiliSearch("doctors");
 
@@ -449,8 +432,12 @@ onMounted(async () => {
 });
 
 function chooseDoctor(id: string) {
-  currentId.value = id;
-  data.chooseDoctor(id);
+  if (id == currentId.value) {
+    currentId.value = undefined;
+  } else {
+    currentId.value = id;
+    data.chooseDoctor(id);
+  }
 }
 
 const keySearch = ref("");

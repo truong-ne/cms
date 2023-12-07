@@ -168,6 +168,10 @@
   </section>
 </template>
 <script setup>
+const route = useRoute();
+// onMounted(() => {
+//   console.log(route.path);
+// });
 async function logoutClick() {
   const authStore = useAuthStore();
   await authStore.logout();
