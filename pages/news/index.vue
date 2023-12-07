@@ -1,7 +1,6 @@
 <template>
   <section>
-    <NewHeader />
-    <NewGridview :data="dataBlog"/>
+    <NewBody :data="dataBlog"/>
     <NewFormcreate :data="dataBlog" />
     <NewFormupdate :data="dataBlog"/>
   </section>

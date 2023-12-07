@@ -19,6 +19,8 @@ export const BlogSchema = object({
   photo: any(),
   content:string(),
   title:string(),
+  createdAt:string(),
+  updatedAt:string()
   // tag:string(),
 });
 

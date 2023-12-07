@@ -40,7 +40,7 @@
         <div
           class="w-full md:w-auto flex flex-col md:flex-row space-y-2 md:space-y-0 items-stretch md:items-center justify-end md:space-x-3 flex-shrink-0"
         >
-          <button
+          <!-- <button
             type="button"
             v-show="currentId"
             class="block py-2 px-4 text-sm text-red-500 hover:bg-red-100 rounded-lg"
@@ -56,8 +56,8 @@
             class="flex items-center justify-center w-full md:w-auto text-primary-700 bg-white hover:bg-primary-300 hover:text-primary-900 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-4 py-2 focus:outline-none"
           >
             Chỉnh sửa
-          </button>
-          <button
+          </button> -->
+          <!-- <button
             type="button"
             id="createPatientButton"
             data-modal-target="createPatient"
@@ -76,7 +76,7 @@
               />
             </svg>
             Thêm tài khoản
-          </button>
+          </button> -->
         </div>
       </div>
       <div
@@ -99,12 +99,7 @@
                 class="md:h-52 h-40 w-full md:rounded-lg rounded-t-lg md:mb-4 mb-2 overflow-hidden relative"
               >
                 <div
-                  class="w-full h-full absolute z-10 items-center text-center justify-center bg-opacity-50 bg-black rounded-md grid"
-                  :class="{
-                    'opacity-0 group-hover:opacity-100 transition duration-200':
-                      currentId != patient.id,
-                    'opacity-100': currentId == patient.id,
-                  }"
+                  class="w-full h-full absolute z-10 items-center text-center opacity-0 group-hover:opacity-100 transition duration-200 justify-center bg-opacity-50 bg-black rounded-md grid"
                 >
                   <a
                     :href="route.path + '/' + patient.id"
@@ -114,17 +109,12 @@
                   </a>
                 </div>
                 <NuxtImg
-                  v-if="patient.avatar"
+                  v-if="patient.avatar != 'default'"
                   provider="cloudinary"
                   :src="patient.avatar"
                   width="700"
                   height="700"
-                  class="object-cover"
-                  :class="{
-                    'group-hover:scale-[1.15] duration-200 transform ease-linear':
-                      currentId != patient.id,
-                    'scale-[1.15] ': currentId == patient.id,
-                  }"
+                  class="object-cover group-hover:scale-[1.15] duration-200 transform ease-linear"
                   :alt="patient.full_name"
                 />
                 <NuxtImg
@@ -133,12 +123,7 @@
                   src="healthline/avatar/doctors/default"
                   width="700"
                   height="700"
-                  class="object-cover"
-                  :class="{
-                    'group-hover:scale-[1.15] duration-200 transform ease-linear':
-                      currentId != patient.id,
-                    'scale-[1.15] ': currentId == patient.id,
-                  }"
+                  class="object-cover group-hover:scale-[1.15] duration-200 transform ease-linear"
                   :alt="patient.full_name"
                 />
               </div>
@@ -244,64 +229,25 @@
                 <td v-else></td>
                 <td class="px-4 py-3 mr-4">{{ getByKey(patient.gender) }}</td>
                 <td class="px-4 py-3 mr-4">{{ patient.address }}</td>
-                <td class="px-4 py-3 mr-4" v-if="patient.updated_at">
-                  {{ getDate(patient.updated_at) }}
+                <td class="px-4 py-3 mr-4" v-if="patient.update_at">
+                  {{ getDate(patient.update_at) }}
                 </td>
                 <td v-else></td>
-                <td class="px-4 py-3 flex items-center justify-end">
-                  <button
-                    :id="'data-' + patient.id + '-button'"
-                    :data-dropdown-toggle="'data-' + patient.id"
-                    class="inline-flex items-center p-0.5 text-sm font-medium text-center text-gray-500 hover:text-gray-800 rounded-lg focus:outline-none dark:text-gray-400 dark:hover:text-gray-100"
-                    type="button"
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      class="w-5 h-5"
-                      aria-hidden="true"
-                      fill="currentColor"
-                      viewBox="0 0 448 512"
-                    >
-                      <path
-                        d="M8 256a56 56 0 1 1 112 0a56 56 0 1 1-112 0zm160 0a56 56 0 1 1 112 0a56 56 0 1 1-112 0zm216-56a56 56 0 1 1 0 112a56 56 0 1 1 0-112z"
-                      />
-                    </svg>
-                  </button>
+                <td class="px-4 py-3 mr-4 relative">
                   <div
-                    :id="'data-' + patient.id"
-                    class="hidden z-10 w-44 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600"
+                    class="w-full h-full items-center text-center justify-center rounded-md hidden lg:grid"
+                    :class="{
+                      'opacity-0 group-hover:opacity-100 transition duration-200':
+                        currentId != patient.id,
+                      'opacity-100': currentId == patient.id,
+                    }"
                   >
-                    <ul
-                      class="py-1 text-sm text-gray-700 dark:text-gray-200"
-                      :aria-labelledby="'data-' + patient.id + '-button'"
+                    <a
+                      :href="route.path + '/' + patient.id"
+                      class="w-auto h-auto bg-white rounded-md px-3 py-1 font-medium text-sm"
                     >
-                      <li>
-                        <a
-                          :href="route.path + '/' + patient.id"
-                          class="block py-2 px-4 hover:bg-gray-100"
-                          >Chi tiết</a
-                        >
-                      </li>
-                      <li>
-                        <button
-                          type="button"
-                          :id="'updatePatientButton' + patient.id"
-                          data-modal-target="updatePatient"
-                          data-modal-toggle="updatePatient"
-                          class="py-2 px-4 w-full flex items-start justify-start hover:bg-gray-100"
-                          @click="choosePatient(patient.id)"
-                        >
-                          Chỉnh sửa
-                        </button>
-                      </li>
-                    </ul>
-                    <div class="py-1">
-                      <a
-                        href="#"
-                        class="block py-2 px-4 text-sm text-red-500 hover:bg-gray-100"
-                        >Xoá</a
-                      >
-                    </div>
+                      Chi tiết
+                    </a>
                   </div>
                 </td>
               </tr>

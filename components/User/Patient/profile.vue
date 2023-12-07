@@ -5,25 +5,41 @@
     >
       <div
         class="flex flex-col items-center justify-start mb-2 md:mb-4 pr-8 md:col-span-1 border-r h-full"
+        v-if="data.userInfo"
       >
-        <div class="md:w-40 md:h-40 w-40 h-40 mb-2">
-          <img
-            src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/roberta-casas.png"
-            alt=""
-            class="object-cover rounded-full"
+        <div
+          class="md:w-40 md:h-40 w-40 h-40 mb-2 rounded-full overflow-hidden"
+        >
+          <NuxtImg
+            v-if="data.userInfo.avatar != 'default'"
+            provider="cloudinary"
+            :src="data.userInfo.avatar"
+            width="700"
+            height="700"
+            class="object-cover group-hover:scale-[1.15] duration-200 transform ease-linear"
+            :alt="data.userInfo.full_name"
+          />
+          <NuxtImg
+            v-else
+            provider="cloudinary"
+            src="healthline/avatar/doctors/default"
+            width="700"
+            height="700"
+            class="object-cover group-hover:scale-[1.15] duration-200 transform ease-linear"
+            :alt="data.userInfo.full_name"
           />
         </div>
         <span
           class="mb-5 lg:text-2xl md:text-xl text-lg font-extrabold leading-none text-black overflow-hidden truncate ..."
         >
-          Tài khoản bệnh nhân
+          Tài khoản chính
         </span>
         <div class="flex flex-col items-start justify-start w-full">
           <span
             class="mb-1 lg:text-md md:text-base text-sm font-semibold leading-none text-black overflow-hidden truncate ..."
           >
             Họ tên:
-            <span class="font-thin">Tran Huynh Tan Phat</span>
+            <span class="font-thin">{{ data.userInfo.full_name }}</span>
           </span>
           <span
             class="mb-1 lg:text-md md:text-base text-sm font-semibold leading-none text-black overflow-hidden truncate ..."
@@ -35,39 +51,41 @@
             class="mb-1 lg:text-md md:text-base text-sm font-semibold leading-none text-black overflow-hidden truncate ..."
           >
             Ngày sinh:
-            <span class="font-thin ">08/05/2002</span>
+            <span class="font-thin">{{
+              getDate(data.userInfo.date_of_birth)
+            }}</span>
           </span>
           <span
             class="mb-1 lg:text-md md:text-base text-sm font-semibold leading-none text-black overflow-hidden truncate ..."
           >
             Email:
-            <span class="font-thin hover:underline">example@gmail.com</span>
+            <a
+              class="font-thin hover:underline"
+              :href="'mailto:' + data.userInfo.email"
+              >{{ data.userInfo.email }}</a
+            >
           </span>
           <span
             class="mb-1 lg:text-md md:text-base text-sm font-semibold leading-none text-black overflow-hidden truncate ..."
           >
             Số điện thoại:
-            <a href="tel:0389052811" class="font-thin hover:underline"
-              >0389052811</a
+            <a
+              :href="'tel:' + data.userInfo.phone"
+              class="font-thin hover:underline"
+              >{{ data.userInfo.phone }}</a
             >
           </span>
           <span
             class="mb-1 lg:text-md md:text-base text-sm font-semibold leading-none text-black overflow-hidden truncate ..."
           >
             Địa chỉ:
-            <span class="font-thin">Võ văn ngân thử đức</span>
+            <span class="font-thin">{{ data.userInfo.address }}</span>
           </span>
+
           <span
-            class="mb-1 lg:text-md md:text-base text-sm font-semibold leading-none text-black overflow-hidden truncate ..."
+            class="mb-1 lg:text-md md:text-base text-sm font-thin leading-none text-black overflow-hidden truncate ..."
           >
-            Ngày tạo:
-            <span class="font-thin">11/05/2023</span>
-          </span>
-          <span
-            class="mb-1 lg:text-md md:text-base text-sm font-semibold leading-none text-black overflow-hidden truncate ..."
-          >
-            Ngày cập nhật:
-            <span class="font-thin">11/05/2023</span>
+            Cập nhật {{ getDateTime(data.userInfo.updated_at) }}
           </span>
         </div>
       </div>
@@ -80,12 +98,10 @@
         >
           Hồ sơ bệnh nhân
         </span>
-        
       </div>
     </div>
   </div>
 </template>
-<script setup>
+<script setup lang="ts">
+const { data } = defineProps(["data"]);
 </script>
-<style lang="scss" scoped>
-</style>

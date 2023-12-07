@@ -17,6 +17,7 @@ export const useDataMedicalRecord = defineStore("medical_record", () => {
   const medicals = ref<MedicalRecord[]>([]);
   const medical = ref<MedicalRecord>();
   const medicalInfo = ref<MedicalRecordInfo>();
+  const userInfo = ref<MedicalRecordInfo>();
 
   const storeAuth = useAuthStore();
   const authorization = "Bearer " + (storeAuth.getAccesToken ?? "");
@@ -59,32 +60,42 @@ export const useDataMedicalRecord = defineStore("medical_record", () => {
   //   }
   // }
 
-  async function getMedicalRecordInfomation(medicalId: string) {
-    const { data, error } = await useFetch(
-      "patient-record/record/medical/" + medicalId,
-      {
-        baseURL: useRuntimeConfig().public.baseURL,
-        method: "GET",
+  async function getProfileById(id: string) {
+    try {
+      if (authorization === "Bearer ") throw "Không thể xác định danh tính";
+      const { data, error } = await useFetch(
+        "user-management/medical-record/" + id,
+        {
+          baseURL: useRuntimeConfig().public.baseURL,
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: authorization,
+          },
+        }
+      );
+
+      if (data.value !== null) {
+        const message = mask(data.value, DataArraySchema);
+
+        userInfo.value = mask(message.data, array(MedicalRecordInfoSchema))[0];
+      } else {
+        console.log(error);
       }
-    );
-
-    if (data.value !== null) {
-      const message = mask(data.value, DataObjectSchema);
-
-      medicalInfo.value = mask(message.data, MedicalRecordInfoSchema);
-    } else {
-      console.log(error);
+    } catch (error) {
+      throw error;
     }
   }
 
   return {
     medicals,
     medicalInfo,
+    userInfo,
     medicalQuantity,
     choosePatient,
     savePatients,
     saveQuantity,
-    getMedicalRecordInfomation,
+    getProfileById,
     // getQuantityPatient,
   };
 });

@@ -7,16 +7,18 @@ import { DataArraySchema, DataObjectSchema } from "./structs/response_struct";
 
 export const useDataBlog = defineStore("Blog", () => {
   const blogs = ref<Blog[]>([]);
+  const blog = ref<Blog>();
   const storeAuth = useAuthStore();
   const authorization = "Bearer " + (storeAuth.getAccesToken ?? "");
 
-  //   function chooseBlog(id: string) {
-  //     Blogs.value.forEach((e) => {
-  //       if (e.id == id) {
-  //         Blog.value = e;
-  //         return;
-  //       }
-  //     });
+  function chooseBlog(id: string) {
+    blogs.value.forEach((e) => {
+      if (e._id == id) {
+        blog.value = e;
+        return;
+      }
+    });
+  }
   // Blog.value = {
   //   id: "fQ5s_2YycIjlke75SIP24",
   //   expiration_time: "2023-12-12T00:00:00.000Z",
@@ -26,26 +28,25 @@ export const useDataBlog = defineStore("Blog", () => {
   // };
   //   }
 
-  //   function saveBlogs(listBlog: Blog[]) {
-  //     Blogs.value = listBlog;
-  //   }
+  function saveBlogs(listBlog: Blog[]) {
+    blogs.value = listBlog;
+  }
 
   async function editBlog(
-    file: File,
+    file: File | undefined,
     id: string,
     title: string,
     content: string,
     tag: string
   ) {
     try {
-      console.log(file);
       if (authorization === "Bearer ") throw "Không thể xác định danh tính";
       const formdata: FormData = new FormData();
-      formdata.append("file", file);
+      if (file != undefined) formdata.append("file", file);
       formdata.append(
         "dto",
         JSON.stringify({
-          id: "",
+          id: id,
           title: title,
           content: content,
           photo: "",
@@ -59,20 +60,11 @@ export const useDataBlog = defineStore("Blog", () => {
         },
         body: formdata,
       });
-      //   const { data, error } = await useFetch("/file-upload/blog", {
-      //     baseURL: useRuntimeConfig().public.baseURL,
-      //     method: "PUT",
-      //     headers: {
-      //       "Content-Type": "multipart/form-data",
-      //       Authorization: authorization,
-      //     },
-      //     body: formdata,
-      //   });
 
       if (data.value !== null) {
         return;
       } else if (error.value != null) {
-        throw "Thêm tim mới không thành công";
+        throw "Thành công";
       }
     } catch (error) {
       throw error;
@@ -102,68 +94,53 @@ export const useDataBlog = defineStore("Blog", () => {
       throw error;
     }
   }
+  async function getDetail(id: string) {
+    try {
+      const { data, error } = await useFetch("/health-forum/blog/" + id, {
+        baseURL: useRuntimeConfig().public.baseURL,
+        method: "GET",
+      });
 
-  //   async function updateBlog(Blog: Blog) {
-  //     try {
-  //       if (authorization === "Bearer ") return;
-  //       const { data, error } = await useFetch("/consultation/Blog/" + Blog.id, {
-  //         baseURL: useRuntimeConfig().public.baseURL,
-  //         method: "PATCH",
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //           Authorization: authorization,
-  //         },
-  //         body: JSON.stringify({
-  //           code: Blog.code,
-  //           value: Blog.value,
-  //           type: Blog.type,
-  //           expiration_time: Blog.expiration_time,
-  //         }),
-  //       });
+      if (data.value !== null) {
+        const response = mask(data.value, DataObjectSchema);
 
-  //       if (data.value !== null) {
-  //         const response = mask(data.value, DataObjectSchema);
-  //         return response.response;
-  //       } else if (error.value != null) {
-  //         throw error;
-  //       }
-  //     } catch (error) {
-  //       throw error;
-  //     }
-  //   }
+        blog.value = mask(response.data, BlogSchema);
+        return;
+      } else if (error.value != null) {
+        throw "Không thể tải";
+      }
+    } catch (error) {
+      throw error;
+    }
+  }
+  async function deleteBlog(id: string) {
+    try {
+      const { data, error } = await useFetch("/health-forum/blog/" + id, {
+        baseURL: useRuntimeConfig().public.baseURL,
+        method: "DELETE",
+      });
 
-  //   async function deleteBlog(id: string) {
-  //     try {
-  //       if (authorization === "Bearer ") return;
-  //       const { data, error } = await useFetch("/consultation/Blog/" + id, {
-  //         baseURL: useRuntimeConfig().public.baseURL,
-  //         method: "DELETE",
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //           Authorization: authorization,
-  //         },
-  //       });
+      if (data.value !== null) {
+        const response = mask(data.value, DataObjectSchema);
 
-  //       if (data.value !== null) {
-  //         const response = mask(data.value, DataStringSchema);
-  //         return response.response;
-  //       } else if (error.value != null) {
-  //         throw error;
-  //       }
-  //     } catch (error) {
-  //       throw error;
-  //     }
-  //   }
+        blog.value = mask(response.data, BlogSchema);
+        return;
+      } else if (error.value != null) {
+        throw "Không thể tải";
+      }
+    } catch (error) {
+      throw error;
+    }
+  }
 
   return {
-    // Blog,
-    // Blogs,
-    // saveBlogs,
-    // chooseBlog,
+    saveBlogs,
+    chooseBlog,
+    blog,
     blogs,
     editBlog,
     getAllBlog,
-    // updateBlog,
-    // deleteBlog,
+    getDetail,
+    deleteBlog,
   };
 });
