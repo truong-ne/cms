@@ -62,15 +62,15 @@ export const useAuthStore = defineStore("auth", {
       });
       console.log(data.value)
 
-      if (data.value !== null) {
-        const message = mask(data.value, DataObjectLoginSchema);
-        var response = mask(message.data, AuthenticateSchema);
-        this.accessToken = response.jwt_token;
-        localStorage.setItem("access_token", this.accessToken);
-        window.location.href = "/";
-      } else if (error.value != null) {
-        throw error;
-      }
+      // if (data.value !== null) {
+      //   const message = mask(data.value, DataObjectLoginSchema);
+      //   var response = mask(message.data, AuthenticateSchema);
+      //   this.accessToken = response.jwt_token;
+      //   localStorage.setItem("access_token", this.accessToken);
+      //   window.location.href = "/";
+      // } else if (error.value != null) {
+      //   throw error;
+      // }
     },
     async refreshToken() {
       try {
