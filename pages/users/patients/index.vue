@@ -1,14 +1,16 @@
 <template>
   <section>
     <UserHeader :header="header" />
-    <UserPatientBody :data="dataDoctor" />
-    <UserPatientFormcreate />
-    <UserPatientFormupdate />
+    <UserPatientBody :medicalStore="medicalStore" />
+    <!-- <UserPatientFormcreate />
+    <UserPatientFormupdate /> -->
   </section>
 </template>
 
 <script setup lang="ts">
-const dataDoctor = useDataMedicalRecord();
+const medicalStore = useDataMedicalRecord();
+
+await medicalStore.getQuantityMedical();
 
 definePageMeta({
   middleware: ["auth"],
@@ -16,7 +18,7 @@ definePageMeta({
 
 const header = ref({
   title: "Bệnh nhân",
-  quantity: dataDoctor.medicalQuantity,
-  name: "Doctor",
+  quantity: medicalStore.medicalQuantity?.quantity,
+  name: "Patient",
 });
 </script>

@@ -1,12 +1,12 @@
 <template>
   <section class="flex flex-col md:gap-4 gap-2">
-    <NewDetail :data="data" />
+    <NewDetail :blogStore="blogStore" />
   </section>
 </template>
 <script setup lang="ts">
 const route = useRoute();
-const data = useDataBlog();
+const blogStore = useDataBlog();
 onMounted(async () => {
-    await data.getDetail(route.params["slug"].toString());
+    await blogStore.getDetail(route.params["slug"].toString());
 });
 </script>

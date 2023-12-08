@@ -81,9 +81,10 @@
     </div>
     <div
       class="grid xl:grid-cols-3 md:grid-cols-2 grid-cols-1 items-start justify-center md:gap-4 gap-2 md:pt-24 pt-56"
+      v-if="resultSearch"
     >
       <article
-        v-for="blog in data.blogs"
+        v-for="blog in resultSearch.hits"
         :key="blog._id"
         class="group bg-white rounded-xl relative overflow-hidden shadow-sm mb-4"
         @click="chooseBlog(blog._id)"
@@ -162,7 +163,7 @@
   </section>
 </template>
 <script setup lang="ts">
-const { data } = defineProps(["data"]);
+const { blogStore } = defineProps(["blogStore"]);
 const route = useRoute();
 const { search, result } = useMeiliSearch("blog");
 
@@ -187,7 +188,7 @@ const currentId = ref();
 
 async function deleteBlog() {
   try {
-    await data
+    await blogStore
       .deleteBlog(currentId.value)
       .then(() => {
         toastStatus.value = "success";
@@ -208,20 +209,22 @@ function chooseBlog(id: string) {
     currentId.value = undefined;
   } else {
     currentId.value = id;
-    data.chooseBlog(id);
+    blogStore.chooseBlog(id);
   }
 }
 
 onMounted(async () => {
   result.value = await search(keySearch.value.trim(), {});
-  resultSearch.value = result.value.hits;
+  resultSearch.value = result.value;
+  blogStore.saveBlogs(resultSearch.value.hits);
 });
 
 async function meilisearch() {
   // if (keySearch.value.trim() !== "") {
 
   result.value = await search(keySearch.value.trim(), {});
-  resultSearch.value = result.value.hits;
+  resultSearch.value = result.value;
+  blogStore.saveBlogs(resultSearch.value.hits);
 
   // }
 }

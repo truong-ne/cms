@@ -1,13 +1,18 @@
 <template>
   <section class="">
-    <DashboardAnylytics />
+    <DashboardAnylytics
+      :doctorStore="doctorStore"
+      :medicalStore="medicalStore"
+    />
 
-    <DashboardCharts />
+    <DashboardCharts :doctorStore="doctorStore" :medicalStore="medicalStore" />
 
     <DashboardQuickview />
   </section>
 </template>
 <script setup>
+const doctorStore = useDataDoctor();
+const medicalStore = useDataMedicalRecord();
 definePageMeta({
   middleware: ["auth"],
 });

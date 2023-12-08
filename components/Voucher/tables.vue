@@ -294,12 +294,12 @@ onMounted(async () => {
   resultSearch.value = result.value.hits;
   totalHits.value = result.value.totalHits;
   totalPages.value = result.value.totalPages;
-  data.saveDiscounts(resultSearch.value);
+  discountStore.saveDiscounts(resultSearch.value);
 });
 
 async function deleteDiscount() {
   clearNuxtData();
-  await data
+  await discountStore
     .deleteDiscount(currentId.value)
     .then(() => {
       toastStatus.value = "success";
@@ -325,7 +325,7 @@ async function previous() {
     resultSearch.value = result.value.hits;
     totalHits.value = result.value.totalHits;
     totalPages.value = result.value.totalPages;
-    data.saveDiscounts(resultSearch.value);
+    discountStore.saveDiscounts(resultSearch.value);
   }
 }
 
@@ -340,7 +340,7 @@ async function next() {
     resultSearch.value = result.value.hits;
     totalHits.value = result.value.totalHits;
     totalPages.value = result.value.totalPages;
-    data.saveDiscounts(resultSearch.value);
+    discountStore.saveDiscounts(resultSearch.value);
   }
 }
 async function choosePage(page: number) {
@@ -354,7 +354,7 @@ async function choosePage(page: number) {
     resultSearch.value = result.value.hits;
     totalHits.value = result.value.totalHits;
     totalPages.value = result.value.totalPages;
-    data.saveDiscounts(resultSearch.value);
+    discountStore.saveDiscounts(resultSearch.value);
   }
 }
 
@@ -369,14 +369,14 @@ async function meilisearch() {
   resultSearch.value = result.value.hits;
   totalHits.value = result.value.totalHits;
   totalPages.value = result.value.totalPages;
-  data.saveDiscounts(resultSearch.value);
+  discountStore.saveDiscounts(resultSearch.value);
 
   // }
 }
 
-const { data } = defineProps(["data"]);
+const { discountStore } = defineProps(["discountStore"]);
 function chooseDiscount(id: string) {
   currentId.value = id;
-  data.chooseDiscount(id);
+  discountStore.chooseDiscount(id);
 }
 </script>

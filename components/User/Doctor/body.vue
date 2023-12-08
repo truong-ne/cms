@@ -137,7 +137,7 @@
               </div>
 
               <h5
-                class="mb-1 md:text-lg text-base font-bold text-gray-900 overflow-hidden px-2 md:px-0 truncate ..."
+                class="mb-1 md:text-lg text-base font-bold text-gray-900 overflow-hidden px-2 md:px-0 ..."
               >
                 {{ doctor.full_name }}
               </h5>
@@ -167,7 +167,7 @@
                     />
                   </svg>
                   <span class="text-sm text-gray-500 truncate">{{
-                    doctor.ratings
+                    Math.round(doctor.ratings * 100) / 100
                   }}</span>
                 </div>
                 <span class="text-sm text-gray-500 truncate">{{
@@ -248,7 +248,7 @@
                 </td>
                 <td class="px-4 py-3 mr-4 relative">
                   <div
-                    class="w-full h-full items-center text-center justify-center rounded-md hidden lg:grid"
+                    class="w-full h-full items-center text-center justify-center rounded-md grid"
                     :class="{
                       'opacity-0 group-hover:opacity-100 transition duration-200':
                         currentId != doctor.id,
@@ -400,7 +400,6 @@
 </template>
   
 <script setup lang="ts">
-import { Specialty } from "~/stores/enums/enum";
 import { converCurrency } from "~/utils/currency";
 
 const { search, result } = useMeiliSearch("doctors");
@@ -412,7 +411,7 @@ const mapSpecialty = Object.entries(Specialty).map(([key, value]) => ({
 const route = useRoute();
 
 const isLoading = ref(false);
-const { data } = defineProps(["data"]);
+const { doctorStore } = defineProps(["doctorStore"]);
 onMounted(async () => {
   result.value = await search(keySearch.value.trim(), {
     hitsPerPage: hitsPerPage.value,
@@ -421,7 +420,7 @@ onMounted(async () => {
   resultSearch.value = result.value.hits;
   totalHits.value = result.value.totalHits;
   totalPages.value = result.value.totalPages;
-  data.saveDoctors(resultSearch.value);
+  doctorStore.saveDoctors(resultSearch.value);
 });
 
 function chooseDoctor(id: string) {
@@ -429,7 +428,7 @@ function chooseDoctor(id: string) {
     currentId.value = undefined;
   } else {
     currentId.value = id;
-    data.chooseDoctor(id);
+    doctorStore.chooseDoctor(id);
   }
 }
 
@@ -459,7 +458,7 @@ async function previous() {
     resultSearch.value = result.value.hits;
     totalHits.value = result.value.totalHits;
     totalPages.value = result.value.totalPages;
-    data.saveDoctors(resultSearch.value);
+    doctorStore.saveDoctors(resultSearch.value);
   }
 }
 
@@ -474,7 +473,7 @@ async function next() {
     resultSearch.value = result.value.hits;
     totalHits.value = result.value.totalHits;
     totalPages.value = result.value.totalPages;
-    data.saveDoctors(resultSearch.value);
+    doctorStore.saveDoctors(resultSearch.value);
   }
 }
 async function choosePage(page: number) {
@@ -488,12 +487,11 @@ async function choosePage(page: number) {
     resultSearch.value = result.value.hits;
     totalHits.value = result.value.totalHits;
     totalPages.value = result.value.totalPages;
-    data.saveDoctors(resultSearch.value);
+    doctorStore.saveDoctors(resultSearch.value);
   }
 }
 
 async function meilisearch() {
-  // if (keySearch.value.trim() !== "") {
   currentPage.value = 1;
   result.value = await search(keySearch.value.trim(), {
     hitsPerPage: hitsPerPage.value,
@@ -503,8 +501,6 @@ async function meilisearch() {
   resultSearch.value = result.value.hits;
   totalHits.value = result.value.totalHits;
   totalPages.value = result.value.totalPages;
-  data.saveDoctors(resultSearch.value);
-
-  // }
+  doctorStore.saveDoctors(resultSearch.value);
 }
 </script>

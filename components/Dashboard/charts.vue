@@ -51,7 +51,11 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
+const { doctorStore, medicalStore } = defineProps([
+  "doctorStore",
+  "medicalStore",
+]);
 //linechart
 const lineoptions = ref({
   chart: {
@@ -112,9 +116,6 @@ const lineoptions = ref({
       "Tháng 11",
       "Tháng 12",
     ],
-    labels: {
-      show: true,
-    },
     axisBorder: {
       show: false,
     },
@@ -143,8 +144,8 @@ const updateLineChart = () => {
   };
   lineseries.value = [
     {
-      name: "Thu nhập hiện tại",
-      data: [13, 21, 25, 15, 35, 15, 16, 4, 20, 40, 11, 35],
+      name: "Doanh thu",
+      data: moneyMonth.value,
       color: "#0b9f6e",
     },
   ];
@@ -157,12 +158,12 @@ const pieoptions = ref({
     type: "donut",
   },
 
-  colors: ["#2463eb", "#e7b72f", "#0b9f6e"],
+  colors: ["#2463eb", "#e7b72f", "#0b9f6e", "#fe5bb2"],
 
   stroke: {
     lineCap: "round",
   },
-  labels: ["Đã huỷ", "Hoàn thành", "Sắp tới"],
+  labels: ["Đã huỷ", "Hoàn thành", "Đã xác nhận", "Đang chờ"],
   legend: {
     position: "bottom",
   },
@@ -175,10 +176,28 @@ const updatePieChart = () => {
   pieoptions.value = {
     ...pieoptions.value,
   };
-  pieseries.value = [67, 33, 12];
+  pieseries.value = consultationPie.value;
 };
-onMounted(() => {
+
+const moneyMonth = ref<number[]>([]);
+const consultationPie = ref<number[]>([0, 0, 0]);
+onMounted(async () => {
   updateLineChart();
   updatePieChart();
+  await Promise.all([
+    doctorStore.getConsultationPie(),
+    doctorStore.getConsultationMoneyArea(),
+  ]);
+  consultationPie.value = [
+    doctorStore.consultationPie?.cancel ?? 0,
+    doctorStore.consultationPie?.finish ?? 0,
+    doctorStore.consultationPie?.confirm ?? 0,
+    doctorStore.consultationPie?.pending ?? 0,
+  ];
+  moneyMonth.value = doctorStore.moneyMonth?.map(
+    (a: MoneyMonth) => a.totalMoneyThisMonth
+  );
+  updatePieChart();
+  updateLineChart();
 });
 </script>

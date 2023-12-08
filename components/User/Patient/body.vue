@@ -6,7 +6,7 @@
         class="flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 md:p-4 p-2"
       >
         <div class="w-full md:w-1/3">
-          <form class="flex items-center">
+          <div class="flex items-center">
             <label for="simple-search" class="sr-only">Search</label>
             <div class="relative w-full">
               <div
@@ -35,7 +35,7 @@
                 @input="meilisearch"
               />
             </div>
-          </form>
+          </div>
         </div>
         <div
           class="w-full md:w-auto flex flex-col md:flex-row space-y-2 md:space-y-0 items-stretch md:items-center justify-end md:space-x-3 flex-shrink-0"
@@ -185,7 +185,7 @@
                 </th>
               </tr>
             </thead>
-            <tbody v-for="patient in data.medicals" :key="patient.id">
+            <tbody v-for="patient in medicalStore.medicals" :key="patient.id">
               <tr
                 class="border-b"
                 :class="{
@@ -235,7 +235,7 @@
                 <td v-else></td>
                 <td class="px-4 py-3 mr-4 relative">
                   <div
-                    class="w-full h-full items-center text-center justify-center rounded-md hidden lg:grid"
+                    class="w-full h-full items-center text-center justify-center rounded-md grid"
                     :class="{
                       'opacity-0 group-hover:opacity-100 transition duration-200':
                         currentId != patient.id,
@@ -397,14 +397,14 @@ const mapGender = Object.entries(Gender).map(([key, value]) => ({
 const route = useRoute();
 
 const isLoading = ref(false);
-const { data } = defineProps(["data"]);
+const { medicalStore } = defineProps(["medicalStore"]);
 
 function choosePatient(id: string) {
   if (id == currentId.value) {
     currentId.value = undefined;
   } else {
     currentId.value = id;
-    data.choosePatient(id);
+    medicalStore.choosePatient(id);
   }
 }
 
@@ -418,8 +418,7 @@ onMounted(async () => {
   resultSearch.value = result.value.hits;
   totalHits.value = result.value.totalHits;
   totalPages.value = result.value.totalPages;
-  data.savePatients(resultSearch.value);
-  data.saveQuantity(totalHits);
+  medicalStore.savePatients(resultSearch.value);
 });
 
 const keySearch = ref("");
@@ -448,7 +447,7 @@ async function previous() {
     resultSearch.value = result.value.hits;
     totalHits.value = result.value.totalHits;
     totalPages.value = result.value.totalPages;
-    data.savePatients(resultSearch.value);
+    medicalStore.savePatients(resultSearch.value);
   }
 }
 
@@ -463,7 +462,7 @@ async function next() {
     resultSearch.value = result.value.hits;
     totalHits.value = result.value.totalHits;
     totalPages.value = result.value.totalPages;
-    data.savePatients(resultSearch.value);
+    medicalStore.savePatients(resultSearch.value);
   }
 }
 async function choosePage(page: number) {
@@ -477,7 +476,7 @@ async function choosePage(page: number) {
     resultSearch.value = result.value.hits;
     totalHits.value = result.value.totalHits;
     totalPages.value = result.value.totalPages;
-    data.savePatients(resultSearch.value);
+    medicalStore.savePatients(resultSearch.value);
   }
 }
 
@@ -492,7 +491,7 @@ async function meilisearch() {
   resultSearch.value = result.value.hits;
   totalHits.value = result.value.totalHits;
   totalPages.value = result.value.totalPages;
-  data.savePatients(resultSearch.value);
+  medicalStore.savePatients(resultSearch.value);
 
   // }
 }

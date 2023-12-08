@@ -4,7 +4,7 @@
       class="md:grid md:grid-cols-3 grid-cols-1 md:gap-4 gap-2 w-full items-start justify-start bg-white rounded-xl md:p-8 p-4"
     >
       <a
-        href="/users/doctors"
+        href="/users/patients"
         class="hover:bg-gray-200 p-3 absolute rounded-full"
         rel="noopener noreferrer"
         ><div>
@@ -104,12 +104,21 @@
           >
             Cập nhật {{ getDateTime(mainAccount.update_at) }}
           </span>
+          <div class="flex items-center justify-center w-full mt-8">
+            <button
+              type="button"
+              @click="resetPassword"
+              class="flex items-center justify-center w-full md:w-auto text-black bg-yellow-300 hover:bg-yellow-400 hover:text-black focus:ring-4 focus:ring-yellow-200 font-medium rounded-lg text-sm px-4 py-2 focus:outline-none"
+            >
+              Đặt lại mật khẩu
+            </button>
+          </div>
         </div>
       </div>
 
       <div
         class="col-span-2 flex flex-col items-center justify-start md:pl-4 overflow-x-auto"
-        v-if="data.medicals"
+        v-if="medicalStore.medicals"
       >
         <span
           class="mb-5 w-full lg:text-xl md:text-lg text-md font-bold leading-none text-black overflow-hidden truncate ..."
@@ -127,7 +136,7 @@
                 <th scope="col" class="px-4 py-3">Địa chỉ</th>
               </tr>
             </thead>
-            <tbody v-for="medical in data.medicals" :key="medical.id">
+            <tbody v-for="medical in medicalStore.medicals" :key="medical.id">
               <tr class="border-b">
                 <th
                   scope="row"
@@ -241,20 +250,26 @@
         </span>
 
         <ul class="mt-4 mx-4">
-          <li class="list-disc mb-8" v-for="a in 4" :key="a">
-            <span class="text-sm md:text-md font-medium">Cúm</span>
-
+          <li
+            class="list-disc mb-8"
+            v-for="vaccine in medicalStore.vaccinationRecord"
+            :key="vaccine.id"
+          >
+            <span class="text-sm md:text-md font-medium">{{
+              vaccine.vaccine.disease
+            }}</span>
             <ol class="flex items-center w-full my-2">
               <li
                 class="flex w-full items-center text-blue-600 after:inline-block"
                 :class="{
                   'after:content-[\'\'] after:w-full after:h-1 after:border-b after:border-blue-100 after:border-4':
-                    y != 4,
+                    dose !== vaccine.vaccine.max_dose,
                 }"
-                v-for="y in 4"
-                :key="y"
+                v-for="dose in vaccine.vaccine.max_dose"
+                :key="dose"
               >
                 <span
+                  v-if="dose <= vaccine.dose_number"
                   class="flex items-center justify-center w-7 h-7 bg-primary-700 rounded-full lg:h-9 lg:w-9 shrink-0"
                 >
                   <svg
@@ -273,10 +288,15 @@
                     />
                   </svg>
                 </span>
+                <span
+                  v-else
+                  class="flex items-center justify-center w-7 h-7 bg-primary-400 rounded-full lg:h-9 lg:w-9 shrink-0"
+                >
+                </span>
               </li>
             </ol>
             <span class="text-xs md:text-sm text-gray-500 font-thin">
-              Thời gian tiêm mũi cuối: 10/10/2023
+              Thời gian tiêm mũi cuối {{ getDateTime(vaccine.updated_at) }}
             </span>
           </li>
         </ul>
@@ -285,13 +305,23 @@
   </section>
 </template>
 <script setup lang="ts">
-import { array, mask, number } from "superstruct";
-
 const { search, result } = useMeiliSearch("user");
 const route = useRoute();
 const mainAccount = ref();
-const vaccinationRecord = ref();
-const { data } = defineProps(["data"]);
+const param = ref("");
+const { medicalStore } = defineProps(["medicalStore"]);
+
+const storeToast = toastStore();
+const toastStatus = ref("");
+const message = ref("");
+
+function addToast() {
+  storeToast.add({
+    message: message.value,
+    toastStatus: toastStatus.value,
+  });
+}
+
 const mapGender = Object.entries(Gender).map(([key, value]) => ({
   key: key,
   value: value,
@@ -302,15 +332,31 @@ function getByKey(searchKey: string) {
   }
   return "Không xác định";
 }
+function resetPassword() {
+  medicalStore
+    .resetPassword(param.value)
+    .then(() => {
+      toastStatus.value = "error";
+      message.value = "Reset mật khẩu thành công";
+    })
+    .catch((error: string) => {
+      toastStatus.value = "error";
+      message.value = error;
+    });
+  addToast();
+}
 onMounted(async () => {
-  const param = route.params["slug"].toString();
-  mainAccount.value = mask(
-    (await search(param, { hitsPerPage: 1 })).hits,
-    array(MedicalRecordInfoSchema)
-  )[0];
-  await data.getProfileById(param);
+  param.value = route.params["slug"].toString();
 
-  vaccinationRecord.value = await data.getVaccinationRecord(data.medicals[0].id);
-  console.log(vaccinationRecord.value);
+  try {
+    await Promise.all([
+      search(param.value, { hitsPerPage: 1 }),
+      medicalStore.getProfileById(param.value),
+    ]);
+    mainAccount.value = result.value.hits[0];
+    await medicalStore.getVaccinationRecord(medicalStore.medicals[0].id);
+  } catch (error) {
+    console.log(error);
+  }
 });
 </script>

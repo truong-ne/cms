@@ -18,11 +18,17 @@
             >Doanh thu</span
           >
         </div>
-        <div class="mt-4 w-full text-2xl text-black font-bold">$10,800</div>
+        <div class="mt-4 w-full text-2xl text-black font-bold">
+          {{ converCurrency(doctorStore.moneyQuantity?.totalMoney ?? 0) }}
+        </div>
         <div
           class="mt-2 w-full flex items-center text-base font-semibold text-green-500 dark:text-green-500 text-center ml-2 md:ml-0"
         >
-          <span>+20.9$</span>
+          <span
+            >+{{
+              converCurrency(doctorStore.moneyQuantity?.quantityThisMonth ?? 0)
+            }}</span
+          >
           <span class="text-black ml-1">Tổng số doanh thu</span>
         </div>
       </div>
@@ -44,11 +50,17 @@
             >Cuộc hẹn</span
           >
         </div>
-        <div class="mt-4 w-full text-2xl text-black font-bold">2,456</div>
+        <div class="mt-4 w-full text-2xl text-black font-bold">
+          {{ doctorStore.consultationQuantity?.quantity ?? "--" }}
+        </div>
         <div
           class="mt-2 w-full flex items-center text-base font-semibold text-green-500 dark:text-green-500 text-center ml-2 md:ml-0"
         >
-          <span>+120</span>
+          <span
+            >+{{
+              doctorStore.consultationQuantity?.quantityThisMonth ?? "--"
+            }}</span
+          >
           <span class="text-black ml-1">Tổng số cuộc hẹn</span>
         </div>
       </div>
@@ -69,11 +81,13 @@
             >Bệnh nhân</span
           >
         </div>
-        <div class="mt-4 w-full text-2xl text-black font-bold">1,22,456</div>
+        <div class="mt-4 w-full text-2xl text-black font-bold">
+          {{ medicalStore.medicalQuantity?.quantity ?? "--" }}
+        </div>
         <div
           class="mt-2 w-full flex items-center text-base font-semibold text-green-500 dark:text-green-500 text-center ml-2 md:ml-0"
         >
-          <span> +1200 </span>
+          <span> +{{ medicalStore.medicalQuantity?.increase ?? "--" }} </span>
           <span class="text-black ml-1">Bệnh nhân</span>
         </div>
       </div>
@@ -94,14 +108,32 @@
             >Bác sĩ</span
           >
         </div>
-        <div class="mt-4 w-full text-2xl text-black font-bold">22,786</div>
+        <div class="mt-4 w-full text-2xl text-black font-bold">
+          {{ doctorStore.doctorQuantity?.quantity ?? "--" }}
+        </div>
         <div
           class="mt-2 w-full flex items-center text-base font-semibold text-green-500 dark:text-green-500 text-center ml-2 md:ml-0"
         >
-          <span>+200</span>
+          <span
+            >+{{ doctorStore.doctorQuantity?.doctorThisMonth ?? "--" }}</span
+          >
           <span class="text-black ml-1">Bác sĩ</span>
         </div>
       </div>
     </div>
   </div>
 </template>
+<script setup lang="ts">
+const { doctorStore, medicalStore } = defineProps([
+  "doctorStore",
+  "medicalStore",
+]);
+onMounted(async () => {
+  await Promise.all([
+    doctorStore.getQuantityDoctor(),
+    doctorStore.getConsultationDashboard(),
+    medicalStore.getQuantityMedical(),
+    doctorStore.getConsultationMoney(),
+  ]);
+});
+</script>

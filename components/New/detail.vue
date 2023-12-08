@@ -1,6 +1,6 @@
 
 <template>
-  <div class="rounded-xl bg-white overflow-hidden" v-if="data.blog">
+  <div class="rounded-xl bg-white overflow-hidden" v-if="blogStore.blog">
     <div class="w-full md:h-96 h-60 overflow-hidden relative group">
       <a
         href="/news"
@@ -27,12 +27,12 @@
         <span
           class="text-white 2xl:text-7xl xl:text-6xl lg:text-5xl md:text-4xl text-4xl font-bold line-clamp-4 md:line-clamp-2 w-auto 2xl:m-8 xl:m-7 lg:m-6 md:m-5 m-4"
         >
-          {{ data.blog.title }}</span
+          {{ blogStore.blog.title }}</span
         >
       </div>
       <NuxtImg
         provider="cloudinary"
-        :src="data.blog.photo"
+        :src="blogStore.blog.photo"
         width="700"
         height="700"
         class="object-cover object-center w-full h-full"
@@ -56,7 +56,7 @@
           />
         </svg>
 
-        {{ getDateTime(data.blog.updatedAt) }}
+        {{ getDateTime(blogStore.blog.updatedAt) }}
       </div>
 
       <div class="col-span-2 flex flex-col items-start justify-start">
@@ -66,7 +66,7 @@
           <p
             class="font-normal md:text-lg text-base tracking-normal text-justify"
           >
-            {{ data.blog.content }}
+            {{ blogStore.blog.content }}
           </p>
         </span>
       </div>
@@ -75,6 +75,6 @@
 </template>
 <script setup lang="ts">
 import { getDateTime } from "~/utils/datetime";
-const { data } = defineProps(["data"]);
+const { blogStore } = defineProps(["blogStore"]);
 </script>
  

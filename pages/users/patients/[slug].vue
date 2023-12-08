@@ -1,17 +1,12 @@
 <template>
   <div class="flex flex-col md:gap-4 gap-2">
     <!-- <UserPatientCharts /> -->
-    <UserPatientProfile :data="data" />
+    <UserPatientProfile :medicalStore="medicalStore" />
     <!-- <UserPatientTest /> -->
   </div>
 </template>
-<script setup>
+<script setup lang="ts">
 
-const route = useRoute();
-const data = useDataMedicalRecord();
+const medicalStore = useDataMedicalRecord();
 
-onMounted(async () => {
-
-
-});
 </script>

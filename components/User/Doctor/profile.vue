@@ -1,7 +1,7 @@
 <template>
   <section class="grid md:gap-4 gap-2">
     <div
-      class="md:grid md:grid-cols-3 grid-cols-1 gap-4 w-full items-start justify-start bg-white rounded-xl md:p-8 p-4"
+      class="grid md:grid-cols-3 grid-cols-1 gap-4 w-full h-auto items-start justify-start bg-white rounded-xl md:p-8 p-4"
       v-if="mainAccount"
     >
       <a
@@ -101,12 +101,23 @@
               Cập nhật {{ getDateTime(mainAccount.updated_at) }}
             </span>
           </span>
+          <div class="flex items-center justify-center w-full mt-8">
+            <button
+              type="button"
+              @click="resetPassword"
+              class="flex items-center justify-center w-full md:w-auto text-black bg-yellow-300 hover:bg-yellow-400 hover:text-black focus:ring-4 focus:ring-yellow-200 font-medium rounded-lg text-sm px-4 py-2 focus:outline-none"
+            >
+              Đặt lại mật khẩu
+            </button>
+          </div>
         </div>
 
         <!-- </div> -->
       </div>
 
-      <div class="col-span-2 flex flex-col items-start justify-start md:pl-4">
+      <div
+        class="relative md:col-span-2 flex flex-col items-start justify-start md:pl-4 h-auto"
+      >
         <span
           class="mb-1 lg:text-md md:text-base text-sm font-bold leading-none text-black"
         >
@@ -124,7 +135,9 @@
         <span
           class="text-md items font-bold leading-none text-black md:text-lg lg:text-xl"
         >
-          Danh sách bệnh nhân ({{ data.patientConsultation?.quantity }})</span
+          Danh sách bệnh nhân ({{
+            doctorStore.patientConsultation?.quantity
+          }})</span
         >
       </div>
       <div class="overflow-x-auto">
@@ -136,10 +149,10 @@
               <th scope="col" class="px-4 py-3">Số diện thoại</th>
             </tr>
           </thead>
-          <tbody v-if="data.patientConsultation">
+          <tbody v-if="doctorStore.patientConsultation">
             <tr
               class="border-b"
-              v-for="patient in data.patientConsultation.consultation"
+              v-for="patient in doctorStore.patientConsultation.consultation"
               :key="patient.medical_id"
             >
               <th
@@ -166,8 +179,9 @@ import { array, mask, number } from "superstruct";
 const { search, result } = useMeiliSearch("doctors");
 const route = useRoute();
 const mainAccount = ref();
+const param = ref();
 
-const data = useDataDoctor();
+const doctorStore = useDataDoctor();
 
 const storeToast = toastStore();
 const toastStatus = ref("");
@@ -179,15 +193,27 @@ function addToast() {
     toastStatus: toastStatus.value,
   });
 }
-
+function resetPassword() {
+  doctorStore
+    .resetPassword(param.value)
+    .then(() => {
+      toastStatus.value = "error";
+      message.value = "Reset mật khẩu thành công";
+    })
+    .catch((error: string) => {
+      toastStatus.value = "error";
+      message.value = error;
+    });
+  addToast();
+}
 onMounted(async () => {
-  const param = route.params["slug"].toString();
+  param.value = route.params["slug"].toString();
   mainAccount.value = mask(
-    (await search(param, { hitsPerPage: 1 })).hits,
+    (await search(param.value, { hitsPerPage: 1 })).hits,
     array(DoctorSchema)
   )[0];
 
-  await data
+  await doctorStore
     .getPatientConsultation(mainAccount.value.id)
     .then(() => {})
     .catch((e: string) => {

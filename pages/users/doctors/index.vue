@@ -1,24 +1,24 @@
 <template>
   <section>
     <UserHeader :header="header" />
-    <UserDoctorBody :data="dataDoctor" />
-    <UserDoctorFormcreate :data="dataDoctor" />
-    <UserDoctorFormupdate :data="dataDoctor" />
+    <UserDoctorBody :doctorStore="doctorStore" />
+    <UserDoctorFormcreate :doctorStore="doctorStore" />
+    <UserDoctorFormupdate :doctorStore="doctorStore" />
   </section>
 </template>
 
 <script setup lang="ts">
-const dataDoctor = useDataDoctor();
+const doctorStore = useDataDoctor();
 
-// await dataDoctor.getAllDoctorPerPage(1, 10);
-await dataDoctor.getQuantityDoctor();
+
+await doctorStore.getQuantityDoctor();
 
 definePageMeta({
   middleware: ["auth"],
 });
 const header = {
   title: "Bác sĩ",
-  quantity: dataDoctor.doctorQuantity,
+  quantity: doctorStore.doctorQuantity?.quantity,
   name: "Doctor",
 };
 

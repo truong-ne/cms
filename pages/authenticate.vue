@@ -124,7 +124,6 @@
 </template>
 
 <script setup>
-
 const username = ref("");
 const password = ref("");
 
@@ -142,12 +141,21 @@ function addToast() {
 
 async function handleSubmit() {
   loading.value = true;
-  toastStatus.value = "success";
-  message.value = "Đăng nhập thành công!";
+
   const authStore = useAuthStore();
   try {
     clearNuxtData();
-    await authStore.login(username.value, password.value);
+    await authStore
+      .login(username.value, password.value)
+      .then(() => {
+        toastStatus.value = "success";
+        message.value = "Đăng nhập thành công!";
+      })
+      .catch((error) => {
+        toastStatus.value = "error";
+        message.value = error;
+      });
+    addToast();
   } catch (e) {
     toastStatus.value = "error";
     message.value = "Tên hoặc mật khẩu không đúng";

@@ -1,13 +1,13 @@
 <template>
   <section>
-    <NewBody :data="dataBlog" />
-    <NewFormcreate :data="dataBlog" />
-    <NewFormupdate :data="dataBlog" />
+    <NewBody :blogStore="blogStore" />
+    <NewFormcreate :blogStore="blogStore" />
+    <NewFormupdate :blogStore="blogStore" />
   </section>
 </template>
   
 <script setup lang="ts">
-const dataBlog = useDataBlog();
+const blogStore = useDataBlog();
 
 const storeToast = toastStore();
 const toastStatus = ref("");
@@ -21,7 +21,7 @@ function addToast() {
 }
 
 onMounted(async () => {
-  await dataBlog
+  await blogStore
     .getAllBlog()
     .then(() => {})
     .catch((e: string) => {
@@ -30,7 +30,7 @@ onMounted(async () => {
       addToast();
     });
 });
-dataBlog.getAllBlog();
+blogStore.getAllBlog();
 definePageMeta({
   middleware: ["auth"],
 });

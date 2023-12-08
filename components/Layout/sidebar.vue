@@ -26,9 +26,9 @@
     </div>
     <aside
       id="cta-button-sidebar"
-      class="fixed top-0 left-0 z-50 w-64 lg:w-80 bg-gray-100 lg:pl-4 lg:py-8 h-full transition-transform -translate-x-full lg:translate-x-0"
+      class="fixed top-0 left-0 z-50 w-64 lg:w-80 bg-gray-100 lg:pl-4 lg:py-8 h-screen transition-transform -translate-x-full lg:translate-x-0"
     >
-      <div class="h-full px-3 py-4 overflow-y-auto bg-white lg:rounded-xl">
+      <div class="h-full mb-4 px-3 py-4 overflow-y-auto bg-white lg:rounded-xl">
         <a href="#" class="flex items-center justify-center mb-5">
           <span
             class="text-2xl font-extrabold leading-none tracking-tight text-gray-900 lg:text-3xl"

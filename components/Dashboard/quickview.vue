@@ -1,6 +1,8 @@
 <template>
-  <div class="grid lg:grid-cols-3 md:gap-4 gap-2 md:mb-4 mb-2">
-    <div class="col-span-1 w-full h-min max-w-md p-4 bg-white rounded-xl">
+  <div class="lg:grid lg:grid-cols-3 md:gap-4 gap-2 md:mb-4 mb-2">
+    <div
+      class="lg::col-span-1 w-full h-min max-w-md p-4 mb-2 bg-white rounded-xl"
+    >
       <div class="flex items-center justify-between mb-4">
         <h5 class="text-lg leading-none font-bold text-gray-900">
           Bác sĩ hàng đầu
@@ -23,8 +25,8 @@
             v-for="doctor in resultDoctor.hits"
             :key="doctor.id"
           >
-            <div class="flex items-center space-x-4 relative">
-              <div class="relative">
+            <div class="flex overflow-hidden items-center space-x-4 relative">
+              <a :href="'/users/doctors/' + doctor.id" class="relative">
                 <NuxtImg
                   v-if="doctor.avatar !== null && doctor.avatar !== undefined"
                   provider="cloudinary"
@@ -46,11 +48,14 @@
                 <span
                   class="absolute bottom-0 left-8 transform translate-y-1/4 w-3.5 h-3.5 bg-green-400 border-2 border-white dark:border-gray-800 rounded-full"
                 ></span>
-              </div>
+              </a>
               <div class="flex-1 w-full relative">
-                <span class="text-sm font-medium text-gray-900 truncate">
+                <a
+                  :href="'/users/doctors/' + doctor.id"
+                  class="text-sm font-medium text-gray-900 overflow-hidden ... line-clamp-1 pr-5"
+                >
                   {{ doctor.full_name }}
-                </span>
+                </a>
                 <div>
                   <a
                     :href="'mailto:' + doctor.email"
@@ -74,7 +79,7 @@
                   </svg>
                   <span
                     class="text-sm text-gray-500 truncate dark:text-gray-400"
-                    >{{ doctor.ratings }}</span
+                    >{{ Math.round(doctor.ratings * 100) / 100 }}</span
                   >
                   <svg
                     class="ml-2 w-[18px] h-[18px] text-blue-600"
@@ -101,28 +106,12 @@
                   >
                 </div>
               </div>
-              <a
-                :href="'/users/doctors/' + doctor.id"
-                class="absolute right-0 top-0 text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-1.5"
-              >
-                <svg
-                  class="w-5 h-5"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="currentColor"
-                  viewBox="0 0 576 512"
-                >
-                  <path
-                    d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM144 256a144 144 0 1 1 288 0a144 144 0 1 1-288 0zm144-64c0 35.3-28.7 64-64 64c-7.1 0-13.9-1.2-20.3-3.3c-5.5-1.8-11.9 1.6-11.7 7.4c.3 6.9 1.3 13.8 3.2 20.7c13.7 51.2 66.4 81.6 117.6 67.9s81.6-66.4 67.9-117.6c-11.1-41.5-47.8-69.4-88.6-71.1c-5.8-.2-9.2 6.1-7.4 11.7c2.1 6.4 3.3 13.2 3.3 20.3z"
-                  />
-                </svg>
-              </a>
             </div>
           </li>
         </ul>
       </div>
     </div>
-    <div class="md:col-span-2 w-full h-min p-4 bg-white rounded-xl">
+    <div class="lg:col-span-2 w-full h-min p-4 bg-white rounded-xl">
       <div class="flex items-center justify-between mb-4">
         <h5 class="text-lg leading-none font-bold text-gray-900">
           Bảng tin mới nhất
@@ -135,14 +124,22 @@
         </a>
       </div>
       <div class="flow-root border-t">
-        <ul role="list" class="divide-y divide-gray-200 dark:divide-gray-700" v-if="resultBlog">
-          <li class="py-3 sm:py-4" v-for="blog in resultBlog.hits" :key="blog._id">
-            <div class="flex items-start space-x-4 relative">
-              <div class="relative">
+        <ul
+          role="list"
+          class="divide-y divide-gray-200 dark:divide-gray-700"
+          v-if="resultBlog"
+        >
+          <li
+            class="py-3 sm:py-4"
+            v-for="blog in resultBlog.hits"
+            :key="blog._id"
+          >
+            <div class="flex overflow-hidden items-start gap-4 relative w-full">
+              <a :href="'/news/' + blog._id" class="relative">
                 <NuxtImg
-                  v-if="blog.avatar !== null && blog.avatar !== undefined"
+                  v-if="blog.photo !== null && blog.photo !== undefined"
                   provider="cloudinary"
-                  :src="blog.avatar"
+                  :src="blog.photo"
                   width="700"
                   height="700"
                   class="w-10 h-10 rounded"
@@ -160,13 +157,14 @@
                 <span
                   class="absolute bottom-0 left-8 transform translate-y-1/4 w-3.5 h-3.5 bg-green-400 border-2 border-white dark:border-gray-800 rounded-full"
                 ></span>
-              </div>
+              </a>
               <div class="flex-1 w-full relative">
-                <div class="flex items-center w-full">
-                  <span class="text-base font-bold text-gray-900 truncate">
-                    {{ blog.title }}
-                  </span>
-                </div>
+                <a
+                  :href="'/news/' + blog._id"
+                  class="text-base font-bold text-gray-900 overflow-hidden ... line-clamp-1 pr-5"
+                >
+                  {{ blog.title }}
+                </a>
 
                 <div
                   class="relative text-sm font-normal w-full text-ellipsis overflow-hidden ... line-clamp-4"
@@ -174,22 +172,6 @@
                   {{ blog.content }}
                 </div>
               </div>
-              <a
-                :href="'/news/'+blog._id"
-                class="absolute right-0 top-0 text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-1.5"
-              >
-                <svg
-                  class="w-5 h-5"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="currentColor"
-                  viewBox="0 0 576 512"
-                >
-                  <path
-                    d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM144 256a144 144 0 1 1 288 0a144 144 0 1 1-288 0zm144-64c0 35.3-28.7 64-64 64c-7.1 0-13.9-1.2-20.3-3.3c-5.5-1.8-11.9 1.6-11.7 7.4c.3 6.9 1.3 13.8 3.2 20.7c13.7 51.2 66.4 81.6 117.6 67.9s81.6-66.4 67.9-117.6c-11.1-41.5-47.8-69.4-88.6-71.1c-5.8-.2-9.2 6.1-7.4 11.7c2.1 6.4 3.3 13.2 3.3 20.3z"
-                  />
-                </svg>
-              </a>
             </div>
           </li>
         </ul>
