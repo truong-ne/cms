@@ -364,11 +364,12 @@ const onSubmit = handleSubmit(async (values) => {
     .then(() => {
       toastStatus.value = "success";
       message.value = "Thêm thành công";
+      addToast();
     })
     .catch((e: string) => {
       toastStatus.value = "error";
       message.value = e;
+      addToast();
     });
-  addToast();
 });
 </script>

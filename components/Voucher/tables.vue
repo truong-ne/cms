@@ -305,13 +305,13 @@ async function deleteDiscount() {
       toastStatus.value = "success";
       message.value = "Xoá thành công";
       currentId.value = undefined;
+      addToast();
     })
     .catch((e: string) => {
       toastStatus.value = "error";
       message.value = e;
+      addToast();
     });
-
-  addToast();
 }
 
 async function previous() {

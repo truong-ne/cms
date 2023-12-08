@@ -139,6 +139,7 @@ export const useDataMedicalRecord = defineStore("medical_record", () => {
       );
 
       if (data.value !== null) {
+        return;
       } else {
         console.log(error);
         // navigateTo("/error");

@@ -193,12 +193,13 @@ async function deleteBlog() {
       .then(() => {
         toastStatus.value = "success";
         message.value = "Xoá thành công";
+        addToast();
       })
       .catch((e: string) => {
         toastStatus.value = "error";
         message.value = e;
+        addToast();
       });
-    addToast();
   } catch (error) {
     console.log(error);
   }

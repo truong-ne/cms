@@ -41,7 +41,11 @@
           </button>
         </div>
         <!-- Modal body -->
-        <form action="#" @submit.prevent="onSubmit" v-if="doctorStore.doctor != null">
+        <form
+          action="#"
+          @submit.prevent="onSubmit"
+          v-if="doctorStore.doctor != null"
+        >
           <div class="grid gap-4 mb-4 sm:grid-cols-3 w-full">
             <div class="sm:col-span-2">
               <label
@@ -223,7 +227,7 @@
               :disabled="isSubmitting"
               class="flex items-center justify-center text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-4 py-2"
             >
-            <div role="status" v-if="isSubmitting">
+              <div role="status" v-if="isSubmitting">
                 <svg
                   aria-hidden="true"
                   class="w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
@@ -267,7 +271,6 @@
 <script setup lang="ts">
 import * as yup from "yup";
 import { useForm } from "vee-validate";
-
 
 const storeToast = toastStore();
 const toastStatus = ref("");
@@ -375,7 +378,7 @@ const onSubmit = handleSubmit(async (values) => {
     phone: values.phone,
     experience: values.experience,
     fee_per_minutes: values.feePerMinute,
-    updated_at: ""
+    updated_at: "",
   };
 
   clearNuxtData();
@@ -384,11 +387,12 @@ const onSubmit = handleSubmit(async (values) => {
     .then(() => {
       toastStatus.value = "success";
       message.value = "Thêm thành công";
+      addToast();
     })
     .catch((e: string) => {
       toastStatus.value = "error";
       message.value = e;
+      addToast();
     });
-  addToast();
 });
 </script>

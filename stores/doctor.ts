@@ -1,19 +1,19 @@
 import { defineStore } from "pinia";
 import { array, mask, number } from "superstruct";
-import {
-  DoctorSchema,
-  type Doctor,
-  type PatientConsultation,
-  PatientConsultationSchema,
-  MoneyQuantitySchema,
-  type DoctorQuantity,
-  type ConsultationQuantity,
-  type ConsultationPie,
-  type MoneyQuantity,
-  MoneyMonth,
-  type MoneyMonthSchema,
-} from "./structs/doctor_struct";
-import { DataArraySchema, DataObjectSchema } from "./structs/response_struct";
+// import {
+//   DoctorSchema,
+//   type Doctor,
+//   type PatientConsultation,
+//   PatientConsultationSchema,
+//   MoneyQuantitySchema,
+//   type DoctorQuantity,
+//   type ConsultationQuantity,
+//   type ConsultationPie,
+//   type MoneyQuantity,
+//   MoneyMonth,
+//   type MoneyMonthSchema,
+// } from "./structs/doctor_struct";
+// import { DataArraySchema, DataObjectSchema } from "./structs/response_struct";
 
 export const useDataDoctor = defineStore("doctor", () => {
   const doctorQuantity = ref<DoctorQuantity>();
@@ -196,6 +196,7 @@ export const useDataDoctor = defineStore("doctor", () => {
       });
 
       if (data.value !== null) {
+        return;
       } else {
         console.log(error);
         doctors.value = [];
@@ -292,7 +293,7 @@ export const useDataDoctor = defineStore("doctor", () => {
       );
 
       if (data.value !== null) {
-        
+        return;
       } else {
         console.log(error);
         // navigateTo("/error");
