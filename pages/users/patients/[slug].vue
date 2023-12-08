@@ -6,9 +6,12 @@
   </div>
 </template>
 <script setup>
+
 const route = useRoute();
 const data = useDataMedicalRecord();
+
 onMounted(async () => {
-  await data.getProfileById(route.params["slug"].toString());
+
+
 });
 </script>

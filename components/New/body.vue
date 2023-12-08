@@ -1,10 +1,12 @@
 <template>
-  <section class="w-full md:mb-4 mb-2">
-    <div class="relative overflow-hidden rounded-xl bg-white w-full mb-8">
+  <section class="w-full md:mb-4 mb-2 relative">
+    <div
+      class="fixed z-30 right-0 md:left-80 left-0 overflow-hidden mb-8 rounded-b-xl h-auto bg-gradient-to-b from-gray-100 md:from-80% from-70% top-0 w-auto"
+    >
       <div
-        class="flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 md:p-4 p-2"
+        class="relative flex flex-col md:flex-row items-center justify-between rounded-xl bg-white space-y-3 md:space-y-0 md:space-x-4 md:p-4 p-2 md:mt-8 mt-20 md:m-4 m-2 md:shadow-lg shadow"
       >
-        <div class="w-full md:w-1/3 flex items-center">
+        <div class="relative w-full md:w-1/3 flex items-center">
           <label for="simple-search" class="sr-only">Search</label>
           <div class="relative w-full">
             <div
@@ -27,13 +29,15 @@
             <input
               type="text"
               id="simple-search"
+              v-model="keySearch"
               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-gray-500 focus:border-gray-500 block w-full pl-10 p-2"
               placeholder="Tìm kiếm"
+              @input="meilisearch"
             />
           </div>
         </div>
         <div
-          class="w-full md:w-auto flex flex-col md:flex-row space-y-2 md:space-y-0 items-stretch md:items-center justify-end md:space-x-3 flex-shrink-0"
+          class="relative w-full md:w-auto flex flex-col md:flex-row space-y-2 md:space-y-0 items-stretch md:items-center justify-end md:space-x-3 flex-shrink-0"
         >
           <button
             type="button"
@@ -76,7 +80,7 @@
       </div>
     </div>
     <div
-      class="grid xl:grid-cols-3 md:grid-cols-2 grid-cols-1 items-start justify-center md:gap-4 gap-2"
+      class="grid xl:grid-cols-3 md:grid-cols-2 grid-cols-1 items-start justify-center md:gap-4 gap-2 md:pt-24 pt-56"
     >
       <article
         v-for="blog in data.blogs"
@@ -88,7 +92,7 @@
           v-if="blog.photo"
           provider="cloudinary"
           :src="blog.photo"
-          class="h-auto w-auto object-contain absolute rounded-xl blur-2xl group-hover:opacity-70 duration-200 transform ease-linear"
+          class="h-auto w-auto object-cover absolute rounded-xl blur-2xl group-hover:opacity-70 duration-200 transform ease-linear"
           :class="{
             'opacity-70': currentId == blog._id,
             'opacity-20': currentId != blog._id,
@@ -160,7 +164,7 @@
 <script setup lang="ts">
 const { data } = defineProps(["data"]);
 const route = useRoute();
-const currentId = ref();
+const { search, result } = useMeiliSearch("blog");
 
 const storeToast = toastStore();
 const toastStatus = ref("");
@@ -172,6 +176,14 @@ function addToast() {
     toastStatus: toastStatus.value,
   });
 }
+
+const keySearch = ref("");
+const resultSearch = ref();
+const hitsPerPage = ref(10);
+const currentPage = ref(1);
+const totalPages = ref();
+const totalHits = ref(0);
+const currentId = ref();
 
 async function deleteBlog() {
   try {
@@ -198,5 +210,19 @@ function chooseBlog(id: string) {
     currentId.value = id;
     data.chooseBlog(id);
   }
+}
+
+onMounted(async () => {
+  result.value = await search(keySearch.value.trim(), {});
+  resultSearch.value = result.value.hits;
+});
+
+async function meilisearch() {
+  // if (keySearch.value.trim() !== "") {
+
+  result.value = await search(keySearch.value.trim(), {});
+  resultSearch.value = result.value.hits;
+
+  // }
 }
 </script>

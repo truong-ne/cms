@@ -25,7 +25,7 @@
         class="absolute bottom-0 z-10 md:h-96 h-60 w-full grid grid-cols-1 items-end justify-end bg-gradient-to-t from-gray-900 group-hover:bg-gray-900 group-hover:opacity-100 duration-200 transform ease-linear"
       >
         <span
-          class="text-white 2xl:text-8xl xl:text-7xl lg:text-6xl md:text-7xl text-5xl font-bold line-clamp-2 w-auto 2xl:m-8 xl:m-7 lg:m-6 md:m-5 m-4"
+          class="text-white 2xl:text-7xl xl:text-6xl lg:text-5xl md:text-4xl text-4xl font-bold line-clamp-4 md:line-clamp-2 w-auto 2xl:m-8 xl:m-7 lg:m-6 md:m-5 m-4"
         >
           {{ data.blog.title }}</span
         >

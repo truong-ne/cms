@@ -19,26 +19,31 @@ export const DoctorSchema = object({
   full_name: any(),
   avatar: any(),
   email: any(),
-  phone:any(),
+  phone: any(),
   specialty: any(),
   fee_per_minutes: any(),
-  experience:any(),
+  experience: any(),
   ratings: any(),
   number_of_consultation: any(),
-  fixed_times:any(),
+  fixed_times: any(),
+  biography: any(),
+  updated_at: string(),
 });
 
-// export const DoctorInfoSchema = object({
-//   id: string(),
-//   full_name: string(),
-//   date_of_birth: string(),
-//   gender: string(),
-//   relationship: string() || null,
-//   avatar: string(),
-//   address: string(),
-//   records: array(PatientRecordSchema),
-// });
+export const PatientConsultationSchema = object({
+  consultation: array(
+    object({
+      medical_id: string(),
+      phone: string(),
+      email: any(),
+    })
+  ),
+  quantity: number(),
+});
+
+
 
 export type Doctor = Infer<typeof DoctorSchema>;
+export type PatientConsultation = Infer<typeof PatientConsultationSchema>;
 // export type PatientRecord = Infer<typeof PatientRecordSchema>;
 // export type DoctorInfo = Infer<typeof DoctorInfoSchema>;

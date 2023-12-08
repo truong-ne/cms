@@ -42,7 +42,7 @@
           <li>
             <a
               href="/"
-              class="flex items-center p-2 text-gray-900 rounded-lg group"
+              class="flex items-center p-2 text-gray-900 rounded-lg group hover:bg-gray-100"
               :class="{ 'bg-primary-100': route.path == '/' }"
             >
               <lord-icon
@@ -99,7 +99,7 @@
               <li>
                 <a
                   href="/users/doctors"
-                  :class="{'bg-primary-100':route.path.includes('/doctors')}"
+                  :class="{ 'bg-primary-100': route.path.includes('/doctors') }"
                   class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100"
                   >Bác sĩ</a
                 >
@@ -107,7 +107,9 @@
               <li>
                 <a
                   href="/users/patients"
-                  :class="{'bg-primary-100':route.path.includes('/patients')}"
+                  :class="{
+                    'bg-primary-100': route.path.includes('/patients'),
+                  }"
                   class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100"
                   >Bệnh nhân</a
                 >
@@ -117,7 +119,7 @@
           <li>
             <a
               href="/vouchers"
-              :class="{'bg-primary-100':route.path.includes('/vouchers')}"
+              :class="{ 'bg-primary-100': route.path.includes('/vouchers') }"
               class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100"
             >
               <lord-icon
@@ -133,7 +135,7 @@
           <li>
             <a
               href="/news"
-              :class="{'bg-primary-100':route.path.includes('/news')}"
+              :class="{ 'bg-primary-100': route.path.includes('/news') }"
               class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group"
             >
               <lord-icon

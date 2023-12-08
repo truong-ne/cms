@@ -22,19 +22,19 @@
       ></a>
       <div
         class="flex flex-col items-center justify-start mb-2 md:mb-4 pr-8 md:col-span-1 border-r h-full"
-        v-if="data.userInfo"
+        v-if="mainAccount"
       >
         <div
           class="md:w-40 md:h-40 w-40 h-40 mb-2 rounded-full overflow-hidden"
         >
           <NuxtImg
-            v-if="data.userInfo.avatar != 'default'"
+            v-if="mainAccount.avatar != 'default'"
             provider="cloudinary"
-            :src="data.userInfo.avatar"
+            :src="mainAccount.avatar"
             width="700"
             height="700"
             class="object-cover group-hover:scale-[1.15] duration-200 transform ease-linear"
-            :alt="data.userInfo.full_name"
+            :alt="mainAccount.full_name"
           />
           <NuxtImg
             v-else
@@ -43,7 +43,7 @@
             width="700"
             height="700"
             class="object-cover group-hover:scale-[1.15] duration-200 transform ease-linear"
-            :alt="data.userInfo.full_name"
+            :alt="mainAccount.full_name"
           />
         </div>
         <span
@@ -56,7 +56,7 @@
             class="mb-1 lg:text-md md:text-base text-sm font-semibold leading-none text-black overflow-hidden truncate ..."
           >
             Họ tên:
-            <span class="font-thin">{{ data.userInfo.full_name }}</span>
+            <span class="font-thin">{{ mainAccount.full_name }}</span>
           </span>
           <span
             class="mb-1 lg:text-md md:text-base text-sm font-semibold leading-none text-black overflow-hidden truncate ..."
@@ -69,7 +69,7 @@
           >
             Ngày sinh:
             <span class="font-thin">{{
-              getDate(data.userInfo.date_of_birth)
+              getDate(mainAccount.date_of_birth)
             }}</span>
           </span>
           <span
@@ -78,8 +78,8 @@
             Email:
             <a
               class="font-thin hover:underline"
-              :href="'mailto:' + data.userInfo.email"
-              >{{ data.userInfo.email }}</a
+              :href="'mailto:' + mainAccount.email"
+              >{{ mainAccount.email }}</a
             >
           </span>
           <span
@@ -87,29 +87,29 @@
           >
             Số điện thoại:
             <a
-              :href="'tel:' + data.userInfo.phone"
+              :href="'tel:' + mainAccount.phone"
               class="font-thin hover:underline"
-              >{{ data.userInfo.phone }}</a
+              >{{ mainAccount.phone }}</a
             >
           </span>
           <span
             class="mb-1 lg:text-md md:text-base text-sm font-semibold leading-none text-black overflow-hidden truncate ..."
           >
             Địa chỉ:
-            <span class="font-thin">{{ data.userInfo.address }}</span>
+            <span class="font-thin">{{ mainAccount.address }}</span>
           </span>
 
           <span
             class="mb-1 lg:text-md md:text-base text-sm font-thin leading-none text-black overflow-hidden truncate ..."
           >
-            Cập nhật {{ getDateTime(data.userInfo.updated_at) }}
+            Cập nhật {{ getDateTime(mainAccount.update_at) }}
           </span>
         </div>
       </div>
 
       <div
         class="col-span-2 flex flex-col items-center justify-start md:pl-4 overflow-x-auto"
-        v-if="data.userInfo"
+        v-if="data.medicals"
       >
         <span
           class="mb-5 w-full lg:text-xl md:text-lg text-md font-bold leading-none text-black overflow-hidden truncate ..."
@@ -127,23 +127,23 @@
                 <th scope="col" class="px-4 py-3">Địa chỉ</th>
               </tr>
             </thead>
-            <tbody v-for="i in 10" :key="i">
+            <tbody v-for="medical in data.medicals" :key="medical.id">
               <tr class="border-b">
                 <th
                   scope="row"
                   class="flex items-center px-4 py-3 mr-4 font-normal text-gray-900 whitespace-nowrap"
                 >
-                  {{ data.userInfo.full_name }}
+                  {{ medical.full_name }}
                 </th>
                 <td class="px-4 py-3 mr-4">
-                  {{ getDate(data.userInfo.date_of_birth) }}
+                  {{ getDate(medical.date_of_birth) }}
                 </td>
 
                 <td class="px-4 py-3 mr-4">
-                  {{ getByKey(data.userInfo.gender) }}
+                  {{ getByKey(medical.gender) }}
                 </td>
-                <td class="px-4 py-3 mr-4">{{ data.userInfo.relative }}</td>
-                <td class="px-4 py-3 mr-4">{{ data.userInfo.address }}</td>
+                <td class="px-4 py-3 mr-4">{{ medical.relative }}</td>
+                <td class="px-4 py-3 mr-4">{{ medical.address }}</td>
               </tr>
             </tbody>
           </table>
@@ -285,6 +285,12 @@
   </section>
 </template>
 <script setup lang="ts">
+import { array, mask, number } from "superstruct";
+
+const { search, result } = useMeiliSearch("user");
+const route = useRoute();
+const mainAccount = ref();
+const vaccinationRecord = ref();
 const { data } = defineProps(["data"]);
 const mapGender = Object.entries(Gender).map(([key, value]) => ({
   key: key,
@@ -296,4 +302,15 @@ function getByKey(searchKey: string) {
   }
   return "Không xác định";
 }
+onMounted(async () => {
+  const param = route.params["slug"].toString();
+  mainAccount.value = mask(
+    (await search(param, { hitsPerPage: 1 })).hits,
+    array(MedicalRecordInfoSchema)
+  )[0];
+  await data.getProfileById(param);
+
+  vaccinationRecord.value = await data.getVaccinationRecord(data.medicals[0].id);
+  console.log(vaccinationRecord.value);
+});
 </script>

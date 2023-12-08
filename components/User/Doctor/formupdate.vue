@@ -351,7 +351,8 @@ const onSubmit = handleSubmit(async (values) => {
     email: values.email,
     phone: values.phone,
     experience: values.experience,
-    fee_per_minutes:values.feePerMinute
+    fee_per_minutes: values.feePerMinute,
+    updated_at: ""
   };
 
   clearNuxtData();

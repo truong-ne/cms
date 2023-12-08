@@ -5,6 +5,7 @@ import {
   type MedicalRecord,
   type MedicalRecordInfo,
   MedicalRecordInfoSchema,
+  type VaccinationRecord,
 } from "./structs/medical_record_struct";
 import {
   DataArraySchema,
@@ -17,7 +18,8 @@ export const useDataMedicalRecord = defineStore("medical_record", () => {
   const medicals = ref<MedicalRecord[]>([]);
   const medical = ref<MedicalRecord>();
   const medicalInfo = ref<MedicalRecordInfo>();
-  const userInfo = ref<MedicalRecordInfo>();
+  const vaccinationRecord = ref<VaccinationRecord[]>([]);
+  // const userInfo = ref<MedicalRecordInfo>();
 
   const storeAuth = useAuthStore();
   const authorization = "Bearer " + (storeAuth.getAccesToken ?? "");
@@ -39,27 +41,6 @@ export const useDataMedicalRecord = defineStore("medical_record", () => {
     });
   }
 
-  // async function getQuantityPatient() {
-  //   const { data, error } = await useFetch(
-  //     "user-management/medical-record/quantity",
-  //     {
-  //       baseURL: useRuntimeConfig().public.baseURL,
-  //       method: "GET",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //         Authorization: authorization,
-  //       },
-  //     }
-  //   );
-
-  //   if (data.value !== null) {
-  //     const message = mask(data.value, DataNumberSchema);
-  //     medicalQuantity.value = mask(message.data, number());
-  //   } else {
-  //     console.log(error);
-  //   }
-  // }
-
   async function getProfileById(id: string) {
     try {
       if (authorization === "Bearer ") throw "Không thể xác định danh tính";
@@ -77,8 +58,34 @@ export const useDataMedicalRecord = defineStore("medical_record", () => {
 
       if (data.value !== null) {
         const message = mask(data.value, DataArraySchema);
+        medicals.value = mask(message.data, array(MedicalRecordSchema));
+        medical.value = medicals.value.find((e) => e.isMainProfile == true);
+      } else {
+        console.log(error);
+      }
+    } catch (error) {
+      throw error;
+    }
+  }
 
-        userInfo.value = mask(message.data, array(MedicalRecordInfoSchema))[0];
+  async function getVaccinationRecord(id: string) {
+    try {
+      if (authorization === "Bearer ") throw "Không thể xác định danh tính";
+      const { data, error } = await useFetch("vaccination/record/" + id, {
+        baseURL: useRuntimeConfig().public.baseURL,
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: authorization,
+        },
+      });
+
+      if (data.value !== null) {
+        const message = mask(data.value, DataArraySchema);
+        vaccinationRecord.value = mask(
+          message.data,
+          array(VaccinationRecordSchema)
+        );
       } else {
         console.log(error);
       }
@@ -89,13 +96,14 @@ export const useDataMedicalRecord = defineStore("medical_record", () => {
 
   return {
     medicals,
+    medical,
     medicalInfo,
-    userInfo,
     medicalQuantity,
     choosePatient,
     savePatients,
     saveQuantity,
     getProfileById,
+    getVaccinationRecord,
     // getQuantityPatient,
   };
 });

@@ -303,7 +303,7 @@ async function deleteDiscount() {
     .deleteDiscount(currentId.value)
     .then(() => {
       toastStatus.value = "success";
-      message.value = "Thêm thành công";
+      message.value = "Xoá thành công";
       currentId.value = undefined;
     })
     .catch((e: string) => {

@@ -1,5 +1,5 @@
 <template>
-  <section class="grid md:grid-cols-3 grid-cols-1 md:gap-4 gap-2 h-full w-full">
+  <section class="grid md:grid-cols-3 grid-cols-1 md:gap-4 gap-2 h-full w-full mb-4">
     <div
       class="relative flex items-center rounded-xl justify-center bg-white md:p-4 w-full h-full"
     >

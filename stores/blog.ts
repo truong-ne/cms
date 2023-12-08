@@ -56,7 +56,7 @@ export const useDataBlog = defineStore("Blog", () => {
         baseURL: useRuntimeConfig().public.baseURL,
         method: "PUT",
         headers: {
-          //   Authorization: authorization,
+          Authorization: authorization,
         },
         body: formdata,
       });
@@ -118,6 +118,9 @@ export const useDataBlog = defineStore("Blog", () => {
       const { data, error } = await useFetch("/health-forum/blog/" + id, {
         baseURL: useRuntimeConfig().public.baseURL,
         method: "DELETE",
+        headers: {
+          Authorization: authorization,
+        },
       });
 
       if (data.value !== null) {
@@ -126,7 +129,8 @@ export const useDataBlog = defineStore("Blog", () => {
         blog.value = mask(response.data, BlogSchema);
         return;
       } else if (error.value != null) {
-        throw "Không thể tải";
+        console.log(error.value);
+        throw error.value;
       }
     } catch (error) {
       throw error;

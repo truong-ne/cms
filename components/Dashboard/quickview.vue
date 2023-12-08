@@ -1,49 +1,65 @@
 <template>
   <div class="grid lg:grid-cols-3 md:gap-4 gap-2 md:mb-4 mb-2">
-    <!-- <div
-      class="col-span-2 flex items-start rounded-xl justify-center h-auto bg-white"
-    > -->
     <div class="col-span-1 w-full h-min max-w-md p-4 bg-white rounded-xl">
       <div class="flex items-center justify-between mb-4">
-        <h5
-          class="text-lg leading-none font-bold text-gray-900 dark:text-white"
-        >
+        <h5 class="text-lg leading-none font-bold text-gray-900">
           Bác sĩ hàng đầu
         </h5>
-        <button
-          type="button"
+        <a
+          href="/users/doctors"
           class="py-2.5 px-5 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
         >
           Xem thêm
-        </button>
+        </a>
       </div>
       <div class="flow-root border-t">
-        <ul role="list" class="divide-y divide-gray-200 dark:divide-gray-700">
-          <li class="py-3 sm:py-4">
-            <div class="flex items-center space-x-4">
+        <ul
+          role="list"
+          class="divide-y divide-gray-200 dark:divide-gray-700"
+          v-if="resultDoctor"
+        >
+          <li
+            class="py-3 sm:py-4"
+            v-for="doctor in resultDoctor.hits"
+            :key="doctor.id"
+          >
+            <div class="flex items-center space-x-4 relative">
               <div class="relative">
-                <img
+                <NuxtImg
+                  v-if="doctor.avatar !== null && doctor.avatar !== undefined"
+                  provider="cloudinary"
+                  :src="doctor.avatar"
+                  width="700"
+                  height="700"
                   class="w-10 h-10 rounded"
-                  src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/roberta-casas.png"
-                  alt=""
+                  :alt="doctor.full_name"
+                />
+                <NuxtImg
+                  v-else
+                  provider="cloudinary"
+                  src="healthline/avatar/doctors/default"
+                  width="700"
+                  height="700"
+                  class="w-10 h-10 rounded"
+                  :alt="doctor.full_name"
                 />
                 <span
                   class="absolute bottom-0 left-8 transform translate-y-1/4 w-3.5 h-3.5 bg-green-400 border-2 border-white dark:border-gray-800 rounded-full"
                 ></span>
               </div>
-              <div class="flex-1 w-full">
-                <div class="flex items-center">
-                  <span
-                    class="text-sm font-medium text-gray-900 truncate dark:text-white"
+              <div class="flex-1 w-full relative">
+                <span class="text-sm font-medium text-gray-900 truncate">
+                  {{ doctor.full_name }}
+                </span>
+                <div>
+                  <a
+                    :href="'mailto:' + doctor.email"
+                    class="ml-auto text-sm text-gray-500 truncate hover:underline w-full"
                   >
-                    Neil Sims
-                  </span>
-                  <span
-                    class="ml-auto text-sm text-gray-500 truncate dark:text-gray-400"
+                    {{ doctor.email }}</a
                   >
-                    <a href="mailto:email@windster.com"> email@windster.com</a>
-                  </span>
                 </div>
+
                 <div class="flex items-center">
                   <svg
                     aria-hidden="true"
@@ -58,10 +74,10 @@
                   </svg>
                   <span
                     class="text-sm text-gray-500 truncate dark:text-gray-400"
-                    >4.8</span
+                    >{{ doctor.ratings }}</span
                   >
                   <svg
-                    class="ml-2 w-[18px] h-[18px] text-blue-600 dark:text-white"
+                    class="ml-2 w-[18px] h-[18px] text-blue-600"
                     aria-hidden="true"
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
@@ -77,203 +93,103 @@
                   </svg>
                   <span
                     class="ml-1 text-sm text-gray-500 truncate dark:text-gray-400"
-                    >42</span
+                    >{{ doctor.number_of_consultation }}</span
                   >
                   <span
-                    class="text-sm text-gray-500 truncate dark:text-gray-400 ml-auto"
-                    >50 đánh giá</span
+                    class="text-xs text-gray-500 truncate dark:text-gray-400 ml-auto"
+                    >Cập nhật {{ getDateTime(doctor.updated_at) }}</span
                   >
                 </div>
               </div>
-              <button
-                id="doctordropdownButton"
-                data-dropdown-toggle="doctordropdown"
-                class="inline-block text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-1.5"
-                type="button"
+              <a
+                :href="'/users/doctors/' + doctor.id"
+                class="absolute right-0 top-0 text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-1.5"
               >
-                <span class="sr-only">Open dropdown</span>
                 <svg
                   class="w-5 h-5"
                   aria-hidden="true"
                   xmlns="http://www.w3.org/2000/svg"
                   fill="currentColor"
-                  viewBox="0 0 16 3"
+                  viewBox="0 0 576 512"
                 >
                   <path
-                    d="M2 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm6.041 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM14 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Z"
+                    d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM144 256a144 144 0 1 1 288 0a144 144 0 1 1-288 0zm144-64c0 35.3-28.7 64-64 64c-7.1 0-13.9-1.2-20.3-3.3c-5.5-1.8-11.9 1.6-11.7 7.4c.3 6.9 1.3 13.8 3.2 20.7c13.7 51.2 66.4 81.6 117.6 67.9s81.6-66.4 67.9-117.6c-11.1-41.5-47.8-69.4-88.6-71.1c-5.8-.2-9.2 6.1-7.4 11.7c2.1 6.4 3.3 13.2 3.3 20.3z"
                   />
                 </svg>
-              </button>
-              <!-- Dropdown menu -->
-              <div
-                id="doctordropdown"
-                class="z-10 hidden text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700"
-              >
-                <ul class="py-2" aria-labelledby="doctordropdownButton">
-                  <li>
-                    <a
-                      href="#"
-                      class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
-                      >Chỉnh sửa</a
-                    >
-                  </li>
-                  <li>
-                    <a
-                      href="#"
-                      class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
-                      >Xem chi tiết</a
-                    >
-                  </li>
-                  <li>
-                    <a
-                      href="#"
-                      class="block px-4 py-2 text-sm text-red-600 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
-                      >Xoá</a
-                    >
-                  </li>
-                </ul>
-              </div>
+              </a>
             </div>
           </li>
         </ul>
       </div>
     </div>
-    <!-- </div> -->
-
-    <!-- <div
-      class=" flex items-start border-1 rounded-lg justify-center h-auto bg-gray-50 dark:bg-gray-800"
-    > -->
-    <div class="col-span-1 w-full h-min max-w-md p-4 bg-white rounded-xl">
+    <div class="md:col-span-2 w-full h-min p-4 bg-white rounded-xl">
       <div class="flex items-center justify-between mb-4">
         <h5 class="text-lg leading-none font-bold text-gray-900">
-          Bài đăng mới nhất
+          Bảng tin mới nhất
         </h5>
-        <button
-          type="button"
+        <a
+          href="/news"
           class="py-2.5 px-5 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200"
         >
           Xem thêm
-        </button>
+        </a>
       </div>
       <div class="flow-root border-t">
-        <ul role="list" class="divide-y divide-gray-200 dark:divide-gray-700">
-          <li class="py-3 sm:py-4">
-            <div class="flex items-start space-x-4">
+        <ul role="list" class="divide-y divide-gray-200 dark:divide-gray-700" v-if="resultBlog">
+          <li class="py-3 sm:py-4" v-for="blog in resultBlog.hits" :key="blog._id">
+            <div class="flex items-start space-x-4 relative">
               <div class="relative">
-                <img
+                <NuxtImg
+                  v-if="blog.avatar !== null && blog.avatar !== undefined"
+                  provider="cloudinary"
+                  :src="blog.avatar"
+                  width="700"
+                  height="700"
                   class="w-10 h-10 rounded"
-                  src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/roberta-casas.png"
-                  alt=""
+                  :alt="blog.full_name"
+                />
+                <NuxtImg
+                  v-else
+                  provider="cloudinary"
+                  src="healthline/avatar/doctors/default"
+                  width="700"
+                  height="700"
+                  class="w-10 h-10 rounded"
+                  :alt="blog.full_name"
                 />
                 <span
                   class="absolute bottom-0 left-8 transform translate-y-1/4 w-3.5 h-3.5 bg-green-400 border-2 border-white dark:border-gray-800 rounded-full"
                 ></span>
               </div>
-              <div class="flex-1 w-full">
-                <div class="flex items-center">
-                  <span
-                    class="text-sm font-medium text-gray-900 truncate dark:text-white"
-                  >
-                    Neil Sims
-                  </span>
-                  <span
-                    class="ml-auto text-sm text-gray-500 truncate dark:text-gray-400"
-                  >
-                    <a href="mailto:email@windster.com"> email@windster.com </a>
+              <div class="flex-1 w-full relative">
+                <div class="flex items-center w-full">
+                  <span class="text-base font-bold text-gray-900 truncate">
+                    {{ blog.title }}
                   </span>
                 </div>
-                <div class="flex items-center">
-                  <svg
-                    aria-hidden="true"
-                    class="w-4 h-4 text-red-500"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="currentColor"
-                    viewBox="0 0 512 512"
-                  >
-                    <path
-                      d="m47.6 300.4l180.7 168.7c7.5 7 17.4 10.9 27.7 10.9s20.2-3.9 27.7-10.9l180.7-168.7c30.4-28.3 47.6-68 47.6-109.5v-5.8c0-69.9-50.5-129.5-119.4-141c-45.6-7.6-92 7.3-124.6 39.9l-12 12l-12-12c-32.6-32.6-79-47.5-124.6-39.9C50.5 55.6 0 115.2 0 185.1v5.8c0 41.5 17.2 81.2 47.6 109.5z"
-                    />
-                  </svg>
 
-                  <span
-                    class="text-sm ml-1 text-gray-500 truncate dark:text-gray-400"
-                    >145</span
-                  >
-                  <svg
-                    aria-hidden="true"
-                    fill="currentColor"
-                    xmlns="http://www.w3.org/2000/svg"
-                    class="ml-2 w-4 h-4 text-blue-600"
-                    viewBox="0 0 512 512"
-                  >
-                    <path
-                      d="M256 32C114.6 32 0 125.1 0 240c0 47.6 19.9 91.2 52.9 126.3C38 405.7 7 439.1 6.5 439.5c-6.6 7-8.4 17.2-4.6 26S14.4 480 24 480c61.5 0 110-25.7 139.1-46.3C192 442.8 223.2 448 256 448c141.4 0 256-93.1 256-208S397.4 32 256 32zm0 368c-26.7 0-53.1-4.1-78.4-12.1l-22.7-7.2l-19.5 13.8c-14.3 10.1-33.9 21.4-57.5 29c7.3-12.1 14.4-25.7 19.9-40.2l10.6-28.1l-20.6-21.8C69.7 314.1 48 282.2 48 240c0-88.2 93.3-160 208-160s208 71.8 208 160s-93.3 160-208 160z"
-                    />
-                  </svg>
-
-                  <span
-                    class="ml-1 text-sm text-gray-500 truncate dark:text-gray-400"
-                    >42</span
-                  >
-                </div>
-                <div>
-                  <p
-                    class="text-sm font-normal text-ellipsis overflow-hidden ..."
-                  >
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                    Voluptatibus quia, nulla! Maiores et perferendis eaque,
-                    exercitationem praesentium nihil.
-                  </p>
+                <div
+                  class="relative text-sm font-normal w-full text-ellipsis overflow-hidden ... line-clamp-4"
+                >
+                  {{ blog.content }}
                 </div>
               </div>
-              <button
-                id="doctordropdownButton"
-                data-dropdown-toggle="doctordropdown"
-                class="inline-block text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-1.5"
-                type="button"
+              <a
+                :href="'/news/'+blog._id"
+                class="absolute right-0 top-0 text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-1.5"
               >
-                <span class="sr-only">Open dropdown</span>
                 <svg
                   class="w-5 h-5"
                   aria-hidden="true"
                   xmlns="http://www.w3.org/2000/svg"
                   fill="currentColor"
-                  viewBox="0 0 16 3"
+                  viewBox="0 0 576 512"
                 >
                   <path
-                    d="M2 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm6.041 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM14 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Z"
+                    d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM144 256a144 144 0 1 1 288 0a144 144 0 1 1-288 0zm144-64c0 35.3-28.7 64-64 64c-7.1 0-13.9-1.2-20.3-3.3c-5.5-1.8-11.9 1.6-11.7 7.4c.3 6.9 1.3 13.8 3.2 20.7c13.7 51.2 66.4 81.6 117.6 67.9s81.6-66.4 67.9-117.6c-11.1-41.5-47.8-69.4-88.6-71.1c-5.8-.2-9.2 6.1-7.4 11.7c2.1 6.4 3.3 13.2 3.3 20.3z"
                   />
                 </svg>
-              </button>
-              <!-- Dropdown menu -->
-              <div
-                id="doctordropdown"
-                class="z-10 hidden text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700"
-              >
-                <ul class="py-2" aria-labelledby="doctordropdownButton">
-                  <li>
-                    <a
-                      href="#"
-                      class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
-                      >Chỉnh sửa</a
-                    >
-                  </li>
-                  <li>
-                    <a
-                      href="#"
-                      class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
-                      >Xem chi tiết</a
-                    >
-                  </li>
-                  <li>
-                    <a
-                      href="#"
-                      class="block px-4 py-2 text-sm text-red-600 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
-                      >Xoá</a
-                    >
-                  </li>
-                </ul>
-              </div>
+              </a>
             </div>
           </li>
         </ul>
@@ -281,3 +197,20 @@
     </div>
   </div>
 </template>
+<script setup lang="ts">
+const meilisearchDoctor = useMeiliSearch("doctors");
+const meilisearchBlog = useMeiliSearch("blog");
+const resultDoctor = ref();
+const resultBlog = ref();
+
+onMounted(async () => {
+  resultDoctor.value = await meilisearchDoctor.search("", {
+    sort: ["ratings:desc"],
+    hitsPerPage: 5,
+  });
+  resultBlog.value = await meilisearchBlog.search("", {
+    sort: ["updateat:desc"],
+    hitsPerPage: 5,
+  });
+});
+</script>
