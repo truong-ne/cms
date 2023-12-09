@@ -201,7 +201,7 @@
                 >
                   <div class="w-8 h-8 rounded-full overflow-hidden">
                     <NuxtImg
-                      v-if="patient.avatar"
+                      v-if="patient.avatar != 'default'"
                       provider="cloudinary"
                       width="400"
                       height="400"
