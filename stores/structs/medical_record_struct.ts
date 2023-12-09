@@ -26,13 +26,6 @@ export const MedicalRecordSchema = object({
   updated_at: string(),
 });
 
-export const PatientRecordSchema = object({
-  id: string(),
-  record: string(),
-  folder: string(),
-  size: string(),
-  update_at: string(),
-});
 
 export const MedicalRecordInfoSchema = object({
   id: string(),
@@ -70,6 +63,14 @@ export const MedicalQuantitySchema = object({
   quantity: number(),
   increase: number(),
 });
+export const PatientRecordSchema = object({
+  id: string(),
+  record:
+    string(),
+  folder: string(),
+  size: string(),
+  update_at: string(),
+});
 
 export type MedicalRecord = Infer<typeof MedicalRecordSchema>;
 export type PatientRecord = Infer<typeof PatientRecordSchema>;
@@ -77,3 +78,4 @@ export type MedicalRecordInfo = Infer<typeof MedicalRecordInfoSchema>;
 // export type Vaccination = Infer<typeof VaccinationSchema>;
 export type VaccinationRecord = Infer<typeof VaccinationRecordSchema>;
 export type MedicalQuantity = Infer<typeof MedicalQuantitySchema>;
+

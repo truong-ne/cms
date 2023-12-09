@@ -1,5 +1,6 @@
 import { defineStore } from "pinia";
 import { array, mask, number } from "superstruct";
+import type { PatientRecord } from "./structs/medical_record_struct";
 // import {
 //   MedicalRecordSchema,
 //   type MedicalRecord,
@@ -20,6 +21,7 @@ export const useDataMedicalRecord = defineStore("medical_record", () => {
   const medicalInfo = ref<MedicalRecordInfo>();
   const vaccinationRecord = ref<VaccinationRecord[]>([]);
   const medicalQuantity = ref<MedicalQuantity>();
+  const records = ref<PatientRecord[]>([]);
   // const userInfo = ref<MedicalRecordInfo>();
 
   const storeAuth = useAuthStore();
@@ -149,9 +151,36 @@ export const useDataMedicalRecord = defineStore("medical_record", () => {
     }
   }
 
+  async function getListRecordById(id: string) {
+    try {
+      if (authorization === "Bearer ") throw "Không thể xác định danh tính";
+      const { data, error } = await useFetch(
+        "patient-record/record/admin/" + id,
+        {
+          baseURL: useRuntimeConfig().public.baseURL,
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: authorization,
+          },
+        }
+      );
+
+      if (data.value !== null) {
+        const response = mask(data.value, DataArraySchema);
+        records.value = mask(response.data, array(PatientRecordSchema));
+      } else {
+        throw error;
+      }
+    } catch (error) {
+      throw error;
+    }
+  }
+
   return {
     medicals,
     medical,
+    records,
     medicalInfo,
     medicalQuantity,
     vaccinationRecord,
@@ -161,6 +190,7 @@ export const useDataMedicalRecord = defineStore("medical_record", () => {
     getVaccinationRecord,
     getQuantityMedical,
     resetPassword,
+    getListRecordById,
     // getQuantityPatient,
   };
 });

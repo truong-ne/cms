@@ -26,6 +26,7 @@ export default defineNuxtConfig({
         },
       },
     ],
+    // "@nuxtjs/cloudinary",
     [
       "@pinia/nuxt",
       {
@@ -57,7 +58,6 @@ export default defineNuxtConfig({
     provider: "cloudinary",
     cloudinary: {
       baseURL: "https://res.cloudinary.com/dsvlwyl7i/image/upload/",
-      
     },
   },
   vue: {
@@ -88,7 +88,7 @@ export default defineNuxtConfig({
     },
   },
   // cloudinary: {
-  //   cloudName: process.env.CLOUDINARY_NAME,
+  //   cloudName: process.env.CLOUDINARY_CLOUD_NAME,
   // },
   meilisearch: {
     hostUrl: process.env.MEILISEARCH_URL,
