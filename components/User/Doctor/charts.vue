@@ -1,5 +1,7 @@
 <template>
-  <section class="grid md:grid-cols-3 grid-cols-1 md:gap-4 gap-2 h-full w-full mb-4">
+  <section
+    class="grid md:grid-cols-3 grid-cols-1 md:gap-4 gap-2 h-full w-full mb-4"
+  >
     <div
       class="relative flex items-center rounded-xl justify-center bg-white md:p-4 w-full h-full"
     >
@@ -50,6 +52,11 @@
 </template>
   
   <script setup lang="ts">
+const { doctorStore } = defineProps(["doctorStore"]);
+const route = useRoute();
+const param = ref();
+const moneyMonth = ref<number[]>([]);
+const feedbackBar = ref<number[]>([]);
 //linechart
 const baroptions = ref({
   chart: {
@@ -144,7 +151,7 @@ const updateBarChart = () => {
   barseries.value = [
     {
       name: "Đánh giá",
-      data: [13, 21, 25, 15, 35],
+      data: feedbackBar.value,
       color: "#e7b72f",
     },
   ];
@@ -236,15 +243,27 @@ const updateLineChart = () => {
   };
   lineseries.value = [
     {
-      name: "Tháng u nhập hiện tại",
-      data: [13, 21, 25, 15, 35, 15, 16, 4, 20, 40, 11, 35],
+      name: "Doanh thu",
+      data: moneyMonth.value,
       color: "#0b9f6e",
     },
   ];
 };
 
-onMounted(() => {
+onMounted(async () => {
   updateBarChart();
   updateLineChart();
+  param.value = route.params["slug"].toString();
+  await Promise.all([
+    doctorStore.getConsultationMoneyAreaById(param.value),
+    doctorStore.getConsultationFeedbackBar(param.value),
+  ]);
+
+  moneyMonth.value = doctorStore.moneyMonth?.map(
+    (a: MoneyMonth) => a.totalMoneyThisMonth
+  );
+  feedbackBar.value = doctorStore.feedbackBar;
+  updateLineChart();
+  updateBarChart();
 });
 </script>

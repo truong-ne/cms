@@ -142,8 +142,6 @@ export const useDataMedicalRecord = defineStore("medical_record", () => {
         return;
       } else {
         console.log(error);
-        // navigateTo("/error");
-        doctors.value = [];
         throw "Reset mật khẩu thất bại";
       }
     } catch (error) {

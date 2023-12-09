@@ -152,44 +152,46 @@
     <div
       class="grid gap-4 w-full items-start justify-start bg-white rounded-xl md:p-4 p-2 relative"
     >
-      <div class="flex top-4 left-4 items-center w-full">
+      <div class="flex items-center w-full">
         <span
-          class="text-md items font-bold leading-none text-black md:text-lg lg:text-xl"
+          class="text-md items font-bold leading-none text-black md:text-lg lg:text-xl w-full"
         >
           Danh sách bệnh nhân ({{
             doctorStore.patientConsultation?.quantity
           }})</span
         >
       </div>
-      <div class="overflow-x-auto">
-        <table class="w-full text-sm text-left text-gray-500">
-          <thead class="text-xs text-gray-700 uppercase bg-gray-50 w-full">
-            <tr>
-              <th scope="col" class="px-4 py-3">Họ tên</th>
-              <th scope="col" class="px-4 py-3">Email</th>
-              <th scope="col" class="px-4 py-3">Số diện thoại</th>
-            </tr>
-          </thead>
-          <tbody v-if="doctorStore.patientConsultation">
-            <tr
-              class="border-b"
-              v-for="patient in doctorStore.patientConsultation.consultation"
-              :key="patient.medical_id"
-            >
-              <th
-                scope="row"
-                class="flex items-center px-4 py-3 mr-4 font-normal text-gray-900 whitespace-nowrap"
+      <div class="w-full relative">
+        <div class="overflow-x-auto">
+          <table class="w-screen text-sm text-left text-gray-500">
+            <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+              <tr>
+                <th scope="col" class="px-4 py-3">Họ tên</th>
+                <th scope="col" class="px-4 py-3">Email</th>
+                <th scope="col" class="px-4 py-3">Số diện thoại</th>
+              </tr>
+            </thead>
+            <tbody v-if="doctorStore.patientConsultation">
+              <tr
+                class="border-b"
+                v-for="patient in doctorStore.patientConsultation.consultation"
+                :key="patient.medical_id"
               >
-                {{ patient.medical_id }}
-              </th>
-              <td class="px-4 py-3 mr-4">
-                {{ patient.email }}
-              </td>
+                <th
+                  scope="row"
+                  class="flex items-center px-4 py-3 mr-4 font-normal text-gray-900 whitespace-nowrap"
+                >
+                  {{ patient.medical_id }}
+                </th>
+                <td class="px-4 py-3 mr-4">
+                  {{ patient.email }}
+                </td>
 
-              <td class="px-4 py-3 mr-4">{{ patient.phone }}</td>
-            </tr>
-          </tbody>
-        </table>
+                <td class="px-4 py-3 mr-4">{{ patient.phone }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   </section>
@@ -203,8 +205,7 @@ const mainAccount = ref();
 const param = ref();
 const loading = ref();
 
-const doctorStore = useDataDoctor();
-
+const { doctorStore } = defineProps(["doctorStore"]);
 const storeToast = toastStore();
 const toastStatus = ref("");
 const message = ref("");

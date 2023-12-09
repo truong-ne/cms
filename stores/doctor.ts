@@ -21,6 +21,7 @@ export const useDataDoctor = defineStore("doctor", () => {
   const consultationPie = ref<ConsultationPie>();
   const moneyQuantity = ref<MoneyQuantity>();
   const moneyMonth = ref<MoneyMonth[]>([]);
+  const feedbackBar = ref<number[]>([]);
   const doctors = ref<Doctor[]>([]);
   const doctor = ref<Doctor>();
   const patientConsultation = ref<PatientConsultation>();
@@ -305,6 +306,57 @@ export const useDataDoctor = defineStore("doctor", () => {
     }
   }
 
+  async function getConsultationMoneyAreaById(id: string) {
+    try {
+      if (authorization === "Bearer ") throw "Không thể xác định danh tính";
+      const { data, error } = await useFetch(
+        "consultation/doctor/consultation/money/chart/" + id,
+        {
+          baseURL: useRuntimeConfig().public.baseURL,
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: authorization,
+          },
+        }
+      );
+
+      if (data.value !== null) {
+        const response = mask(data.value, DataObjectSchema);
+        moneyMonth.value = mask(
+          response.data.moneyByMonth,
+          array(MoneyMonthSchema)
+        );
+      } else {
+        throw error;
+      }
+    } catch (error) {
+      throw error;
+    }
+  }
+  async function getConsultationFeedbackBar(id: string) {
+    try {
+      if (authorization === "Bearer ") throw "Không thể xác định danh tính";
+      const { data, error } = await useFetch("consultation/feedback/" + id, {
+        baseURL: useRuntimeConfig().public.baseURL,
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: authorization,
+        },
+      });
+
+      if (data.value !== null) {
+        const response = mask(data.value, DataArraySchema);
+        feedbackBar.value = mask(response.data, array(number()));
+      } else {
+        throw error;
+      }
+    } catch (error) {
+      throw error;
+    }
+  }
+
   return {
     doctor,
     doctors,
@@ -312,12 +364,15 @@ export const useDataDoctor = defineStore("doctor", () => {
     doctorQuantity,
     moneyQuantity,
     moneyMonth,
+    feedbackBar,
     consultationQuantity,
     chooseDoctor,
     patientConsultation,
     getQuantityDoctor,
+    getConsultationMoneyAreaById,
     getConsultationDashboard,
     getConsultationPie,
+    getConsultationFeedbackBar,
     updateDoctor,
     saveDoctors,
     createDoctor,
