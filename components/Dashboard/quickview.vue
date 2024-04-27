@@ -1,15 +1,13 @@
 <template>
   <div class="lg:grid lg:grid-cols-3 md:gap-4 gap-2 md:mb-4 mb-2">
-    <div
-      class="lg::col-span-1 w-full h-min max-w-md p-4 mb-2 bg-white rounded-xl"
-    >
+    <div class="lg::col-span-1 w-full h-min max-w-md p-4 mb-2 bg-white">
       <div class="flex items-center justify-between mb-4">
         <h5 class="text-lg leading-none font-bold text-gray-900">
           Bác sĩ hàng đầu
         </h5>
         <a
           href="/users/doctors"
-          class="py-2.5 px-5 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
+          class="py-2.5 px-5 text-sm italic font-medium hover:underline hover:underline-offset-2focus:outline-none bg-white text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200"
         >
           Xem thêm
         </a>
@@ -33,7 +31,7 @@
                   :src="doctor.avatar"
                   width="700"
                   height="700"
-                  class="w-10 h-10 rounded"
+                  class="w-10 h-10"
                   :alt="doctor.full_name"
                 />
                 <NuxtImg
@@ -42,7 +40,7 @@
                   src="healthline/avatar/doctors/default"
                   width="700"
                   height="700"
-                  class="w-10 h-10 rounded"
+                  class="w-10 h-10"
                   :alt="doctor.full_name"
                 />
                 <span
@@ -111,14 +109,14 @@
         </ul>
       </div>
     </div>
-    <div class="lg:col-span-2 w-full h-min p-4 bg-white rounded-xl">
+    <div class="lg:col-span-2 w-full h-min p-4 bg-white">
       <div class="flex items-center justify-between mb-4">
         <h5 class="text-lg leading-none font-bold text-gray-900">
           Bảng tin mới nhất
         </h5>
         <a
           href="/news"
-          class="py-2.5 px-5 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200"
+          class="py-2.5 px-5 text-sm italic font-medium hover:underline hover:underline-offset-2focus:outline-none bg-white text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200"
         >
           Xem thêm
         </a>

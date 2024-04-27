@@ -101,24 +101,28 @@ export const useDataMedicalRecord = defineStore("medical_record", () => {
   async function getQuantityMedical() {
     try {
       if (authorization === "Bearer ") throw "Không thể xác định danh tính";
-      const { data, error } = await useFetch(
-        "user-management/medical-record/statistical/quantity",
-        {
-          baseURL: useRuntimeConfig().public.baseURL,
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: authorization,
-          },
-        }
-      );
+      // const { data, error } = await useFetch(
+      //   "user-management/medical-record/statistical/quantity",
+      //   {
+      //     baseURL: useRuntimeConfig().public.baseURL,
+      //     method: "GET",
+      //     headers: {
+      //       "Content-Type": "application/json",
+      //       Authorization: authorization,
+      //     },
+      //   }
+      // );
 
-      if (data.value !== null) {
-        const response = mask(data.value, DataObjectSchema);
-        medicalQuantity.value = mask(response.data, MedicalQuantitySchema);
-      } else {
-        throw error;
-      }
+      // if (data.value !== null) {
+      //   const response = mask(data.value, DataObjectSchema);
+      //   medicalQuantity.value = mask(response.data, MedicalQuantitySchema);
+      // } else {
+      //   throw error;
+      // }
+      medicalQuantity.value = mask(
+        { quantity: 10, increase: 10 },
+        MedicalQuantitySchema
+      );
     } catch (error) {
       throw error;
     }

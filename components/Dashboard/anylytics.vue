@@ -2,7 +2,7 @@
   <div
     class="grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 grid-cols-1 md:gap-4 gap-2 md:mb-4 mb-2"
   >
-    <div class="h-40 bg-white px-4 rounded-xl grid items-center">
+    <div class="h-40 bg-white px-4 grid items-center">
       <div class="block">
         <div class="flex items-center justify-start w-full">
           <lord-icon
@@ -33,7 +33,7 @@
         </div>
       </div>
     </div>
-    <div class="h-40 bg-white px-4 rounded-xl grid items-center">
+    <div class="h-40 bg-white px-4 grid items-center">
       <div class="block">
         <div class="flex items-center justify-start w-full">
           <lord-icon
@@ -65,7 +65,7 @@
         </div>
       </div>
     </div>
-    <div class="h-40 bg-white px-4 rounded-xl grid items-center">
+    <div class="h-40 bg-white px-4 grid items-center">
       <div class="block">
         <div class="flex items-center justify-start w-full">
           <lord-icon
@@ -92,7 +92,7 @@
         </div>
       </div>
     </div>
-    <div class="h-40 bg-white px-4 rounded-xl grid items-center">
+    <div class="h-40 bg-white px-4 grid items-center">
       <div class="block">
         <div class="flex items-center justify-start w-full">
           <lord-icon

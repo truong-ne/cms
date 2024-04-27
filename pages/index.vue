@@ -7,7 +7,7 @@
 
     <DashboardCharts :doctorStore="doctorStore" :medicalStore="medicalStore" />
 
-    <DashboardQuickview />
+    <!-- <DashboardQuickview /> -->
   </section>
 </template>
 <script setup>

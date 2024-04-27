@@ -61,7 +61,8 @@
                 type="text"
                 name="name"
                 id="name"
-                v-bind="fullName"
+                v-model="fullName"
+                v-bind="fullNameAttrs"
                 class="bg-gray-50 border text-gray-900 text-sm rounded-lg block w-full p-2.5"
                 :class="{
                   'border-gray-300 focus:border-blue-600 focus:ring-primary-600':
@@ -86,7 +87,8 @@
                 >Chuyên ngành</label
               >
               <select
-                v-bind="specialty"
+              v-model="specialty"
+                v-bind="specialtyAttrs"
                 id="specialty"
                 :class="{
                   'border-gray-300  focus:border-blue-600 focus:ring-primary-500':
@@ -122,7 +124,8 @@
                 type="email"
                 name="email"
                 id="email"
-                v-bind="email"
+                v-model="email"
+                v-bind="emailAttrs"
                 :class="{
                   'border-gray-300  focus:border-blue-600 focus:ring-primary-600':
                     !errors.email,
@@ -149,7 +152,8 @@
               <input
                 type="phone"
                 name="phone"
-                v-bind="phone"
+                v-model="phone"
+                v-bind="phoneAttrs"
                 id="phone"
                 :class="{
                   'border-gray-300  focus:border-blue-600 focus:ring-primary-600':
@@ -178,7 +182,8 @@
                 type="number"
                 name="experience"
                 id="experience"
-                v-bind="experience"
+                v-model="experience"
+                v-bind="experienceAttrs"
                 :class="{
                   'border-gray-300  focus:border-blue-600 focus:ring-primary-600':
                     !errors.experience,
@@ -206,7 +211,8 @@
                 type="number"
                 name="fee"
                 id="fee"
-                v-bind="feePerMinute"
+                v-model="feePerMinute"
+                v-bind="feePerMinuteAttrs"
                 :class="{
                   'border-gray-300  focus:border-blue-600 focus:ring-primary-600':
                     !errors.feePerMinute,
@@ -305,7 +311,7 @@ const mapSpecialty = Object.entries(Specialty).map(([key, value]) => ({
 }));
 
 const {
-  defineInputBinds,
+  defineField,
   resetForm,
   isSubmitting,
   handleSubmit,
@@ -350,22 +356,22 @@ const {
 
 resetForm();
 
-const fullName = defineInputBinds("fullName", {
+const [fullName, fullNameAttrs] = defineField("fullName", {
   validateOnInput: true,
 });
-const phone = defineInputBinds("phone", {
+const [phone, phoneAttrs] = defineField("phone", {
   validateOnInput: true,
 });
-const email = defineInputBinds("email", {
+const [email, emailAttrs] = defineField("email", {
   validateOnInput: true,
 });
-const experience = defineInputBinds("experience", {
+const [experience, experienceAttrs] = defineField("experience", {
   validateOnInput: true,
 });
-const feePerMinute = defineInputBinds("feePerMinute", {
+const [feePerMinute, feePerMinuteAttrs] = defineField("feePerMinute", {
   validateOnInput: true,
 });
-const specialty = defineInputBinds("specialty", {
+const [specialty, specialtyAttrs] = defineField("specialty", {
   validateOnInput: true,
 });
 

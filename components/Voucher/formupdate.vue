@@ -61,7 +61,8 @@
                 type="text"
                 name="code"
                 id="code"
-                v-bind="code"
+                v-model="code"
+                v-bind="codeAttrs"
                 class="bg-gray-50 border text-gray-900 text-sm rounded-lg block w-full p-2.5"
                 :class="{
                   'border-gray-300 focus:border-blue-600 focus:ring-primary-600':
@@ -86,7 +87,8 @@
                 >Loại</label
               >
               <select
-                v-bind="type"
+              v-model="type"
+                v-bind="typeAttrs"
                 id="type"
                 :class="{
                   'border-gray-300  focus:border-blue-600 focus:ring-primary-500':
@@ -118,7 +120,8 @@
                 type="number"
                 name="value"
                 id="value"
-                v-bind="value"
+                v-model="value"
+                v-bind="valueAttrs"
                 :class="{
                   'border-gray-300  focus:border-blue-600 focus:ring-primary-600':
                     !errors.value,
@@ -269,7 +272,7 @@ function addToast() {
 }
 
 const {
-  defineInputBinds,
+  defineField,
   resetForm,
   isSubmitting,
   handleSubmit,
@@ -293,14 +296,14 @@ const {
 
 resetForm();
 
-const code = defineInputBinds("code", {
+const [code, codeAttrs] = defineField("code", {
   validateOnInput: true,
 });
-const value = defineInputBinds("value", {
+const [value, valueAttrs] = defineField("value", {
   validateOnInput: true,
 });
 
-const type = defineInputBinds("type", {
+const [type, typeAttrs] = defineField("type", {
   validateOnInput: true,
 });
 const expirationTime = ref();

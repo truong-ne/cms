@@ -40,24 +40,28 @@ export const useDataDoctor = defineStore("doctor", () => {
   async function getQuantityDoctor() {
     try {
       if (authorization === "Bearer ") throw "Không thể xác định danh tính";
-      const { data, error } = await useFetch(
-        "doctor-management/doctor/quantity",
-        {
-          baseURL: useRuntimeConfig().public.baseURL,
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: authorization,
-          },
-        }
-      );
+      // const { data, error } = await useFetch(
+      //   "doctor-management/doctor/quantity",
+      //   {
+      //     baseURL: useRuntimeConfig().public.baseURL,
+      //     method: "GET",
+      //     headers: {
+      //       "Content-Type": "application/json",
+      //       Authorization: authorization,
+      //     },
+      //   }
+      // );
 
-      if (data.value !== null) {
-        const response = mask(data.value, DataObjectSchema);
-        doctorQuantity.value = mask(response.data, DoctorQuantitySchema);
-      } else {
-        throw error;
-      }
+      // if (data.value !== null) {
+      //   const response = mask(data.value, DataObjectSchema);
+      //   doctorQuantity.value = mask(response.data, DoctorQuantitySchema);
+      // } else {
+      //   throw error;
+      // }
+      doctorQuantity.value = mask(
+        { quantity: 10, doctorThisMonth: 12 },
+        DoctorQuantitySchema
+      );
     } catch (error) {
       throw error;
     }
@@ -65,106 +69,132 @@ export const useDataDoctor = defineStore("doctor", () => {
 
   async function getConsultationDashboard() {
     try {
-      if (authorization === "Bearer ") throw "Không thể xác định danh tính";
-      const { data, error } = await useFetch(
-        "consultation/doctor/consultation/dashboard",
-        {
-          baseURL: useRuntimeConfig().public.baseURL,
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: authorization,
-          },
-        }
-      );
+      // if (authorization === "Bearer ") throw "Không thể xác định danh tính";
+      // const { data, error } = await useFetch(
+      //   "consultation/doctor/consultation/dashboard",
+      //   {
+      //     baseURL: useRuntimeConfig().public.baseURL,
+      //     method: "GET",
+      //     headers: {
+      //       "Content-Type": "application/json",
+      //       Authorization: authorization,
+      //     },
+      //   }
+      // );
 
-      if (data.value !== null) {
-        const response = mask(data.value, DataObjectSchema);
-        consultationQuantity.value = mask(
-          response.data,
-          ConsultationQuantitySchema
-        );
-      } else {
-        throw error;
-      }
+      // if (data.value !== null) {
+      //   const response = mask(data.value, DataObjectSchema);
+      //   consultationQuantity.value = mask(
+      //     response.data,
+      //     ConsultationQuantitySchema
+      //   );
+      // } else {
+      //   throw error;
+      // }
+      consultationQuantity.value = mask({quantity:40, quantityThisMonth:4}, ConsultationQuantitySchema);
     } catch (error) {
       throw error;
     }
   }
   async function getConsultationPie() {
     try {
-      if (authorization === "Bearer ") throw "Không thể xác định danh tính";
-      const { data, error } = await useFetch(
-        "consultation/doctor/consultation/chart",
-        {
-          baseURL: useRuntimeConfig().public.baseURL,
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: authorization,
-          },
-        }
-      );
+      // if (authorization === "Bearer ") throw "Không thể xác định danh tính";
+      // const { data, error } = await useFetch(
+      //   "consultation/doctor/consultation/chart",
+      //   {
+      //     baseURL: useRuntimeConfig().public.baseURL,
+      //     method: "GET",
+      //     headers: {
+      //       "Content-Type": "application/json",
+      //       Authorization: authorization,
+      //     },
+      //   }
+      // );
 
-      if (data.value !== null) {
-        const response = mask(data.value, DataObjectSchema);
-        consultationPie.value = mask(response.data, ConsultationPieSchema);
-      } else {
-        throw error;
-      }
+      // if (data.value !== null) {
+      //   const response = mask(data.value, DataObjectSchema);
+      //   consultationPie.value = mask(response.data, ConsultationPieSchema);
+      // } else {
+      //   throw error;
+      // }
+      consultationPie.value = mask(
+        { cancel: 10, confirm: 12, finish: 5, pending: 7 },
+        ConsultationPieSchema
+      );
     } catch (error) {
       throw error;
     }
   }
   async function getConsultationMoney() {
     try {
-      if (authorization === "Bearer ") throw "Không thể xác định danh tính";
-      const { data, error } = await useFetch(
-        "consultation/doctor/consultation/money",
-        {
-          baseURL: useRuntimeConfig().public.baseURL,
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: authorization,
-          },
-        }
-      );
+      // if (authorization === "Bearer ") throw "Không thể xác định danh tính";
+      // const { data, error } = await useFetch(
+      //   "consultation/doctor/consultation/money",
+      //   {
+      //     baseURL: useRuntimeConfig().public.baseURL,
+      //     method: "GET",
+      //     headers: {
+      //       "Content-Type": "application/json",
+      //       Authorization: authorization,
+      //     },
+      //   }
+      // );
 
-      if (data.value !== null) {
-        const response = mask(data.value, DataObjectSchema);
-        moneyQuantity.value = mask(response.data, MoneyQuantitySchema);
-      } else {
-        throw error;
-      }
+      // if (data.value !== null) {
+      //   const response = mask(data.value, DataObjectSchema);
+      //   moneyQuantity.value = mask(response.data, MoneyQuantitySchema);
+      // } else {
+      //   throw error;
+      // }
+      moneyQuantity.value = mask(
+        { total: 10000, quantityThisMonth: 4 },
+        MoneyQuantitySchema
+      );
     } catch (error) {
       throw error;
     }
   }
   async function getConsultationMoneyArea() {
     try {
-      if (authorization === "Bearer ") throw "Không thể xác định danh tính";
-      const { data, error } = await useFetch(
-        "consultation/doctor/consultation/money/chart",
-        {
-          baseURL: useRuntimeConfig().public.baseURL,
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: authorization,
-          },
-        }
-      );
+      // if (authorization === "Bearer ") throw "Không thể xác định danh tính";
+      // const { data, error } = await useFetch(
+      //   "consultation/doctor/consultation/money/chart",
+      //   {
+      //     baseURL: useRuntimeConfig().public.baseURL,
+      //     method: "GET",
+      //     headers: {
+      //       "Content-Type": "application/json",
+      //       Authorization: authorization,
+      //     },
+      //   }
+      // );
 
-      if (data.value !== null) {
-        const response = mask(data.value, DataObjectSchema);
-        moneyMonth.value = mask(
-          response.data.moneyByMonth,
-          array(MoneyMonthSchema)
-        );
-      } else {
-        throw error;
-      }
+      // if (data.value !== null) {
+      //   const response = mask(data.value, DataObjectSchema);
+      //   moneyMonth.value = mask(
+      //     response.data.moneyByMonth,
+      //     array(MoneyMonthSchema)
+      //   );
+      // } else {
+      //   throw error;
+      // }
+      moneyMonth.value = mask(
+        [
+          { month: 1, totalMoneyThisMonth: 10 },
+          { month: 2, totalMoneyThisMonth: 100 },
+          { month: 3, totalMoneyThisMonth: 50 },
+          { month: 4, totalMoneyThisMonth: 70 },
+          { month: 5, totalMoneyThisMonth: 150 },
+          { month: 6, totalMoneyThisMonth: 20 },
+          { month: 7, totalMoneyThisMonth: 200 },
+          { month: 8, totalMoneyThisMonth: 170 },
+          { month: 9, totalMoneyThisMonth: 10 },
+          { month: 10, totalMoneyThisMonth: 0 },
+          { month: 11, totalMoneyThisMonth: 90 },
+          { month: 12, totalMoneyThisMonth: 180 },
+        ],
+        array(MoneyMonthSchema)
+      );
     } catch (error) {
       throw error;
     }
