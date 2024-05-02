@@ -1,147 +1,93 @@
 <template>
-  <!-- <section class="w-full mt-8">
-    <div class="relative overflow-hidden rounded-2xl bg-white w-full">
-      <div
-        class="flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 md:p-4 p-2"
-      > -->
-  <!-- <div class="w-full md:w-1/3">
-          <div class="flex items-center">
-            <label for="simple-search" class="sr-only">Search</label>
-            <div class="relative w-full">
-              <div
-                class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none"
-              >
+  <section class="w-full md:mb-4">
+    <div class="relative overflow-hidden rounded-2xl bg-white w-full mt-8 p-8">
+      <div class="text-2xl mb-8 mt-4 ml-4 font-bold">Danh sách bác sĩ</div>
+
+      <div class="grid grid-cols-2 gap-8">
+        <div
+          class="relative col-span-1 w-full bg-white rounded-2xl group cursor-pointer outline outline-offset-2 outline-2 outline-primary/20 hover:outline-8"
+          v-for="doctor in doctorStore.doctors"
+          :key="doctor.id"
+          @click="chooseDoctor(doctor.id)"
+        >
+          <div class="grid grid-cols-7 rounded-s-2xl">
+            <div class="col-span-3 h-80 rounded-s-2xl overflow-hidden">
+              <NuxtImg
+                v-if="
+                  doctor.avatar != 'default' &&
+                  doctor.avatar != null &&
+                  doctor.avatar != ''
+                "
+                provider="cloudinary"
+                width="400"
+                height="400"
+                :src="doctor.avatar"
+                :alt="doctor.full_name"
+                class="object-cover h-full group-hover:scale-[1.15] duration-200 transform ease-linear bg-primary/80"
+              />
+
+              <NuxtImg
+                v-else
+                provider="cloudinary"
+                src="healthline/avatar/doctors/default"
+                width="700"
+                height="700"
+                class="object-cover h-full group-hover:scale-[1.15] duration-200 transform ease-linear"
+                :alt="doctor.full_name"
+              />
+            </div>
+            <div class="relative col-span-4 p-4 flex flex-col">
+              <div class="text-lg text-black font-bold">
+                {{ doctor.full_name }}
+              </div>
+
+              <div class="flex items-center">
                 <svg
+                  class="w-4 h-4 me-1"
+                  :class="{
+                    'text-gray-300': i > doctor.ratings,
+                    ' text-yellow-300': i < doctor.ratings,
+                  }"
                   aria-hidden="true"
-                  class="w-5 h-5 text-gray-500 dark:text-gray-400"
-                  fill="currentColor"
-                  viewbox="0 0 20 20"
                   xmlns="http://www.w3.org/2000/svg"
+                  fill="currentColor"
+                  viewBox="0 0 22 20"
+                  v-for="i in 5"
+                  :key="i"
                 >
                   <path
-                    fill-rule="evenodd"
-                    d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-                    clip-rule="evenodd"
+                    d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"
                   />
                 </svg>
               </div>
-              <input
-                type="text"
-                id="simple-search"
-                v-model="keySearch"
-                @input="meilisearch"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-gray-500 focus:border-gray-500 block w-full pl-10 p-2"
-                placeholder="Tìm kiếm"
-              />
-            </div>
-          </div>
-        </div>
-        <div
-          class="w-full md:w-2/3 flex flex-col md:flex-row space-y-2 md:space-y-0 items-stretch md:items-center justify-end md:space-x-3 flex-shrink-0"
-        >
-          <button
-            type="button"
-            v-show="currentId"
-            class="block py-2 px-4 text-sm text-red-500 hover:bg-red-100 rounded-lg"
-            @click="deleteDiscount()"
-          >
-            Xoá
-          </button>
-          <button
-            type="button"
-            id="createDiscountButton"
-            data-modal-target="createDiscount"
-            data-modal-toggle="createDiscount"
-            class="flex items-center justify-center w-full md:w-auto text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-4 py-2 focus:outline-none"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="h-3.5 w-3.5 mr-2"
-              fill="currentColor"
-              aria-hidden="true"
-              viewBox="0 0 448 512"
-            >
-              <path
-                d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32v144H48c-17.7 0-32 14.3-32 32s14.3 32 32 32h144v144c0 17.7 14.3 32 32 32s32-14.3 32-32V288h144c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z"
-              />
-            </svg>
-            Thêm phiếu giảm giá
-          </button>
-        </div> -->
-  <!-- </div>
-
-      <div class="p-4 rounded-xl bg-white w-full">
-        <div class="overflow-x-auto"> -->
-  <section class="w-full md:mb-4">
-    <div class="relative overflow-hidden rounded-2xl bg-white w-full mt-8 p-4">
-      <div class="text-2xl mb-8 mt-4 ml-4 font-bold">Danh sách mã giảm giá</div>
-      <div class="overflow-x-auto">
-        <table
-          id="listPatient"
-          class="text-left mt- w-full text-sm table-fixed bg-transparent border-separate border-spacing-x-0 border-spacing-y-2 border-translate"
-        >
-          <thead class="text-black uppercase text-xs">
-            <tr>
-              <th class="px-4 py-2 border-l-2">
-                <input
-                  disabled
-                  type="checkbox"
-                  value="false"
-                  class="w-4 h-4 border-gray-300 rounded focus:ring-0"
-                />
-              </th>
-              <th class="px-4 border-l-2">Mã</th>
-              <th class="px-4 border-l-2">Giá trị</th>
-              <th class="px-4 border-l-2">Loại</th>
-              <th class="px-4 border-l-2">Thời gian hết hạn</th>
-
-              <th class="px-4 border-r-2 w-36">
-                <span class="sr-only">Actions</span>
-              </th>
-            </tr>
-          </thead>
-          <tbody v-for="discount in resultSearch" :key="discount.discount">
-            <tr
-              class="bg-primary/20"
-              :class="{
-                'bg-primary/40 transition duration-200':
-                  currentId == discount.id,
-                'hover:bg-primary/40': currentId != discount.id,
-              }"
-              @click="chooseDiscount(discount.id)"
-            >
-              <th class="rounded-l-2xl px-4 items-center">
-                <input
-                  type="checkbox"
-                  value="false"
-                  class="w-4 h-4 border-gray-300 rounded focus:ring-0"
-                />
-              </th>
-              <td class="p-4">
-                {{ discount.code }}
-              </td>
-              <td class="p-4">
-                {{ getValue(discount.value, discount.type) }}
-              </td>
-
-              <td class="p-4">{{ getType(discount.type) }}</td>
-              <td class="p-4" v-if="discount.expiration_time">
-                {{ getDate(discount.expiration_time) }}
-              </td>
-              <td class="p-4" v-else></td>
-              <td class="rounded-r-2xl">
-                <button
-                  v-show="currentId == discount.id"
+              <div class="text-xs font-light text-gray-500 mt-3">
+                {{ doctor.specialty.toUpperCase() }}
+              </div>
+              <div class="text-xs font-light text-gray-500 mt-1">
+                {{ doctor.feePerMinutes ?? 0 }} ₫/phút
+              </div>
+              <div class="text-sm font-normal text-gray-500 line-clamp-3 mt-6">
+                {{ doctor.biography }}
+              </div>
+              <div
+                class="absolute bottom-0 left-0 right-0 my-5 flex gap-4 justify-center"
+              >
+                <a
+                  :href="'/doctors/' + doctor.id"
+                  class="flex items-center justify-center w-full md:w-auto text-white bg-colorDF9F1E font-medium rounded-xl text-sm px-4 py-2.5 hover:bg-colorDF9F1E/80"
+                >
+                  Xem hồ sơ </a
+                ><button
                   type="button"
                   @click="toggle"
-                  class="flex items-center justify-center w-full md:w-auto text-primary-700 bg-white hover:bg-primary-300 hover:text-primary-900 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-4 py-2 focus:outline-none"
+                  class="flex items-center justify-center w-full md:w-auto text-colorDF9F1E bg-white font-medium rounded-xl text-sm px-4 py-2.5 hover:outline-1 outline-colorDF9F1E outline outline-0"
                 >
                   Chỉnh sửa
                 </button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
 
       <nav
@@ -276,43 +222,19 @@
 </template>
   
 <script setup lang="ts">
-import { getDate } from "~/utils/datetime";
-import { converCurrency } from "~/utils/currency";
 import { Modal } from "flowbite";
 import type { ModalOptions, ModalInterface } from "flowbite";
 
-const { search, result } = useMeiliSearch("discount");
+const { search, result } = useMeiliSearch("doctors");
 
-const keySearch = ref("");
-const resultSearch = ref();
-const hitsPerPage = ref(10);
-const currentPage = ref(1);
-const totalPages = ref();
-const totalHits = ref(0);
-const currentId = ref();
+const mapSpecialty = Object.entries(Specialty).map(([key, value]) => ({
+  key: key,
+  value: value,
+}));
+const route = useRoute();
 
-const storeToast = toastStore();
-const toastStatus = ref("");
-const message = ref("");
-
-const modal = ref();
-
-function addToast() {
-  storeToast.add({
-    message: message.value,
-    toastStatus: toastStatus.value,
-  });
-}
-
-function getType(type: string) {
-  return type.toUpperCase();
-}
-
-function getValue(value: string, type: string) {
-  if (type === "vnd") {
-    return converCurrency(value);
-  } else return value;
-}
+const isLoading = ref(false);
+const { doctorStore } = defineProps(["doctorStore"]);
 onBeforeMount(async () => {
   result.value = await search(keySearch.value.trim(), {
     hitsPerPage: hitsPerPage.value,
@@ -321,13 +243,13 @@ onBeforeMount(async () => {
   resultSearch.value = result.value.hits;
   totalHits.value = result.value.totalHits;
   totalPages.value = result.value.totalPages;
-  discountStore.saveDiscounts(resultSearch.value);
+  doctorStore.saveDoctors(resultSearch.value);
 });
-onMounted(async () => {
+onMounted(() => {
   setTimeout(() => {
     try {
       // select the two elements that we'll work with
-      const $modalElement = document.getElementById("updateDiscount");
+      const $modalElement = document.getElementById("updateDoctor");
       const $closeButton = document.getElementById("buttonClose");
 
       // set modal options
@@ -352,21 +274,29 @@ function toggle() {
   modal.value.toggle();
 }
 
-async function deleteDiscount() {
-  clearNuxtData();
-  await discountStore
-    .deleteDiscount(currentId.value)
-    .then(() => {
-      toastStatus.value = "success";
-      message.value = "Xoá thành công";
-      currentId.value = undefined;
-      addToast();
-    })
-    .catch((e: string) => {
-      toastStatus.value = "error";
-      message.value = e;
-      addToast();
-    });
+function chooseDoctor(id: string) {
+  if (id == currentId.value) {
+    currentId.value = undefined;
+  } else {
+    currentId.value = id;
+    doctorStore.chooseDoctor(id);
+  }
+}
+
+const modal = ref();
+const keySearch = ref("");
+const resultSearch = ref();
+const hitsPerPage = ref(10);
+const currentPage = ref(1);
+const totalPages = ref();
+const totalHits = ref(0);
+const currentId = ref();
+
+function getByKey(searchKey: string) {
+  for (let { key, value } of mapSpecialty) {
+    if (key === searchKey) return value;
+  }
+  return "Không xác định";
 }
 
 async function previous() {
@@ -380,7 +310,7 @@ async function previous() {
     resultSearch.value = result.value.hits;
     totalHits.value = result.value.totalHits;
     totalPages.value = result.value.totalPages;
-    discountStore.saveDiscounts(resultSearch.value);
+    doctorStore.saveDoctors(resultSearch.value);
   }
 }
 
@@ -395,7 +325,7 @@ async function next() {
     resultSearch.value = result.value.hits;
     totalHits.value = result.value.totalHits;
     totalPages.value = result.value.totalPages;
-    discountStore.saveDiscounts(resultSearch.value);
+    doctorStore.saveDoctors(resultSearch.value);
   }
 }
 async function choosePage(page: number) {
@@ -409,12 +339,11 @@ async function choosePage(page: number) {
     resultSearch.value = result.value.hits;
     totalHits.value = result.value.totalHits;
     totalPages.value = result.value.totalPages;
-    discountStore.saveDiscounts(resultSearch.value);
+    doctorStore.saveDoctors(resultSearch.value);
   }
 }
 
 async function meilisearch() {
-  // if (keySearch.value.trim() !== "") {
   currentPage.value = 1;
   result.value = await search(keySearch.value.trim(), {
     hitsPerPage: hitsPerPage.value,
@@ -424,14 +353,6 @@ async function meilisearch() {
   resultSearch.value = result.value.hits;
   totalHits.value = result.value.totalHits;
   totalPages.value = result.value.totalPages;
-  discountStore.saveDiscounts(resultSearch.value);
-
-  // }
-}
-
-const { discountStore } = defineProps(["discountStore"]);
-function chooseDiscount(id: string) {
-  currentId.value = id;
-  discountStore.chooseDiscount(id);
+  doctorStore.saveDoctors(resultSearch.value);
 }
 </script>

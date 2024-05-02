@@ -1,15 +1,15 @@
 <template>
   <section>
-    <UserHeader :header="header" />
-    <UserDoctorBody :doctorStore="doctorStore" />
-    <UserDoctorFormcreate :doctorStore="doctorStore" />
-    <UserDoctorFormupdate :doctorStore="doctorStore" />
+    <DoctorHeader />
+    <DoctorBody :doctorStore="doctorStore" />
+    <DoctorFormupdate :doctorStore="doctorStore" />
+    <!-- <DoctorFormcreate :doctorStore="doctorStore" />
+    <DoctorFormupdate  /> -->
   </section>
 </template>
 
 <script setup lang="ts">
 const doctorStore = useDataDoctor();
-
 
 await doctorStore.getQuantityDoctor();
 
@@ -21,5 +21,4 @@ const header = {
   quantity: doctorStore.doctorQuantity?.quantity,
   name: "Doctor",
 };
-
 </script>

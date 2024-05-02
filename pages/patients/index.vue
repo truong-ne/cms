@@ -1,7 +1,10 @@
 <template>
   <section>
-    <UserHeader :header="header" />
-    <UserPatientBody :medicalStore="medicalStore" />
+    <!-- <UserHeader :header="header" /> -->
+    <PatientHeader />
+    <PatientBody :medicalStore="medicalStore" />
+    <PatientFormupdate />
+
     <!-- <UserPatientFormcreate />
     <UserPatientFormupdate /> -->
   </section>

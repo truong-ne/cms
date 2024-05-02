@@ -18,9 +18,9 @@
           </h3>
           <button
             type="button"
-            class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
             data-modal-target="createDiscount"
             data-modal-toggle="createDiscount"
+            class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
           >
             <svg
               aria-hidden="true"
@@ -244,9 +244,6 @@
 </template>
 
 <script setup lang="ts">
-import VueDatePicker from "@vuepic/vue-datepicker";
-import "@vuepic/vue-datepicker/dist/main.css";
-import { vi } from "date-fns/locale";
 import * as yup from "yup";
 import { useForm } from "vee-validate";
 import { type Discount } from "~/stores/structs/discount_struct";

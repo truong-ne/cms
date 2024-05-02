@@ -1,4 +1,5 @@
 <template>
+  
   <div class="lg:grid lg:grid-cols-3 md:gap-4 gap-2 md:mb-4 mb-2">
     <div class="lg::col-span-1 w-full h-min max-w-md p-4 mb-2 bg-white">
       <div class="flex items-center justify-between mb-4">

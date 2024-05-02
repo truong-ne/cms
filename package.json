@@ -31,6 +31,7 @@
     "apexcharts": "^3.44.0",
     "autoprefixer": "^10.4.16",
     "flowbite": "^1.8.1",
+    "flowbite-datepicker": "^1.2.6",
     "ldrs": "^1.0.1",
     "pinia": "^2.1.7",
     "postcss": "^8.4.31",

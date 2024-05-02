@@ -1,84 +1,11 @@
 <template>
-  <!-- <section class="w-full mt-8">
-    <div class="relative overflow-hidden rounded-2xl bg-white w-full">
-      <div
-        class="flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 md:p-4 p-2"
-      > -->
-  <!-- <div class="w-full md:w-1/3">
-          <div class="flex items-center">
-            <label for="simple-search" class="sr-only">Search</label>
-            <div class="relative w-full">
-              <div
-                class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none"
-              >
-                <svg
-                  aria-hidden="true"
-                  class="w-5 h-5 text-gray-500 dark:text-gray-400"
-                  fill="currentColor"
-                  viewbox="0 0 20 20"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    fill-rule="evenodd"
-                    d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-                    clip-rule="evenodd"
-                  />
-                </svg>
-              </div>
-              <input
-                type="text"
-                id="simple-search"
-                v-model="keySearch"
-                @input="meilisearch"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-gray-500 focus:border-gray-500 block w-full pl-10 p-2"
-                placeholder="Tìm kiếm"
-              />
-            </div>
-          </div>
-        </div>
-        <div
-          class="w-full md:w-2/3 flex flex-col md:flex-row space-y-2 md:space-y-0 items-stretch md:items-center justify-end md:space-x-3 flex-shrink-0"
-        >
-          <button
-            type="button"
-            v-show="currentId"
-            class="block py-2 px-4 text-sm text-red-500 hover:bg-red-100 rounded-lg"
-            @click="deleteDiscount()"
-          >
-            Xoá
-          </button>
-          <button
-            type="button"
-            id="createDiscountButton"
-            data-modal-target="createDiscount"
-            data-modal-toggle="createDiscount"
-            class="flex items-center justify-center w-full md:w-auto text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-4 py-2 focus:outline-none"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="h-3.5 w-3.5 mr-2"
-              fill="currentColor"
-              aria-hidden="true"
-              viewBox="0 0 448 512"
-            >
-              <path
-                d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32v144H48c-17.7 0-32 14.3-32 32s14.3 32 32 32h144v144c0 17.7 14.3 32 32 32s32-14.3 32-32V288h144c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z"
-              />
-            </svg>
-            Thêm phiếu giảm giá
-          </button>
-        </div> -->
-  <!-- </div>
-
-      <div class="p-4 rounded-xl bg-white w-full">
-        <div class="overflow-x-auto"> -->
   <section class="w-full md:mb-4">
     <div class="relative overflow-hidden rounded-2xl bg-white w-full mt-8 p-4">
-      <div class="text-2xl mb-8 mt-4 ml-4 font-bold">Danh sách mã giảm giá</div>
+      <div class="text-2xl mb-8 mt-4 ml-4 font-bold">Danh sách bệnh nhân</div>
       <div class="overflow-x-auto">
         <table
           id="listPatient"
-          class="text-left mt- w-full text-sm table-fixed bg-transparent border-separate border-spacing-x-0 border-spacing-y-2 border-translate"
+          class="text-left mt- w-full text-sm table-auto bg-transparent border-separate border-spacing-x-0 border-spacing-y-2 border-translate"
         >
           <thead class="text-black uppercase text-xs">
             <tr>
@@ -90,25 +17,30 @@
                   class="w-4 h-4 border-gray-300 rounded focus:ring-0"
                 />
               </th>
-              <th class="px-4 border-l-2">Mã</th>
-              <th class="px-4 border-l-2">Giá trị</th>
-              <th class="px-4 border-l-2">Loại</th>
-              <th class="px-4 border-l-2">Thời gian hết hạn</th>
+              <th class="px-4 border-l-2">ID</th>
+              <th class="px-4 border-l-2">Họ tên bệnh nhân</th>
+              <th class="px-4 border-l-2">Ngày sinh</th>
+              <th class="px-4 border-l-2">Giới tính</th>
+              <th class="px-4 border-l-2">Số điện thoại</th>
+              <th class="px-4 border-l-2">Chuẩn đoán</th>
 
-              <th class="px-4 border-r-2 w-36">
+              <th class="px-4 border-l-2">Cập nhật lần cuối</th>
+
+              <th class="px-4 border-r-2">
                 <span class="sr-only">Actions</span>
               </th>
             </tr>
           </thead>
-          <tbody v-for="discount in resultSearch" :key="discount.discount">
+          <tbody v-for="patient in medicalStore.medicals" :key="patient.id">
             <tr
               class="bg-primary/20"
               :class="{
                 'bg-primary/40 transition duration-200':
-                  currentId == discount.id,
-                'hover:bg-primary/40': currentId != discount.id,
+                  currentId == patient.id,
+                'hover:bg-primary/40': currentId != patient.id,
               }"
-              @click="chooseDiscount(discount.id)"
+              @dblclick="navigateToProfile(patient.id)"
+              @click="choosePatient(patient.id)"
             >
               <th class="rounded-l-2xl px-4 items-center">
                 <input
@@ -117,27 +49,65 @@
                   class="w-4 h-4 border-gray-300 rounded focus:ring-0"
                 />
               </th>
-              <td class="p-4">
-                {{ discount.code }}
+              <td class="p-4" v-if="patient.date_of_birth">
+                {{ patient.id }}
               </td>
               <td class="p-4">
-                {{ getValue(discount.value, discount.type) }}
+                <div class="flex justify-start items-center">
+                  <div class="w-8 h-8 rounded-full overflow-hidden">
+                    <NuxtImg
+                      v-if="patient.avatar != 'default'"
+                      provider="cloudinary"
+                      width="400"
+                      height="400"
+                      :src="patient.avatar"
+                      :alt="patient.full_name"
+                      class="object-cover group-hover:scale-[1.15] duration-200 transform ease-linear"
+                    />
+
+                    <NuxtImg
+                      v-else
+                      provider="cloudinary"
+                      src="healthline/avatar/doctors/default"
+                      width="700"
+                      height="700"
+                      class="object-cover group-hover:scale-[1.15] duration-200 transform ease-linear"
+                      :alt="patient.full_name"
+                    />
+                  </div>
+                  <span class="ml-2">{{ patient.full_name }}</span>
+                </div>
               </td>
 
-              <td class="p-4">{{ getType(discount.type) }}</td>
-              <td class="p-4" v-if="discount.expiration_time">
-                {{ getDate(discount.expiration_time) }}
+              <td class="p-4" v-if="patient.date_of_birth">
+                {{ getDate(patient.date_of_birth) }}
               </td>
-              <td class="p-4" v-else></td>
-              <td class="rounded-r-2xl">
+              <td v-else></td>
+              <td class="p-4">{{ getByKey(patient.gender) }}</td>
+              <td class="p-4">{{ patient.address }}</td>
+              <td class="p-4">{{ patient.address }}</td>
+
+              <td class="p-4" v-if="patient.update_at">
+                {{ getDate(patient.update_at) }}
+              </td>
+              <td v-else></td>
+              <td class="rounded-r-2xl px-4">
                 <button
-                  v-show="currentId == discount.id"
+                  v-show="currentId == patient.id"
                   type="button"
                   @click="toggle"
                   class="flex items-center justify-center w-full md:w-auto text-primary-700 bg-white hover:bg-primary-300 hover:text-primary-900 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-4 py-2 focus:outline-none"
+
                 >
                   Chỉnh sửa
                 </button>
+                <!-- <button
+                  v-show="currentId == patient.id"
+                  type="button"
+                  class="flex items-center justify-center w-full md:w-auto text-primary-700 bg-white hover:bg-primary-300 hover:text-primary-900 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-4 py-2 focus:outline-none"
+                >
+                  Hồ sơ
+                </button> -->
               </td>
             </tr>
           </tbody>
@@ -150,7 +120,7 @@
       >
         <span class="text-sm font-normal text-gray-500 dark:text-gray-400">
           Hiển thị
-          <span class="font-semibold text-gray-900 dark:text-white"
+          <span class="font-semibold text-gray-900"
             >{{ hitsPerPage * (currentPage - 1) + 1 }}-{{
               hitsPerPage * currentPage > totalHits
                 ? totalHits
@@ -215,7 +185,7 @@
             <button
               type="button"
               @click="choosePage(currentPage)"
-              class="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-primary-100 border border-gray-300 hover:bg-primary-100 hover:text-primary-700"
+              class="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-primary-100 hover:text-primary-700"
             >
               {{ currentPage }}
             </button>
@@ -276,43 +246,32 @@
 </template>
   
 <script setup lang="ts">
+import { onMounted, onBeforeMount } from "vue";
 import { getDate } from "~/utils/datetime";
-import { converCurrency } from "~/utils/currency";
 import { Modal } from "flowbite";
 import type { ModalOptions, ModalInterface } from "flowbite";
 
-const { search, result } = useMeiliSearch("discount");
+const mapGender = Object.entries(Gender).map(([key, value]) => ({
+  key: key,
+  value: value,
+}));
+const route = useRoute();
 
-const keySearch = ref("");
-const resultSearch = ref();
-const hitsPerPage = ref(10);
-const currentPage = ref(1);
-const totalPages = ref();
-const totalHits = ref(0);
-const currentId = ref();
+const isLoading = ref(false);
+const { medicalStore } = defineProps(["medicalStore"]);
 
-const storeToast = toastStore();
-const toastStatus = ref("");
-const message = ref("");
-
-const modal = ref();
-
-function addToast() {
-  storeToast.add({
-    message: message.value,
-    toastStatus: toastStatus.value,
-  });
+function navigateToProfile(id: string) {
+  window.location.href = "/patients/" + id;
+}
+function choosePatient(id: string) {
+  if (id != currentId.value) {
+    currentId.value = id;
+    medicalStore.choosePatient(id);
+  }
 }
 
-function getType(type: string) {
-  return type.toUpperCase();
-}
+const { search, result } = useMeiliSearch("user");
 
-function getValue(value: string, type: string) {
-  if (type === "vnd") {
-    return converCurrency(value);
-  } else return value;
-}
 onBeforeMount(async () => {
   result.value = await search(keySearch.value.trim(), {
     hitsPerPage: hitsPerPage.value,
@@ -321,13 +280,14 @@ onBeforeMount(async () => {
   resultSearch.value = result.value.hits;
   totalHits.value = result.value.totalHits;
   totalPages.value = result.value.totalPages;
-  discountStore.saveDiscounts(resultSearch.value);
+  medicalStore.savePatients(resultSearch.value);
 });
-onMounted(async () => {
+
+onMounted(() => {
   setTimeout(() => {
     try {
       // select the two elements that we'll work with
-      const $modalElement = document.getElementById("updateDiscount");
+      const $modalElement = document.getElementById("updatePatient");
       const $closeButton = document.getElementById("buttonClose");
 
       // set modal options
@@ -348,25 +308,25 @@ onMounted(async () => {
   }, 0);
 });
 
+const modal = ref();
+
 function toggle() {
   modal.value.toggle();
 }
 
-async function deleteDiscount() {
-  clearNuxtData();
-  await discountStore
-    .deleteDiscount(currentId.value)
-    .then(() => {
-      toastStatus.value = "success";
-      message.value = "Xoá thành công";
-      currentId.value = undefined;
-      addToast();
-    })
-    .catch((e: string) => {
-      toastStatus.value = "error";
-      message.value = e;
-      addToast();
-    });
+const keySearch = ref("");
+const resultSearch = ref();
+const hitsPerPage = ref(10);
+const currentPage = ref(1);
+const totalPages = ref();
+const totalHits = ref(0);
+const currentId = ref();
+
+function getByKey(searchKey: string) {
+  for (let { key, value } of mapGender) {
+    if (key === searchKey.toLowerCase()) return value;
+  }
+  return "Không xác định";
 }
 
 async function previous() {
@@ -380,7 +340,7 @@ async function previous() {
     resultSearch.value = result.value.hits;
     totalHits.value = result.value.totalHits;
     totalPages.value = result.value.totalPages;
-    discountStore.saveDiscounts(resultSearch.value);
+    medicalStore.savePatients(resultSearch.value);
   }
 }
 
@@ -395,7 +355,7 @@ async function next() {
     resultSearch.value = result.value.hits;
     totalHits.value = result.value.totalHits;
     totalPages.value = result.value.totalPages;
-    discountStore.saveDiscounts(resultSearch.value);
+    medicalStore.savePatients(resultSearch.value);
   }
 }
 async function choosePage(page: number) {
@@ -409,7 +369,7 @@ async function choosePage(page: number) {
     resultSearch.value = result.value.hits;
     totalHits.value = result.value.totalHits;
     totalPages.value = result.value.totalPages;
-    discountStore.saveDiscounts(resultSearch.value);
+    medicalStore.savePatients(resultSearch.value);
   }
 }
 
@@ -424,14 +384,8 @@ async function meilisearch() {
   resultSearch.value = result.value.hits;
   totalHits.value = result.value.totalHits;
   totalPages.value = result.value.totalPages;
-  discountStore.saveDiscounts(resultSearch.value);
+  medicalStore.savePatients(resultSearch.value);
 
   // }
-}
-
-const { discountStore } = defineProps(["discountStore"]);
-function chooseDiscount(id: string) {
-  currentId.value = id;
-  discountStore.chooseDiscount(id);
 }
 </script>

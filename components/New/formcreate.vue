@@ -175,7 +175,6 @@
 </template>
   
   <script setup lang="ts">
-import "@vuepic/vue-datepicker/dist/main.css";
 import * as yup from "yup";
 import { useForm } from "vee-validate";
 

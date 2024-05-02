@@ -1,158 +1,291 @@
 <template>
-  <div class="gap-4">
-    <div class="md:grid md:grid-cols-2 md:gap-4 gap-2 md:mb-4 mb-2 z-0 h-auto">
+  <section>
+    <div class="text-lg text-black font-extrabold py-5 px-4">
+      Biểu đồ và thống kê
+    </div>
+    <div class="gap-4">
       <div
-        class="relative flex items-center justify-center bg-white md:p-4 w-full md:mb-4 mb-2 h-full"
-      >
-        <div class="flex absolute top-4 left-4 items-center">
-          <span class="text-md items font-extrabold leading-none text-black">
-            Doanh thu</span
-          >
-        </div>
-        <div class="md:h-96 h-56 w-full mt-6 border-t">
-          <ClientOnly>
-            <apexchart
-              :key="columnseries"
-              height="100%"
-              width="100%"
-              :options="columnoptions"
-              :series="columnseries"
-            >
-            </apexchart>
-          </ClientOnly>
-        </div>
-      </div>
-      <div
-        class="relative flex items-center justify-center bg-white md:p-4 w-full md:mb-4 mb-2 h-full"
+        class="md:grid md:grid-cols-2 md:gap-4 gap-2 md:mb-4 mb-2 z-0 h-auto"
       >
         <div
-          href="https://flowbite.com/"
-          class="flex absolute top-4 left-4 items-center"
+          class="relative flex items-center justify-center bg-white rounded-2xl md:p-4 w-full md:mb-4 mb-2 h-full"
         >
-          <span
-            class="text-md items font-extrabold leading-none tracking-tight text-gray-900"
-            >Chi phí điều trị trung bình theo nhóm tuổi</span
-          >
-        </div>
-        <div class="h-96 w-full mt-6 border-t">
-          <ClientOnly>
-            <apexchart
-              :key="treatmentSeries"
-              height="100%"
-              width="100%"
-              :options="treatmentCostsOptions"
-              :series="treatmentSeries"
+          <div class="flex absolute top-4 left-4 items-center">
+            <span class="text-md items font-extrabold leading-none text-black">
+              Doanh thu</span
             >
-            </apexchart>
-          </ClientOnly>
-        </div>
-      </div>
-    </div>
-    <div class="md:grid md:grid-cols-2 md:gap-4 gap-2 md:mb-4 mb-2 z-0 h-auto">
-      <div
-        class="relative flex items-center justify-center bg-white md:p-4 w-full md:mb-4 mb-2 h-full"
-      >
-        <div class="flex absolute top-4 left-4 items-center">
-          <span class="text-md items font-extrabold leading-none text-black">
-            Số lượng bệnh nhân theo tháng</span
-          >
-        </div>
-        <div class="md:h-96 h-56 w-full mt-6 border-t">
-          <ClientOnly>
-            <apexchart
-              :key="patientMonthSeries"
-              height="100%"
-              width="100%"
-              :options="patientMonthOptions"
-              :series="patientMonthSeries"
-            >
-            </apexchart>
-          </ClientOnly>
-        </div>
-      </div>
-      <div
-        class="relative flex items-center justify-center bg-white md:p-4 w-full md:mb-4 mb-2 h-full"
-      >
-        <div class="flex absolute top-4 left-4 items-center">
-          <span class="text-md items font-extrabold leading-none text-black">
-            Số lượng bệnh nhân theo chuyên khoa</span
-          >
-        </div>
-        <div class="md:h-96 h-56 w-full mt-6 border-t">
-          <ClientOnly>
-            <apexchart
-              :key="patientSpecialtySeries"
-              height="100%"
-              width="100%"
-              :options="patientSpecialtyOptions"
-              :series="patientSpecialtySeries"
-            >
-            </apexchart>
-          </ClientOnly>
-        </div>
-      </div>
-    </div>
-    <div class="md:grid md:grid-cols-3 md:gap-4 gap-2 md:mb-4 mb-2 z-0 h-auto">
-      <div
-        class="relative col-span-2 flex items-center justify-center bg-white md:p-4 w-full md:mb-4 mb-2 h-full"
-      >
-        <div class="flex absolute top-4 left-4 items-center">
-          <span class="text-md items font-extrabold leading-none text-black">
-            Thống kê cuộc hẹn</span
-          >
-        </div>
-        <div class="md:h-96 h-56 w-full mt-6 border-t">
-          <div class="overflow-x-auto">
-            <table class="w-full text-sm text-left text-gray-500">
-              <thead class="text-xs text-gray-700 uppercase bg-colorCDDEFF">
-                <tr>
-                  <th scope="col" class="px-4 py-3">Bác sĩ</th>
-                  <th scope="col" class="px-4 py-3">Chuyên ngành</th>
-                  <th scope="col" class="px-4 py-3">Bệnh nhân</th>
-                  <th scope="col" class="px-4 py-3">Thời gian</th>
-                  <th scope="col" class="px-4 py-3">Trạng thái</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr class="border-b">
-                  <th
-                    scope="row"
-                    class="flex items-center px-4 py-3 mr-4 font-normal text-gray-900 whitespace-nowrap"
-                  >Trần Huỳnh Tấn Phát</th>
-                  <td class="px-4 py-3 mr-4">Đa khoa</td>
+          </div>
 
-                  <td class="px-4 py-3 mr-4">Phạm Nhật Minh</td>
-                  <td class="px-4 py-3 mr-4">{{ Date() }}</td>
-                  <td class="px-4 py-3 mr-4">Đã xác nhận</td>
-                </tr>
-              </tbody>
-            </table>
+          <div class="md:h-96 h-56 w-full mt-6 border-t">
+            <ClientOnly>
+              <apexchart
+                :key="columnseries"
+                height="100%"
+                width="100%"
+                :options="columnoptions"
+                :series="columnseries"
+              >
+              </apexchart>
+            </ClientOnly>
+          </div>
+        </div>
+        <div
+          class="relative flex items-center justify-center bg-white rounded-2xl md:p-4 w-full md:mb-4 mb-2 h-full"
+        >
+          <div
+            href="https://flowbite.com/"
+            class="flex absolute top-4 left-4 items-center"
+          >
+            <span
+              class="text-md items font-extrabold leading-none tracking-tight text-gray-900"
+              >Chi phí điều trị trung bình theo nhóm tuổi</span
+            >
+          </div>
+          <button
+            id="dropdownDefaultButton"
+            data-dropdown-toggle="dropdownTreatmentCosts"
+            class="absolute top-2 right-0 text-black bg-white font-medium text-xs px-5 py-2.5 text-center inline-flex items-center"
+            type="button"
+          >
+            Tháng 4
+            <svg
+              class="w-2.5 h-2.5 ms-3"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 10 6"
+            >
+              <path
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="m1 1 4 4 4-4"
+              />
+            </svg>
+          </button>
+
+          <!-- Dropdown menu -->
+          <div
+            id="dropdownTreatmentCosts"
+            class="z-50 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44"
+          >
+            <ul
+              class="py-2 text-sm text-gray-700"
+              aria-labelledby="dropdownDefaultButton"
+            >
+              <li>
+                <a href="#" class="block px-4 py-2 hover:bg-gray-100"
+                  >Dashboard</a
+                >
+              </li>
+              <li>
+                <a href="#" class="block px-4 py-2 hover:bg-gray-100"
+                  >Settings</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                  >Earnings</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                  >Sign out</a
+                >
+              </li>
+            </ul>
+          </div>
+          <div class="h-96 w-full mt-6 border-t">
+            <ClientOnly>
+              <apexchart
+                :key="treatmentSeries"
+                height="100%"
+                width="100%"
+                :options="treatmentCostsOptions"
+                :series="treatmentSeries"
+              >
+              </apexchart>
+            </ClientOnly>
           </div>
         </div>
       </div>
       <div
-        class="relative col-span-1 flex items-center justify-center bg-white md:p-4 w-full md:mb-4 mb-2 h-full"
+        class="md:grid md:grid-cols-2 md:gap-4 gap-2 md:mb-4 mb-2 z-0 h-auto"
       >
-        <div class="flex absolute top-4 left-4 items-center">
-          <span class="text-xl items font-extrabold leading-none text-black">
-            Biểu đồ cuộc hẹn</span
-          >
-        </div>
-        <div class="md:h-96 h-56 w-full mt-6 border-t">
-          <ClientOnly>
-            <apexchart
-              :key="pieseries"
-              height="100%"
-              width="100%"
-              :options="pieoptions"
-              :series="pieseries"
+        <div
+          class="relative flex items-center justify-center bg-white rounded-2xl md:p-4 w-full md:mb-4 mb-2 h-full"
+        >
+          <div class="flex absolute top-4 left-4 items-center">
+            <span class="text-md items font-extrabold leading-none text-black">
+              Số lượng bệnh nhân theo tháng</span
             >
-            </apexchart>
-          </ClientOnly>
+          </div>
+
+          <div class="md:h-96 h-56 w-full mt-6 border-t">
+            <ClientOnly>
+              <apexchart
+                :key="patientMonthSeries"
+                height="100%"
+                width="100%"
+                :options="patientMonthOptions"
+                :series="patientMonthSeries"
+              >
+              </apexchart>
+            </ClientOnly>
+          </div>
+        </div>
+        <div
+          class="relative flex items-center justify-center bg-white rounded-2xl md:p-4 w-full md:mb-4 mb-2 h-full"
+        >
+          <div class="flex absolute top-4 left-4 items-center">
+            <span class="text-md items font-extrabold leading-none text-black">
+              Số lượng bệnh nhân theo chuyên khoa</span
+            >
+          </div>
+          <div class="md:h-96 h-56 w-full mt-6 border-t">
+            <ClientOnly>
+              <apexchart
+                :key="patientSpecialtySeries"
+                height="100%"
+                width="100%"
+                :options="patientSpecialtyOptions"
+                :series="patientSpecialtySeries"
+              >
+              </apexchart>
+            </ClientOnly>
+          </div>
+        </div>
+      </div>
+      <div
+        class="md:grid md:grid-cols-3 md:gap-4 gap-2 md:mb-4 mb-2 z-0 h-auto"
+      >
+        <div
+          class="relative col-span-2 flex items-center justify-center bg-white rounded-2xl md:p-4 w-full md:mb-4 mb-2 h-full"
+        >
+          <div class="flex absolute top-4 left-4 items-center">
+            <span class="text-md items font-extrabold leading-none text-black">
+              Thống kê cuộc hẹn</span
+            >
+          </div>
+          <button
+            id="dropdownDefaultButton"
+            data-dropdown-toggle="dropdownTreatmentCosts"
+            class="absolute top-2 right-0 text-black bg-white font-medium text-xs px-5 py-2.5 text-center inline-flex items-center"
+            type="button"
+          >
+            Sắp tới
+            <svg
+              class="w-2.5 h-2.5 ms-3"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 10 6"
+            >
+              <path
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="m1 1 4 4 4-4"
+              />
+            </svg>
+          </button>
+
+          <!-- Dropdown menu -->
+          <div
+            id="dropdownTreatmentCosts"
+            class="z-50 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44"
+          >
+            <ul
+              class="py-2 text-sm text-gray-700"
+              aria-labelledby="dropdownDefaultButton"
+            >
+              <li>
+                <a href="#" class="block px-4 py-2 hover:bg-gray-100"
+                  >Dashboard</a
+                >
+              </li>
+              <li>
+                <a href="#" class="block px-4 py-2 hover:bg-gray-100"
+                  >Settings</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                  >Earnings</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                  >Sign out</a
+                >
+              </li>
+            </ul>
+          </div>
+          <div class="md:h-96 h-56 w-full mt-6 border-t">
+            <div class="overflow-x-auto">
+              <table class="w-full text-sm text-left text-gray-500">
+                <thead class="text-xs text-gray-700 uppercase bg-colorCDDEFF">
+                  <tr>
+                    <th scope="col" class="px-4 py-3">Bác sĩ</th>
+                    <th scope="col" class="px-4 py-3">Chuyên ngành</th>
+                    <th scope="col" class="px-4 py-3">Bệnh nhân</th>
+                    <th scope="col" class="px-4 py-3">Thời gian</th>
+                    <th scope="col" class="px-4 py-3">Trạng thái</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="border-b">
+                    <th
+                      scope="row"
+                      class="flex items-center px-4 py-3 mr-4 font-normal text-gray-900 whitespace-nowrap"
+                    >
+                      Trần Huỳnh Tấn Phát
+                    </th>
+                    <td class="px-4 py-3 mr-4">Đa khoa</td>
+
+                    <td class="px-4 py-3 mr-4">Phạm Nhật Minh</td>
+                    <td class="px-4 py-3 mr-4">{{ Date() }}</td>
+                    <td class="px-4 py-3 mr-4">Đã xác nhận</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div
+          class="relative col-span-1 flex items-center justify-center bg-white rounded-2xl md:p-4 w-full md:mb-4 mb-2 h-full"
+        >
+          <div class="flex absolute top-4 left-4 items-center">
+            <span class="text-xl items font-extrabold leading-none text-black">
+              Biểu đồ cuộc hẹn</span
+            >
+          </div>
+          <div class="md:h-96 h-56 w-full mt-6 border-t">
+            <ClientOnly>
+              <apexchart
+                :key="pieseries"
+                height="100%"
+                width="100%"
+                :options="pieoptions"
+                :series="pieseries"
+              >
+              </apexchart>
+            </ClientOnly>
+          </div>
         </div>
       </div>
     </div>
-  </div>
+  </section>
 </template>
 
 <script setup lang="ts">
@@ -526,11 +659,12 @@ const columnoptions = ref({
     height: 350,
     stacked: true,
   },
+
   plotOptions: {
     bar: {
       horizontal: false,
       columnWidth: "25%",
-      endingShape: "rounded",
+      // endingShape: "rounded",
     },
   },
   dataLabels: {
@@ -538,6 +672,8 @@ const columnoptions = ref({
   },
   legend: {
     position: "top",
+    fontSize: "14px",
+    fontFamily: "Helvetica, Arial",
   },
   stroke: {
     show: false,
@@ -571,9 +707,9 @@ const columnoptions = ref({
       offsetX: 0,
       offsetY: 0,
       style: {
-        fontSize: "12px",
+        fontSize: "14px",
         fontFamily: "Helvetica, Arial, sans-serif",
-        fontWeight: 600,
+        fontWeight: "bold",
       },
     },
     labels: {
@@ -583,9 +719,9 @@ const columnoptions = ref({
       maxWidth: 160,
       style: {
         colors: [],
-        fontSize: "12px",
+        fontSize: "14px",
         fontFamily: "Helvetica, Arial, sans-serif",
-        fontWeight: 400,
+        fontWeight: "normal",
         cssClass: "apexcharts-yaxis-label",
       },
       offsetX: 0,
