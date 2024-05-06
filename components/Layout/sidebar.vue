@@ -195,7 +195,7 @@
                   :class="{
                     'bg-primary/20': route.path.includes('/create'),
                   }"
-                  class="flex items-center w-full p-2 text-secondary transition duration-75 rounded-lg pl-11 group hover:bg-gray-100"
+                  class="flex items-center w-full p-2 text-secondary transition duration-75 rounded-lg pl-11 group hover:bg-primary hover:text-white"
                   >Thêm bác sĩ</a
                 >
               </li>
@@ -249,10 +249,10 @@
           </li>
           <li>
             <a
-              href="/medicine"
+              href="/drugs"
               class="flex items-center p-2 text-secondary rounded-lg group hover:bg-primary hover:text-white"
               :class="{
-                'bg-primary/20 text-primary': route.path.includes('/medicine'),
+                'bg-primary/20 text-primary': route.path.includes('/medications'),
               }"
             >
               <svg

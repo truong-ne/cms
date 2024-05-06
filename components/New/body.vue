@@ -1,164 +1,212 @@
 <template>
-  <section class="w-full md:mb-4 mb-2 relative">
-    <div
-      class="fixed z-30 right-0 md:left-80 left-0 overflow-hidden mb-8 rounded-b-xl h-auto bg-gradient-to-b from-gray-100 md:from-80% from-70% top-0 w-auto"
-    >
-      <div
-        class="relative flex flex-col md:flex-row items-center justify-between rounded-xl bg-white space-y-3 md:space-y-0 md:space-x-4 md:p-4 p-2 md:mt-8 mt-20 md:m-4 m-2 md:shadow-lg shadow"
-      >
-        <div class="relative w-full md:w-1/3 flex items-center">
-          <label for="simple-search" class="sr-only">Search</label>
-          <div class="relative w-full">
-            <div
-              class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none"
+  <section class="w-full md:mb-4">
+    <div class="relative overflow-hidden rounded-2xl bg-white w-full mt-8 p-8">
+      <div class="text-2xl mb-8 mt-4 ml-4 font-bold">Danh sách bài đăng</div>
+
+      <div class="grid grid-cols-2 gap-8" v-if="resultSearch">
+        <div
+          v-for="blog in resultSearch.hits"
+          :key="blog._id"
+          class="group bg-white rounded-xl relative overflow-hidden mb-4 h-96"
+          @click="chooseBlog(blog._id)"
+        >
+          <NuxtImg
+            v-if="blog.photo"
+            provider="cloudinary"
+            :src="blog.photo"
+            class="h-auto w-auto object-cover absolute rounded-xl blur-xl group-hover:opacity-70 duration-200 transform ease-linear"
+            :class="{
+              'opacity-70': currentId == blog._id,
+              'opacity-20': currentId != blog._id,
+            }"
+            :alt="blog.title"
+          />
+
+          <div
+            class="md:p-8 p-4 relative cursor-pointer rounded-xl  border-2  border-primary/20 hover:border-8 h-96"
+            :class="{
+              'border-8': currentId == blog._id,
+            }"
+          >
+            <div class="flex justify-between items-center mb-5 text-gray-500">
+              <span
+                class="bg-primary-100 text-primary-800 text-xs font-medium inline-flex items-center px-2.5 py-0.5 rounded"
+              >
+                <svg
+                  class="mr-1 w-3 h-3"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M2 5a2 2 0 012-2h8a2 2 0 012 2v10a2 2 0 002 2H4a2 2 0 01-2-2V5zm3 1h6v4H5V6zm6 6H5v2h6v-2z"
+                    clip-rule="evenodd"
+                  ></path>
+                  <path d="M15 7h1a2 2 0 012 2v5.5a1.5 1.5 0 01-3 0V7z"></path>
+                </svg>
+                Bài báo
+              </span>
+              <span class="text-sm">{{ blog.updated_at }}</span>
+            </div>
+            <h2
+              class="mb-2 w-full text-2xl font-bold tracking-tight text-gray-900 transform duration-500 ease-in-out md:group-hover:scale-[1.1]"
             >
+              {{ blog.title }}
+            </h2>
+            <p
+              class="line-clamp-4 mb-5 font-light text-justify text-gray-500 dark:text-gray-400 transform duration-500 ease-in-out md:group-hover:scale-[1.1]"
+            >
+              {{ blog.content }}
+            </p>
+            <div class="flex justify-between items-center">
+              <a
+                :href="route.path + '/' + blog._id"
+                class="px-3 py-2 rounded-lg inline-flex items-center font-medium text-primary-600 hover:underline"
+              >
+                Xem thêm
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="ml-2 w-4 h-4"
+                  fill="currentColor"
+                  viewBox="0 0 448 512"
+                >
+                  <path
+                    d="M438.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L338.8 224H32c-17.7 0-32 14.3-32 32s14.3 32 32 32h306.7L233.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z"
+                  />
+                </svg>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- <nav
+        class="flex flex-col md:flex-row justify-between items-start md:items-center space-y-3 md:space-y-0 p-4"
+        aria-label="Table navigation"
+      >
+        <span class="text-sm font-normal text-gray-500 dark:text-gray-400">
+          Hiển thị
+          <span class="font-semibold text-gray-900 dark:text-white"
+            >{{ hitsPerPage * (currentPage - 1) + 1 }}-{{
+              hitsPerPage * currentPage > totalHits
+                ? totalHits
+                : hitsPerPage * currentPage
+            }}</span
+          >
+          của
+          <span class="font-semibold text-gray-900 dark:text-white">{{
+            totalHits
+          }}</span>
+        </span>
+        <ul class="inline-flex items-stretch -space-x-px">
+          <li>
+            <button
+              type="button"
+              :class="
+                currentPage != 1
+                  ? 'border-gray-300 hover:bg-gray-100 hover:text-gray-700 text-gray-500'
+                  : 'text-gray-300'
+              "
+              @click="previous"
+              class="flex items-center justify-center h-full py-1.5 px-3 ml-0 bg-white rounded-l-lg border"
+            >
+              <span class="sr-only">Trước</span>
               <svg
+                class="w-5 h-5"
                 aria-hidden="true"
-                class="w-5 h-5 text-gray-500 dark:text-gray-400"
                 fill="currentColor"
                 viewbox="0 0 20 20"
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <path
                   fill-rule="evenodd"
-                  d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+                  d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
                   clip-rule="evenodd"
                 />
               </svg>
-            </div>
-            <input
-              type="text"
-              id="simple-search"
-              v-model="keySearch"
-              class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-gray-500 focus:border-gray-500 block w-full pl-10 p-2"
-              placeholder="Tìm kiếm"
-              @input="meilisearch"
-            />
-          </div>
-        </div>
-        <div
-          class="relative w-full md:w-auto flex flex-col md:flex-row space-y-2 md:space-y-0 items-stretch md:items-center justify-end md:space-x-3 flex-shrink-0"
-        >
-          <button
-            type="button"
-            v-show="currentId"
-            @click="deleteBlog"
-            class="block py-2 px-4 text-sm text-red-500 hover:bg-red-100 rounded-lg"
-          >
-            Xoá
-          </button>
-          <button
-            v-show="currentId"
-            id="updateNewsButton"
-            data-modal-target="updateNews"
-            data-modal-toggle="updateNews"
-            type="button"
-            class="flex items-center justify-center w-full md:w-auto text-primary-700 bg-white hover:bg-primary-300 hover:text-primary-900 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-4 py-2 focus:outline-none"
-          >
-            Cập nhật
-          </button>
-          <button
-            id="createNewsButton"
-            data-modal-target="createNews"
-            data-modal-toggle="createNews"
-            class="flex items-center justify-center text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="h-3.5 w-3.5 mr-2"
-              fill="currentColor"
-              aria-hidden="true"
-              viewBox="0 0 448 512"
-            >
-              <path
-                d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32v144H48c-17.7 0-32 14.3-32 32s14.3 32 32 32h144v144c0 17.7 14.3 32 32 32s32-14.3 32-32V288h144c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z"
-              />
-            </svg>
-            Thêm bài viết
-          </button>
-        </div>
-      </div>
-    </div>
-    <div
-      class="grid xl:grid-cols-3 md:grid-cols-2 grid-cols-1 items-start justify-center md:gap-4 gap-2 md:pt-24 pt-56"
-      v-if="resultSearch"
-    >
-      <article
-        v-for="blog in resultSearch.hits"
-        :key="blog._id"
-        class="group bg-white rounded-xl relative overflow-hidden shadow-sm mb-4"
-        @click="chooseBlog(blog._id)"
-      >
-        <NuxtImg
-          v-if="blog.photo"
-          provider="cloudinary"
-          :src="blog.photo"
-          class="h-auto w-auto object-cover absolute rounded-xl blur-2xl group-hover:opacity-70 duration-200 transform ease-linear"
-          :class="{
-            'opacity-70': currentId == blog._id,
-            'opacity-20': currentId != blog._id,
-          }"
-          :alt="blog.title"
-        />
+            </button>
+          </li>
 
-        <div
-          class="md:p-8 p-4 relative cursor-pointer rounded-xl border-4 hover:border-gray-200"
-          :class="{
-            'border-gray-200': currentId == blog._id,
-            'border-transparent': currentId != blog._id,
-          }"
-        >
-          <div class="flex justify-between items-center mb-5 text-gray-500">
-            <span
-              class="bg-primary-100 text-primary-800 text-xs font-medium inline-flex items-center px-2.5 py-0.5 rounded"
+          <li>
+            <button
+              type="button"
+              @click="choosePage(currentPage - 2)"
+              v-if="currentPage - 2 >= 1"
+              class="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700"
             >
+              {{ currentPage - 2 }}
+            </button>
+          </li>
+          <li>
+            <button
+              type="button"
+              @click="choosePage(currentPage - 1)"
+              v-if="currentPage - 1 >= 1"
+              class="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700"
+            >
+              {{ currentPage - 1 }}
+            </button>
+          </li>
+          <li>
+            <button
+              type="button"
+              @click="choosePage(currentPage)"
+              class="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-primary-100 border border-gray-300 hover:bg-primary-100 hover:text-primary-700"
+            >
+              {{ currentPage }}
+            </button>
+          </li>
+          <li>
+            <button
+              type="button"
+              @click="choosePage(currentPage + 1)"
+              v-if="currentPage + 1 <= totalPages"
+              class="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700"
+            >
+              {{ currentPage + 1 }}
+            </button>
+          </li>
+          <li>
+            <button
+              type="button"
+              @click="choosePage(currentPage + 2)"
+              v-if="currentPage + 2 <= totalPages"
+              class="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700"
+            >
+              {{ currentPage + 2 }}
+            </button>
+          </li>
+
+          <li>
+            <button
+              href="#"
+              :class="
+                totalPages != currentPage && totalHits > 0
+                  ? 'border-gray-300 hover:bg-gray-100 hover:text-gray-700 text-gray-500'
+                  : 'text-gray-300'
+              "
+              @click="next"
+              class="flex items-center justify-center h-full py-1.5 px-3 leading-tight bg-white rounded-r-lg border b"
+            >
+              <span class="sr-only">Tiếp</span>
               <svg
-                class="mr-1 w-3 h-3"
+                class="w-5 h-5"
+                aria-hidden="true"
                 fill="currentColor"
-                viewBox="0 0 20 20"
+                viewbox="0 0 20 20"
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <path
                   fill-rule="evenodd"
-                  d="M2 5a2 2 0 012-2h8a2 2 0 012 2v10a2 2 0 002 2H4a2 2 0 01-2-2V5zm3 1h6v4H5V6zm6 6H5v2h6v-2z"
+                  d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
                   clip-rule="evenodd"
-                ></path>
-                <path d="M15 7h1a2 2 0 012 2v5.5a1.5 1.5 0 01-3 0V7z"></path>
-              </svg>
-              Bài báo
-            </span>
-            <span class="text-sm">{{ blog.updated_at }}</span>
-          </div>
-          <h2
-            class="mb-2 w-full text-2xl font-bold tracking-tight text-gray-900 transform duration-500 ease-in-out md:group-hover:scale-[1.1]"
-          >
-            {{ blog.title }}
-          </h2>
-          <p
-            class="line-clamp-4 mb-5 font-light text-justify text-gray-500 dark:text-gray-400 transform duration-500 ease-in-out md:group-hover:scale-[1.1]"
-          >
-            {{ blog.content }}
-          </p>
-          <div class="flex justify-between items-center">
-            <a
-              :href="route.path + '/' + blog._id"
-              class="px-3 py-2 rounded-lg inline-flex items-center font-medium text-primary-600 hover:underline"
-            >
-              Xem thêm
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="ml-2 w-4 h-4"
-                fill="currentColor"
-                viewBox="0 0 448 512"
-              >
-                <path
-                  d="M438.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L338.8 224H32c-17.7 0-32 14.3-32 32s14.3 32 32 32h306.7L233.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z"
                 />
               </svg>
-            </a>
-          </div>
-        </div>
-      </article>
+            </button>
+          </li>
+        </ul>
+      </nav> -->
     </div>
   </section>
 </template>

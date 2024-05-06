@@ -33,7 +33,7 @@
                   name="username"
                   id="username"
                   v-model="username"
-                  class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   placeholder="Tên đăng nhập"
                   required
                   oninvalid="this.setCustomValidity('Vui lòng nhập tên đăng nhập')"
@@ -53,7 +53,7 @@
                   placeholder="••••••••"
                   required
                   oninvalid="this.setCustomValidity('Vui lòng nhập mật khẩu')"
-                  class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 />
               </div>
               <!-- <span
@@ -86,11 +86,11 @@
                 :class="
                   loading
                     ? ' bg-transparent'
-                    : ' bg-primary-600 hover:bg-primary-700'
+                    : ' bg-primary hover:bg-primary'
                 "
                 :disabled="loading"
                 @click="handleSubmit"
-                class="w-full flex items-center justify-center overflow-hidden text-white focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm pb-3 pt-3.5 text-center"
+                class="w-full flex items-center justify-center overflow-hidden text-white focus:ring-4 focus:outline-none focus:ring-primary font-medium rounded-lg text-sm pb-3 pt-3.5 text-center"
               >
                 <div role="status" v-if="loading">
                   <svg
@@ -168,7 +168,7 @@ async function handleSubmit() {
 
 definePageMeta({
   layout: false,
-  middleware: ["auth"],
+  // middleware: ["auth"],
 });
 </script>
 

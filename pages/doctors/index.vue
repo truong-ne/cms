@@ -10,11 +10,14 @@
 
 <script setup lang="ts">
 const doctorStore = useDataDoctor();
-
-await doctorStore.getQuantityDoctor();
+try {
+  await doctorStore.getQuantityDoctor();
+} catch (e) {
+  console.log(e);
+}
 
 definePageMeta({
-  middleware: ["auth"],
+  // middleware: ["auth"],
 });
 const header = {
   title: "Bác sĩ",

@@ -1,5 +1,6 @@
 <template>
   <section>
+    <NewHeader />
     <NewBody :blogStore="blogStore" />
     <NewFormcreate :blogStore="blogStore" />
     <NewFormupdate :blogStore="blogStore" />
@@ -32,6 +33,6 @@ onMounted(async () => {
 });
 blogStore.getAllBlog();
 definePageMeta({
-  middleware: ["auth"],
+  // middleware: ["auth"],
 });
 </script>

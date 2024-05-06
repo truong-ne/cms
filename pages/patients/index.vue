@@ -13,10 +13,10 @@
 <script setup lang="ts">
 const medicalStore = useDataMedicalRecord();
 
-await medicalStore.getQuantityMedical();
+// await medicalStore.getQuantityMedical();
 
 definePageMeta({
-  middleware: ["auth"],
+  // middleware: ["auth"],
 });
 
 const header = ref({

@@ -245,7 +245,7 @@ onBeforeMount(async () => {
   totalPages.value = result.value.totalPages;
   doctorStore.saveDoctors(resultSearch.value);
 });
-onMounted(() => {
+onMounted(async () => {
   setTimeout(() => {
     try {
       // select the two elements that we'll work with

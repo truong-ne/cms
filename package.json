@@ -12,6 +12,9 @@
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare"
   },
+  "resolutions": {
+    "string-width": "4.2.3"
+  },
   "devDependencies": {
     "@nuxt/devtools": "latest",
     "@nuxtjs/color-mode": "^3.3.0",

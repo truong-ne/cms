@@ -11,6 +11,6 @@
 <script setup lang="ts">
 const discountStore = useDataDiscount();
 definePageMeta({
-  middleware: ["auth"],
+  // middleware: ["auth"],
 });
 </script>
