@@ -72,23 +72,45 @@
 
       <div class="p-4 rounded-xl bg-white w-full">
         <div class="overflow-x-auto"> -->
+
+  <!-- Header -->
+  <div class="flex justify-between w-full">
+    <form class="w-96">
+      <div class="relative">
+        <div class="absolute inset-y-0 start-0 flex items-center ps-6 pointer-events-none">
+          <svg class="w-4 h-4 text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+            viewBox="0 0 20 20">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
+          </svg>
+        </div>
+        <input type="search" id="default-search-voucher"
+          class="block w-full p-4 ps-12 text-sm font-semibold text-gray-900 border-0 focus:ring-0 rounded-2xl bg-white"
+          placeholder="Tìm mã giảm giá" v-model="keySearch" @input="meilisearch" required />
+      </div>
+    </form>
+    <div class="flex gap-4">
+      <button type="button" data-modal-target="createDiscount" data-modal-toggle="createDiscount"
+        class="text-white inline-flex bg-primary items-center justify-center hover:bg-primary/80 focus:ring-0 font-medium rounded-xl text-sm px-5 py-2.5 text-center w-full sm:w-auto">
+        + Thêm phiếu giảm giá
+      </button>
+      <button type="button"
+        class="text-white inline-flex bg-red-600 items-center justify-center hover:bg-red-500 focus:ring-0 font-medium rounded-xl text-sm px-5 py-2.5 text-center w-full sm:w-auto">
+        - Xoá
+      </button>
+    </div>
+  </div>
+  <!-- Body -->
   <section class="w-full md:mb-4">
     <div class="relative overflow-hidden rounded-2xl bg-white w-full mt-8 p-4">
       <div class="text-2xl mb-8 mt-4 ml-4 font-bold">Danh sách mã giảm giá</div>
       <div class="overflow-x-auto">
-        <table
-          id="listPatient"
-          class="text-left mt- w-full text-sm table-fixed bg-transparent border-separate border-spacing-x-0 border-spacing-y-2 border-translate"
-        >
+        <table id="listPatient"
+          class="text-left mt- w-full text-sm table-fixed bg-transparent border-separate border-spacing-x-0 border-spacing-y-2 border-translate">
           <thead class="text-black uppercase text-xs">
             <tr>
               <th class="px-4 py-2 border-l-2">
-                <input
-                  disabled
-                  type="checkbox"
-                  value="false"
-                  class="w-4 h-4 border-gray-300 rounded focus:ring-0"
-                />
+                <input disabled type="checkbox" value="false" class="w-4 h-4 border-gray-300 rounded focus:ring-0" />
               </th>
               <th class="px-4 border-l-2">Mã</th>
               <th class="px-4 border-l-2">Giá trị</th>
@@ -101,21 +123,13 @@
             </tr>
           </thead>
           <tbody v-for="discount in resultSearch" :key="discount.discount">
-            <tr
-              class="bg-primary/20"
-              :class="{
-                'bg-primary/40 transition duration-200':
-                  currentId == discount.id,
-                'hover:bg-primary/40': currentId != discount.id,
-              }"
-              @click="chooseDiscount(discount.id)"
-            >
+            <tr class="bg-primary/20" :class="{
+              'bg-primary/40 transition duration-200':
+                currentId == discount.id,
+              'hover:bg-primary/40': currentId != discount.id,
+            }" @click="chooseDiscount(discount.id)">
               <th class="rounded-l-2xl px-4 items-center">
-                <input
-                  type="checkbox"
-                  value="false"
-                  class="w-4 h-4 border-gray-300 rounded focus:ring-0"
-                />
+                <input type="checkbox" value="false" class="w-4 h-4 border-gray-300 rounded focus:ring-0" />
               </th>
               <td class="p-4">
                 {{ discount.code }}
@@ -130,12 +144,8 @@
               </td>
               <td class="p-4" v-else></td>
               <td class="rounded-r-2xl">
-                <button
-                  v-show="currentId == discount.id"
-                  type="button"
-                  @click="toggle"
-                  class="flex items-center justify-center w-full md:w-auto text-primary-700 bg-white hover:bg-primary-300 hover:text-primary-900 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-4 py-2 focus:outline-none"
-                >
+                <button v-show="currentId == discount.id" type="button" @click="toggle"
+                  class="flex items-center justify-center w-full md:w-auto text-primary-700 bg-white hover:bg-primary-300 hover:text-primary-900 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-4 py-2 focus:outline-none">
                   Chỉnh sửa
                 </button>
               </td>
@@ -144,19 +154,15 @@
         </table>
       </div>
 
-      <nav
-        class="flex flex-col md:flex-row justify-between items-start md:items-center space-y-3 md:space-y-0 p-4"
-        aria-label="Table navigation"
-      >
+      <nav class="flex flex-col md:flex-row justify-between items-start md:items-center space-y-3 md:space-y-0 p-4"
+        aria-label="Table navigation">
         <span class="text-sm font-normal text-gray-500 dark:text-gray-400">
           Hiển thị
-          <span class="font-semibold text-gray-900 dark:text-white"
-            >{{ hitsPerPage * (currentPage - 1) + 1 }}-{{
-              hitsPerPage * currentPage > totalHits
-                ? totalHits
-                : hitsPerPage * currentPage
-            }}</span
-          >
+          <span class="font-semibold text-gray-900 dark:text-white">{{ hitsPerPage * (currentPage - 1) + 1 }}-{{
+            hitsPerPage * currentPage > totalHits
+              ? totalHits
+              : hitsPerPage * currentPage
+          }}</span>
           của
           <span class="font-semibold text-gray-900 dark:text-white">{{
             totalHits
@@ -164,107 +170,64 @@
         </span>
         <ul class="inline-flex items-stretch -space-x-px">
           <li>
-            <button
-              type="button"
-              :class="
-                currentPage != 1
-                  ? 'border-gray-300 hover:bg-gray-100 hover:text-gray-700 text-gray-500'
-                  : 'text-gray-300'
-              "
-              @click="previous"
-              class="flex items-center justify-center h-full py-1.5 px-3 ml-0 bg-white rounded-l-lg border"
-            >
+            <button type="button" :class="currentPage != 1
+              ? 'border-gray-300 hover:bg-gray-100 hover:text-gray-700 text-gray-500'
+              : 'text-gray-300'
+              " @click="previous"
+              class="flex items-center justify-center h-full py-1.5 px-3 ml-0 bg-white rounded-l-lg border">
               <span class="sr-only">Trước</span>
-              <svg
-                class="w-5 h-5"
-                aria-hidden="true"
-                fill="currentColor"
-                viewbox="0 0 20 20"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  fill-rule="evenodd"
+              <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewbox="0 0 20 20"
+                xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd"
                   d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
-                  clip-rule="evenodd"
-                />
+                  clip-rule="evenodd" />
               </svg>
             </button>
           </li>
 
           <li>
-            <button
-              type="button"
-              @click="choosePage(currentPage - 2)"
-              v-if="currentPage - 2 >= 1"
-              class="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700"
-            >
+            <button type="button" @click="choosePage(currentPage - 2)" v-if="currentPage - 2 >= 1"
+              class="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700">
               {{ currentPage - 2 }}
             </button>
           </li>
           <li>
-            <button
-              type="button"
-              @click="choosePage(currentPage - 1)"
-              v-if="currentPage - 1 >= 1"
-              class="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700"
-            >
+            <button type="button" @click="choosePage(currentPage - 1)" v-if="currentPage - 1 >= 1"
+              class="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700">
               {{ currentPage - 1 }}
             </button>
           </li>
           <li>
-            <button
-              type="button"
-              @click="choosePage(currentPage)"
-              class="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-primary-100 border border-gray-300 hover:bg-primary-100 hover:text-primary-700"
-            >
+            <button type="button" @click="choosePage(currentPage)"
+              class="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-primary-100 border border-gray-300 hover:bg-primary-100 hover:text-primary-700">
               {{ currentPage }}
             </button>
           </li>
           <li>
-            <button
-              type="button"
-              @click="choosePage(currentPage + 1)"
-              v-if="currentPage + 1 <= totalPages"
-              class="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700"
-            >
+            <button type="button" @click="choosePage(currentPage + 1)" v-if="currentPage + 1 <= totalPages"
+              class="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700">
               {{ currentPage + 1 }}
             </button>
           </li>
           <li>
-            <button
-              type="button"
-              @click="choosePage(currentPage + 2)"
-              v-if="currentPage + 2 <= totalPages"
-              class="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700"
-            >
+            <button type="button" @click="choosePage(currentPage + 2)" v-if="currentPage + 2 <= totalPages"
+              class="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700">
               {{ currentPage + 2 }}
             </button>
           </li>
 
           <li>
-            <button
-              href="#"
-              :class="
-                totalPages != currentPage && totalHits > 0
-                  ? 'border-gray-300 hover:bg-gray-100 hover:text-gray-700 text-gray-500'
-                  : 'text-gray-300'
-              "
-              @click="next"
-              class="flex items-center justify-center h-full py-1.5 px-3 leading-tight bg-white rounded-r-lg border b"
-            >
+            <button href="#" :class="totalPages != currentPage && totalHits > 0
+              ? 'border-gray-300 hover:bg-gray-100 hover:text-gray-700 text-gray-500'
+              : 'text-gray-300'
+              " @click="next"
+              class="flex items-center justify-center h-full py-1.5 px-3 leading-tight bg-white rounded-r-lg border b">
               <span class="sr-only">Tiếp</span>
-              <svg
-                class="w-5 h-5"
-                aria-hidden="true"
-                fill="currentColor"
-                viewbox="0 0 20 20"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  fill-rule="evenodd"
+              <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewbox="0 0 20 20"
+                xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd"
                   d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                  clip-rule="evenodd"
-                />
+                  clip-rule="evenodd" />
               </svg>
             </button>
           </li>
@@ -274,7 +237,7 @@
     <!-- </div> -->
   </section>
 </template>
-  
+
 <script setup lang="ts">
 import { getDate } from "~/utils/datetime";
 import { converCurrency } from "~/utils/currency";
@@ -413,6 +376,12 @@ async function choosePage(page: number) {
   }
 }
 
+const { discountStore } = defineProps(["discountStore"]);
+function chooseDiscount(id: string) {
+  currentId.value = id;
+  discountStore.chooseDiscount(id);
+}
+
 async function meilisearch() {
   // if (keySearch.value.trim() !== "") {
   currentPage.value = 1;
@@ -426,12 +395,5 @@ async function meilisearch() {
   totalPages.value = result.value.totalPages;
   discountStore.saveDiscounts(resultSearch.value);
 
-  // }
-}
-
-const { discountStore } = defineProps(["discountStore"]);
-function chooseDiscount(id: string) {
-  currentId.value = id;
-  discountStore.chooseDiscount(id);
 }
 </script>

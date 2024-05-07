@@ -1,7 +1,7 @@
 <template>
   <section>
     <!-- <VoucherCharts /> -->
-    <VoucherHeader />
+    <!-- <VoucherHeader /> -->
     <VoucherTables :discountStore="discountStore" />
     <VoucherFormcreate :discountStore="discountStore" />
     <VoucherFormupdate :discountStore="discountStore" />

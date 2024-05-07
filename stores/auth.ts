@@ -51,6 +51,8 @@ export const useAuthStore = defineStore("auth", {
       //     })
       // );
       // console.log(data.value);
+
+      console.log(useRuntimeConfig().public.baseURL)
       const { data, error } = await useFetch("/common/admin/auth", {
         baseURL: useRuntimeConfig().public.baseURL,
         method: "POST",
@@ -59,6 +61,8 @@ export const useAuthStore = defineStore("auth", {
           password: password,
         }),
       });
+
+      console.log(data)
 
       if (data.value !== null) {
         const message = mask(data.value, DataObjectLoginSchema);

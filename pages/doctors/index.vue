@@ -1,10 +1,10 @@
 <template>
   <section>
-    <DoctorHeader />
+    <!-- <DoctorHeader /> -->
     <DoctorBody :doctorStore="doctorStore" />
     <DoctorFormupdate :doctorStore="doctorStore" />
     <!-- <DoctorFormcreate :doctorStore="doctorStore" />
-    <DoctorFormupdate  /> -->
+    <DoctorFormupdate /> -->
   </section>
 </template>
 

@@ -1,9 +1,6 @@
 <template>
   <section class="">
-    <DashboardAnylytics
-      :doctorStore="doctorStore"
-      :medicalStore="medicalStore"
-    />
+    <DashboardAnylytics :doctorStore="doctorStore" :medicalStore="medicalStore" />
 
     <DashboardCharts :doctorStore="doctorStore" :medicalStore="medicalStore" />
 

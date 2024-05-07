@@ -1,7 +1,7 @@
 <template>
   <section>
     <!-- <UserHeader :header="header" /> -->
-    <PatientHeader />
+    <!-- <PatientHeader /> -->
     <PatientBody :medicalStore="medicalStore" />
     <PatientFormupdate />
 

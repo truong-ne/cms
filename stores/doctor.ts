@@ -40,28 +40,26 @@ export const useDataDoctor = defineStore("doctor", () => {
   async function getQuantityDoctor() {
     try {
       if (authorization === "Bearer ") throw "Không thể xác định danh tính";
-      // const { data, error } = await useFetch(
-      //   "doctor-management/doctor/quantity",
-      //   {
-      //     baseURL: useRuntimeConfig().public.baseURL,
-      //     method: "GET",
-      //     headers: {
-      //       "Content-Type": "application/json",
-      //       Authorization: authorization,
-      //     },
-      //   }
-      // );
+      const { data, error } = await useFetch("doctor-management/doctor/quantity", {
+        baseURL: useRuntimeConfig().public.baseURL,
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: authorization,
+        },
+      }
+      );
 
       // if (data.value !== null) {
-      //   const response = mask(data.value, DataObjectSchema);
-      //   doctorQuantity.value = mask(response.data, DoctorQuantitySchema);
+      const response = mask(data.value, DataObjectSchema);
+      doctorQuantity.value = mask(response.data, DoctorQuantitySchema);
       // } else {
       //   throw error;
       // }
-      doctorQuantity.value = mask(
-        { quantity: 10, doctorThisMonth: 12 },
-        DoctorQuantitySchema
-      );
+      // doctorQuantity.value = mask(
+      //   { quantity: 10, doctorThisMonth: 12 },
+      //   DoctorQuantitySchema
+      // );
     } catch (error) {
       throw error;
     }
@@ -91,7 +89,7 @@ export const useDataDoctor = defineStore("doctor", () => {
       // } else {
       //   throw error;
       // }
-      consultationQuantity.value = mask({quantity:40, quantityThisMonth:4}, ConsultationQuantitySchema);
+      consultationQuantity.value = mask({ quantity: 40, quantityThisMonth: 4 }, ConsultationQuantitySchema);
     } catch (error) {
       throw error;
     }
