@@ -84,9 +84,7 @@
               <button
                 type="button"
                 :class="
-                  loading
-                    ? ' bg-transparent'
-                    : ' bg-primary hover:bg-primary'
+                  loading ? ' bg-transparent' : ' bg-primary hover:bg-primary'
                 "
                 :disabled="loading"
                 @click="handleSubmit"
@@ -149,13 +147,12 @@ async function handleSubmit() {
       .login(username.value, password.value)
       .then(() => {
         toastStatus.value = "success";
-        message.value = "Đăng nhập thành công!";
+        message.value = "Đăng nhập thành côngfffff!";
       })
       .catch((error) => {
         toastStatus.value = "error";
         message.value = error;
       });
-    addToast();
   } catch (e) {
     toastStatus.value = "error";
     message.value = "Tên hoặc mật khẩu không đúng";

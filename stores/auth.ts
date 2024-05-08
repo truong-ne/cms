@@ -52,7 +52,6 @@ export const useAuthStore = defineStore("auth", {
       // );
       // console.log(data.value);
 
-      console.log(useRuntimeConfig().public.baseURL)
       const { data, error } = await useFetch("/common/admin/auth", {
         baseURL: useRuntimeConfig().public.baseURL,
         method: "POST",
@@ -62,8 +61,6 @@ export const useAuthStore = defineStore("auth", {
         }),
       });
 
-      console.log(data)
-
       if (data.value !== null) {
         const message = mask(data.value, DataObjectLoginSchema);
         var response = mask(message.data, AuthenticateSchema);
@@ -71,7 +68,9 @@ export const useAuthStore = defineStore("auth", {
         localStorage.setItem("access_token", this.accessToken);
         window.location.href = "/";
       } else if (error.value != null) {
-        throw error;
+        if (error._object[error._key].data.message == "admin_not_found")
+          throw "Không tìm thấy tài khoản";
+        else throw error._object[error._key].data.code;
       }
     },
     async refreshToken() {

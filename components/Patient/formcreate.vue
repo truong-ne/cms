@@ -72,7 +72,7 @@
                 name="avatar"
                 id="avatar"
                 accept=".png, jpg, jpeg, svg"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-auto"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-auto"
                 required
               />
             </div>
@@ -88,7 +88,7 @@
                 id="fullName"
                 v-model="fullName"
                 v-bind="fullNameAttrs"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5"
                 placeholder="Họ và tên bệnh nhân"
                 required
               />
@@ -105,7 +105,7 @@
                 id="email"
                 v-bind="emailAttrs"
                 v-model="email"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5"
                 placeholder="example@gmail.com"
                 required
               />
@@ -122,7 +122,7 @@
                 id="phone"
                 v-model="phone"
                 v-bind="phoneAttrs"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5"
                 placeholder="+84 "
                 required
               />
@@ -138,7 +138,7 @@
                 id="address"
                 v-model="address"
                 v-bind="addressAttrs"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5"
                 placeholder="Tổ/Thôn/Phường/Xã..."
                 required
               />
@@ -153,7 +153,7 @@
                 v-model="bloodGroup"
                 v-bind="bloodGroupAttrs"
                 id="bloodGroup"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5"
               >
                 <option selected disabled value="">Chọn nhóm máu</option>
                 <option value="A">A</option>
@@ -175,7 +175,7 @@
                 v-model="gender"
                 v-bind="genderAttrs"
                 id="gender"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5"
               >
                 <option selected disabled value="">Chọn giới tính</option>
                 <option value="male">Nam</option>
@@ -197,7 +197,7 @@
                 id="occupation"
                 v-model="occupation"
                 v-bind="occupationAttrs"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5"
                 placeholder="Nhân viên bán hàng"
                 required
               />
@@ -212,7 +212,7 @@
                 v-model="marital"
                 v-bind="maritalAttrs"
                 id="marital"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5"
               >
                 <option selected disabled value="">
                   Chọn tình trạng hôn nhân
@@ -245,7 +245,7 @@
                 id="guardian"
                 v-model="guardian"
                 v-bind="guardianAttrs"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5"
                 placeholder="Họ và tên người giám hộ"
                 required
               />
@@ -262,7 +262,7 @@
                 id="phone-guardian"
                 v-model="phoneGuardian"
                 v-bind="phoneGuardianAttrs"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5"
                 placeholder="+84 "
                 required
               />
@@ -278,7 +278,7 @@
                 id="address-guardian"
                 v-model="addressGuardian"
                 v-bind="addressGuardianAttrs"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5"
                 placeholder="Tổ/Thôn/Phường/Xã..."
                 required
               />

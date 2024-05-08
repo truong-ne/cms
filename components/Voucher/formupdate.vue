@@ -60,7 +60,7 @@
                 v-bind="codeAttrs"
                 class="bg-gray-50 border text-gray-900 text-sm rounded-lg block w-full p-2.5"
                 :class="{
-                  'border-gray-300 focus:border-blue-600 focus:ring-primary-600':
+                  'border-gray-300 focus:border-blue-600 focus:ring-primary':
                     !errors.code,
                   'border-red-300 focus:border-red-600 focus:ring-red-600':
                     errors.code,
@@ -86,7 +86,7 @@
                 v-bind="typeAttrs"
                 id="type"
                 :class="{
-                  'border-gray-300  focus:border-blue-600 focus:ring-primary-500':
+                  'border-gray-300  focus:border-blue-600 focus:ring-primary':
                     !errors.type,
                   'border-red-300  focus:border-red-600 focus:ring-red-500':
                     errors.type,
@@ -118,7 +118,7 @@
                 v-model="value"
                 v-bind="valueAttrs"
                 :class="{
-                  'border-gray-300  focus:border-blue-600 focus:ring-primary-600':
+                  'border-gray-300  focus:border-blue-600 focus:ring-primary':
                     !errors.value,
                   'border-red-300  focus:border-red-600 focus:ring-red-600':
                     errors.value,
@@ -164,7 +164,7 @@
                   id="expirationTime"
                   v-model="expirationTime"
                   v-bind="expirationTimeAttrs"
-                  class="bg-gray-50 ps-10 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                  class="bg-gray-50 ps-10 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5"
                   placeholder="Chọn ngày nhận văn bằng"
                 />
               </div>
@@ -175,7 +175,7 @@
             <button
               type="submit"
               :disabled="isSubmitting"
-              class="flex items-center justify-center text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-4 py-2"
+              class="flex items-center justify-center text-white bg-primary hover:bg-primary focus:ring-4 focus:ring-primary font-medium rounded-lg text-sm px-4 py-2"
             >
               <div role="status" v-if="isSubmitting">
                 <svg

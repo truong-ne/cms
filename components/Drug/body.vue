@@ -57,14 +57,14 @@
               <td class="rounded-r-2xl px-4">
                 <button
                   type="button"
-                  class="flex items-center justify-center w-full md:w-auto text-primary-700 bg-white hover:bg-primary-300 hover:text-primary-900 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-4 py-2 focus:outline-none"
+                  class="flex items-center justify-center w-full md:w-auto text-primary bg-white hover:bg-primary-300 hover:text-primary-900 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-4 py-2 focus:outline-none"
                 >
                   Chỉnh sửa
                 </button>
                 <!-- <button
                   v-show="currentId == patient.id"
                   type="button"
-                  class="flex items-center justify-center w-full md:w-auto text-primary-700 bg-white hover:bg-primary-300 hover:text-primary-900 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-4 py-2 focus:outline-none"
+                  class="flex items-center justify-center w-full md:w-auto text-primary bg-white hover:bg-primary-300 hover:text-primary-900 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-4 py-2 focus:outline-none"
                 >
                   Hồ sơ
                 </button> -->
@@ -145,7 +145,7 @@
             <button
               type="button"
               @click="choosePage(currentPage)"
-              class="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-primary-100 hover:text-primary-700"
+              class="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-primary-100 hover:text-primary"
             >
               {{ currentPage }}
             </button>

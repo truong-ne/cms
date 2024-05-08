@@ -1,6 +1,6 @@
 <template>
   <section>
-    <!-- <DoctorHeader /> -->
+    <DoctorHeader />
     <DoctorBody :doctorStore="doctorStore" />
     <DoctorFormupdate :doctorStore="doctorStore" />
     <!-- <DoctorFormcreate :doctorStore="doctorStore" />
@@ -17,7 +17,7 @@ try {
 }
 
 definePageMeta({
-  // middleware: ["auth"],
+  middleware: ["auth"],
 });
 const header = {
   title: "Bác sĩ",

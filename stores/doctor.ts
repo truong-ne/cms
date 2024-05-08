@@ -40,14 +40,16 @@ export const useDataDoctor = defineStore("doctor", () => {
   async function getQuantityDoctor() {
     try {
       if (authorization === "Bearer ") throw "Không thể xác định danh tính";
-      const { data, error } = await useFetch("doctor-management/doctor/quantity", {
-        baseURL: useRuntimeConfig().public.baseURL,
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: authorization,
-        },
-      }
+      const { data, error } = await useFetch(
+        "doctor-management/doctor/quantity",
+        {
+          baseURL: useRuntimeConfig().public.baseURL,
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: authorization,
+          },
+        }
       );
 
       // if (data.value !== null) {
@@ -89,7 +91,10 @@ export const useDataDoctor = defineStore("doctor", () => {
       // } else {
       //   throw error;
       // }
-      consultationQuantity.value = mask({ quantity: 40, quantityThisMonth: 4 }, ConsultationQuantitySchema);
+      consultationQuantity.value = mask(
+        { quantity: 40, quantityThisMonth: 4 },
+        ConsultationQuantitySchema
+      );
     } catch (error) {
       throw error;
     }
@@ -214,13 +219,48 @@ export const useDataDoctor = defineStore("doctor", () => {
           Authorization: authorization,
         },
         body: JSON.stringify({
-          phone: doctor.phone,
-          email: doctor.email,
           full_name: doctor.full_name,
-          specialty: doctor.specialty,
-          experience: doctor.experience,
-          fee_per_minutes: doctor.fee_per_minutes,
-          fixed_times: [],
+          avatar: doctor.avatar,
+          email: doctor.email,
+          phone: doctor.phone,
+          gender: doctor.gender,
+          dayOfBirth: doctor.dayOfBirth,
+          address: doctor.address,
+          careers: [
+            {
+              medicalInstitute: doctor.careers[0].medicalInstitute,
+              position: doctor.careers[0].position,
+              periodStart: doctor.careers[0].periodStart,
+              periodEnd: doctor.careers[0].periodEnd,
+            },
+          ],
+          specialty: [
+            {
+              specialty: doctor.specialty[0].specialty,
+              levelOfSpecialty: doctor.specialty[0].levelOfSpecialty,
+              image: doctor.specialty[0].image,
+            },
+          ],
+          educationAndCertification: [
+            {
+              typeOfEducationAndExperience:
+                doctor.educationAndCertification[0]
+                  .typeOfEducationAndExperience,
+              degreeOfEducation:
+                doctor.educationAndCertification[0].degreeOfEducation,
+              institution: doctor.educationAndCertification[0].institution,
+              specialtyByDiploma:
+                doctor.educationAndCertification[0].specialtyByDiploma,
+              address: doctor.educationAndCertification[0].address,
+              diplomaNumberAndSeries:
+                doctor.educationAndCertification[0].diplomaNumberAndSeries,
+              dateOfReceiptOfDiploma:
+                doctor.educationAndCertification[0].dateOfReceiptOfDiploma,
+            },
+          ],
+          fixed_times: [[], [], [], [], [], [], []],
+          biography: doctor.biography,
+          is_active: true,
         }),
       });
 
@@ -239,33 +279,32 @@ export const useDataDoctor = defineStore("doctor", () => {
     try {
       if (authorization === "Bearer ") throw "Không thể xác định danh tính";
 
-      const { data, error } = await useFetch(
-        "/doctor-management/doctor/modify",
-        {
-          baseURL: useRuntimeConfig().public.baseURL,
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: authorization,
-          },
-          body: JSON.stringify({
-            doctor_id: doctor.id,
-            phone: doctor.phone,
-            email: doctor.email,
-            full_name: doctor.full_name,
-            specialty: doctor.specialty,
-            experience: doctor.experience,
-            fee_per_minutes: doctor.fee_per_minutes,
-          }),
-        }
-      );
+      // const { data, error } = await useFetch(
+      //   "/doctor-management/doctor/modify",
+      //   {
+      //     baseURL: useRuntimeConfig().public.baseURL,
+      //     method: "PATCH",
+      //     headers: {
+      //       "Content-Type": "application/json",
+      //       Authorization: authorization,
+      //     },
+      //     body: JSON.stringify({
+      //       doctor_id: doctor.id,
+      //       phone: doctor.phone,
+      //       email: doctor.email,
+      //       full_name: doctor.full_name,
+      //       specialty: doctor.specialty,
+      //       fee_per_minutes: doctor.fee_per_minutes,
+      //     }),
+      //   }
+      // );
 
-      if (data.value !== null) {
-      } else {
-        console.log(error);
-        doctors.value = [];
-        throw "Cập nhật tài khoản thất bại";
-      }
+      // if (data.value !== null) {
+      // } else {
+      //   console.log(error);
+      //   doctors.value = [];
+      //   throw "Cập nhật tài khoản thất bại";
+      // }
     } catch (error) {
       throw error;
     }

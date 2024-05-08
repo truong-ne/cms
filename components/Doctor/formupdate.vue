@@ -121,7 +121,7 @@
                   name="avatar"
                   id="avatar"
                   accept=".png, jpg, jpeg, svg"
-                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-auto"
+                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-auto"
                   required
                 />
               </div>
@@ -137,7 +137,7 @@
                   id="fullName"
                   v-model="fullName"
                   v-bind="fullNameAttrs"
-                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5"
                   placeholder="Nhập họ và tên"
                   required
                 />
@@ -174,7 +174,7 @@
                     v-model="dayOfBirth"
                     v-bind="dayOfBirthAttrs"
                     id="dayOfBirth"
-                    class="bg-gray-50 ps-10 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                    class="bg-gray-50 ps-10 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5"
                     placeholder="Chọn ngày sinh"
                   />
                 </div>
@@ -190,7 +190,7 @@
                   id="email"
                   v-bind="emailAttrs"
                   v-model="email"
-                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5"
                   placeholder="Nhập email"
                   required
                 />
@@ -207,7 +207,7 @@
                   id="phone"
                   v-model="phone"
                   v-bind="phoneAttrs"
-                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5"
                   placeholder="Nhập số điện thoại"
                   required
                 />
@@ -223,7 +223,7 @@
                   id="address"
                   v-model="address"
                   v-bind="addressAttrs"
-                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5"
                   placeholder="Nhập địa chỉ thường trú"
                   required
                 />
@@ -239,7 +239,7 @@
                   v-model="gender"
                   v-bind="genderAttrs"
                   id="gender"
-                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5"
                 >
                   <option selected disabled value="">Chọn giới tính</option>
                   <option value="male">Nam</option>
@@ -260,7 +260,7 @@
                   v-model="introduce"
                   v-bind="introduceAttrs"
                   rows="4"
-                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5"
                   placeholder="Nhập tiểu sử"
                   required
                 ></textarea>
@@ -285,7 +285,7 @@
                   v-model="typeOfEdu"
                   v-bind="typeOfEduAttrs"
                   id="typeOfEdu"
-                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5"
                 >
                   <option selected disabled value="">
                     Chọn loại hình giáo dục
@@ -304,7 +304,7 @@
                   v-model="degreeOfEdu"
                   v-bind="degreeOfEduAttrs"
                   id="degreeOfEdu"
-                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5"
                 >
                   <option selected disabled value="">
                     Chọn trình độ học vấn
@@ -324,7 +324,7 @@
                   id="institution"
                   v-model="institution"
                   v-bind="institutionAttrs"
-                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5"
                   placeholder="Nhập tên tổ chức"
                   required
                 />
@@ -339,7 +339,7 @@
                   v-model="specialtyByDiploma"
                   v-bind="specialtyByDiplomaAttrs"
                   id="degreeOfEdu"
-                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5"
                 >
                   <option selected disabled value="">Chọn chuyên ngành</option>
                   <!-- <option value="master">Thạc sĩ</option>
@@ -357,7 +357,7 @@
                   id="addressEdu"
                   v-model="addressEdu"
                   v-bind="addressEduAttrs"
-                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5"
                   placeholder="Nhập địa chỉ"
                   required
                 />
@@ -373,7 +373,7 @@
                   id="diplomaNum"
                   v-model="diplomaNum"
                   v-bind="diplomaNumAttrs"
-                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5"
                   placeholder="Nhập sê-ri văn bằng"
                   required
                 />
@@ -410,7 +410,7 @@
                     v-model="dateOfReceipt"
                     v-bind="dateOfReceiptAttrs"
                     id="dateOfReceipt"
-                    class="bg-gray-50 ps-10 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                    class="bg-gray-50 ps-10 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5"
                     placeholder="Chọn ngày nhận văn bằng"
                   />
                 </div>
@@ -425,7 +425,7 @@
                   name="avatar"
                   id="avatar"
                   accept=".png, jpg, jpeg, svg"
-                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-auto"
+                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-auto"
                   required
                 />
               </div>
@@ -448,7 +448,7 @@
                   v-model="specialty"
                   v-bind="specialtyAttrs"
                   id="specialty"
-                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5"
                 >
                   <option selected disabled value="">Chọn chuyên ngành</option>
                   <!-- <option value="education">Giáo dục</option>
@@ -465,7 +465,7 @@
                   v-model="levelOfSpe"
                   v-bind="levelOfSpeAttrs"
                   id="levelOfSpe"
-                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5"
                 >
                   <option selected disabled value="">Chọn trình độ</option>
                   <option value="high">Cao</option>
@@ -484,7 +484,7 @@
                   name="avatar"
                   id="avatar"
                   accept=".png, jpg, jpeg, svg"
-                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-auto"
+                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-auto"
                   required
                 />
               </div>
@@ -508,7 +508,7 @@
                   id="medicalInstitution"
                   v-model="medicalInstitution"
                   v-bind="medicalInstitutionAttrs"
-                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5"
                   placeholder="Nhập cơ sở y tế"
                   required
                 />
@@ -524,7 +524,7 @@
                   id="position"
                   v-model="position"
                   v-bind="positionAttrs"
-                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5"
                   placeholder="Nhập vị trí"
                   required
                 />

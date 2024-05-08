@@ -20,14 +20,73 @@ export const DoctorSchema = object({
   avatar: any(),
   email: any(),
   phone: any(),
-  specialty: any(),
+  gender: any(),
+  dayOfBirth: any(),
+  address: any(),
+  careers: array(
+    object({
+      id: any(),
+      medicalInstitute: any(),
+      position: any(),
+      periodStart: any(),
+      periodEnd: any(),
+    })
+  ),
+  specialty: array(
+    object({
+      id: any(),
+      specialty: any(),
+      levelOfSpecialty: any(),
+      image: any(),
+    })
+  ),
+  educationAndCertification: array(
+    object({
+      id: any(),
+      typeOfEducationAndExperience: any(),
+      degreeOfEducation: any(),
+      institution: any(),
+      specialtyByDiploma: any(),
+      address: any(),
+      diplomaNumberAndSeries: any(),
+      dateOfReceiptOfDiploma: any(),
+    })
+  ),
+
   fee_per_minutes: any(),
-  experience: any(),
-  ratings: any(),
+  account_balance: number(),
+  ratings: number(),
   number_of_consultation: any(),
-  fixed_times: any(),
+  fixed_times: array(array(number())),
   biography: any(),
-  updated_at: string(),
+  updated_at: any(),
+  is_active: boolean(),
+});
+
+export const CareerSchema = object({
+  id: any(),
+  medicalInstitute: any(),
+  position: any(),
+  periodStart: any(),
+  periodEnd: any(),
+});
+
+export const SpecialtySchema = object({
+  id: any(),
+  specialty: any(),
+  levelOfSpecialty: any(),
+  image: any(),
+});
+
+export const EducationAndCertificationSchema = object({
+  id: any(),
+  typeOfEducationAndExperience: any(),
+  degreeOfEducation: any(),
+  institution: any(),
+  specialtyByDiploma: any(),
+  address: any(),
+  diplomaNumberAndSeries: any(),
+  dateOfReceiptOfDiploma: any(),
 });
 
 export const PatientConsultationSchema = object({
@@ -65,6 +124,11 @@ export const MoneyMonthSchema = object({
 });
 
 export type Doctor = Infer<typeof DoctorSchema>;
+export type Career = Infer<typeof CareerSchema>;
+export type Specialty = Infer<typeof SpecialtySchema>;
+export type EducationAndCertification = Infer<
+  typeof EducationAndCertificationSchema
+>;
 export type PatientConsultation = Infer<typeof PatientConsultationSchema>;
 export type DoctorQuantity = Infer<typeof DoctorQuantitySchema>;
 export type ConsultationQuantity = Infer<typeof ConsultationQuantitySchema>;

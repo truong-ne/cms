@@ -30,7 +30,7 @@
           >
             <div class="flex justify-between items-center mb-5 text-gray-500">
               <span
-                class="bg-primary-100 text-primary-800 text-xs font-medium inline-flex items-center px-2.5 py-0.5 rounded"
+                class="bg-white text-primary text-xs font-medium inline-flex items-center px-2.5 py-0.5 rounded"
               >
                 <svg
                   class="mr-1 w-3 h-3"
@@ -62,7 +62,7 @@
             <div class="flex justify-between items-center">
               <a
                 :href="route.path + '/' + blog._id"
-                class="px-3 py-2 rounded-lg inline-flex items-center font-medium text-primary-600 hover:underline"
+                class="px-3 py-2 rounded-lg inline-flex items-center font-medium text-primary hover:underline"
               >
                 Xem thêm
                 <svg
@@ -152,7 +152,7 @@
             <button
               type="button"
               @click="choosePage(currentPage)"
-              class="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-primary-100 border border-gray-300 hover:bg-primary-100 hover:text-primary-700"
+              class="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-white hover:text-primary-700"
             >
               {{ currentPage }}
             </button>

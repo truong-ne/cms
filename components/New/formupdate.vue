@@ -58,12 +58,12 @@
                 id="image"
                 accept=".png, .jpg, .jpeg, .svg"
                 :class="{
-                  'border-gray-300 focus:border-blue-600 focus:ring-primary-600':
+                  'border-gray-300 focus:border-blue-600 focus:ring-primary':
                     !errorImage,
                   'border-red-300 focus:border-red-600 focus:ring-red-600':
                     errorImage,
                 }"
-                class="bg-gray-50 border text-gray-900 text-sm rounded-lg block w-full px-2.5 border-gray-300 focus:border-blue-600 focus:ring-primary-600"
+                class="bg-gray-50 border text-gray-900 text-sm rounded-lg block w-full px-2.5 border-gray-300 focus:border-blue-600 focus:ring-primary"
                 v-on:change="uploadImage"
               />
               <span for="tag" class="text-xs text-red-500">
@@ -87,7 +87,7 @@
                 v-bind="title"
                 class="bg-gray-50 border text-gray-900 text-sm rounded-lg block w-full p-2.5"
                 :class="{
-                  'border-gray-300 focus:border-blue-600 focus:ring-primary-600':
+                  'border-gray-300 focus:border-blue-600 focus:ring-primary':
                     !errors.title,
                   'border-red-300 focus:border-red-600 focus:ring-red-600':
                     errors.title,
@@ -117,7 +117,7 @@
                 v-bind="content"
                 class="resize-none bg-gray-50 border text-gray-900 text-sm rounded-lg block w-full p-2.5"
                 :class="{
-                  'border-gray-300 focus:border-blue-600 focus:ring-primary-600':
+                  'border-gray-300 focus:border-blue-600 focus:ring-primary':
                     !errors.content,
                   'border-red-300 focus:border-red-600 focus:ring-red-600':
                     errors.content,
@@ -134,7 +134,7 @@
             <button
               type="submit"
               :disabled="isSubmitting"
-              class="flex items-center justify-center text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-4 py-2"
+              class="flex items-center justify-center text-white bg-primary hover:bg-primary focus:ring-4 focus:ring-primary font-medium rounded-lg text-sm px-4 py-2"
             >
               <div role="status" v-if="isSubmitting">
                 <svg

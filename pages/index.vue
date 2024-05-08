@@ -11,6 +11,6 @@
 const doctorStore = useDataDoctor();
 const medicalStore = useDataMedicalRecord();
 definePageMeta({
-  // middleware: ["auth"],
+  middleware: ["auth"],
 });
 </script>

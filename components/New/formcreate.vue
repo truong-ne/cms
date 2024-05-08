@@ -43,7 +43,7 @@
               <label
                 for="image"
                 :class="{
-                  'text-gray-500  peer-focus:text-blue-600 ': !errorImage,
+                  'text-gray-500  peer-focus:text-primary ': !errorImage,
                   'text-red-500 peer-focus:text-red-600 ': errorImage,
                 }"
                 class="block mb-2 text-sm font-medium text-gray-900"
@@ -54,12 +54,12 @@
                 id="image"
                 accept=".png, .jpg, .jpeg, .svg"
                 :class="{
-                  'border-gray-300 focus:border-blue-600 focus:ring-primary-600':
+                  'border-gray-300 focus:border-primary focus:ring-primary':
                     !errorImage,
                   'border-red-300 focus:border-red-600 focus:ring-red-600':
                     errorImage,
                 }"
-                class="bg-gray-50 border text-gray-900 text-sm rounded-lg block w-full px-2.5 border-gray-300 focus:border-blue-600 focus:ring-primary-600"
+                class="bg-gray-50 border text-gray-900 text-sm rounded-lg block w-full px-2.5 border-gray-300 focus:border-primary focus:ring-primary"
                 v-on:change="uploadImage"
               />
               <span for="tag" class="text-xs text-red-500">
@@ -70,7 +70,7 @@
               <label
                 for="title"
                 :class="{
-                  'text-gray-500  peer-focus:text-blue-600 ': !errors.title,
+                  'text-gray-500  peer-focus:text-primary ': !errors.title,
                   'text-red-500 peer-focus:text-red-600 ': errors.title,
                 }"
                 class="block mb-2 text-sm font-medium text-gray-900"
@@ -83,7 +83,7 @@
                 v-bind="title"
                 class="bg-gray-50 border text-gray-900 text-sm rounded-lg block w-full p-2.5"
                 :class="{
-                  'border-gray-300 focus:border-blue-600 focus:ring-primary-600':
+                  'border-gray-300 focus:border-primary focus:ring-primary':
                     !errors.title,
                   'border-red-300 focus:border-red-600 focus:ring-red-600':
                     errors.title,
@@ -99,7 +99,7 @@
               <label
                 for="content"
                 :class="{
-                  'text-gray-500  peer-focus:text-blue-600 ': !errors.content,
+                  'text-gray-500  peer-focus:text-primary ': !errors.content,
                   'text-red-500 peer-focus:text-red-600 ': errors.content,
                 }"
                 class="block mb-2 text-sm font-medium text-gray-900"
@@ -113,7 +113,7 @@
                 v-bind="content"
                 class="resize-none bg-gray-50 border text-gray-900 text-sm rounded-lg block w-full p-2.5"
                 :class="{
-                  'border-gray-300 focus:border-blue-600 focus:ring-primary-600':
+                  'border-gray-300 focus:border-primary focus:ring-primary':
                     !errors.content,
                   'border-red-300 focus:border-red-600 focus:ring-red-600':
                     errors.content,
@@ -130,12 +130,12 @@
             <button
               type="submit"
               :disabled="isSubmitting"
-              class="flex items-center justify-center text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-4 py-2"
+              class="flex items-center justify-center text-white bg-primary hover:bg-primary focus:ring-4 focus:ring-primary font-medium rounded-lg text-sm px-4 py-2"
             >
               <div role="status" v-if="isSubmitting">
                 <svg
                   aria-hidden="true"
-                  class="w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
+                  class="w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-primary"
                   viewBox="0 0 100 101"
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"

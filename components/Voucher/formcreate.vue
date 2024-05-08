@@ -31,7 +31,7 @@
               }" class="block mb-2 text-sm font-medium text-gray-900">Mã giảm giá</label>
               <input type="text" name="code" id="code" v-model="code" v-bind="codeAttrs"
                 class="bg-gray-50 border text-gray-900 text-sm rounded-lg block w-full p-2.5" :class="{
-                  'border-gray-300 focus:border-blue-600 focus:ring-primary-600':
+                  'border-gray-300 focus:border-blue-600 focus:ring-primary':
                     !errors.code,
                   'border-red-300 focus:border-red-600 focus:ring-red-600':
                     errors.code,
@@ -45,7 +45,7 @@
                 'text-red-500 peer-focus:text-red-600 ': errors.type,
               }" class="block mb-2 text-sm font-medium text-gray-900">Loại</label>
               <select v-model="type" v-bind="typeAttrs" id="type" :class="{
-                'border-gray-300  focus:border-blue-600 focus:ring-primary-500':
+                'border-gray-300  focus:border-blue-600 focus:ring-primary':
                   !errors.type,
                 'border-red-300  focus:border-red-600 focus:ring-red-500':
                   errors.type,
@@ -64,7 +64,7 @@
                 'text-red-500 peer-focus:text-red-600 ': errors.value,
               }" class="block mb-2 text-sm font-medium text-gray-900">Giá trị</label><input type="number" name="value"
                 id="value" v-model="value" v-bind="valueAttrs" :class="{
-                  'border-gray-300  focus:border-blue-600 focus:ring-primary-600':
+                  'border-gray-300  focus:border-blue-600 focus:ring-primary':
                     !errors.value,
                   'border-red-300  focus:border-red-600 focus:ring-red-600':
                     errors.value,
@@ -88,7 +88,7 @@
                 </div>
                 <input datepicker datepicker-autohide datepicker-format="dd/mm/yyyy" name="date" type="text" required
                   id="expirationTime" v-model="expirationTime" v-bind="expirationTimeAttrs"
-                  class="bg-gray-50 ps-10 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                  class="bg-gray-50 ps-10 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5"
                   placeholder="Chọn ngày nhận văn bằng" />
               </div>
             </div>

@@ -68,7 +68,7 @@
             design trend.
           </div>
           <div
-            class="text-xs font-medium text-primary-600 dark:text-primary-500"
+            class="text-xs font-medium text-primary"
           >
             3 hours ago
           </div>

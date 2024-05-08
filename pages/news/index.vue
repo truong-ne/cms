@@ -33,6 +33,6 @@ onMounted(async () => {
 });
 blogStore.getAllBlog();
 definePageMeta({
-  // middleware: ["auth"],
+  middleware: ["auth"],
 });
 </script>

@@ -1,31 +1,6 @@
 <template>
   <!-- Header -->
-  <div class="flex justify-between w-full">
-    <form class="w-96">
-      <div class="relative">
-        <div class="absolute inset-y-0 start-0 flex items-center ps-6 pointer-events-none">
-          <svg class="w-4 h-4 text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-            viewBox="0 0 20 20">
-            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-              d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
-          </svg>
-        </div>
-        <input type="search" id="default-search-doctor"
-          class="block w-full p-4 ps-12 text-sm font-semibold text-gray-900 border-0 focus:ring-0 rounded-2xl bg-white"
-          placeholder="Tìm kiếm bác sĩ" v-model="keySearch" @input="meilisearch" required />
-      </div>
-    </form>
-    <div class="flex gap-4">
-      <button type="button"
-        class="text-white inline-flex bg-primary items-center justify-center hover:bg-primary/80 focus:ring-0 font-medium rounded-xl text-sm px-5 py-2.5 text-center w-full sm:w-auto">
-        + Thêm bác sĩ
-      </button>
-      <button type="button"
-        class="text-white inline-flex bg-red-600 items-center justify-center hover:bg-red-500 focus:ring-0 font-medium rounded-xl text-sm px-5 py-2.5 text-center w-full sm:w-auto">
-        - Xoá
-      </button>
-    </div>
-  </div>
+  
   <!-- Body -->
   <section class="w-full md:mb-4">
     <div class="relative overflow-hidden rounded-2xl bg-white w-full mt-8 p-8">
@@ -63,7 +38,7 @@
                     d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
                 </svg>
               </div>
-              <div v-for="s in doctor.specialty">
+              <div v-for="s in doctor.specialty" :key="s">
                 <div class="text-xs font-light text-gray-500 mt-3">
                   {{ s.specialty.toUpperCase() }}
                 </div>
@@ -132,7 +107,7 @@
           </li>
           <li>
             <button type="button" @click="choosePage(currentPage)"
-              class="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-primary-100 border border-gray-300 hover:bg-primary-100 hover:text-primary-700">
+              class="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 ">
               {{ currentPage }}
             </button>
           </li>

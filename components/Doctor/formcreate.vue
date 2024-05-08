@@ -4,7 +4,7 @@
       <div class="text-lg text-black font-extrabold py-5 px-4">
         Thêm hồ sơ bác sĩ
       </div>
-      <form action="#">
+      <form action="#" @submit.prevent="onSubmit">
         <div class="mb-4 border-b border-gray-200">
           <ul
             class="flex flex-unwrap justify-start -mb-px text-sm font-medium text-center"
@@ -84,8 +84,9 @@
                 type="file"
                 name="avatar"
                 id="avatar"
-                accept=".png, jpg, jpeg, svg"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-auto"
+                @change="onAvatarChange"
+                accept=".png, .jpg, .jpeg, .JPG"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-auto"
                 required
               />
             </div>
@@ -101,7 +102,7 @@
                 id="fullName"
                 v-model="fullName"
                 v-bind="fullNameAttrs"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5"
                 placeholder="Nhập họ và tên"
                 required
               />
@@ -130,15 +131,13 @@
                 </div>
                 <input
                   datepicker
-                  datepicker-autohide
-                  datepicker-format="dd/mm/yyyy"
-                  name="date"
                   type="text"
-                  required
                   v-model="dayOfBirth"
                   v-bind="dayOfBirthAttrs"
-                  id="dayOfBirth"
-                  class="bg-gray-50 ps-10 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                  id="dayOfBirthId"
+                  name="dayOfBirth"
+                  required
+                  class="bg-gray-50 ps-10 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5"
                   placeholder="Chọn ngày sinh"
                 />
               </div>
@@ -154,7 +153,7 @@
                 id="email"
                 v-bind="emailAttrs"
                 v-model="email"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5"
                 placeholder="Nhập email"
                 required
               />
@@ -171,7 +170,7 @@
                 id="phone"
                 v-model="phone"
                 v-bind="phoneAttrs"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5"
                 placeholder="Nhập số điện thoại"
                 required
               />
@@ -187,7 +186,7 @@
                 id="address"
                 v-model="address"
                 v-bind="addressAttrs"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5"
                 placeholder="Nhập địa chỉ thường trú"
                 required
               />
@@ -203,7 +202,7 @@
                 v-model="gender"
                 v-bind="genderAttrs"
                 id="gender"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5"
               >
                 <option selected disabled value="">Chọn giới tính</option>
                 <option value="male">Nam</option>
@@ -224,7 +223,7 @@
                 v-model="introduce"
                 v-bind="introduceAttrs"
                 rows="4"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5"
                 placeholder="Nhập tiểu sử"
                 required
               ></textarea>
@@ -249,7 +248,8 @@
                 v-model="typeOfEdu"
                 v-bind="typeOfEduAttrs"
                 id="typeOfEdu"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                required
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5"
               >
                 <option selected disabled value="">
                   Chọn loại hình giáo dục
@@ -268,7 +268,8 @@
                 v-model="degreeOfEdu"
                 v-bind="degreeOfEduAttrs"
                 id="degreeOfEdu"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                required
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5"
               >
                 <option selected disabled value="">
                   Chọn trình độ học vấn
@@ -288,7 +289,7 @@
                 id="institution"
                 v-model="institution"
                 v-bind="institutionAttrs"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5"
                 placeholder="Nhập tên tổ chức"
                 required
               />
@@ -300,14 +301,22 @@
                 >Chuyên ngành theo văn bằng</label
               >
               <select
+                name="specialtyByDiploma"
+                required
                 v-model="specialtyByDiploma"
                 v-bind="specialtyByDiplomaAttrs"
-                id="degreeOfEdu"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                id="specialtyByDiploma"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5"
               >
                 <option selected disabled value="">Chọn chuyên ngành</option>
-                <!-- <option value="master">Thạc sĩ</option>
-                <option value="doctor">Tiến sĩ</option> -->
+                <option
+                  v-for="specialty in mapSpecialty"
+                  :key="specialty.key"
+                  :value="specialty.key"
+                >
+                  {{ specialty.value }}
+                </option>
+                <!-- <option value="doctor">Tiến sĩ</option> -->
               </select>
             </div>
             <div class="col-span-2">
@@ -321,7 +330,7 @@
                 id="addressEdu"
                 v-model="addressEdu"
                 v-bind="addressEduAttrs"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5"
                 placeholder="Nhập địa chỉ"
                 required
               />
@@ -337,7 +346,7 @@
                 id="diplomaNum"
                 v-model="diplomaNum"
                 v-bind="diplomaNumAttrs"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5"
                 placeholder="Nhập sê-ri văn bằng"
                 required
               />
@@ -366,30 +375,29 @@
                 </div>
                 <input
                   datepicker
-                  datepicker-autohide
-                  datepicker-format="dd/mm/yyyy"
-                  name="date"
+                  name="dateOfReceipt"
                   type="text"
                   required
                   v-model="dateOfReceipt"
                   v-bind="dateOfReceiptAttrs"
-                  id="dateOfReceipt"
-                  class="bg-gray-50 ps-10 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                  id="dateOfReceiptId"
+                  class="bg-gray-50 ps-10 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5"
                   placeholder="Chọn ngày nhận văn bằng"
                 />
               </div>
             </div>
             <div class="col-span-4">
               <label
-                for="avatar"
+                for="eduAndExpImg"
                 class="block mb-2 text-sm font-medium text-gray-900"
                 >Ảnh</label
               ><input
                 type="file"
-                name="avatar"
-                id="avatar"
-                accept=".png, jpg, jpeg, svg"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-auto"
+                name="eduAndExpImg"
+                id="eduAndExpImg"
+                @change="onEduChange"
+                accept=".png, jpg, jpeg, .svg"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-auto"
                 required
               />
             </div>
@@ -410,11 +418,19 @@
               >
               <select
                 v-model="specialty"
+                required
                 v-bind="specialtyAttrs"
                 id="specialty"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5"
               >
-                <option selected disabled value="">Chọn chuyên ngành</option>
+                <option selected disabled value="">Chọn Chuyên ngành</option>
+                <option
+                  v-for="specialty in mapSpecialty"
+                  :key="specialty.key"
+                  :value="specialty.key"
+                >
+                  {{ specialty.value }}
+                </option>
                 <!-- <option value="education">Giáo dục</option>
                 <option value="experience">Kinh nghiệm</option> -->
               </select>
@@ -428,8 +444,9 @@
               <select
                 v-model="levelOfSpe"
                 v-bind="levelOfSpeAttrs"
+                required
                 id="levelOfSpe"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5"
               >
                 <option selected disabled value="">Chọn trình độ</option>
                 <option value="high">Cao</option>
@@ -440,15 +457,16 @@
 
             <div class="col-span-2">
               <label
-                for="avatar"
+                for="specialtyImg"
                 class="block mb-2 text-sm font-medium text-gray-900"
                 >Ảnh</label
               ><input
                 type="file"
-                name="avatar"
-                id="avatar"
-                accept=".png, jpg, jpeg, svg"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-auto"
+                name="specialtyImg"
+                id="specialtyImg"
+                @change="onSpeChange"
+                accept=".png, .jpg, .jpeg, .svg"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-auto"
                 required
               />
             </div>
@@ -472,7 +490,7 @@
                 id="medicalInstitution"
                 v-model="medicalInstitution"
                 v-bind="medicalInstitutionAttrs"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5"
                 placeholder="Nhập cơ sở y tế"
                 required
               />
@@ -488,13 +506,13 @@
                 id="position"
                 v-model="position"
                 v-bind="positionAttrs"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5"
                 placeholder="Nhập vị trí"
                 required
               />
             </div>
 
-            <div date-rangepicker id="datePeriod" class="col-span-6">
+            <div date-rangepicker id="datePeriodId" class="col-span-6">
               <label
                 for="period"
                 class="block mb-2 text-sm font-medium text-gray-900"
@@ -519,8 +537,12 @@
                   </div>
                   <input
                     name="periodStart"
+                    id="periodStartId"
+                    v-model="periodStart"
+                    v-bind="periodStartAttrs"
                     type="text"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    required
                     placeholder="Chọn thời gian bắt đầu"
                   />
                 </div>
@@ -544,55 +566,59 @@
                   <input
                     name="periodEnd"
                     type="text"
+                    id="periodEndId"
+                    v-model="periodEnd"
+                    v-bind="periodEndAttrs"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    required
                     placeholder="Chọn thời gian kết thúc"
                   />
                 </div>
               </div>
             </div>
           </div>
-        </div>
-        <div class="w-full flex items-center justify-center">
-          <button
-            type="submit"
-            :disabled="isSubmitting"
-            class="flex items-center justify-center text-white bg-primary hover:bg-primary/80 focus:ring-0 font-medium rounded-xl text-sm px-4 py-2.5"
-          >
-            <div role="status" v-if="isSubmitting">
-              <svg
-                aria-hidden="true"
-                class="w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
-                viewBox="0 0 100 101"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
-                  fill="currentColor"
-                />
-                <path
-                  d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
-                  fill="currentFill"
-                />
-              </svg>
-              <span class="sr-only">Loading...</span>
-            </div>
+          <div class="w-full flex items-center justify-center">
+            <button
+              type="submit"
+              :disabled="isSubmitting"
+              class="flex items-center justify-center text-white bg-primary hover:bg-primary/80 focus:ring-0 font-medium rounded-xl text-sm px-4 py-2.5"
+            >
+              <div role="status" v-if="isSubmitting">
+                <svg
+                  aria-hidden="true"
+                  class="w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
+                  viewBox="0 0 100 101"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
+                    fill="currentColor"
+                  />
+                  <path
+                    d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
+                    fill="currentFill"
+                  />
+                </svg>
+                <span class="sr-only">Loading...</span>
+              </div>
 
-            <span v-else class="flex items-center">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="h-3.5 w-3.5 mr-2"
-                fill="currentColor"
-                aria-hidden="true"
-                viewBox="0 0 448 512"
-              >
-                <path
-                  d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32v144H48c-17.7 0-32 14.3-32 32s14.3 32 32 32h144v144c0 17.7 14.3 32 32 32s32-14.3 32-32V288h144c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z"
-                />
-              </svg>
-              Thêm
-            </span>
-          </button>
+              <span v-else class="flex items-center">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-3.5 w-3.5 mr-2"
+                  fill="currentColor"
+                  aria-hidden="true"
+                  viewBox="0 0 448 512"
+                >
+                  <path
+                    d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32v144H48c-17.7 0-32 14.3-32 32s14.3 32 32 32h144v144c0 17.7 14.3 32 32 32s32-14.3 32-32V288h144c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z"
+                  />
+                </svg>
+                Thêm
+              </span>
+            </button>
+          </div>
         </div>
       </form>
     </div>
@@ -605,10 +631,12 @@ import { useForm } from "vee-validate";
 import Datepicker from "flowbite-datepicker/Datepicker";
 import DateRangePicker from "flowbite-datepicker/DateRangePicker";
 
-// const mapSpecialty = Object.entries(Specialty).map(([key, value]) => ({
-//   key: key,
-//   value: value,
-// }));
+const mapSpecialty = Object.entries(Specialty).map(([key, value]) => ({
+  key: key,
+  value: value,
+}));
+
+const doctorStore = useDataDoctor();
 
 const storeToast = toastStore();
 const toastStatus = ref("");
@@ -642,18 +670,17 @@ const { defineField, resetForm, isSubmitting, handleSubmit, errors } = useForm({
       )
       .required("Số điện thoại không hợp lệ"),
     gender: yup.string().trim().required("Giới tính không hợp lệ"),
-    dayOfBirth: yup
-      .date()
-      .nullable()
-      .transform((curr, orig) => (orig === "" ? null : curr))
-      .required()
-      .min(new Date(1900), "Date cannot be this early")
-      .max(new Date(), "Date too much in the future")
-      .test(
-        "format",
-        "Date is invalid",
-        (date) => (date?.getFullYear() ?? 0) > new Date().getFullYear()
-      ),
+    // dayOfBirth: yup
+    //   .date()
+    //   .nullable()
+    //   .transform((curr: any, orig: any) => (orig === "" ? null : curr))
+    //   .required()
+    //   .min(new Date(1900), "Không hợp lệ")
+    //   .test(
+    //     "format",
+    //     "Không hợp lệ",
+    //     (date: Date) => (date?.getFullYear() ?? 0) > new Date().getFullYear()
+    //   ),
   }),
   initialValues: {
     fullName: "",
@@ -674,10 +701,12 @@ const { defineField, resetForm, isSubmitting, handleSubmit, errors } = useForm({
     levelOfSpe: "",
     medicalInstitution: "",
     position: "",
+    periodEnd: "",
+    periodStart: "",
   },
 });
 
-resetForm();
+// resetForm();
 const [fullName, fullNameAttrs] = defineField("fullName", {
   validateOnInput: true,
 });
@@ -693,7 +722,7 @@ const [gender, genderAttrs] = defineField("gender", {
 const [address, addressAttrs] = defineField("address", {});
 const [introduce, introduceAttrs] = defineField("introduce", {});
 const [dayOfBirth, dayOfBirthAttrs] = defineField("dayOfBirth", {
-  validateOnInput: true,
+  // validateOnInput: true,
 });
 const [typeOfEdu, typeOfEduAttrs] = defineField("typeOfEdu", {
   validateOnInput: true,
@@ -732,34 +761,105 @@ const [medicalInstitution, medicalInstitutionAttrs] = defineField(
     validateOnInput: true,
   }
 );
+const [periodStart, periodStartAttrs] = defineField("periodStart", {});
+const [periodEnd, periodEndAttrs] = defineField("periodEnd", {});
 
-// const onSubmit = handleSubmit(async (values) => {
-// const doctor: Doctor = {
-//   full_name: values.fullName,
-//   specialty: values.specialty,
-//   email: values.email,
-//   phone: values.phone,
-//   experience: values.experience,
-//   fee_per_minutes: values.feePerMinute,
-//   updated_at: "",
-// };
-// clearNuxtData();
-// await doctorStore
-//   .createDoctor(doctor)
-//   .then(() => {
-//     toastStatus.value = "success";
-//     message.value = "Thêm thành công";
-//     addToast();
-//   })
-//   .catch((e: string) => {
-//     toastStatus.value = "error";
-//     message.value = e;
-//     addToast();
-//   });
-// });
+const avatar = ref();
+const eduImg = ref();
+const speImg = ref();
+
+function onAvatarChange(e: any) {
+  var files = e.target.files || e.dataTransfer.files;
+  if (files == null) return;
+  avatar.value = files[0];
+  // this.file = files[0]
+  // this.createImage(this.file);
+}
+function onEduChange(e: any) {
+  var files = e.target.files || e.dataTransfer.files;
+  if (files == null) return;
+  eduImg.value = files[0];
+  // this.file = files[0]
+  // this.createImage(this.file);
+}
+function onSpeChange(e: any) {
+  var files = e.target.files || e.dataTransfer.files;
+  if (files == null) return;
+  speImg.value = files[0];
+  // this.file = files[0]
+  // this.createImage(this.file);
+}
+
+const onSubmit = handleSubmit(async (values: any) => {
+  const doctor: Doctor = {
+    avatar: avatar.value,
+    full_name: values.fullName,
+    email: values.email,
+    phone: values.phone,
+    gender: values.gender == "male",
+    dayOfBirth: values.dayOfBirth,
+    address: values.address,
+    fee_per_minutes: values.feePerMinute,
+    biography: values.introduce,
+    careers: [
+      {
+        medicalInstitute: values.medicalInstitution,
+        position: values.position,
+        periodStart: values.periodStart,
+        periodEnd: values.periodEnd,
+      },
+    ],
+    specialty: [
+      {
+        specialty: values.specialty,
+        levelOfSpecialty: values.levelOfSpe,
+        image: avatar.value,
+      },
+    ],
+    account_balance: 0,
+    ratings: 0,
+    fixed_times: [[], [], [], [], [], [], []],
+    updated_at: "",
+    is_active: true,
+    educationAndCertification: [
+      {
+        typeOfEducationAndExperience: values.typeOfEdu,
+        degreeOfEducation: values.degreeOfEdu,
+        institution: values.institution,
+        specialtyByDiploma: values.specialtyByDiploma,
+        address: values.addressEdu,
+        diplomaNumberAndSeries: values.diplomaNum,
+        dateOfReceiptOfDiploma: values.dateOfReceiptOfDiploma,
+      },
+    ],
+  };
+  console.log(doctor);
+  clearNuxtData();
+  await doctorStore
+    .createDoctor(doctor)
+    .then(() => {
+      toastStatus.value = "success";
+      message.value = "Thêm thành công";
+      addToast();
+    })
+    .catch((e: string) => {
+      toastStatus.value = "error";
+      message.value = e;
+      addToast();
+    });
+});
+
+function getFormattedDate(date: Date) {
+  let year = date.getFullYear();
+  let month = (1 + date.getMonth()).toString().padStart(2, "0");
+  let day = date.getDate().toString().padStart(2, "0");
+
+  return day + "/" + month + "/" + year;
+}
+
 onMounted(() => {
-  const dayOfBirth = document.getElementById("dayOfBirth");
-  new Datepicker(dayOfBirth, {
+  const dayOfBirthEF = document.getElementById("dayOfBirthId");
+  new Datepicker(dayOfBirthEF, {
     todayHighlight: true,
     autohide: true,
     format: "dd/mm/yyyy",
@@ -768,15 +868,39 @@ onMounted(() => {
     maxDate: new Date(),
     minDate: new Date(1900),
   });
-  const dateOfReceipt = document.getElementById("datePeriod");
-  new DateRangePicker(dateOfReceipt, {
+  dayOfBirthEF?.addEventListener("changeDate", (e) => {
+    dayOfBirth.value = getFormattedDate(new Date(e.detail.date));
+  });
+
+  const dateOfReceiptEF = document.getElementById("dateOfReceiptId");
+  new Datepicker(dateOfReceiptEF, {
     todayHighlight: true,
     autohide: true,
     format: "dd/mm/yyyy",
     language: "vi",
     defaultDate: false,
-    maxDate: new Date(),
     minDate: new Date(1900),
   });
+  dateOfReceiptEF?.addEventListener("changeDate", (e) => {
+    dateOfReceipt.value = getFormattedDate(new Date(e.detail.date));
+  });
+  const datePeriodEF = document.getElementById("datePeriodId");
+  new DateRangePicker(datePeriodEF, {
+    todayHighlight: true,
+    autohide: true,
+    format: "dd/mm/yyyy",
+    language: "vi",
+    defaultDate: false,
+    minDate: new Date(1900),
+  });
+  const datePeriodStartEF = document.getElementById("periodStartId");
+  datePeriodStartEF?.addEventListener("changeDate", (e) => {
+    periodStart.value = getFormattedDate(new Date(e.detail.date));
+  });
+  const datePeriodEndEF = document.getElementById("periodEndId");
+  datePeriodEndEF?.addEventListener("changeDate", (e) => {
+    periodEnd.value = getFormattedDate(new Date(e.detail.date));
+  });
+  resetForm();
 });
 </script>

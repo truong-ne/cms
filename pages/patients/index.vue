@@ -16,7 +16,7 @@ const medicalStore = useDataMedicalRecord();
 // await medicalStore.getQuantityMedical();
 
 definePageMeta({
-  // middleware: ["auth"],
+  middleware: ["auth"],
 });
 
 const header = ref({
