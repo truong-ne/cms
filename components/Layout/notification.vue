@@ -15,7 +15,7 @@
     >
     </lord-icon>
     <div
-      class="absolute inline-flex items-center justify-center w-5 md:w-6 h-5 md:h-6 text-[8px] md:text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full -top-1 md:-top-2 -end-1 md:-end-2 dark:border-gray-900"
+      class="absolute inline-flex items-center justify-center w-5 md:w-6 h-5 md:h-6 text-[8px] md:text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full -top-1 md:-top-2 -end-1 md:-end-2 "
     >
       20
     </div>
@@ -33,7 +33,7 @@
     <div>
       <a
         href="#"
-        class="flex py-3 px-4 hover:bg-gray-100 dark:hover:bg-gray-600"
+        class="flex py-3 px-4 hover:bg-gray-100 "
       >
         <div class="flex-shrink-0">
           <img
@@ -42,7 +42,7 @@
             alt="Robert image"
           />
           <div
-            class="flex absolute justify-center items-center ml-6 -mt-5 w-5 h-5 bg-purple-500 rounded-full border border-white dark:border-gray-700"
+            class="flex absolute justify-center items-center ml-6 -mt-5 w-5 h-5 bg-purple-500 rounded-full border border-white "
           >
             <svg
               aria-hidden="true"
@@ -59,9 +59,9 @@
         </div>
         <div class="pl-3 w-full">
           <div
-            class="text-gray-500 font-normal text-sm mb-1.5 dark:text-gray-400"
+            class="text-gray-500 font-normal text-sm mb-1.5 "
           >
-            <span class="font-semibold text-gray-900 dark:text-white"
+            <span class="font-semibold text-gray-900 "
               >Robert Brown</span
             >
             posted a new video: Glassmorphism - learn how to implement the new
@@ -77,12 +77,12 @@
     </div>
     <a
       href="#"
-      class="block py-2 text-md font-medium text-center text-gray-900 bg-gray-50 hover:bg-gray-100 dark:bg-gray-600 dark:text-white dark:hover:underline"
+      class="block py-2 text-md font-medium text-center text-gray-900 bg-gray-50 hover:bg-gray-100   "
     >
       <div class="inline-flex items-center">
         <svg
           aria-hidden="true"
-          class="mr-2 w-4 h-4 text-gray-500 dark:text-gray-400"
+          class="mr-2 w-4 h-4 text-gray-500 "
           fill="currentColor"
           viewBox="0 0 20 20"
           xmlns="http://www.w3.org/2000/svg"

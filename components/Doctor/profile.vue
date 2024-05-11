@@ -45,9 +45,10 @@
             <span class="text-sm font-thin"
               >Số dư: {{ mainAccount.account_balance ?? 0 }} ₫</span
             >
-            <span class="text-sm font-normal">{{
-              mainAccount.specialty.toUpperCase()
-            }}</span>
+            <!-- <span class="text-sm font-normal">{{
+              // mainAccount.specialty.toUpperCase()
+              mainAccount
+            }}</span> -->
           </div>
         </div>
 
@@ -121,10 +122,12 @@
             role="tabpanel"
             aria-labelledby="biography-tab"
           >
-            <div class="flex flex-col gap-2">
+            <div class="flex flex-col gap-2" v-if="mainAccount">
               <div class="grid grid-cols-2 gap-2">
                 <span>Ngày sinh</span>
-                <span class="text-gray-900">8/5/2002</span>
+                <span class="text-gray-900">{{
+                  mainAccount.dayOfBirth ?? "Chưa xác định"
+                }}</span>
               </div>
               <div class="grid grid-cols-2 gap-2">
                 <span>Tuổi</span>
@@ -132,17 +135,15 @@
               </div>
               <div class="grid grid-cols-2 gap-2">
                 <span>Giới tính</span>
-                <span class="text-gray-900">Nam</span>
+                <span class="text-gray-900">{{
+                  mainAccount.gender == true ? "Name" : "Nữ"
+                }}</span>
               </div>
               <div class="grid grid-cols-2 gap-2">
                 <span>Địa chỉ</span>
-                <span class="text-gray-900"
-                  >Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Alias quibusdam autem magni! Voluptatem autem perspiciatis
-                  quidem cum iure reprehenderit tempora debitis nam rem
-                  quisquam? Optio dignissimos recusandae ex consequuntur
-                  illo.</span
-                >
+                <span class="text-gray-900">{{
+                  mainAccount.address ?? "Chưa xác định"
+                }}</span>
               </div>
               <div v-if="mainAccount">
                 <div class="text-xl font-bold text-black">Tiểu sử</div>
@@ -158,79 +159,55 @@
             role="tabpanel"
             aria-labelledby="education-qualifications-tab"
           >
-            <div class="flex flex-col gap-4">
-              <div class="flex flex-col gap-2">
-                <div class="font-medium text-sm text-black">Hồ sơ 1</div>
+            <div class="flex flex-col gap-4" v-if="mainAccount">
+              <div
+                class="flex flex-col gap-2"
+                v-for="(x, index) in mainAccount.educationAndCertification"
+                :key="index"
+              >
+                <div class="font-medium text-sm text-black">
+                  Hồ sơ {{ index + 1 }}
+                </div>
                 <div class="grid grid-cols-2 gap-2">
                   <span>Loại hình giáo dục</span>
-                  <span class="text-gray-900">Giáo dục</span>
+                  <span class="text-gray-900">{{
+                    x.typeOfEducationAndExperience
+                  }}</span>
                 </div>
                 <div class="grid grid-cols-2 gap-2">
                   <span>Trình độ học vấn</span>
-                  <span class="text-gray-900">Tiến sĩ</span>
+                  <span class="text-gray-900">{{ x.degreeOfEducation }}</span>
                 </div>
                 <div class="grid grid-cols-2 gap-2">
                   <span>Tổ chức</span>
-                  <span class="text-gray-900">Đại học Y Dược Cần Thơ</span>
+                  <span class="text-gray-900">{{ x.institution }}</span>
                 </div>
                 <div class="grid grid-cols-2 gap-2">
                   <span>Chuyên ngành theo văn bằng</span>
-                  <span class="text-gray-900">Đa khoa</span>
+                  <span class="text-gray-900">{{ x.specialtyByDiploma }}</span>
                 </div>
                 <div class="grid grid-cols-2 gap-2">
                   <span>Số sê-ri</span>
-                  <span class="text-gray-900">105-YK/2018</span>
+                  <span class="text-gray-900">{{
+                    x.diplomaNumberAndSeries
+                  }}</span>
+                </div>
+                <div class="grid grid-cols-2 gap-2">
+                  <span>Địa chỉ</span>
+                  <span class="text-gray-900">{{ x.address }}</span>
                 </div>
                 <div class="grid grid-cols-2 gap-2">
                   <span>Ngày cấp</span>
-                  <span class="text-gray-900">{{ Date() }}</span>
+                  <span class="text-gray-900">{{
+                    x.dateOfReceiptOfDiploma
+                  }}</span>
                 </div>
                 <div class="grid grid-cols-2 gap-2">
                   <span>Ảnh</span>
                   <div class="w-24 h-24">
                     <NuxtImg
                       provider="cloudinary"
-                      src="healthline/avatar/doctors/default"
-                      width="500"
-                      height="500"
-                      class="object-cover group-hover:scale-[1.15] duration-200 transform ease-linear"
-                      alt=""
-                    />
-                  </div>
-                </div>
-              </div>
-              <div class="flex flex-col gap-2">
-                <div class="font-medium text-sm text-black">Hồ sơ 2</div>
-                <div class="grid grid-cols-2 gap-2">
-                  <span>Loại hình giáo dục</span>
-                  <span class="text-gray-900">Giáo dục</span>
-                </div>
-                <div class="grid grid-cols-2 gap-2">
-                  <span>Trình độ học vấn</span>
-                  <span class="text-gray-900">Tiến sĩ</span>
-                </div>
-                <div class="grid grid-cols-2 gap-2">
-                  <span>Tổ chức</span>
-                  <span class="text-gray-900">Đại học Y Dược Cần Thơ</span>
-                </div>
-                <div class="grid grid-cols-2 gap-2">
-                  <span>Chuyên ngành theo văn bằng</span>
-                  <span class="text-gray-900">Đa khoa</span>
-                </div>
-                <div class="grid grid-cols-2 gap-2">
-                  <span>Số sê-ri</span>
-                  <span class="text-gray-900">105-YK/2018</span>
-                </div>
-                <div class="grid grid-cols-2 gap-2">
-                  <span>Ngày cấp</span>
-                  <span class="text-gray-900">{{ Date() }}</span>
-                </div>
-                <div class="grid grid-cols-2 gap-2">
-                  <span>Ảnh</span>
-                  <div class="w-24 h-24">
-                    <NuxtImg
-                      provider="cloudinary"
-                      src="healthline/avatar/doctors/default"
+                      :src="x.image"
                       width="500"
                       height="500"
                       class="object-cover group-hover:scale-[1.15] duration-200 transform ease-linear"
@@ -247,47 +224,29 @@
             role="tabpanel"
             aria-labelledby="career-speicalty-tab"
           >
-            <div class="flex flex-col gap-4">
-              <div class="flex flex-col gap-2">
-                <div class="font-medium text-sm text-black">Hồ sơ 1</div>
+            <div class="flex flex-col gap-4" v-if="mainAccount">
+              <div
+                class="flex flex-col gap-2"
+                v-for="(x, index) in mainAccount.specialty"
+                :key="index"
+              >
+                <div class="font-medium text-sm text-black">
+                  Hồ sơ {{ index + 1 }}
+                </div>
                 <div class="grid grid-cols-2 gap-2">
                   <span>Chuyên ngành</span>
-                  <span class="text-gray-900">Đa khoa</span>
+                  <span class="text-gray-900">{{ x.specialty }}</span>
                 </div>
                 <div class="grid grid-cols-2 gap-2">
                   <span>Trình độ</span>
-                  <span class="text-gray-900">Cao</span>
+                  <span class="text-gray-900">{{ x.levelOfSpecialty }}</span>
                 </div>
                 <div class="grid grid-cols-2 gap-2">
                   <span>Ảnh</span>
                   <div class="w-24 h-24">
                     <NuxtImg
                       provider="cloudinary"
-                      src="healthline/avatar/doctors/default"
-                      width="500"
-                      height="500"
-                      class="object-cover group-hover:scale-[1.15] duration-200 transform ease-linear"
-                      alt=""
-                    />
-                  </div>
-                </div>
-              </div>
-              <div class="flex flex-col gap-2">
-                <div class="font-medium text-sm text-black">Hồ sơ 2</div>
-                <div class="grid grid-cols-2 gap-2">
-                  <span>Chuyên ngành</span>
-                  <span class="text-gray-900">Đa khoa</span>
-                </div>
-                <div class="grid grid-cols-2 gap-2">
-                  <span>Trình độ</span>
-                  <span class="text-gray-900">Cao</span>
-                </div>
-                <div class="grid grid-cols-2 gap-2">
-                  <span>Ảnh</span>
-                  <div class="w-24 h-24">
-                    <NuxtImg
-                      provider="cloudinary"
-                      src="healthline/avatar/doctors/default"
+                      :src="x.image"
                       width="500"
                       height="500"
                       class="object-cover group-hover:scale-[1.15] duration-200 transform ease-linear"
@@ -304,14 +263,14 @@
             role="tabpanel"
             aria-labelledby="contact-tab"
           >
-            <div class="flex flex-col gap-2">
+            <div class="flex flex-col gap-2" v-if="mainAccount">
               <div class="grid grid-cols-2 gap-2">
                 <span>Số điện thoại</span>
-                <span class="text-gray-900">0389052819</span>
+                <span class="text-gray-900">{{ mainAccount.phone }}</span>
               </div>
               <div class="grid grid-cols-2 gap-2">
                 <span>Email</span>
-                <span class="text-gray-900">example@gmail.com</span>
+                <span class="text-gray-900">{{ mainAccount.email }}</span>
               </div>
             </div>
           </div>
@@ -562,18 +521,18 @@ onBeforeMount(async () => {
     (await search(param.value, { hitsPerPage: 1 })).hits,
     array(DoctorSchema)
   )[0];
-  // try {
-  //   await doctorStore
-  //     .getPatientConsultation(mainAccount.value.id)
-  //     .then(() => {})
-  //     .catch((e: string) => {
-  //       toastStatus.value = "error";
-  //       message.value = e;
-  //       addToast();
-  //     });
-  // } catch (e) {
-  //   console.log(e);
-  // }
+  try {
+    await doctorStore
+      .getPatientConsultation(mainAccount.value.id)
+      .then(() => {})
+      .catch((e: string) => {
+        toastStatus.value = "error";
+        message.value = e;
+        addToast();
+      });
+  } catch (e) {
+    console.log(e);
+  }
 });
 onMounted(async () => {});
 </script>

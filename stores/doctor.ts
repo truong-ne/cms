@@ -203,6 +203,41 @@ export const useDataDoctor = defineStore("doctor", () => {
     }
   }
 
+  async function uploadImage(files: Array<File>, phone: string) {
+    try {
+      if (authorization === "Bearer ") throw "Không thể xác định danh tính";
+      const formdata: FormData = new FormData();
+
+      //append your file or image
+      // for (var file of files) {
+      formdata.append("files", files[0]);
+      // }
+      formdata.append("phone", phone);
+
+      const data = await $fetch("/file-upload/doctor/specialty", {
+        baseURL: useRuntimeConfig().public.baseURL,
+        method: "POST",
+        headers: {
+          "Content-Type": "multipart/form-data;",
+          "Accept-Encoding": "gzip, deflate, br",
+          "Accept":"*/*",
+          "Connection": "keep-alive",
+          // Authorization: authorization,
+        },
+        body: formdata,
+      });
+
+      // if (data.value !== null) {
+      //   return data.value;
+      // } else {
+      //   doctors.value = [];
+      //   throw "Thêm tài khoản thất bại";
+      // }
+    } catch (error) {
+      throw error;
+    }
+  }
+
   function saveDoctors(listDoctor: Doctor[]) {
     doctors.value = listDoctor;
   }
@@ -228,37 +263,37 @@ export const useDataDoctor = defineStore("doctor", () => {
           address: doctor.address,
           careers: [
             {
-              medicalInstitute: doctor.careers[0].medicalInstitute,
-              position: doctor.careers[0].position,
-              periodStart: doctor.careers[0].periodStart,
-              periodEnd: doctor.careers[0].periodEnd,
+              medicalInstitute: doctor.careers![0].medicalInstitute,
+              position: doctor.careers![0].position,
+              periodStart: doctor.careers![0].periodStart,
+              periodEnd: doctor.careers![0].periodEnd,
             },
           ],
           specialty: [
             {
-              specialty: doctor.specialty[0].specialty,
-              levelOfSpecialty: doctor.specialty[0].levelOfSpecialty,
-              image: doctor.specialty[0].image,
+              specialty: doctor.specialty![0].specialty,
+              levelOfSpecialty: doctor.specialty![0].levelOfSpecialty,
+              image: doctor.specialty![0].image,
             },
           ],
           educationAndCertification: [
             {
               typeOfEducationAndExperience:
-                doctor.educationAndCertification[0]
+                doctor.educationAndCertification![0]
                   .typeOfEducationAndExperience,
               degreeOfEducation:
-                doctor.educationAndCertification[0].degreeOfEducation,
-              institution: doctor.educationAndCertification[0].institution,
+                doctor.educationAndCertification![0].degreeOfEducation,
+              institution: doctor.educationAndCertification![0].institution,
               specialtyByDiploma:
-                doctor.educationAndCertification[0].specialtyByDiploma,
-              address: doctor.educationAndCertification[0].address,
+                doctor.educationAndCertification![0].specialtyByDiploma,
+              address: doctor.educationAndCertification![0].address,
               diplomaNumberAndSeries:
-                doctor.educationAndCertification[0].diplomaNumberAndSeries,
+                doctor.educationAndCertification![0].diplomaNumberAndSeries,
               dateOfReceiptOfDiploma:
-                doctor.educationAndCertification[0].dateOfReceiptOfDiploma,
+                doctor.educationAndCertification![0].dateOfReceiptOfDiploma,
             },
           ],
-          fixed_times: [[], [], [], [], [], [], []],
+          fixed_times: [[0], [0], [0], [0], [0], [0], [0]],
           biography: doctor.biography,
           is_active: true,
         }),
@@ -332,7 +367,6 @@ export const useDataDoctor = defineStore("doctor", () => {
           PatientConsultationSchema
         );
       } else {
-        console.log(error);
         // navigateTo("/error");
         doctors.value = [];
         throw "Tải dữ liệu bệnh nhân thất bại";
@@ -434,6 +468,7 @@ export const useDataDoctor = defineStore("doctor", () => {
     feedbackBar,
     consultationQuantity,
     chooseDoctor,
+    uploadImage,
     patientConsultation,
     getQuantityDoctor,
     getConsultationMoneyAreaById,

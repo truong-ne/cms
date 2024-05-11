@@ -1,6 +1,6 @@
 <template>
   <section class="lg:grid lg:grid-cols-2 gap-4 bg-gray-50 h-screen">
-    <div class="dark:bg-gray-900 items-center justify-center flex">
+    <div class=" items-center justify-center flex">
       <div
         class="flex flex-col items-center justify-center px-6 py-8 mx-auto lg:py-0 w-full"
       >
@@ -33,7 +33,7 @@
                   name="username"
                   id="username"
                   v-model="username"
-                  class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 "
                   placeholder="Tên đăng nhập"
                   required
                   oninvalid="this.setCustomValidity('Vui lòng nhập tên đăng nhập')"
@@ -53,7 +53,7 @@
                   placeholder="••••••••"
                   required
                   oninvalid="this.setCustomValidity('Vui lòng nhập mật khẩu')"
-                  class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 "
                 />
               </div>
               <!-- <span
@@ -93,7 +93,7 @@
                 <div role="status" v-if="loading">
                   <svg
                     aria-hidden="true"
-                    class="w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
+                    class="w-8 h-8 text-gray-200 animate-spin  fill-blue-600"
                     viewBox="0 0 100 101"
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
@@ -147,7 +147,7 @@ async function handleSubmit() {
       .login(username.value, password.value)
       .then(() => {
         toastStatus.value = "success";
-        message.value = "Đăng nhập thành côngfffff!";
+        message.value = "Đăng nhập thành công!";
       })
       .catch((error) => {
         toastStatus.value = "error";

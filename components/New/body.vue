@@ -55,7 +55,7 @@
               {{ blog.title }}
             </h2>
             <p
-              class="line-clamp-4 mb-5 font-light text-justify text-gray-500 dark:text-gray-400 transform duration-500 ease-in-out md:group-hover:scale-[1.1]"
+              class="line-clamp-4 mb-5 font-light text-justify text-gray-500  transform duration-500 ease-in-out md:group-hover:scale-[1.1]"
             >
               {{ blog.content }}
             </p>
@@ -85,7 +85,7 @@
         class="flex flex-col md:flex-row justify-between items-start md:items-center space-y-3 md:space-y-0 p-4"
         aria-label="Table navigation"
       >
-        <span class="text-sm font-normal text-gray-500 dark:text-gray-400">
+        <span class="text-sm font-normal text-gray-500 ">
           Hiển thị
           <span class="font-semibold text-gray-900 dark:text-white"
             >{{ hitsPerPage * (currentPage - 1) + 1 }}-{{

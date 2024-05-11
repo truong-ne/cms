@@ -13,7 +13,7 @@
               >
                 <svg
                   aria-hidden="true"
-                  class="w-5 h-5 text-gray-500 dark:text-gray-400"
+                  class="w-5 h-5 text-gray-500 "
                   fill="currentColor"
                   viewbox="0 0 20 20"
                   xmlns="http://www.w3.org/2000/svg"
@@ -156,15 +156,15 @@
 
       <nav class="flex flex-col md:flex-row justify-between items-start md:items-center space-y-3 md:space-y-0 p-4"
         aria-label="Table navigation">
-        <span class="text-sm font-normal text-gray-500 dark:text-gray-400">
+        <span class="text-sm font-normal text-gray-500 ">
           Hiển thị
-          <span class="font-semibold text-gray-900 dark:text-white">{{ hitsPerPage * (currentPage - 1) + 1 }}-{{
+          <span class="font-semibold text-gray-900 ">{{ hitsPerPage * (currentPage - 1) + 1 }}-{{
             hitsPerPage * currentPage > totalHits
               ? totalHits
               : hitsPerPage * currentPage
           }}</span>
           của
-          <span class="font-semibold text-gray-900 dark:text-white">{{
+          <span class="font-semibold text-gray-900 ">{{
             totalHits
           }}</span>
         </span>
@@ -296,7 +296,7 @@ onMounted(async () => {
       // set modal options
       const modalOptions: ModalOptions = {
         backdropClasses:
-          "bg-gray-900/50 dark:bg-gray-900/80 fixed inset-0 z-40",
+          "bg-gray-900/50  fixed inset-0 z-40",
       };
       // create a new modal instance
       if ($modalElement) {

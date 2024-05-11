@@ -16,7 +16,7 @@
       <div class="flow-root border-t">
         <ul
           role="list"
-          class="divide-y divide-gray-200 dark:divide-gray-700"
+          class="divide-y divide-gray-200 "
           v-if="resultDoctor"
         >
           <li
@@ -45,7 +45,7 @@
                   :alt="doctor.full_name"
                 />
                 <span
-                  class="absolute bottom-0 left-8 transform translate-y-1/4 w-3.5 h-3.5 bg-green-400 border-2 border-white dark:border-gray-800 rounded-full"
+                  class="absolute bottom-0 left-8 transform translate-y-1/4 w-3.5 h-3.5 bg-green-400 border-2 border-white rounded-full"
                 ></span>
               </a>
               <div class="flex-1 w-full relative">
@@ -77,7 +77,7 @@
                     />
                   </svg>
                   <span
-                    class="text-sm text-gray-500 truncate dark:text-gray-400"
+                    class="text-sm text-gray-500 truncate "
                     >{{ Math.round(doctor.ratings * 100) / 100 }}</span
                   >
                   <svg
@@ -96,11 +96,11 @@
                     />
                   </svg>
                   <span
-                    class="ml-1 text-sm text-gray-500 truncate dark:text-gray-400"
+                    class="ml-1 text-sm text-gray-500 truncate "
                     >{{ doctor.number_of_consultation }}</span
                   >
                   <span
-                    class="text-xs text-gray-500 truncate dark:text-gray-400 ml-auto"
+                    class="text-xs text-gray-500 truncate "
                     >Cập nhật {{ getDateTime(doctor.updated_at) }}</span
                   >
                 </div>
@@ -125,7 +125,7 @@
       <div class="flow-root border-t">
         <ul
           role="list"
-          class="divide-y divide-gray-200 dark:divide-gray-700"
+          class="divide-y divide-gray-200 "
           v-if="resultBlog"
         >
           <li

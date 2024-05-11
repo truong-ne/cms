@@ -45,10 +45,10 @@
               </li>
               <li>
                 <a href="#"
-                  class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Earnings</a>
+                  class="block px-4 py-2 hover:bg-gray-100">Earnings</a>
               </li>
               <li>
-                <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Sign
+                <a href="#" class="block px-4 py-2 hover:bg-gray-100">Sign
                   out</a>
               </li>
             </ul>
@@ -98,52 +98,7 @@
             <span class="text-md items font-extrabold leading-none text-black">
               Thống kê cuộc hẹn</span>
           </div>
-          <!-- <button id="dropdownDefaultButton" data-dropdown-toggle="dropdownTreatmentCosts"
-            class="absolute top-2 right-0 text-black bg-white font-medium text-xs px-5 py-2.5 text-center inline-flex items-center"
-            type="button">
-            Sắp tới
-            <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-              viewBox="0 0 10 6">
-              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="m1 1 4 4 4-4" />
-            </svg>
-          </button> -->
-
-          <!-- Dropdown menu -->
-          <!-- <div
-            id="dropdownTreatmentCosts"
-            class="z-50 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44"
-          >
-            <ul
-              class="py-2 text-sm text-gray-700"
-              aria-labelledby="dropdownDefaultButton"
-            >
-              <li>
-                <a href="#" class="block px-4 py-2 hover:bg-gray-100"
-                  >Dashboard</a
-                >
-              </li>
-              <li>
-                <a href="#" class="block px-4 py-2 hover:bg-gray-100"
-                  >Settings</a
-                >
-              </li>
-              <li>
-                <a
-                  href="#"
-                  class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                  >Earnings</a
-                >
-              </li>
-              <li>
-                <a
-                  href="#"
-                  class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                  >Sign out</a
-                >
-              </li>
-            </ul>
-          </div> -->
+          
           <div class="md:h-96 h-56 w-full mt-6 border-t">
             <div class="overflow-x-auto">
               <table class="w-full text-sm text-left text-gray-500">

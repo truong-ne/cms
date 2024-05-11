@@ -98,7 +98,7 @@ async function meilisearch() {
           </p>
           <table class="w-full text-sm text-left text-gray-500">
             <thead
-              class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700"
+              class="text-xs text-gray-700 uppercase bg-gray-50 "
             >
               <tr>
                 <th scope="col" class="px-4 py-3">ID</th>
@@ -116,7 +116,7 @@ async function meilisearch() {
               <tr class="border-b" v-for="product in searchData">
                 <th
                   scope="row"
-                  class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                  class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap "
                 >
                   {{ product.id }}
                 </th>
@@ -156,11 +156,11 @@ async function meilisearch() {
         >
           <span class="text-sm font-normal text-gray-500">
             Showing
-            <span class="font-semibold text-gray-900 dark:text-white"
+            <span class="font-semibold text-gray-900 "
               >1-10</span
             >
             of
-            <span class="font-semibold text-gray-900 dark:text-white"
+            <span class="font-semibold text-gray-900 "
               >1000</span
             >
           </span>

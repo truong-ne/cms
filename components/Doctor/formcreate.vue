@@ -118,7 +118,7 @@
                   class="absolute inset-y-0 start-0 top-7 flex items-center ps-3.5 pointer-events-none"
                 >
                   <svg
-                    class="w-4 h-4 text-gray-500 dark:text-gray-400"
+                    class="w-4 h-4 text-gray-500"
                     aria-hidden="true"
                     xmlns="http://www.w3.org/2000/svg"
                     fill="currentColor"
@@ -362,7 +362,7 @@
                   class="absolute inset-y-0 start-0 top-7 flex items-center ps-3.5 pointer-events-none"
                 >
                   <svg
-                    class="w-4 h-4 text-gray-500 dark:text-gray-400"
+                    class="w-4 h-4 text-gray-500"
                     aria-hidden="true"
                     xmlns="http://www.w3.org/2000/svg"
                     fill="currentColor"
@@ -389,8 +389,14 @@
             <div class="col-span-4">
               <label
                 for="eduAndExpImg"
-                class="block mb-2 text-sm font-medium text-gray-900"
-                >Ảnh</label
+                class="mb-2 text-sm font-medium text-gray-900 flex gap-3 italic"
+                >Ảnh
+                <div
+                  class="font-light text-xs"
+                  v-if="!isVietnamesePhoneNumber(phone)"
+                >
+                  ({{ "Bạn phải nhập số điện thoại trước khi chọn ảnh" }})
+                </div></label
               ><input
                 type="file"
                 name="eduAndExpImg"
@@ -458,13 +464,22 @@
             <div class="col-span-2">
               <label
                 for="specialtyImg"
-                class="block mb-2 text-sm font-medium text-gray-900"
-                >Ảnh</label
-              ><input
+                class="mb-2 text-sm font-medium text-gray-900 flex gap-3 italic"
+                >Ảnh
+                <div
+                  class="font-light text-xs"
+                  v-if="!isVietnamesePhoneNumber(phone)"
+                >
+                  ({{ "Bạn phải nhập số điện thoại trước khi chọn ảnh" }})
+                </div>
+              </label>
+
+              <input
                 type="file"
                 name="specialtyImg"
                 id="specialtyImg"
                 @change="onSpeChange"
+                :disabled="isVietnamesePhoneNumber(phone) ? false : true"
                 accept=".png, .jpg, .jpeg, .svg"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-auto"
                 required
@@ -524,7 +539,7 @@
                     class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none"
                   >
                     <svg
-                      class="w-4 h-4 text-gray-500 dark:text-gray-400"
+                      class="w-4 h-4 text-gray-500"
                       aria-hidden="true"
                       xmlns="http://www.w3.org/2000/svg"
                       fill="currentColor"
@@ -541,7 +556,7 @@
                     v-model="periodStart"
                     v-bind="periodStartAttrs"
                     type="text"
-                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5"
                     required
                     placeholder="Chọn thời gian bắt đầu"
                   />
@@ -552,7 +567,7 @@
                     class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none"
                   >
                     <svg
-                      class="w-4 h-4 text-gray-500 dark:text-gray-400"
+                      class="w-4 h-4 text-gray-500"
                       aria-hidden="true"
                       xmlns="http://www.w3.org/2000/svg"
                       fill="currentColor"
@@ -569,7 +584,7 @@
                     id="periodEndId"
                     v-model="periodEnd"
                     v-bind="periodEndAttrs"
-                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5"
                     required
                     placeholder="Chọn thời gian kết thúc"
                   />
@@ -586,7 +601,7 @@
               <div role="status" v-if="isSubmitting">
                 <svg
                   aria-hidden="true"
-                  class="w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
+                  class="w-8 h-8 text-gray-200 animate-spin fill-blue-600"
                   viewBox="0 0 100 101"
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
@@ -768,24 +783,43 @@ const avatar = ref();
 const eduImg = ref();
 const speImg = ref();
 
+function alertInputSpecialty() {
+  console.log("A");
+  if (!isVietnamesePhoneNumber(phone.value)) {
+    toastStatus.value = "error";
+    message.value = "Bạn phải nhập số điện thoại trước khi chọn hình!";
+    addToast();
+  }
+}
+
 function onAvatarChange(e: any) {
   var files = e.target.files || e.dataTransfer.files;
   if (files == null) return;
   avatar.value = files[0];
-  // this.file = files[0]
-  // this.createImage(this.file);
 }
 function onEduChange(e: any) {
-  var files = e.target.files || e.dataTransfer.files;
-  if (files == null) return;
-  eduImg.value = files[0];
-  // this.file = files[0]
-  // this.createImage(this.file);
+  if (isVietnamesePhoneNumber(phone.value)) {
+    var files = e.target.files || e.dataTransfer.files;
+    if (files == null) return;
+    eduImg.value = doctorStore.uploadImage([files[0]], phone.value);
+  } else {
+    toastStatus.value = "error";
+    message.value = "Bạn phải nhập số điện thoại trước khi chọn hình!";
+    addToast();
+  }
 }
-function onSpeChange(e: any) {
-  var files = e.target.files || e.dataTransfer.files;
-  if (files == null) return;
-  speImg.value = files[0];
+
+async function onSpeChange(e: any) {
+  if (isVietnamesePhoneNumber(phone.value)) {
+    var files = e.target.files || e.dataTransfer.files;
+    if (files == null) return;
+    speImg.value = await doctorStore.uploadImage((files = [files[0]]), phone.value);
+  } else {
+    toastStatus.value = "error";
+    message.value = "Bạn phải nhập số điện thoại trước khi chọn hình!";
+    addToast();
+  }
+
   // this.file = files[0]
   // this.createImage(this.file);
 }

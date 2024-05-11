@@ -21,7 +21,7 @@
           <button
             type="button"
             id="buttonClose"
-            class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
+            class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center  "
           >
             <svg
               aria-hidden="true"
@@ -143,7 +143,7 @@
                   class="absolute inset-y-0 start-0 top-7 flex items-center ps-3.5 pointer-events-none"
                 >
                   <svg
-                    class="w-4 h-4 text-gray-500 dark:text-gray-400"
+                    class="w-4 h-4 text-gray-500 "
                     aria-hidden="true"
                     xmlns="http://www.w3.org/2000/svg"
                     fill="currentColor"
@@ -180,7 +180,7 @@
               <div role="status" v-if="isSubmitting">
                 <svg
                   aria-hidden="true"
-                  class="w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
+                  class="w-8 h-8 text-gray-200 animate-spin  fill-blue-600"
                   viewBox="0 0 100 101"
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"

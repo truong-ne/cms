@@ -119,7 +119,7 @@
           <div class="flex-col ml-4">
             <div class="py-0.5 text-sm font-semibold text-gray-500">Bác sĩ</div>
             <div class="w-full text-2xl text-black font-extrabold">
-              {{ converCurrency(doctorStore.moneyQuantity?.totalMoney ?? 0) }}
+              {{ doctorStore.doctorQuantity?.quantity ?? 0 }}
             </div>
           </div>
         </div>

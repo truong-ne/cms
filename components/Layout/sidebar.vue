@@ -247,7 +247,7 @@
               <span class="flex-1 ml-3 whitespace-nowrap">Tin tức</span>
             </a>
           </li>
-          <li>
+          <!-- <li>
             <a
               href="/drugs"
               class="flex items-center p-2 text-secondary rounded-lg group hover:bg-primary hover:text-white"
@@ -269,7 +269,7 @@
               </svg>
               <span class="flex-1 ml-3 whitespace-nowrap">Thuốc</span>
             </a>
-          </li>
+          </li> -->
         </ul>
         <ul class="pt-4 mt-4 space-y-2 font-medium border-t border-gray-200">
           <li>

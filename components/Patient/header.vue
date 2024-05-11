@@ -1,7 +1,7 @@
 <template>
   <div class="flex justify-between w-full">
-    <form class="w-96">
-      <div class="relative">
+    <!-- <form class="w-96"> -->
+      <div class="relative w-96">
         <div
           class="absolute inset-y-0 start-0 flex items-center ps-6 pointer-events-none"
         >
@@ -23,13 +23,13 @@
         </div>
         <input
           type="search"
-          id="default-search"
+          id="input-search-patient"
           class="block w-full p-4 ps-12 text-sm font-semibold text-gray-900 border-0 focus:ring-0 rounded-2xl bg-white"
           placeholder="Tìm kiếm bệnh nhân"
           required
         />
       </div>
-    </form>
+    <!-- </form> -->
     <div class="flex gap-4">
       <a
         href="/patients/create"
