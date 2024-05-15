@@ -18,107 +18,6 @@ import {
   partial,
 } from "superstruct";
 
-export const DoctorSchema = partial(
-  object({
-    id: any(),
-    full_name: any(),
-    avatar: any(),
-    email: any(),
-    phone: any(),
-    gender: any(),
-    dayOfBirth: any(),
-    address: any(),
-    careers: array(
-      object({
-        id: any(),
-        medicalInstitute: any(),
-        position: any(),
-        periodStart: any(),
-        periodEnd: any(),
-      })
-    ),
-    specialty: array(
-      object({
-        id: any(),
-        specialty: any(),
-        levelOfSpecialty: any(),
-        image: any(),
-      })
-    ),
-    educationAndCertification: array(
-      object({
-        id: any(),
-        typeOfEducationAndExperience: any(),
-        degreeOfEducation: any(),
-        institution: any(),
-        specialtyByDiploma: any(),
-        address: any(),
-        diplomaNumberAndSeries: any(),
-        dateOfReceiptOfDiploma: any(),
-      })
-    ),
-
-    fee_per_minutes: any(),
-    account_balance: number(),
-    ratings: number(),
-    number_of_consultation: any(),
-    fixed_times: array(array(number())),
-    biography: any(),
-    updated_at: any(),
-    is_active: boolean(),
-  })
-);
-
-// // Define a mask to rename the fields
-// export const DoctorMask = mask(DoctorSchema, {
-//   id: 'id',
-//   full_name: any(),
-//   avatar: any(),
-//   email: any(),
-//   phone: any(),
-//   gender: any(),
-//   dayOfBirth: any(),
-//   address: any(),
-//   careers: array(
-//     object({
-//       id: any(),
-//       medicalInstitute: any(),
-//       position: any(),
-//       periodStart: any(),
-//       periodEnd: any(),
-//     })
-//   ),
-//   specialty: array(
-//     object({
-//       id: any(),
-//       specialty: any(),
-//       levelOfSpecialty: any(),
-//       image: any(),
-//     })
-//   ),
-//   educationAndCertification: array(
-//     object({
-//       id: any(),
-//       typeOfEducationAndExperience: any(),
-//       degreeOfEducation: any(),
-//       institution: any(),
-//       specialtyByDiploma: any(),
-//       address: any(),
-//       diplomaNumberAndSeries: any(),
-//       dateOfReceiptOfDiploma: any(),
-//     })
-//   ),
-
-//   fee_per_minutes: any(),
-//   account_balance: number(),
-//   ratings: number(),
-//   number_of_consultation: any(),
-//   fixed_times: array(array(number())),
-//   biography: any(),
-//   updated_at: any(),
-//   is_active: boolean(),
-// });
-
 export const CareerSchema = object({
   id: any(),
   medicalInstitute: any(),
@@ -141,8 +40,40 @@ export const EducationAndCertificationSchema = object({
   institution: any(),
   specialtyByDiploma: any(),
   address: any(),
+  image:any(),
   diplomaNumberAndSeries: any(),
   dateOfReceiptOfDiploma: any(),
+});
+export const DoctorSchema = partial(
+  object({
+    id: any(),
+    full_name: any(),
+    avatar: any(),
+    email: any(),
+    phone: any(),
+    gender: any(),
+    dayOfBirth: any(),
+    address: any(),
+    careers: array(CareerSchema),
+    specialty: array(SpecialtySchema),
+    educationAndCertification: array(EducationAndCertificationSchema),
+
+    fee_per_minutes: any(),
+    account_balance: number(),
+    ratings: number(),
+    number_of_consultation: any(),
+    fixed_times: array(array(number())),
+    biography: any(),
+    updated_at: any(),
+    is_active: boolean(),
+  })
+);
+
+export const TopDoctorSchema = object({
+  id: any(),
+  full_name: any(),
+  avatar: any(),
+  consultation: number(),
 });
 
 export const PatientConsultationSchema = object({
@@ -176,7 +107,7 @@ export const MoneyQuantitySchema = object({
 });
 export const MoneyMonthSchema = object({
   month: number(),
-  totalMoneyThisMonth: number(),
+  moneyByMonth: number(),
 });
 
 export type Doctor = Infer<typeof DoctorSchema>;
@@ -191,5 +122,6 @@ export type ConsultationQuantity = Infer<typeof ConsultationQuantitySchema>;
 export type ConsultationPie = Infer<typeof ConsultationPieSchema>;
 export type MoneyQuantity = Infer<typeof MoneyQuantitySchema>;
 export type MoneyMonth = Infer<typeof MoneyMonthSchema>;
+export type TopDoctor = Infer<typeof TopDoctorSchema>;
 // export type PatientRecord = Infer<typeof PatientRecordSchema>;
 // export type DoctorInfo = Infer<typeof DoctorInfoSchema>;

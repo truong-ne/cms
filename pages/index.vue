@@ -2,7 +2,7 @@
   <section class="">
     <DashboardAnylytics :doctorStore="doctorStore" :medicalStore="medicalStore" />
 
-    <DashboardCharts :doctorStore="doctorStore" :medicalStore="medicalStore" />
+    <DashboardCharts :doctorStore="doctorStore" :medicalStore="medicalStore" :consultationStore="consultationStore"/>
 
     <!-- <DashboardQuickview /> -->
   </section>
@@ -10,6 +10,7 @@
 <script setup>
 const doctorStore = useDataDoctor();
 const medicalStore = useDataMedicalRecord();
+const consultationStore = useDataConsultation();
 definePageMeta({
   middleware: ["auth"],
 });

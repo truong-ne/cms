@@ -1,5 +1,5 @@
 <template>
-  <section class="mt-8 bg-white rounded-2xl p-12">
+  <section class="mt-8 bg-white rounded-2xl p-4">
     <div class="flex flex-col">
       <div class="text-lg text-black font-extrabold py-5 px-4">
         Thêm hồ sơ bác sĩ
@@ -75,21 +75,6 @@
           aria-labelledby="profile-tab"
         >
           <div class="grid gap-4 mb-4 sm:grid-cols-6 w-full">
-            <div class="col-span-6">
-              <label
-                for="avatar"
-                class="block mb-2 text-sm font-medium text-gray-900"
-                >Ảnh</label
-              ><input
-                type="file"
-                name="avatar"
-                id="avatar"
-                @change="onAvatarChange"
-                accept=".png, .jpg, .jpeg, .JPG"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-auto"
-                required
-              />
-            </div>
             <div class="col-span-2">
               <label
                 for="fullName"
@@ -209,6 +194,28 @@
                 <option value="female">Nữ</option>
                 <option value="orther">Khác</option>
               </select>
+            </div>
+            <div class="col-span-6">
+              <label
+                for="avatar"
+                class="block mb-2 text-sm font-medium text-gray-900"
+                >Ảnh
+                <div
+                  class="font-light text-xs"
+                  v-if="!isVietnamesePhoneNumber(phone)"
+                >
+                  ({{ "Bạn phải nhập số điện thoại trước khi chọn ảnh" }})
+                </div></label
+              ><input
+                type="file"
+                name="avatar"
+                id="avatar"
+                :disabled="isVietnamesePhoneNumber(phone) ? false : true"
+                @change="onAvatarChange"
+                accept=".png, .jpg, .jpeg, .JPG"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-auto"
+                required
+              />
             </div>
             <div class="col-span-6">
               <label
@@ -401,8 +408,9 @@
                 type="file"
                 name="eduAndExpImg"
                 id="eduAndExpImg"
+                :disabled="isVietnamesePhoneNumber(phone) ? false : true"
                 @change="onEduChange"
-                accept=".png, jpg, jpeg, .svg"
+                accept=".png, .jpg, .jpeg, .svg"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-auto"
                 required
               />
@@ -784,7 +792,6 @@ const eduImg = ref();
 const speImg = ref();
 
 function alertInputSpecialty() {
-  console.log("A");
   if (!isVietnamesePhoneNumber(phone.value)) {
     toastStatus.value = "error";
     message.value = "Bạn phải nhập số điện thoại trước khi chọn hình!";
@@ -792,16 +799,22 @@ function alertInputSpecialty() {
   }
 }
 
-function onAvatarChange(e: any) {
-  var files = e.target.files || e.dataTransfer.files;
-  if (files == null) return;
-  avatar.value = files[0];
-}
-function onEduChange(e: any) {
+async function onAvatarChange(e: any) {
   if (isVietnamesePhoneNumber(phone.value)) {
     var files = e.target.files || e.dataTransfer.files;
     if (files == null) return;
-    eduImg.value = doctorStore.uploadImage([files[0]], phone.value);
+    avatar.value = await doctorStore.uploadImage((files = [files[0]]), phone.value);
+  } else {
+    toastStatus.value = "error";
+    message.value = "Bạn phải nhập số điện thoại trước khi chọn hình!";
+    addToast();
+  }
+}
+async function onEduChange(e: any) {
+  if (isVietnamesePhoneNumber(phone.value)) {
+    var files = e.target.files || e.dataTransfer.files;
+    if (files == null) return;
+    eduImg.value =await doctorStore.uploadImage((files = [files[0]]), phone.value);
   } else {
     toastStatus.value = "error";
     message.value = "Bạn phải nhập số điện thoại trước khi chọn hình!";
@@ -813,7 +826,10 @@ async function onSpeChange(e: any) {
   if (isVietnamesePhoneNumber(phone.value)) {
     var files = e.target.files || e.dataTransfer.files;
     if (files == null) return;
-    speImg.value = await doctorStore.uploadImage((files = [files[0]]), phone.value);
+    speImg.value = await doctorStore.uploadImage(
+      (files = [files[0]]),
+      phone.value
+    );
   } else {
     toastStatus.value = "error";
     message.value = "Bạn phải nhập số điện thoại trước khi chọn hình!";
@@ -826,7 +842,7 @@ async function onSpeChange(e: any) {
 
 const onSubmit = handleSubmit(async (values: any) => {
   const doctor: Doctor = {
-    avatar: avatar.value,
+    avatar: avatar.value[0],
     full_name: values.fullName,
     email: values.email,
     phone: values.phone,
@@ -847,7 +863,7 @@ const onSubmit = handleSubmit(async (values: any) => {
       {
         specialty: values.specialty,
         levelOfSpecialty: values.levelOfSpe,
-        image: avatar.value,
+        image: speImg.value[0],
       },
     ],
     account_balance: 0,
@@ -857,6 +873,7 @@ const onSubmit = handleSubmit(async (values: any) => {
     is_active: true,
     educationAndCertification: [
       {
+        image: eduImg.value[0],
         typeOfEducationAndExperience: values.typeOfEdu,
         degreeOfEducation: values.degreeOfEdu,
         institution: values.institution,
@@ -867,7 +884,6 @@ const onSubmit = handleSubmit(async (values: any) => {
       },
     ],
   };
-  console.log(doctor);
   clearNuxtData();
   await doctorStore
     .createDoctor(doctor)

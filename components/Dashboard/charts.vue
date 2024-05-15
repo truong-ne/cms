@@ -4,124 +4,198 @@
       Biểu đồ và thống kê
     </div>
     <div class="gap-4">
-      <div class="md:grid md:grid-cols-2 md:gap-4 gap-2 md:mb-4 mb-2 z-0 h-auto">
-        <div class="relative flex items-center justify-center bg-white rounded-2xl md:p-4 w-full md:mb-4 mb-2 h-full">
+      <div
+        class="md:grid md:grid-cols-2 md:gap-4 gap-2 md:mb-4 mb-2 z-0 h-auto"
+      >
+        <div
+          class="relative flex items-center justify-center bg-white rounded-2xl md:p-4 w-full md:mb-4 mb-2 h-full"
+        >
           <div class="flex absolute top-4 left-4 items-center">
             <span class="text-md items font-extrabold leading-none text-black">
-              Doanh thu</span>
+              Doanh thu</span
+            >
           </div>
 
           <div class="md:h-96 h-56 w-full mt-6 border-t">
             <ClientOnly>
-              <apexchart :key="columnseries" height="100%" width="100%" :options="columnoptions" :series="columnseries">
+              <apexchart
+                :key="columnseries"
+                height="100%"
+                width="100%"
+                :options="columnoptions"
+                :series="columnseries"
+              >
               </apexchart>
             </ClientOnly>
           </div>
         </div>
-        <div class="relative flex items-center justify-center bg-white rounded-2xl md:p-4 w-full md:mb-4 mb-2 h-full">
-          <div href="https://flowbite.com/" class="flex absolute top-4 left-4 items-center">
-            <span class="text-md items font-extrabold leading-none tracking-tight text-gray-900">Chi phí điều trị trung
-              bình theo nhóm tuổi</span>
+        <div
+          class="relative flex items-center justify-center bg-white rounded-2xl md:p-4 w-full md:mb-4 mb-2 h-full"
+        >
+          <div
+            href="https://flowbite.com/"
+            class="flex absolute top-4 left-4 items-center"
+          >
+            <span
+              class="text-md items font-extrabold leading-none tracking-tight text-gray-900"
+              >Chi phí điều trị trung bình theo nhóm tuổi</span
+            >
           </div>
-          <button id="dropdownDefaultButton" data-dropdown-toggle="dropdownTreatmentCosts"
+          <button
+            id="dropdownDefaultButton"
+            data-dropdown-toggle="dropdownTreatmentCosts"
             class="absolute top-2 right-0 text-black bg-white font-medium text-xs px-5 py-2.5 text-center inline-flex items-center"
-            type="button">
+            type="button"
+          >
             Tháng 4
-            <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-              viewBox="0 0 10 6">
-              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="m1 1 4 4 4-4" />
+            <svg
+              class="w-2.5 h-2.5 ms-3"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 10 6"
+            >
+              <path
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="m1 1 4 4 4-4"
+              />
             </svg>
           </button>
 
           <!-- Dropdown menu -->
-          <div id="dropdownTreatmentCosts" class="z-50 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44">
-            <ul class="py-2 text-sm text-gray-700" aria-labelledby="dropdownDefaultButton">
+          <div
+            id="dropdownTreatmentCosts"
+            class="z-50 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44"
+          >
+            <ul
+              class="py-2 text-sm text-gray-700"
+              aria-labelledby="dropdownDefaultButton"
+            >
               <li>
-                <a href="#" class="block px-4 py-2 hover:bg-gray-100">Dashboard</a>
+                <a href="#" class="block px-4 py-2 hover:bg-gray-100"
+                  >Dashboard</a
+                >
               </li>
               <li>
-                <a href="#" class="block px-4 py-2 hover:bg-gray-100">Settings</a>
+                <a href="#" class="block px-4 py-2 hover:bg-gray-100"
+                  >Settings</a
+                >
               </li>
               <li>
-                <a href="#"
-                  class="block px-4 py-2 hover:bg-gray-100">Earnings</a>
+                <a href="#" class="block px-4 py-2 hover:bg-gray-100"
+                  >Earnings</a
+                >
               </li>
               <li>
-                <a href="#" class="block px-4 py-2 hover:bg-gray-100">Sign
-                  out</a>
+                <a href="#" class="block px-4 py-2 hover:bg-gray-100"
+                  >Sign out</a
+                >
               </li>
             </ul>
           </div>
           <div class="h-96 w-full mt-6 border-t">
             <ClientOnly>
-              <apexchart :key="treatmentSeries" height="100%" width="100%" :options="treatmentCostsOptions"
-                :series="treatmentSeries">
+              <apexchart
+                :key="treatmentSeries"
+                height="100%"
+                width="100%"
+                :options="treatmentCostsOptions"
+                :series="treatmentSeries"
+              >
               </apexchart>
             </ClientOnly>
           </div>
         </div>
       </div>
-      <div class="md:grid md:grid-cols-2 md:gap-4 gap-2 md:mb-4 mb-2 z-0 h-auto">
-        <div class="relative flex items-center justify-center bg-white rounded-2xl md:p-4 w-full md:mb-4 mb-2 h-full">
+      <div
+        class="md:grid md:grid-cols-2 md:gap-4 gap-2 md:mb-4 mb-2 z-0 h-auto"
+      >
+        <div
+          class="relative flex items-center justify-center bg-white rounded-2xl md:p-4 w-full md:mb-4 mb-2 h-full"
+        >
           <div class="flex absolute top-4 left-4 items-center">
             <span class="text-md items font-extrabold leading-none text-black">
-              Số lượng bệnh nhân theo tháng</span>
+              Số lượng bệnh nhân theo tháng</span
+            >
           </div>
 
           <div class="md:h-96 h-56 w-full mt-6 border-t">
             <ClientOnly>
-              <apexchart :key="patientMonthSeries" height="100%" width="100%" :options="patientMonthOptions"
-                :series="patientMonthSeries">
+              <apexchart
+                :key="patientMonthSeries"
+                height="100%"
+                width="100%"
+                :options="patientMonthOptions"
+                :series="patientMonthSeries"
+              >
               </apexchart>
             </ClientOnly>
           </div>
         </div>
-        <div class="relative flex items-center justify-center bg-white rounded-2xl md:p-4 w-full md:mb-4 mb-2 h-full">
+        <div
+          class="relative flex items-center justify-center bg-white rounded-2xl md:p-4 w-full md:mb-4 mb-2 h-full"
+        >
           <div class="flex absolute top-4 left-4 items-center">
             <span class="text-md items font-extrabold leading-none text-black">
-              Số lượng bệnh nhân theo chuyên khoa</span>
+              Số lượng bệnh nhân theo chuyên khoa</span
+            >
           </div>
           <div class="md:h-96 h-56 w-full mt-6 border-t">
             <ClientOnly>
-              <apexchart :key="patientSpecialtySeries" height="100%" width="100%" :options="patientSpecialtyOptions"
-                :series="patientSpecialtySeries">
+              <apexchart
+                :key="patientSpecialtySeries"
+                height="100%"
+                width="100%"
+                :options="patientSpecialtyOptions"
+                :series="patientSpecialtySeries"
+              >
               </apexchart>
             </ClientOnly>
           </div>
         </div>
       </div>
-      <div class="md:grid md:grid-cols-3 md:gap-4 gap-2 md:mb-4 mb-2 z-0 h-auto">
+      <div
+        class="md:grid md:grid-cols-3 md:gap-4 gap-2 md:mb-4 mb-2 z-0 h-auto"
+      >
         <div
-          class="relative col-span-2 flex items-center justify-center bg-white rounded-2xl md:p-4 w-full md:mb-4 mb-2 h-full">
+          class="relative col-span-2 flex items-center justify-center bg-white rounded-2xl md:p-4 w-full md:mb-4 mb-2 h-full"
+        >
           <div class="flex absolute top-4 left-4 items-center">
             <span class="text-md items font-extrabold leading-none text-black">
-              Thống kê cuộc hẹn</span>
+              Top 10 bác sĩ</span
+            >
           </div>
-          
+
           <div class="md:h-96 h-56 w-full mt-6 border-t">
             <div class="overflow-x-auto">
               <table class="w-full text-sm text-left text-gray-500">
                 <thead class="text-xs text-gray-700 uppercase bg-colorCDDEFF">
                   <tr>
-                    <th scope="col" class="px-4 py-3">Bác sĩ</th>
-                    <th scope="col" class="px-4 py-3">Chuyên ngành</th>
-                    <th scope="col" class="px-4 py-3">Bệnh nhân</th>
-                    <th scope="col" class="px-4 py-3">Thời gian</th>
-                    <th scope="col" class="px-4 py-3">Trạng thái</th>
+                    <th scope="col" class="px-4 py-3">ID</th>
+                    <th scope="col" class="px-4 py-3"></th>
+                    <th scope="col" class="px-4 py-3">Tên đầy đủ</th>
+                    <th scope="col" class="px-4 py-3">Số cuộc hẹn</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr class="border-b">
-                    <th scope="row"
-                      class="flex items-center px-4 py-3 mr-4 font-normal text-gray-900 whitespace-nowrap">
-                      Trần Huỳnh Tấn Phát
+                  <tr
+                    class="border-b"
+                    v-for="doctor in topDoctors"
+                    :key="doctor.id"
+                  >
+                    <th
+                      scope="row"
+                      class="flex items-center px-4 py-3 mr-4 font-normal text-gray-900 whitespace-nowrap"
+                    >
+                      {{ doctor.id }}
                     </th>
-                    <td class="px-4 py-3 mr-4">Đa khoa</td>
+                    <td class="px-4 py-3 mr-4">{{ doctor.avatar }}</td>
 
-                    <td class="px-4 py-3 mr-4">Phạm Nhật Minh</td>
-                    <td class="px-4 py-3 mr-4">{{ Date() }}</td>
-                    <td class="px-4 py-3 mr-4">Đã xác nhận</td>
+                    <td class="px-4 py-3 mr-4">{{ doctor.full_name }}</td>
+                    <td class="px-4 py-3 mr-4">{{ doctor.consultation }}</td>
                   </tr>
                 </tbody>
               </table>
@@ -129,14 +203,22 @@
           </div>
         </div>
         <div
-          class="relative col-span-1 flex items-center justify-center bg-white rounded-2xl md:p-4 w-full md:mb-4 mb-2 h-full">
+          class="relative col-span-1 flex items-center justify-center bg-white rounded-2xl md:p-4 w-full md:mb-4 mb-2 h-full"
+        >
           <div class="flex absolute top-4 left-4 items-center">
             <span class="text-xl items font-extrabold leading-none text-black">
-              Biểu đồ cuộc hẹn</span>
+              Biểu đồ cuộc hẹn</span
+            >
           </div>
           <div class="md:h-96 h-56 w-full mt-6 border-t">
             <ClientOnly>
-              <apexchart :key="pieseries" height="100%" width="100%" :options="pieoptions" :series="pieseries">
+              <apexchart
+                :key="pieseries"
+                height="100%"
+                width="100%"
+                :options="pieoptions"
+                :series="pieseries"
+              >
               </apexchart>
             </ClientOnly>
           </div>
@@ -147,9 +229,10 @@
 </template>
 
 <script setup lang="ts">
-const { doctorStore, medicalStore } = defineProps([
+const { doctorStore, medicalStore, consultationStore } = defineProps([
   "doctorStore",
   "medicalStore",
+  "consultationStore",
 ]);
 
 //patients count by Specialties
@@ -271,10 +354,10 @@ const updatePatientMonthOptions = () => {
     ...patientMonthOptions.value,
   };
   patientMonthSeries.value = [
-    {
-      name: "Bệnh nhân cũ",
-      data: moneyMonth.value,
-    },
+    // {
+    //   name: "Bệnh nhân cũ",
+    //   data: moneyMonth.value,
+    // },
     {
       name: "Bệnh nhân mới",
       data: [10, 20, 50, 2, 30, 100, 98, 49, 90, 5, 60, 65],
@@ -363,9 +446,9 @@ const pieoptions = ref({
       return (
         [
           seriesName +
-          " tuổi" +
-          "  -  " +
-          opts.w.globals.series[opts.seriesIndex],
+            " tuổi" +
+            "  -  " +
+            opts.w.globals.series[opts.seriesIndex],
         ] + " cuộc hẹn"
       );
     },
@@ -480,9 +563,9 @@ const treatmentCostsOptions = ref({
       return (
         [
           seriesName +
-          " tuổi" +
-          "  -  " +
-          opts.w.globals.series[opts.seriesIndex],
+            " tuổi" +
+            "  -  " +
+            opts.w.globals.series[opts.seriesIndex],
         ] + "k VNĐ"
       );
     },
@@ -586,7 +669,7 @@ const columnoptions = ref({
       offsetY: 0,
       rotate: 0,
       formatter: (val: number) => {
-        return val + "K";
+        return converCurrency(val);
       },
     },
   },
@@ -611,7 +694,7 @@ const columnoptions = ref({
   tooltip: {
     y: {
       formatter: function (val: number) {
-        return Math.abs(val) + "K VNĐ";
+        return converCurrency(Math.abs(val));
       },
     },
   },
@@ -624,12 +707,12 @@ const updateColumnChart = () => {
   columnseries.value = [
     {
       name: "Tiền vào",
-      data: [44, 55, 57, 56, 61, 58, 63, 60, 66, 70, 55, 20],
+      data: moneyMonth.value,
     },
-    {
-      name: "Tiền ra",
-      data: [-76, -85, -101, -98, -87, -105, -91, -114, -94, -10, -90, -100],
-    },
+    // {
+    //   name: "Tiền ra",
+    //   data: [-76, -85, -101, -98, -87, -105, -91, -114, -94, -10, -90, -100],
+    // },
   ];
 };
 
@@ -745,26 +828,52 @@ const updatePatientSpecialty = () => {
 };
 
 const moneyMonth = ref<number[]>([]);
-const consultationPie = ref<number[]>([0, 0, 0]);
+const consultationPie = ref<number[]>([0, 0, 0, 0]);
+
+const topDoctors = ref<TopDoctor[]>([]);
+
 onMounted(async () => {
-  updatePieChart();
-  await Promise.all([
-    doctorStore.getConsultationPie(),
-    doctorStore.getConsultationMoneyArea(),
-  ]);
-  consultationPie.value = [
-    doctorStore.consultationPie?.cancel ?? 0,
-    doctorStore.consultationPie?.finish ?? 0,
-    doctorStore.consultationPie?.confirm ?? 0,
-    doctorStore.consultationPie?.pending ?? 0,
-  ];
-  moneyMonth.value = doctorStore.moneyMonth?.map(
-    (a: MoneyMonth) => a.totalMoneyThisMonth
-  );
-  updatePieChart();
-  updateColumnChart();
-  updateTreatmentSeries();
-  updatePatientMonthOptions();
-  updatePatientSpecialty();
+  try {
+    const date = new Date();
+    try {
+      await consultationStore.getConsultationChart(
+        date.getMonth() + 1,
+        date.getFullYear()
+      );
+      consultationPie.value = [
+        consultationStore.consultationChart?.cancel ?? 0,
+        consultationStore.consultationChart?.finish ?? 0,
+        consultationStore.consultationChart?.confirm ?? 0,
+        consultationStore.consultationChart?.pending ?? 0,
+      ];
+    } catch (e) {
+      console.log(e);
+    }
+    try {
+      await consultationStore.getMoneyChart(date.getFullYear());
+      moneyMonth.value = consultationStore.moneyMonth?.map(
+        (a: MoneyMonth) => a.moneyByMonth
+      );
+    } catch (e) {
+      console.log(e);
+    }
+    try {
+      await consultationStore.getTop10Doctor(
+        date.getMonth() + 1,
+        date.getFullYear()
+      );
+      topDoctors.value = consultationStore.topDoctors;
+    } catch (e) {
+      console.log(e);
+    }
+
+    updatePieChart();
+    updateColumnChart();
+    updateTreatmentSeries();
+    updatePatientMonthOptions();
+    updatePatientSpecialty();
+  } catch (e) {
+    console.log(e);
+  }
 });
 </script>

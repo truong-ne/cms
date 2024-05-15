@@ -123,7 +123,7 @@
                   href="/patients/create"
                   class="pl-11 group flex items-center p-2 text-secondary rounded-lg group hover:bg-primary hover:text-white w-full text-base transition duration-75 group"
                   :class="{
-                    'bg-primary/20 text-primary': route.path.includes('create'),
+                    'bg-primary/20 text-primary': route.path.includes('create')&&route.path.includes('/patients'),
                   }"
                   >Thêm bệnh nhân</a
                 >
@@ -193,7 +193,7 @@
                 <a
                   href="/doctors/create"
                   :class="{
-                    'bg-primary/20': route.path.includes('/create'),
+                    'bg-primary/20': route.path.includes('/create') && route.path.includes('/doctors'),
                   }"
                   class="flex items-center w-full p-2 text-secondary transition duration-75 rounded-lg pl-11 group hover:bg-primary hover:text-white"
                   >Thêm bác sĩ</a

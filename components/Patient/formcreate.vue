@@ -12,7 +12,7 @@
       
     </div>
   </div> -->
-  <section class="mt-8 bg-white rounded-2xl p-12">
+  <section class="mt-8 bg-white rounded-2xl p-4">
     <div class="flex flex-col">
       <div class="text-lg text-black font-extrabold py-5 px-4">
         Thêm tài khoản bệnh nhân

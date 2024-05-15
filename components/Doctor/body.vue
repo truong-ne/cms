@@ -3,7 +3,7 @@
 
   <!-- Body -->
   <section class="w-full md:mb-4">
-    <div class="bg-white rounded-2xl w-full mt-8 p-8 flex flex-col">
+    <div class="bg-white rounded-2xl w-full mt-8 p-4 flex flex-col">
       <div class="w-full flex justify-center text-colorDF9F1E mb-8">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -19,15 +19,25 @@
         </svg>
         <div class="font-bold text-2xl self-end ml-8">Bảng xếp hạng</div>
       </div>
-      <div class="flex gap-8">
-        <div class="relative w-24 h-36">
+      <div class="flex gap-8 justify-center">
+        <div
+          class="relative w-24 h-36"
+          v-for="(doctor, index) in topDoctors"
+          :key="index"
+        >
           <div
-            class="rounded-full bg-primary border-4 border-yellow-300 overflow-hidden"
+            class="rounded-full bg-primary border-4  overflow-hidden"
+            :class="{
+              'border-yellow-300': index == 0,
+              'border-gray-300': index == 1,
+              'border-orange-200': index == 2,
+            }"
           >
             <div
               class="absolute z-10 bottom-0 left-3 right-3 flex flex-col items-center"
             >
               <svg
+                v-if="index == 0"
                 width="72"
                 height="71"
                 viewBox="0 0 72 71"
@@ -59,40 +69,8 @@
                   fill="#FAA629"
                 />
               </svg>
-              <div class="font-normal text-md">Phát</div>
-            </div>
-            <!-- <NuxtImg
-                v-if="
-                  doctor.avatar != 'default' &&
-                  doctor.avatar != null &&
-                  doctor.avatar != ''
-                "
-                provider="cloudinary"
-                width="400"
-                height="400"
-                :src="doctor.avatar"
-                :alt="doctor.full_name"
-                class="object-cover h-full group-hover:scale-[1.15] duration-200 transform ease-linear bg-primary/80"
-              /> -->
-
-            <NuxtImg
-              provider="cloudinary"
-              src="healthline/avatar/doctors/default"
-              width="700"
-              height="700"
-              class="object-cover h-full group-hover:scale-[1.15] duration-200 transform ease-linear"
-              alt=""
-            />
-          </div>
-        </div>
-        <div class="relative w-24 h-36">
-          <div
-            class="rounded-full bg-primary border-4 border-gray-300 overflow-hidden"
-          >
-            <div
-              class="absolute z-10 bottom-0 left-3 right-3 flex flex-col items-center"
-            >
               <svg
+                v-else-if="index == 1"
                 width="72"
                 height="69"
                 viewBox="0 0 72 69"
@@ -124,40 +102,8 @@
                   fill="#546F7A"
                 />
               </svg>
-              <div class="font-normal text-md">Phát</div>
-            </div>
-            <!-- <NuxtImg
-                v-if="
-                  doctor.avatar != 'default' &&
-                  doctor.avatar != null &&
-                  doctor.avatar != ''
-                "
-                provider="cloudinary"
-                width="400"
-                height="400"
-                :src="doctor.avatar"
-                :alt="doctor.full_name"
-                class="object-cover h-full group-hover:scale-[1.15] duration-200 transform ease-linear bg-primary/80"
-              /> -->
-
-            <NuxtImg
-              provider="cloudinary"
-              src="healthline/avatar/doctors/default"
-              width="700"
-              height="700"
-              class="object-cover h-full group-hover:scale-[1.15] duration-200 transform ease-linear"
-              alt=""
-            />
-          </div>
-        </div>
-        <div class="relative w-24 h-36">
-          <div
-            class="rounded-full bg-primary border-4 border-orange-200 overflow-hidden"
-          >
-            <div
-              class="absolute z-10 bottom-0 left-3 right-3 flex flex-col items-center"
-            >
               <svg
+                v-else-if="index == 2"
                 width="72"
                 height="69"
                 viewBox="0 0 72 69"
@@ -189,23 +135,30 @@
                   fill="#FBEBB7"
                 />
               </svg>
-              <div class="font-normal text-md">Phát</div>
+              <div class="font-normal text-md text-balance">
+                {{
+                  doctor.full_name.split(" ")[
+                    doctor.full_name.split(" ").length - 1
+                  ]
+                }}
+              </div>
             </div>
-            <!-- <NuxtImg
-                v-if="
-                  doctor.avatar != 'default' &&
-                  doctor.avatar != null &&
-                  doctor.avatar != ''
-                "
-                provider="cloudinary"
-                width="400"
-                height="400"
-                :src="doctor.avatar"
-                :alt="doctor.full_name"
-                class="object-cover h-full group-hover:scale-[1.15] duration-200 transform ease-linear bg-primary/80"
-              /> -->
+            <NuxtImg
+              v-if="
+                doctor.avatar != 'default' &&
+                doctor.avatar != null &&
+                doctor.avatar != ''
+              "
+              provider="cloudinary"
+              width="400"
+              height="400"
+              :src="doctor.avatar"
+              :alt="doctor.full_name"
+              class="object-cover h-full group-hover:scale-[1.15] duration-200 transform ease-linear"
+            />
 
             <NuxtImg
+              v-else
               provider="cloudinary"
               src="healthline/avatar/doctors/default"
               width="700"
@@ -451,7 +404,11 @@ const mapSpecialty = Object.entries(Specialty).map(([key, value]) => ({
 const route = useRoute();
 
 const isLoading = ref(false);
-const { doctorStore } = defineProps(["doctorStore"]);
+const { doctorStore, consultationStore } = defineProps([
+  "doctorStore",
+  "consultationStore",
+]);
+
 onBeforeMount(async () => {
   result.value = await search(keySearch.value.trim(), {
     hitsPerPage: hitsPerPage.value,
@@ -460,8 +417,17 @@ onBeforeMount(async () => {
   resultSearch.value = result.value.hits;
   totalHits.value = result.value.totalHits;
   totalPages.value = result.value.totalPages;
-  console.log(resultSearch.value);
   doctorStore.saveDoctors(resultSearch.value);
+  try {
+    let date = new Date();
+    await consultationStore.getTop10Doctor(
+      date.getMonth() + 1,
+      date.getFullYear()
+    );
+    topDoctors.value = consultationStore.topDoctors;
+  } catch (e) {
+    console.log(e);
+  }
 });
 onMounted(async () => {
   // doctorStore.doctors = await search("", { sort: ["ratings:desc"], hitsPerPage: 1000 });
@@ -518,6 +484,7 @@ const currentPage = ref(1);
 const totalPages = ref();
 const totalHits = ref(0);
 const currentId = ref();
+const topDoctors = ref<TopDoctor[]>([]);
 
 function getByKey(searchKey: string) {
   for (let { key, value } of mapSpecialty) {

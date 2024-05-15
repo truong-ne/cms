@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <section class="gap-4 flex flex-col">
     <div class="grid grid-cols-3 gap-4 mt-8">
       <div class="relative col-span-2 flex flex-col p-12 rounded-2xl bg-white">
         <div
@@ -7,7 +7,7 @@
           v-if="mainAccount"
         ></div>
         <div
-          class="flex items-end justify-start gap-4 mt-20 mx-4"
+          class="flex items-end justify-start gap-4 mt-16 mx-4"
           v-if="mainAccount"
         >
           <div
@@ -37,18 +37,54 @@
               :alt="mainAccount.full_name"
             />
           </div>
-          <div class="flex flex-col">
-            <span class="text-4xl font-extrabold">{{
-              mainAccount.full_name
-            }}</span>
-            <span class="text-sm font-thin mt-4">ID: {{ mainAccount.id }}</span>
-            <span class="text-sm font-thin"
-              >Số dư: {{ mainAccount.account_balance ?? 0 }} ₫</span
-            >
-            <!-- <span class="text-sm font-normal">{{
+          <div class="flex justify-end items-end">
+            <div class="flex flex-col mt-8" v-if="mainAccount">
+              <span class="text-4xl font-extrabold">{{
+                mainAccount.full_name
+              }}</span>
+              <span class="text-sm font-thin mt-2"
+                >ID: {{ mainAccount.id }}</span
+              >
+              <span class="text-sm font-thin"
+                >Số dư: {{ converCurrency(mainAccount.account_balance ?? 0) }}
+              </span>
+              <span class="text-sm font-thin flex">
+                <div class="flex items-center mr-2">
+                  <svg
+                    class="w-4 h-4 me-1"
+                    :class="{
+                      'text-gray-300': i > mainAccount.ratings,
+                      ' text-yellow-300': i <= mainAccount.ratings,
+                    }"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="currentColor"
+                    viewBox="0 0 22 20"
+                    v-for="i in 5"
+                    :key="i"
+                  >
+                    <path
+                      d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"
+                    />
+                  </svg>
+                </div>
+                {{ mainAccount.ratings ?? 0 }}</span
+              >
+
+              <!-- <span class="text-sm font-normal">{{
               // mainAccount.specialty.toUpperCase()
               mainAccount
             }}</span> -->
+            </div>
+            <div class="mt-16">
+              <button
+                :disabled="loading"
+                class="bg-primary px-1 py-2 rounded-xl w-44 text-white font-medium"
+                v-on:click="resetPassword"
+              >
+                Đặt lại mật khẩu
+              </button>
+            </div>
           </div>
         </div>
 
@@ -276,224 +312,508 @@
           </div>
         </div>
       </div>
-    </div>
-  </section>
-  <!-- <section class="grid md:gap-4 gap-2">
-    <div
-      class="grid md:grid-cols-3 grid-cols-1 gap-4 w-full h-auto items-start justify-start bg-white rounded-xl md:p-8 p-4"
-      v-if="mainAccount"
-    >
-      <a
-        href="/users/doctors"
-        class="hover:bg-gray-200 p-3 absolute rounded-full"
-        rel="noopener noreferrer"
-        ><div>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            aria-hidden="true"
-            class="h-5 w-5 text-gray-900"
-            fill="currentColor"
-            viewBox="0 0 448 512"
-          >
-            <path
-              d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.2 288H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H109.3l105.3-105.4c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"
-            />
-          </svg></div
-      ></a>
       <div
-        class="flex flex-col items-center justify-start mb-2 md:mb-4 pr-8 md:col-span-1 md:border-r h-full"
+        class="col-span-1 grid grid-cols-1 justify-items-center p-12 items-start content-start rounded-2xl bg-white gap-4"
       >
         <div
-          class="md:w-40 md:h-40 w-40 h-40 mb-2 rounded-full overflow-hidden"
+          class="grid grid-cols-1 justify-items-center place-self-center py-2 px-2 bg-secondary w-24 text-white rounded-xl text-sm font-medium"
         >
-          <NuxtImg
-            v-if="mainAccount.avatar !== null"
-            provider="cloudinary"
-            :src="mainAccount.avatar ?? ''"
-            width="700"
-            height="700"
-            class="object-cover group-hover:scale-[1.15] duration-200 transform ease-linear"
-            :alt="mainAccount.full_name"
-          />
-          <NuxtImg
-            v-else
-            provider="cloudinary"
-            src="healthline/avatar/doctors/default"
-            width="700"
-            height="700"
-            class="object-cover group-hover:scale-[1.15] duration-200 transform ease-linear"
-            :alt="mainAccount.full_name"
-          />
+          Lịch khám
         </div>
-        <div class="flex flex-col">
-        <span
-          class="mb-5 lg:text-2xl md:text-xl text-lg font-extrabold leading-none text-black overflow-hidden truncate ..."
-        >
-          Hồ sơ bác sĩ
-        </span>
-        <div class="flex flex-col items-start justify-start w-full">
-          <span
-            class="mb-1 lg:text-md md:text-base text-sm font-semibold leading-none text-black overflow-hidden truncate ..."
-          >
-            Họ tên:
-            <span class="font-thin">{{ mainAccount.full_name }}</span>
-          </span>
-          <span
-            class="mb-1 lg:text-md md:text-base text-sm font-semibold leading-none text-black overflow-hidden truncate ..."
-          >
-            Chuyên ngành:
-            <span class="font-thin">{{ mainAccount.specialty }}</span>
-          </span>
-          <span
-            class="mb-1 lg:text-md md:text-base text-sm font-semibold leading-none text-black overflow-hidden truncate ..."
-          >
-            Email:
-            <a
-              :href="'mailto:' + mainAccount.email"
-              class="font-thin hover:underline"
-              >{{ mainAccount.email }}</a
-            >
-          </span>
-          <span
-            class="mb-1 lg:text-md md:text-base text-sm font-semibold leading-none text-black overflow-hidden truncate ..."
-          >
-            Số điện thoại:
-            <a
-              :href="'tel:' + mainAccount.phone"
-              class="font-thin hover:underline"
-              >{{ mainAccount.phone }}</a
-            >
-          </span>
-          <span
-            class="mb-1 lg:text-md md:text-base text-sm font-semibold leading-none text-black overflow-hidden truncate ..."
-          >
-            Số dư tài khoản:
-            <span class="font-thin">{{ mainAccount.account_balance }}</span>
-          </span>
+        <div id="calendar" inline-datepicker data-date="{{ new Date() }}"></div>
 
-          <span
-            class="mb-1 lg:text-md md:text-base text-sm font-thin leading-none text-black overflow-hidden truncate ..."
+        <div
+          class="grid grid-cols-1 gap-1 w-full"
+          v-if="allConsultation.coming.length > 0"
+        >
+          <div
+            class="grid grid-cols-1 justify-items-start rounded-xl border-2 bg-white py-2 px-4 w-full"
+            v-for="(consultation, index) in allConsultation.coming"
+            :key="index"
           >
-            <span
-              class="mb-1 lg:text-md md:text-base text-sm font-thin leading-none text-black overflow-hidden truncate ..."
+            <span class="font-medium test-sm"
+              >Bệnh nhân:
+              {{ consultation.medical?.full_name ?? "Chưa xác định" }}</span
             >
-              Cập nhật {{ getDateTime(mainAccount.updated_at) }}
-            </span>
-          </span>
-          <div class="flex items-center justify-center w-full mt-8">
-            <button
-              type="button"
-              @click="resetPassword"
-              :disabled="loading"
-              class="flex items-center justify-center w-full md:w-auto text-black bg-yellow-300 hover:bg-yellow-400 hover:text-black focus:ring-4 focus:ring-yellow-200 font-medium rounded-lg text-sm px-4 py-2 focus:outline-none"
-            >
-              <div role="status" v-if="loading">
+            <span class="font-normal text-xs">{{
+              getDate(consultation.date)
+            }}</span>
+            <span class="font-normal text-xs">{{
+              convertExpectedTime(consultation.expected_time)
+            }}</span>
+            <span class="font-normal text-xs">{{ consultation.status }}</span>
+          </div>
+
+          <button
+            class="grid grid-cols-1 justify-items-center rounded-xl bg-primary text-white py-2 px-4 w-full mt-4"
+          >
+            Xem thêm
+          </button>
+        </div>
+        <div v-else>Không có lịch hẹn</div>
+      </div>
+    </div>
+    <div class="grid grid-cols-3 gap-4">
+      <div
+        class="col-span-1 flex flex-col gap-4 justify-start w-full bg-white rounded-2xl p-12"
+      >
+        <div class="font-bold text-2xl flex items-center">
+          <span>Nhận xét</span>
+          <span class="text-sm font-thin flex mx-2">
+            <div class="flex items-center mr-1">
+              <svg
+                class="w-5 h-5 me-0 text-yellow-300"
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="currentColor"
+                viewBox="0 0 22 20"
+              >
+                <path
+                  d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"
+                />
+              </svg>
+            </div>
+            (4)</span
+          >
+        </div>
+        <div class="flex items-center gap-2">
+          <div class="flex items-start gap-2.5">
+            <div class="w-12 h-12 rounded-full z-10 overflow-hidden">
+              <NuxtImg
+                provider="cloudinary"
+                src="healthline/avatar/doctors/default"
+                width="500"
+                height="500"
+                class="object-cover group-hover:scale-[1.15] duration-200 transform ease-linear"
+                alt=""
+              />
+            </div>
+
+            <div class="flex flex-col gap-1 w-full max-w-[320px]">
+              <div class="flex items-center space-x-2 rtl:space-x-reverse">
+                <span class="text-sm font-semibold text-gray-900"
+                  >Bonnie Green</span
+                >
+                <span class="text-sm font-normal text-gray-500">11:46</span>
+              </div>
+              <div class="flex items-center mr-1 -mt-1 mb-2">
                 <svg
+                  class="w-3 h-3 me-1"
+                  :class="{
+                    'text-gray-300': i > 4,
+                    ' text-yellow-300': i <= 4,
+                  }"
                   aria-hidden="true"
-                  class="w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
-                  viewBox="0 0 100 101"
-                  fill="none"
                   xmlns="http://www.w3.org/2000/svg"
+                  fill="currentColor"
+                  viewBox="0 0 22 20"
+                  v-for="i in 5"
+                  :key="i"
                 >
                   <path
-                    d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
-                    fill="currentColor"
-                  />
-                  <path
-                    d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
-                    fill="currentFill"
+                    d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"
                   />
                 </svg>
-                <span class="sr-only">Loading...</span>
               </div>
-
-              <span v-else class="flex items-center"> Đặt lại mật khẩu </span>
-            </button>
+              <div
+                class="flex flex-col leading-1.5 p-4 border-gray-200 bg-gray-100 rounded-e-xl rounded-es-xl dark:bg-gray-700"
+              >
+                <p class="text-sm font-normal text-gray-900 dark:text-white">
+                  That's awesome. I think our users will really appreciate the
+                  improvements.
+                </p>
+              </div>
+            </div>
           </div>
         </div>
-
-        </div>
       </div>
-
       <div
-        class="relative md:col-span-2 flex flex-col items-start justify-start md:pl-4 h-auto"
+        class="col-span-2 relative flex items-center rounded-xl justify-center bg-white md:p-4 w-full h-full"
       >
-        <span
-          class="mb-1 lg:text-md md:text-base text-sm font-bold leading-none text-black"
-        >
-          Tiểu sử:
-          <p class="font-thin text-justify">
-            {{ mainAccount.biography ?? "Trống" }}
-          </p>
-        </span>
+        <div class="flex absolute top-4 left-4 items-center">
+          <span
+            class="text-md items font-bold leading-none text-black md:text-lg lg:text-xl"
+          >
+            Khám bệnh</span
+          >
+        </div>
+        <div class="md:h-72 h-56 w-full mt-12 border-t">
+          <ClientOnly>
+            <apexchart
+              :key="barseries"
+              height="100%"
+              width="100%"
+              :options="baroptions"
+              :series="barseries"
+            >
+            </apexchart>
+          </ClientOnly>
+        </div>
       </div>
     </div>
     <div
-      class="grid gap-4 w-full items-start justify-start bg-white rounded-xl md:p-4 p-2 relative"
+      class="col-span-3 relative flex items-center rounded-xl justify-center bg-white md:p-4 w-full h-full"
     >
-      <div class="flex items-center w-full">
-        <span
-          class="text-md items font-bold leading-none text-black md:text-lg lg:text-xl w-full"
-        >
-          Danh sách bệnh nhân ({{
-            doctorStore.patientConsultation?.quantity
-          }})</span
+      <div class="flex absolute top-4 left-4 items-center">
+        <span class="text-md items font-extrabold leading-none text-black">
+          Thu nhập</span
         >
       </div>
-      <div class="w-full relative">
-        <div class="overflow-x-auto">
-          <table class="w-screen text-sm text-left text-gray-500">
-            <thead class="text-xs text-gray-700 uppercase bg-gray-50">
-              <tr>
-                <th scope="col" class="px-4 py-3">Họ tên</th>
-                <th scope="col" class="px-4 py-3">Email</th>
-                <th scope="col" class="px-4 py-3">Số diện thoại</th>
-              </tr>
-            </thead>
-            <tbody v-if="doctorStore.patientConsultation">
-              <tr
-                class="border-b"
-                v-for="patient in doctorStore.patientConsultation.consultation"
-                :key="patient.medical_id"
-              >
-                <th
-                  scope="row"
-                  class="flex items-center px-4 py-3 mr-4 font-normal text-gray-900 whitespace-nowrap"
-                >
-                  {{ patient.medical_id }}
-                </th>
-                <td class="px-4 py-3 mr-4">
-                  {{ patient.email }}
-                </td>
 
-                <td class="px-4 py-3 mr-4">{{ patient.phone }}</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+      <div class="md:h-96 h-56 w-full mt-6 border-t">
+        <ClientOnly>
+          <apexchart
+            :key="moneyChartByMonthSeries"
+            height="100%"
+            width="100%"
+            :options="moneyChartByMonthOptions"
+            :series="moneyChartByMonthSeries"
+          >
+          </apexchart>
+        </ClientOnly>
       </div>
     </div>
-  </section> -->
+  </section>
 </template>
 <script setup lang="ts">
 import { array, mask } from "superstruct";
+import Datepicker from "flowbite-datepicker/Datepicker";
+import type {
+  AllConsultation,
+  Consultation,
+} from "~/stores/structs/consultation_struct";
 
 const { search, result } = useMeiliSearch("doctors");
 const route = useRoute();
 const mainAccount = ref();
 const param = ref();
-const loading = ref();
+const allConsultation = ref<AllConsultation>({ coming: [], finish: [] });
+const moneyChartByMonth = ref<object[]>([]);
 
-const { doctorStore } = defineProps(["doctorStore"]);
+const loading = ref(false);
+
+const { doctorStore, consultationStore } = defineProps([
+  "doctorStore",
+  "consultationStore",
+]);
 const storeToast = toastStore();
 const toastStatus = ref("");
 const message = ref("");
+const moneyChartByMonthOptions = ref({
+  chart: {
+    height: "100%",
+    maxWidth: "100%",
+    type: "line",
+    fontFamily: "Helvetica, Arial, sans-serif",
+    dropShadow: {
+      enabled: false,
+    },
+    zoom: { enabled: false },
+  },
+  markers: {
+    size: 5,
+    strokeWidth: 4,
+    strokeOpacity: 1,
+    strokeColors: ["#DF9F1E", "#009DC7"],
+    colors: ["#fff"],
+    hover: {
+      size: 8,
+      sizeOffset: 3,
+    },
+  },
+  dataLabels: {
+    enabled: false,
+  },
+  stroke: {
+    curve: "straight",
+    width: 3,
+  },
+  grid: {
+    show: true,
+    padding: {
+      left: 20,
+      right: 20,
+      top: 10,
+      bottom: 10,
+    },
+  },
+  legend: {
+    position: "top",
+    fontSize: "14px",
+    fontFamily: "Helvetica, Arial",
+  },
+  xaxis: {
+    axisBorder: {
+      show: false,
+    },
+    axisTicks: {
+      show: false,
+    },
+    // categories: [
+    //   "Tháng 1",
+    //   "Tháng 2",
+    //   "Tháng 3",
+    //   "Tháng 4",
+    //   "Tháng 5",
+    //   "Tháng 6",
+    //   "Tháng 7",
+    //   "Tháng 8",
+    //   "Tháng 9",
+    //   "Tháng 10",
+    //   "Tháng 11",
+    //   "Tháng 12",
+    // ],
+    labels: {
+      style: {
+        fontSize: "12px",
+      },
+    },
+  },
+  yaxis: {
+    show: true,
+    title: {
+      text: "Người",
+      rotate: -90,
+      offsetX: 0,
+      offsetY: 0,
+      style: {
+        fontSize: "12px",
+        fontFamily: "Helvetica, Arial, sans-serif",
+        fontWeight: 600,
+      },
+    },
+    labels: {
+      show: true,
+      align: "right",
+      minWidth: 0,
+      maxWidth: 160,
+      style: {
+        colors: [],
+        fontSize: "12px",
+        fontFamily: "Helvetica, Arial, sans-serif",
+        fontWeight: 400,
+        cssClass: "apexcharts-yaxis-label",
+      },
+      offsetX: 0,
+      offsetY: 0,
+      rotate: 0,
+      formatter: (val: number) => {
+        return val;
+      },
+    },
+  },
+  tooltip: {
+    y: {
+      formatter: function (val: number) {
+        return val + " người";
+      },
+    },
+  },
+  colors: ["#DF9F1E", "#009DC7"],
+});
+const moneyChartByMonthSeries = ref([
+  {
+    name: "Thu nhập",
+    data: moneyChartByMonth.value,
+  },
+]);
+const updatemoneyChartByMonthOptions = () => {
+  moneyChartByMonthOptions.value = {
+    ...moneyChartByMonthOptions.value,
+  };
+  moneyChartByMonthSeries.value = [
+    // {
+    //   name: "Bệnh nhân cũ",
+    //   data: moneyMonth.value,
+    // },
+    {
+      name: "Thu nhập",
+      data: moneyChartByMonth.value,
+    },
+  ];
+};
+
+const baroptions = ref({
+  chart: {
+    height: "100%",
+    maxWidth: "100%",
+    type: "bar",
+    fontFamily: "Helvetica, Arial, sans-serif",
+    dropShadow: {
+      enabled: false,
+    },
+    toolbar: {
+      show: false,
+    },
+  },
+
+  grid: {
+    show: true,
+    strokeDashArray: 4,
+    padding: {
+      left: 20,
+      right: 10,
+      top: 0,
+      bottom: 0,
+    },
+  },
+
+  plotOptions: {
+    bar: {
+      horizontal: false,
+      columnWidth: "80%",
+      borderRadiusApplication: "start",
+      borderRadius: 10,
+    },
+  },
+  dataLabels: {
+    enabled: false,
+  },
+  legend: {
+    position: "top",
+    fontSize: "14px",
+    fontFamily: "Helvetica, Arial",
+  },
+  stroke: {
+    show: false,
+  },
+  xaxis: {
+    axisBorder: {
+      show: false,
+    },
+    axisTicks: {
+      show: false,
+    },
+    categories: [
+      "Tháng 1",
+      "Tháng 2",
+      "Tháng 3",
+      "Tháng 4",
+      "Tháng 5",
+      "Tháng 6",
+      "Tháng 7",
+      "Tháng 8",
+      "Tháng 9",
+      "Tháng 10",
+      "Tháng 11",
+      "Tháng 12",
+    ],
+  },
+  yaxis: {
+    title: {
+      text: "Số lần",
+      rotate: -90,
+      offsetX: 0,
+      offsetY: 0,
+      style: {
+        fontSize: "12px",
+        fontFamily: "Helvetica, Arial, sans-serif",
+        fontWeight: "bold",
+      },
+    },
+    labels: {
+      show: true,
+      align: "right",
+      minWidth: 0,
+      maxWidth: 160,
+      style: {
+        colors: [],
+        fontSize: "14px",
+        fontFamily: "Helvetica, Arial, sans-serif",
+        fontWeight: "normal",
+        cssClass: "apexcharts-yaxis-label",
+      },
+      offsetX: 0,
+      offsetY: 0,
+      rotate: 0,
+      formatter: (val: number) => {
+        return val;
+      },
+    },
+  },
+  fill: {
+    opacity: 1,
+  },
+  colors: ["#009dc7"],
+
+  tooltip: {
+    y: {
+      formatter: function (val: number) {
+        return Math.abs(val) + " lần";
+      },
+    },
+  },
+});
+const barseries = ref([
+  {
+    name: "Số lần khám",
+    data: [1, 3, 2, 1, 0, 0, 1, 1, 4, 1, 0, 0],
+  },
+]);
+const updateBarChart = () => {
+  baroptions.value = {
+    ...baroptions.value,
+  };
+  barseries.value = [
+    {
+      name: "Số lần khám",
+      data: [1, 3, 2, 1, 0, 0, 1, 1, 4, 1, 0, 0],
+    },
+  ];
+};
 
 function addToast() {
   storeToast.add({
     message: message.value,
     toastStatus: toastStatus.value,
   });
+}
+
+async function resetPassword() {
+  try {
+    loading.value = true;
+    await doctorStore.resetPassword(param.value);
+    toastStatus.value = "success";
+    message.value = "Đặt lại mật khẩu thành công";
+  } catch (e: any) {
+    toastStatus.value = "error";
+    message.value = e;
+  }
+  addToast();
+  loading.value = false;
+}
+
+function convertExpectedTime(expTime: string) {
+  let times = expTime.split("-");
+  if (times.length >= 2) {
+    let hS = `${Math.floor(Number(times[0]) / 2)}`;
+    let mS = "00";
+    if (Number(times[0]) / 2 == 1) {
+      mS = "30";
+    }
+    let hE = `${Math.floor((Number(times[times.length - 1]) + 1) / 2)}`;
+    let mE = "00";
+    if ((Number(times[times.length - 1]) + 1) / 2 == 1) {
+      mE = "30";
+    }
+
+    return `${hS}:${mS} - ${hE}:${mE}`;
+  } else {
+    let hS = `${Math.floor(Number(times[0]) / 2)}`;
+    let mS = "00";
+    if (Number(times[0]) % 2 == 1) {
+      mS = "30";
+    }
+    let hE = `${Math.floor(Number(times[0]) / 2)}`;
+    let mE = "00";
+    if ((Number(times[0]) + 1) % 2 == 1) {
+      mE = "30";
+    } else {
+      hE = `${Math.floor((Number(times[0]) + 1) / 2)}`;
+    }
+
+    return `${hS}:${mS} - ${hE}:${mE}`;
+  }
 }
 // async function resetPassword() {
 //   try {
@@ -515,7 +835,10 @@ function addToast() {
 //     console.log(error);
 //   }
 // }
+
 onBeforeMount(async () => {
+  let date = new Date();
+
   param.value = route.params["slug"].toString();
   mainAccount.value = mask(
     (await search(param.value, { hitsPerPage: 1 })).hits,
@@ -533,6 +856,96 @@ onBeforeMount(async () => {
   } catch (e) {
     console.log(e);
   }
+  try {
+    await consultationStore.getAllConsultationOfDoctor(mainAccount.value.id);
+    allConsultation.value!.coming =
+      consultationStore.allConsultation.coming.filter(
+        (element: Consultation) => {
+          let dateConsultation = new Date(element.date);
+          if (
+            date.getDay() == dateConsultation.getDay() &&
+            date.getMonth() == dateConsultation.getMonth() &&
+            date.getFullYear() == dateConsultation.getFullYear()
+          ) {
+            return true;
+          } else return false;
+        }
+      );
+    allConsultation.value!.finish =
+      consultationStore.allConsultation.finish.filter(
+        (element: Consultation) => {
+          let dateConsultation = new Date(element.date);
+          if (
+            date.getDay() == dateConsultation.getDay() &&
+            date.getMonth() == dateConsultation.getMonth() &&
+            date.getFullYear() == dateConsultation.getFullYear()
+          ) {
+            return true;
+          } else return false;
+        }
+      );
+  } catch (e) {
+    console.log(e);
+  }
+  try {
+    await consultationStore.getMoneyChartOfMonth(
+      mainAccount.value.id,
+      date.getMonth() + 1,
+      date.getFullYear()
+    );
+
+    moneyChartByMonth.value = Object.entries(
+      consultationStore.moneyChartByMonth.moneyChartOfMonth
+    ).map(([key, value]) => {
+      return { x: key, y: value };
+    });
+    updatemoneyChartByMonthOptions();
+  } catch (e) {
+    console.log(e);
+  }
+  updateBarChart();
 });
-onMounted(async () => {});
+onMounted(async () => {
+  const dayConsultation = document.getElementById("calendar");
+  new Datepicker(dayConsultation, {
+    todayHighlight: true,
+    autohide: true,
+    format: "dd/mm/yyyy",
+    language: "vi",
+    defaultDate: false,
+    maxDate: new Date(),
+    minDate: new Date(1900),
+  });
+  dayConsultation?.addEventListener("changeDate", (e) => {
+    let date = new Date(e.detail.date);
+    allConsultation.value!.coming =
+      consultationStore.allConsultation.coming.filter(
+        (element: Consultation) => {
+          let dateConsultation = new Date(element.date);
+          if (
+            date.getDay() == dateConsultation.getDay() &&
+            date.getMonth() == dateConsultation.getMonth() &&
+            date.getFullYear() == dateConsultation.getFullYear()
+          ) {
+            return true;
+          } else return false;
+        }
+      );
+    allConsultation.value!.finish =
+      consultationStore.allConsultation.finish.filter(
+        (element: Consultation) => {
+          let dateConsultation = new Date(element.date);
+
+          if (
+            date.getDay() == dateConsultation.getDay() &&
+            date.getMonth() == dateConsultation.getMonth() &&
+            date.getFullYear() == dateConsultation.getFullYear()
+          ) {
+            return true;
+          } else return false;
+        }
+      );
+    console.log(allConsultation.value);
+  });
+});
 </script>

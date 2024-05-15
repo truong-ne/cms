@@ -1,7 +1,7 @@
 <template>
   <section>
     <DoctorHeader />
-    <DoctorBody :doctorStore="doctorStore" />
+    <DoctorBody :doctorStore="doctorStore" :consultationStore="consultationStore"/>
     <DoctorFormupdate :doctorStore="doctorStore" />
     <!-- <DoctorFormcreate :doctorStore="doctorStore" />
     <DoctorFormupdate /> -->
@@ -10,6 +10,7 @@
 
 <script setup lang="ts">
 const doctorStore = useDataDoctor();
+const consultationStore = useDataConsultation();
 try {
   await doctorStore.getQuantityDoctor();
 } catch (e) {
