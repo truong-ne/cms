@@ -425,14 +425,14 @@ const [email, emailAttrs] = defineField("email", {
 const [gender, genderAttrs] = defineField("gender", {
   validateOnInput: true,
 });
-
 const [address, addressAttrs] = defineField("address", {});
+
 function getFormattedDate(date: Date) {
   let year = date.getFullYear();
   let month = (1 + date.getMonth()).toString().padStart(2, "0");
   let day = date.getDate().toString().padStart(2, "0");
 
-  return day + "/" + month + "/" + year;
+  return month + "/" + day + "/" + year;
 }
 
 const onSubmit = handleSubmit(async (values: any) => {
@@ -471,7 +471,7 @@ onMounted(() => {
     minDate: new Date(1900),
   });
   dateOfBirthEF?.addEventListener("changeDate", (e) => {
-    dateOfBirth.value = getFormattedDate(new Date(e.detail.date));
+    dateOfBirth.value = new Date(e.detail.date).toISOString();
   });
 });
 </script>
