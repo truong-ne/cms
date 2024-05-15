@@ -1,9 +1,4 @@
 import { array, mask } from "superstruct";
-import {
-  MoneyChartOfMonth,
-  type AllConsultation,
-  type ConsultationChart,
-} from "./structs/consultation_struct";
 
 export const useDataConsultation = defineStore("consultation", () => {
   const storeAuth = useAuthStore();
@@ -14,7 +9,60 @@ export const useDataConsultation = defineStore("consultation", () => {
   const topDoctors = ref<TopDoctor[]>();
   const allConsultation = ref<AllConsultation>();
   const moneyChartByMonth = ref<MoneyChartOfMonth>();
+  const quantityMedicalOldNew = ref<QuantityMedicalOldNew>();
+  const allFeedback = ref<Feedback[]>();
 
+  async function getAllConsultationFeedback(doctorId: string) {
+    try {
+      if (authorization === "Bearer ") throw "Không thể xác định danh tính";
+      const { data, error } = await useFetch(`consultation/feedback/${doctorId}/doctor`, {
+        baseURL: useRuntimeConfig().public.baseURL,
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: authorization,
+        },
+      });
+
+      if (data.value !== null) {
+        const response = mask(data.value, DataArraySchema);
+        allFeedback.value = mask(response.data, array(FeedbackSchema)).filter((e)=> e.rated!=null && e.feedback!=null);
+      } else {
+        throw error;
+      }
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async function getQuantityMedicalOldNew(year: number) {
+    try {
+      if (authorization === "Bearer ") throw "Không thể xác định danh tính";
+      const { data, error } = await useFetch(
+        `consultation/admin/medical/${year}`,
+        {
+          baseURL: useRuntimeConfig().public.baseURL,
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: authorization,
+          },
+        }
+      );
+
+      if (data.value !== null) {
+        const response = mask(data.value, DataObjectSchema);
+        quantityMedicalOldNew.value = mask(
+          response.data,
+          QuantityMedicalOldNewSchema
+        );
+      } else {
+        throw error;
+      }
+    } catch (error) {
+      throw error;
+    }
+  }
   async function getConsultationChart(month: number, year: number) {
     try {
       if (authorization === "Bearer ") throw "Không thể xác định danh tính";
@@ -176,5 +224,9 @@ export const useDataConsultation = defineStore("consultation", () => {
     getAllConsultationOfDoctor,
     moneyChartByMonth,
     getMoneyChartOfMonth,
+    quantityMedicalOldNew,
+    getQuantityMedicalOldNew,
+    allFeedback,
+    getAllConsultationFeedback,
   };
 });

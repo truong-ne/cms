@@ -4,7 +4,7 @@
     id="updateNews"
     tabindex="-1"
     aria-hidden="true"
-    class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] md:max-h-md p-2"
+    class="hidden bg-black/20 overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] md:max-h-md p-2"
   >
     <div class="relative w-full max-w-3xl md:max-h-full">
       <!-- Modal content -->
@@ -16,9 +16,8 @@
           <h3 class="text-lg font-semibold text-gray-900">Cập nhật</h3>
           <button
             type="button"
-            class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center "
-            data-modal-target="updateNews"
-            data-modal-toggle="updateNews"
+            class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
+            id="buttonClose"
           >
             <svg
               aria-hidden="true"
@@ -84,7 +83,8 @@
                 type="text"
                 name="title"
                 id="title"
-                v-bind="title"
+                v-model="title"
+                v-bind="titleAttrs"
                 class="bg-gray-50 border text-gray-900 text-sm rounded-lg block w-full p-2.5"
                 :class="{
                   'border-gray-300 focus:border-blue-600 focus:ring-primary':
@@ -114,7 +114,8 @@
                 name="content"
                 id="content"
                 rows="10"
-                v-bind="content"
+                v-model="content"
+                v-bind="contentAttrs"
                 class="resize-none bg-gray-50 border text-gray-900 text-sm rounded-lg block w-full p-2.5"
                 :class="{
                   'border-gray-300 focus:border-blue-600 focus:ring-primary':
@@ -139,7 +140,7 @@
               <div role="status" v-if="isSubmitting">
                 <svg
                   aria-hidden="true"
-                  class="w-8 h-8 text-gray-200 animate-spin  fill-blue-600"
+                  class="w-8 h-8 text-gray-200 animate-spin fill-blue-600"
                   viewBox="0 0 100 101"
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
@@ -168,7 +169,7 @@
                     d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32v144H48c-17.7 0-32 14.3-32 32s14.3 32 32 32h144v144c0 17.7 14.3 32 32 32s32-14.3 32-32V288h144c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z"
                   />
                 </svg>
-                Cập nhaatj
+                Cập nhật
               </span>
             </button>
           </div>
@@ -205,7 +206,7 @@ function addToast() {
 }
 
 const {
-  defineInputBinds,
+  defineField,
   resetForm,
   setFieldValue,
   isSubmitting,
@@ -229,14 +230,13 @@ const {
 });
 
 resetForm();
-
-const title = defineInputBinds("title", {
+const [title, titleAttrs] = defineField("title", {
+  validateOnInput: true,
+});
+const [content, contentAttrs] = defineField("content", {
   validateOnInput: true,
 });
 
-const content = defineInputBinds("content", {
-  validateOnInput: true,
-});
 const image = ref();
 const errorImage = ref();
 

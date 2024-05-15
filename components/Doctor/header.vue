@@ -36,12 +36,7 @@
       >
         + Thêm bác sĩ
       </a>
-      <button
-        type="button"
-        class="text-white inline-flex bg-red-600 items-center justify-center hover:bg-red-500 focus:ring-0 font-medium rounded-xl text-sm px-5 py-2.5 text-center w-full sm:w-auto"
-      >
-        - Xoá
-      </button>
+     
     </div>
   </div>
 </template>

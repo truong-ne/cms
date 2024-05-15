@@ -199,7 +199,7 @@
           </li>
           <li>
             <button type="button" @click="choosePage(currentPage)"
-              class="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-primary border border-gray-300 hover:bg-primary hover:text-primary">
+              class="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300">
               {{ currentPage }}
             </button>
           </li>

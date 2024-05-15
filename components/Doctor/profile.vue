@@ -24,7 +24,7 @@
               :src="mainAccount.avatar"
               width="500"
               height="500"
-              class="object-cover group-hover:scale-[1.15] duration-200 transform ease-linear bg-primary/20"
+              class="object-cover duration-200 transform ease-linear bg-primary/20"
               :alt="mainAccount.full_name"
             />
             <NuxtImg
@@ -33,7 +33,7 @@
               src="healthline/avatar/doctors/default"
               width="500"
               height="500"
-              class="object-cover group-hover:scale-[1.15] duration-200 transform ease-linear"
+              class="object-cover duration-200 transform ease-linear"
               :alt="mainAccount.full_name"
             />
           </div>
@@ -246,7 +246,7 @@
                       :src="x.image"
                       width="500"
                       height="500"
-                      class="object-cover group-hover:scale-[1.15] duration-200 transform ease-linear"
+                      class="object-cover duration-200 transform ease-linear"
                       alt=""
                     />
                   </div>
@@ -285,7 +285,7 @@
                       :src="x.image"
                       width="500"
                       height="500"
-                      class="object-cover group-hover:scale-[1.15] duration-200 transform ease-linear"
+                      class="object-cover duration-200 transform ease-linear"
                       alt=""
                     />
                   </div>
@@ -359,7 +359,7 @@
       >
         <div class="font-bold text-2xl flex items-center">
           <span>Nhận xét</span>
-          <span class="text-sm font-thin flex mx-2">
+          <span class="text-sm font-thin flex mx-2" v-if="mainAccount">
             <div class="flex items-center mr-1">
               <svg
                 class="w-5 h-5 me-0 text-yellow-300"
@@ -373,35 +373,58 @@
                 />
               </svg>
             </div>
-            (4)</span
+            ({{ mainAccount.ratings }})</span
           >
         </div>
-        <div class="flex items-center gap-2">
-          <div class="flex items-start gap-2.5">
-            <div class="w-12 h-12 rounded-full z-10 overflow-hidden">
+        <div class="flex flex-col justify-items-start items-start gap-4">
+          <div
+            class="relative flex items-start gap-2.5"
+            v-for="(feedback, index) in allFeedback"
+            :key="index"
+          >
+            <div
+              class="absolute w-12 h-12 rounded-full z-10 overflow-hidden bg-black"
+            >
               <NuxtImg
+                v-if="
+                  feedback.user.avatar != 'default' &&
+                  feedback.user.avatar != null &&
+                  feedback.user.avatar != '' &&
+                  feedback.user
+                "
+                provider="cloudinary"
+                :src="feedback.user.avatar"
+                width="500"
+                height="500"
+                class="object-cover duration-200 transform ease-linear bg-primary/20"
+                :alt="feedback.user.full_name"
+              />
+              <NuxtImg
+                v-else
                 provider="cloudinary"
                 src="healthline/avatar/doctors/default"
                 width="500"
                 height="500"
-                class="object-cover group-hover:scale-[1.15] duration-200 transform ease-linear"
-                alt=""
+                class="object-cover duration-200 transform ease-linear"
+                :alt="feedback.user.full_name"
               />
             </div>
 
-            <div class="flex flex-col gap-1 w-full max-w-[320px]">
+            <div class="ml-16 flex flex-col gap-1 w-full max-w-[320px]">
               <div class="flex items-center space-x-2 rtl:space-x-reverse">
-                <span class="text-sm font-semibold text-gray-900"
-                  >Bonnie Green</span
-                >
-                <span class="text-sm font-normal text-gray-500">11:46</span>
+                <span class="text-sm font-semibold text-gray-900">{{
+                  feedback.user.full_name
+                }}</span>
+                <span class="text-sm font-normal text-gray-500">{{
+                  getDate(feedback.created_at)
+                }}</span>
               </div>
               <div class="flex items-center mr-1 -mt-1 mb-2">
                 <svg
                   class="w-3 h-3 me-1"
                   :class="{
-                    'text-gray-300': i > 4,
-                    ' text-yellow-300': i <= 4,
+                    'text-gray-300': i > (feedback.rated ?? 0),
+                    ' text-yellow-300': i <= (feedback.rated ?? 0),
                   }"
                   aria-hidden="true"
                   xmlns="http://www.w3.org/2000/svg"
@@ -416,18 +439,17 @@
                 </svg>
               </div>
               <div
-                class="flex flex-col leading-1.5 p-4 border-gray-200 bg-gray-100 rounded-e-xl rounded-es-xl dark:bg-gray-700"
+                class="flex flex-col leading-1.5 p-4 border-gray-200 bg-gray-100 rounded-e-xl rounded-es-xl "
               >
-                <p class="text-sm font-normal text-gray-900 dark:text-white">
-                  That's awesome. I think our users will really appreciate the
-                  improvements.
+                <p class="text-sm font-normal text-gray-900">
+                  {{ feedback.feedback ?? "" }}
                 </p>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <div
+      <!-- <div
         class="col-span-2 relative flex items-center rounded-xl justify-center bg-white md:p-4 w-full h-full"
       >
         <div class="flex absolute top-4 left-4 items-center">
@@ -449,28 +471,28 @@
             </apexchart>
           </ClientOnly>
         </div>
-      </div>
-    </div>
-    <div
-      class="col-span-3 relative flex items-center rounded-xl justify-center bg-white md:p-4 w-full h-full"
-    >
-      <div class="flex absolute top-4 left-4 items-center">
-        <span class="text-md items font-extrabold leading-none text-black">
-          Thu nhập</span
-        >
-      </div>
-
-      <div class="md:h-96 h-56 w-full mt-6 border-t">
-        <ClientOnly>
-          <apexchart
-            :key="moneyChartByMonthSeries"
-            height="100%"
-            width="100%"
-            :options="moneyChartByMonthOptions"
-            :series="moneyChartByMonthSeries"
+      </div> -->
+      <div
+        class="col-span-2 relative flex items-center rounded-xl justify-center bg-white md:p-4 w-full h-full"
+      >
+        <div class="flex absolute top-4 left-4 items-center">
+          <span class="text-md items font-extrabold leading-none text-black">
+            Thu nhập</span
           >
-          </apexchart>
-        </ClientOnly>
+        </div>
+
+        <div class="md:h-96 h-56 w-full mt-6 border-t">
+          <ClientOnly>
+            <apexchart
+              :key="moneyChartByMonthSeries"
+              height="100%"
+              width="100%"
+              :options="moneyChartByMonthOptions"
+              :series="moneyChartByMonthSeries"
+            >
+            </apexchart>
+          </ClientOnly>
+        </div>
       </div>
     </div>
   </section>
@@ -489,6 +511,7 @@ const mainAccount = ref();
 const param = ref();
 const allConsultation = ref<AllConsultation>({ coming: [], finish: [] });
 const moneyChartByMonth = ref<object[]>([]);
+const allFeedback = ref<Feedback[]>([]);
 
 const loading = ref(false);
 
@@ -549,20 +572,6 @@ const moneyChartByMonthOptions = ref({
     axisTicks: {
       show: false,
     },
-    // categories: [
-    //   "Tháng 1",
-    //   "Tháng 2",
-    //   "Tháng 3",
-    //   "Tháng 4",
-    //   "Tháng 5",
-    //   "Tháng 6",
-    //   "Tháng 7",
-    //   "Tháng 8",
-    //   "Tháng 9",
-    //   "Tháng 10",
-    //   "Tháng 11",
-    //   "Tháng 12",
-    // ],
     labels: {
       style: {
         fontSize: "12px",
@@ -572,7 +581,7 @@ const moneyChartByMonthOptions = ref({
   yaxis: {
     show: true,
     title: {
-      text: "Người",
+      text: "VNĐ",
       rotate: -90,
       offsetX: 0,
       offsetY: 0,
@@ -598,14 +607,14 @@ const moneyChartByMonthOptions = ref({
       offsetY: 0,
       rotate: 0,
       formatter: (val: number) => {
-        return val;
+        return converCurrency(val);
       },
     },
   },
   tooltip: {
     y: {
       formatter: function (val: number) {
-        return val + " người";
+        return converCurrency(val);
       },
     },
   },
@@ -633,134 +642,134 @@ const updatemoneyChartByMonthOptions = () => {
   ];
 };
 
-const baroptions = ref({
-  chart: {
-    height: "100%",
-    maxWidth: "100%",
-    type: "bar",
-    fontFamily: "Helvetica, Arial, sans-serif",
-    dropShadow: {
-      enabled: false,
-    },
-    toolbar: {
-      show: false,
-    },
-  },
+// const baroptions = ref({
+//   chart: {
+//     height: "100%",
+//     maxWidth: "100%",
+//     type: "bar",
+//     fontFamily: "Helvetica, Arial, sans-serif",
+//     dropShadow: {
+//       enabled: false,
+//     },
+//     toolbar: {
+//       show: false,
+//     },
+//   },
 
-  grid: {
-    show: true,
-    strokeDashArray: 4,
-    padding: {
-      left: 20,
-      right: 10,
-      top: 0,
-      bottom: 0,
-    },
-  },
+//   grid: {
+//     show: true,
+//     strokeDashArray: 4,
+//     padding: {
+//       left: 20,
+//       right: 10,
+//       top: 0,
+//       bottom: 0,
+//     },
+//   },
 
-  plotOptions: {
-    bar: {
-      horizontal: false,
-      columnWidth: "80%",
-      borderRadiusApplication: "start",
-      borderRadius: 10,
-    },
-  },
-  dataLabels: {
-    enabled: false,
-  },
-  legend: {
-    position: "top",
-    fontSize: "14px",
-    fontFamily: "Helvetica, Arial",
-  },
-  stroke: {
-    show: false,
-  },
-  xaxis: {
-    axisBorder: {
-      show: false,
-    },
-    axisTicks: {
-      show: false,
-    },
-    categories: [
-      "Tháng 1",
-      "Tháng 2",
-      "Tháng 3",
-      "Tháng 4",
-      "Tháng 5",
-      "Tháng 6",
-      "Tháng 7",
-      "Tháng 8",
-      "Tháng 9",
-      "Tháng 10",
-      "Tháng 11",
-      "Tháng 12",
-    ],
-  },
-  yaxis: {
-    title: {
-      text: "Số lần",
-      rotate: -90,
-      offsetX: 0,
-      offsetY: 0,
-      style: {
-        fontSize: "12px",
-        fontFamily: "Helvetica, Arial, sans-serif",
-        fontWeight: "bold",
-      },
-    },
-    labels: {
-      show: true,
-      align: "right",
-      minWidth: 0,
-      maxWidth: 160,
-      style: {
-        colors: [],
-        fontSize: "14px",
-        fontFamily: "Helvetica, Arial, sans-serif",
-        fontWeight: "normal",
-        cssClass: "apexcharts-yaxis-label",
-      },
-      offsetX: 0,
-      offsetY: 0,
-      rotate: 0,
-      formatter: (val: number) => {
-        return val;
-      },
-    },
-  },
-  fill: {
-    opacity: 1,
-  },
-  colors: ["#009dc7"],
+//   plotOptions: {
+//     bar: {
+//       horizontal: false,
+//       columnWidth: "80%",
+//       borderRadiusApplication: "start",
+//       borderRadius: 10,
+//     },
+//   },
+//   dataLabels: {
+//     enabled: false,
+//   },
+//   legend: {
+//     position: "top",
+//     fontSize: "14px",
+//     fontFamily: "Helvetica, Arial",
+//   },
+//   stroke: {
+//     show: false,
+//   },
+//   xaxis: {
+//     axisBorder: {
+//       show: false,
+//     },
+//     axisTicks: {
+//       show: false,
+//     },
+//     categories: [
+//       "Tháng 1",
+//       "Tháng 2",
+//       "Tháng 3",
+//       "Tháng 4",
+//       "Tháng 5",
+//       "Tháng 6",
+//       "Tháng 7",
+//       "Tháng 8",
+//       "Tháng 9",
+//       "Tháng 10",
+//       "Tháng 11",
+//       "Tháng 12",
+//     ],
+//   },
+//   yaxis: {
+//     title: {
+//       text: "Số lần",
+//       rotate: -90,
+//       offsetX: 0,
+//       offsetY: 0,
+//       style: {
+//         fontSize: "12px",
+//         fontFamily: "Helvetica, Arial, sans-serif",
+//         fontWeight: "bold",
+//       },
+//     },
+//     labels: {
+//       show: true,
+//       align: "right",
+//       minWidth: 0,
+//       maxWidth: 160,
+//       style: {
+//         colors: [],
+//         fontSize: "14px",
+//         fontFamily: "Helvetica, Arial, sans-serif",
+//         fontWeight: "normal",
+//         cssClass: "apexcharts-yaxis-label",
+//       },
+//       offsetX: 0,
+//       offsetY: 0,
+//       rotate: 0,
+//       formatter: (val: number) => {
+//         return val;
+//       },
+//     },
+//   },
+//   fill: {
+//     opacity: 1,
+//   },
+//   colors: ["#009dc7"],
 
-  tooltip: {
-    y: {
-      formatter: function (val: number) {
-        return Math.abs(val) + " lần";
-      },
-    },
-  },
-});
-const barseries = ref([
-  {
-    name: "Số lần khám",
-    data: [1, 3, 2, 1, 0, 0, 1, 1, 4, 1, 0, 0],
-  },
-]);
-const updateBarChart = () => {
-  baroptions.value = {
-    ...baroptions.value,
-  };
-  barseries.value = [
-    {
-      name: "Số lần khám",
-      data: [1, 3, 2, 1, 0, 0, 1, 1, 4, 1, 0, 0],
-    },
-  ];
-};
+//   tooltip: {
+//     y: {
+//       formatter: function (val: number) {
+//         return Math.abs(val) + " lần";
+//       },
+//     },
+//   },
+// });
+// const barseries = ref([
+//   {
+//     name: "Số lần khám",
+//     data: [1, 3, 2, 1, 0, 0, 1, 1, 4, 1, 0, 0],
+//   },
+// ]);
+// const updateBarChart = () => {
+//   baroptions.value = {
+//     ...baroptions.value,
+//   };
+//   barseries.value = [
+//     {
+//       name: "Số lần khám",
+//       data: [1, 3, 2, 1, 0, 0, 1, 1, 4, 1, 0, 0],
+//     },
+//   ];
+// };
 
 function addToast() {
   storeToast.add({
@@ -845,18 +854,6 @@ onBeforeMount(async () => {
     array(DoctorSchema)
   )[0];
   try {
-    await doctorStore
-      .getPatientConsultation(mainAccount.value.id)
-      .then(() => {})
-      .catch((e: string) => {
-        toastStatus.value = "error";
-        message.value = e;
-        addToast();
-      });
-  } catch (e) {
-    console.log(e);
-  }
-  try {
     await consultationStore.getAllConsultationOfDoctor(mainAccount.value.id);
     allConsultation.value!.coming =
       consultationStore.allConsultation.coming.filter(
@@ -903,7 +900,30 @@ onBeforeMount(async () => {
   } catch (e) {
     console.log(e);
   }
-  updateBarChart();
+
+  try {
+    await consultationStore.getMoneyChartOfMonth(
+      mainAccount.value.id,
+      date.getMonth() + 1,
+      date.getFullYear()
+    );
+
+    moneyChartByMonth.value = Object.entries(
+      consultationStore.moneyChartByMonth.moneyChartOfMonth
+    ).map(([key, value]) => {
+      return { x: key, y: value };
+    });
+    updatemoneyChartByMonthOptions();
+  } catch (e) {
+    console.log(e);
+  }
+  try {
+    await consultationStore.getAllConsultationFeedback(mainAccount.value.id);
+    allFeedback.value = consultationStore.allFeedback;
+  } catch (e) {
+    console.log(e);
+  }
+  // updateBarChart();
 });
 onMounted(async () => {
   const dayConsultation = document.getElementById("calendar");

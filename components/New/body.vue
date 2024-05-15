@@ -5,7 +5,7 @@
 
       <div class="grid grid-cols-2 gap-8" v-if="resultSearch">
         <div
-          v-for="blog in resultSearch.hits"
+          v-for="blog in resultSearch"
           :key="blog._id"
           class="group bg-white rounded-xl relative overflow-hidden mb-4 h-96"
           @click="chooseBlog(blog._id)"
@@ -23,14 +23,19 @@
           />
 
           <div
-            class="md:p-8 p-4 relative cursor-pointer rounded-xl  border-2  border-primary/20 hover:border-8 h-96"
+            class="md:p-8 p-4 relative cursor-pointer rounded-xl border-2 border-primary/20 h-96"
             :class="{
               'border-8': currentId == blog._id,
             }"
           >
-            <div class="flex justify-between items-center mb-5 text-gray-500">
+            <div
+              class="flex justify-between items-center mb-5 text-gray-50 group-hover:invisible transform duration-75"
+            >
               <span
                 class="bg-white text-primary text-xs font-medium inline-flex items-center px-2.5 py-0.5 rounded"
+                :class="{
+                  hidden: currentId == blog._id,
+                }"
               >
                 <svg
                   class="mr-1 w-3 h-3"
@@ -50,19 +55,38 @@
               <span class="text-sm">{{ blog.updated_at }}</span>
             </div>
             <h2
-              class="mb-2 w-full text-2xl font-bold tracking-tight text-gray-900 transform duration-500 ease-in-out md:group-hover:scale-[1.1]"
+              class="mb-2 w-full text-2xl font-bold tracking-tight text-gray-900 group-hover:hidden"
+              :class="{
+                hidden: currentId == blog._id,
+              }"
             >
               {{ blog.title }}
             </h2>
             <p
-              class="line-clamp-4 mb-5 font-light text-justify text-gray-500  transform duration-500 ease-in-out md:group-hover:scale-[1.1]"
+              class="line-clamp-4 mb-5 font-light text-justify text-gray-500 group-hover:hidden"
+              :class="{
+                hidden: currentId == blog._id,
+              }"
             >
               {{ blog.content }}
             </p>
-            <div class="flex justify-between items-center">
+            <div
+              class="group-hover:absolute top-0 left-0 right-0 group-hover:bg-white/50 h-full group-hover:grid grid-cols-2 gap-8 p-24 place-content-center transform duration-100"
+              :class="{
+                'absolute bg-white/50 grid': currentId == blog._id,
+                hidden: currentId != blog._id,
+              }"
+            >
+              <button
+                type="button"
+                @click="toggle"
+                class="flex items-center justify-center w-full md:w-auto text-secondary bg-white font-medium rounded-xl px-4 py-2.5 hover:bg-secondary hover:text-white outline-secondary outline outline-1"
+              >
+                Chỉnh sửa
+              </button>
               <a
                 :href="route.path + '/' + blog._id"
-                class="px-3 py-2 rounded-lg inline-flex items-center font-medium text-primary hover:underline"
+                class="px-3 py-2 rounded-lg inline-flex items-center font-medium text-secondary"
               >
                 Xem thêm
                 <svg
@@ -81,11 +105,11 @@
         </div>
       </div>
 
-      <!-- <nav
+      <nav
         class="flex flex-col md:flex-row justify-between items-start md:items-center space-y-3 md:space-y-0 p-4"
         aria-label="Table navigation"
       >
-        <span class="text-sm font-normal text-gray-500 ">
+        <span class="text-sm font-normal text-gray-500">
           Hiển thị
           <span class="font-semibold text-gray-900 dark:text-white"
             >{{ hitsPerPage * (currentPage - 1) + 1 }}-{{
@@ -152,7 +176,7 @@
             <button
               type="button"
               @click="choosePage(currentPage)"
-              class="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-white hover:text-primary-700"
+              class="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-gray-100 border border-gray-300 hover:bg-gray-100 hover:text-primary-700"
             >
               {{ currentPage }}
             </button>
@@ -206,11 +230,13 @@
             </button>
           </li>
         </ul>
-      </nav> -->
+      </nav>
     </div>
   </section>
 </template>
 <script setup lang="ts">
+import type { ModalOptions, ModalInterface } from "flowbite";
+
 const { blogStore } = defineProps(["blogStore"]);
 const route = useRoute();
 const { search, result } = useMeiliSearch("blog");
@@ -226,9 +252,10 @@ function addToast() {
   });
 }
 
+const modal = ref();
 const keySearch = ref("");
 const resultSearch = ref();
-const hitsPerPage = ref(10);
+const hitsPerPage = ref(2);
 const currentPage = ref(1);
 const totalPages = ref();
 const totalHits = ref(0);
@@ -256,25 +283,123 @@ async function deleteBlog() {
 function chooseBlog(id: string) {
   if (id == currentId.value) {
     currentId.value = undefined;
+    document.getElementById("button-delete")!.style.display = "none";
   } else {
     currentId.value = id;
     blogStore.chooseBlog(id);
+    document.getElementById("button-delete")!.style.display = "block";
+  }
+}
+
+async function previous() {
+  if (currentPage.value > 1) {
+    currentPage.value = currentPage.value - 1;
+    result.value = await search(keySearch.value.trim(), {
+      hitsPerPage: hitsPerPage.value,
+      page: currentPage.value,
+    });
+    currentId.value = undefined;
+    resultSearch.value = result.value.hits;
+    totalHits.value = result.value.totalHits;
+    totalPages.value = result.value.totalPages;
+    blogStore.saveBlogs(resultSearch.value);
+  }
+}
+
+async function next() {
+  if (currentPage.value < totalPages.value) {
+    currentPage.value = currentPage.value + 1;
+    result.value = await search(keySearch.value.trim(), {
+      hitsPerPage: hitsPerPage.value,
+      page: currentPage.value,
+    });
+    currentId.value = undefined;
+    resultSearch.value = result.value.hits;
+    totalHits.value = result.value.totalHits;
+    totalPages.value = result.value.totalPages;
+    blogStore.saveBlogs(resultSearch.value);
+  }
+}
+
+async function choosePage(page: number) {
+  if (page >= 1 && page <= totalPages.value) {
+    currentPage.value = page;
+    result.value = await search(keySearch.value.trim(), {
+      hitsPerPage: hitsPerPage.value,
+      page: currentPage.value,
+    });
+    currentId.value = undefined;
+    resultSearch.value = result.value.hits;
+    totalHits.value = result.value.totalHits;
+    totalPages.value = result.value.totalPages;
+    blogStore.saveBlogs(resultSearch.value);
   }
 }
 
 onMounted(async () => {
-  result.value = await search(keySearch.value.trim(), {});
-  resultSearch.value = result.value;
-  blogStore.saveBlogs(resultSearch.value.hits);
+  result.value = await search(keySearch.value.trim(), {
+    hitsPerPage: hitsPerPage.value,
+    page: currentPage.value,
+  });
+  resultSearch.value = result.value.hits;
+  totalHits.value = result.value.totalHits;
+  totalPages.value = result.value.totalPages;
+  blogStore.saveBlogs(resultSearch.value);
+  setTimeout(() => {
+    try {
+      const $modalElement = document.getElementById("updateNews");
+      const $closeButton = document.getElementById("buttonClose");
+      const $inputSearch = document.getElementById("input-search-news");
+      const $buttonDelete = document.getElementById("button-delete");
+
+      if ($buttonDelete) {
+        $buttonDelete.style.display = "none";
+        $buttonDelete.addEventListener("click", () => {
+          deleteBlog();
+        });
+      }
+
+      if ($inputSearch) {
+        $inputSearch.addEventListener("input", (event) => {
+          keySearch.value = event.target.value;
+          meilisearch();
+        });
+      }
+      // set modal options
+      const modalOptions: ModalOptions = {
+        backdropClasses: "bg-gray-900/50  fixed inset-0 z-40",
+      };
+      // create a new modal instance
+      if ($modalElement) {
+        modal.value = new Modal($modalElement, modalOptions);
+
+        // set event listeners for the button to show the modal
+        $closeButton!.addEventListener("click", () => modal.value.hide());
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  }, 0);
 });
 
+function toggle() {
+  try {
+    modal.value.toggle();
+  } catch (e) {
+    console.log(e);
+  }
+}
+
 async function meilisearch() {
-  // if (keySearch.value.trim() !== "") {
-
-  result.value = await search(keySearch.value.trim(), {});
-  resultSearch.value = result.value;
-  blogStore.saveBlogs(resultSearch.value.hits);
-
-  // }
+  if (keySearch.value.trim() !== "") {
+    result.value = await search(keySearch.value.trim(), {
+      hitsPerPage: hitsPerPage.value,
+      page: currentPage.value,
+    });
+    resultSearch.value = result.value;
+    totalHits.value = result.value.totalHits;
+    totalPages.value = result.value.totalPages;
+    blogStore.saveBlogs(resultSearch.value.hits);
+  }
 }
 </script>

@@ -17,7 +17,7 @@
       <div class="text-lg text-black font-extrabold py-5 px-4">
         Thêm tài khoản bệnh nhân
       </div>
-      <form action="#">
+      <form action="#" @submit.prevent="onSubmit">
         <div class="mb-4 border-b border-gray-200">
           <ul
             class="flex flex-unwrap justify-start -mb-px text-sm font-medium text-center"
@@ -40,7 +40,7 @@
                 Thông tin cá nhân
               </button>
             </li>
-            <li class="me-2" role="presentation">
+            <!-- <li class="me-2" role="presentation">
               <button
                 class="inline-block p-4 border-b-2 rounded-t-lg hover:text-gray-600 hover:border-gray-300"
                 id="guardian-styled-tab"
@@ -52,7 +52,7 @@
               >
                 Thông tin người giám hộ
               </button>
-            </li>
+            </li> -->
           </ul>
         </div>
         <div
@@ -62,7 +62,7 @@
           aria-labelledby="profile-tab"
         >
           <div class="grid gap-4 mb-4 sm:grid-cols-6 w-full">
-            <div class="col-span-6">
+            <!-- <div class="col-span-6">
               <label
                 for="avatar"
                 class="block mb-2 text-sm font-medium text-gray-900"
@@ -75,7 +75,7 @@
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-auto"
                 required
               />
-            </div>
+            </div> -->
             <div class="sm:col-span-2">
               <label
                 for="fullName"
@@ -143,7 +143,7 @@
                 required
               />
             </div>
-            <div class="sm:col-span-2">
+            <!-- <div class="sm:col-span-2">
               <label
                 for="bloodGroup"
                 class="block mb-2 text-sm font-medium text-gray-900"
@@ -161,10 +161,8 @@
                 <option value="AB">AB</option>
                 <option value="O">O</option>
               </select>
-              <!-- <span for="type" class="text-xs text-red-500">
-                {{ errors.type }}</span
-              > -->
-            </div>
+          
+            </div> -->
             <div class="sm:col-span-2">
               <label
                 for="gender"
@@ -182,11 +180,43 @@
                 <option value="female">Nữ</option>
                 <option value="orther">Khác</option>
               </select>
-              <!-- <span for="type" class="text-xs text-red-500">
-                {{ errors.type }}</span
-              > -->
             </div>
-            <div class="sm:col-span-2">
+            <div class="col-span-2">
+              <div class="relative">
+                <label
+                  for="dateOfBirth"
+                  class="block mb-2 text-sm font-medium text-gray-900"
+                  >Ngày nhận bằng</label
+                >
+                <div
+                  class="absolute inset-y-0 start-0 top-7 flex items-center ps-3.5 pointer-events-none"
+                >
+                  <svg
+                    class="w-4 h-4 text-gray-500"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                  >
+                    <path
+                      d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"
+                    />
+                  </svg>
+                </div>
+                <input
+                  datepicker
+                  name="dateOfBirth"
+                  type="text"
+                  required
+                  v-model="dateOfBirth"
+                  v-bind="dateOfBirthAttrs"
+                  id="dateOfBirthId"
+                  class="bg-gray-50 ps-10 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5"
+                  placeholder="Chọn ngày nhận văn bằng"
+                />
+              </div>
+            </div>
+            <!-- <div class="sm:col-span-2">
               <label
                 for="occupation"
                 class="block mb-2 text-sm font-medium text-gray-900"
@@ -201,8 +231,8 @@
                 placeholder="Nhân viên bán hàng"
                 required
               />
-            </div>
-            <div class="sm:col-span-2">
+            </div> -->
+            <!-- <div class="sm:col-span-2">
               <label
                 for="marital"
                 class="block mb-2 text-sm font-medium text-gray-900"
@@ -220,14 +250,12 @@
                 <option value="married">Đã kết hôn</option>
                 <option value="single">Độc thân</option>
               </select>
-              <!-- <span for="type" class="text-xs text-red-500">
-                {{ errors.type }}</span
-              > -->
-            </div>
+             
+            </div> -->
           </div>
         </div>
 
-        <div
+        <!-- <div
           class="hidden p-4"
           id="styled-guardian"
           role="tabpanel"
@@ -284,7 +312,7 @@
               />
             </div>
           </div>
-        </div>
+        </div> -->
         <div class="w-full flex items-center justify-center">
           <button
             type="submit"
@@ -294,7 +322,7 @@
             <div role="status" v-if="isSubmitting">
               <svg
                 aria-hidden="true"
-                class="w-8 h-8 text-gray-200 animate-spin  fill-blue-600"
+                class="w-8 h-8 text-gray-200 animate-spin fill-blue-600"
                 viewBox="0 0 100 101"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
@@ -334,21 +362,22 @@
 <script setup lang="ts">
 import * as yup from "yup";
 import { useForm } from "vee-validate";
+import Datepicker from "flowbite-datepicker/Datepicker";
+const { patientStore } = defineProps(["patientStore"]);
 
-// const storeToast = toastStore();
-// const toastStatus = ref("");
-// const message = ref("");
+const storeToast = toastStore();
+const toastStatus = ref("");
+const message = ref("");
 
-// function addToast() {
-//   storeToast.add({
-//     message: message.value,
-//     toastStatus: toastStatus.value,
-//   });
-// }
+function addToast() {
+  storeToast.add({
+    message: message.value,
+    toastStatus: toastStatus.value,
+  });
+}
 
 const { defineField, resetForm, isSubmitting, handleSubmit, errors } = useForm({
   validationSchema: yup.object({
-    bloodGroup: yup.string().trim().required("Bạn phải chọn nhóm máu"),
     fullName: yup
       .string()
       .trim()
@@ -370,23 +399,18 @@ const { defineField, resetForm, isSubmitting, handleSubmit, errors } = useForm({
     gender: yup.string().trim().required("Giới tính không hợp lệ"),
   }),
   initialValues: {
-    bloodGroup: "",
     fullName: "",
     phone: "",
     email: "",
     gender: "",
-    occupation: "",
+
     address: "",
-    marital: "",
-    guardian: "",
-    phoneGuardian: "",
-    addressGuardian: "",
   },
 });
 
 // resetForm();
 
-const [bloodGroup, bloodGroupAttrs] = defineField("bloodGroup", {
+const [dateOfBirth, dateOfBirthAttrs] = defineField("dateOfBirth", {
   validateOnInput: true,
 });
 const [fullName, fullNameAttrs] = defineField("fullName", {
@@ -401,22 +425,53 @@ const [email, emailAttrs] = defineField("email", {
 const [gender, genderAttrs] = defineField("gender", {
   validateOnInput: true,
 });
-const [occupation, occupationAttrs] = defineField("occupation", {
-  validateOnInput: true,
-});
-const [address, addressAttrs] = defineField("address", {});
-const [marital, maritalAttrs] = defineField("marital", {
-  validateOnInput: true,
-});
-const [guardian, guardianAttrs] = defineField("guardian", {
-  validateOnInput: true,
-});
-const [phoneGuardian, phoneGuardianAttrs] = defineField("phoneGuardian", {
-  validateOnInput: true,
-});
-const [addressGuardian, addressGuardianAttrs] = defineField("addressGuardian", {
-  validateOnInput: true,
-});
 
-const onSubmit = handleSubmit(async (values) => {});
+const [address, addressAttrs] = defineField("address", {});
+function getFormattedDate(date: Date) {
+  let year = date.getFullYear();
+  let month = (1 + date.getMonth()).toString().padStart(2, "0");
+  let day = date.getDate().toString().padStart(2, "0");
+
+  return day + "/" + month + "/" + year;
+}
+
+const onSubmit = handleSubmit(async (values: any) => {
+  const patient: Patient = {
+    phone: values.phone,
+    email: values.email,
+    password: "Pw@12345",
+    passwordConfirm: "Pw@12345",
+    full_name: values.fullName,
+    date_of_birth: values.dateOfBirth,
+    gender: values.gender,
+    address: values.address,
+  };
+  clearNuxtData();
+  await patientStore
+    .createPatient(patient)
+    .then(() => {
+      toastStatus.value = "success";
+      message.value = "Thêm thành công";
+      addToast();
+    })
+    .catch((e: string) => {
+      toastStatus.value = "error";
+      message.value = e;
+      addToast();
+    });
+});
+onMounted(() => {
+  const dateOfBirthEF = document.getElementById("dateOfBirthId");
+  new Datepicker(dateOfBirthEF, {
+    todayHighlight: true,
+    autohide: true,
+    format: "dd/mm/yyyy",
+    language: "vi",
+    defaultDate: false,
+    minDate: new Date(1900),
+  });
+  dateOfBirthEF?.addEventListener("changeDate", (e) => {
+    dateOfBirth.value = getFormattedDate(new Date(e.detail.date));
+  });
+});
 </script>

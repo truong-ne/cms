@@ -26,7 +26,7 @@
           :key="index"
         >
           <div
-            class="rounded-full bg-primary border-4  overflow-hidden"
+            class="rounded-full bg-primary border-4 overflow-hidden"
             :class="{
               'border-yellow-300': index == 0,
               'border-gray-300': index == 1,
@@ -210,6 +210,9 @@
               <div class="text-lg text-black font-bold">
                 {{ doctor.full_name }}
               </div>
+              <div class="text-xs text-gray-500 font-medium">
+                ID: {{ doctor.id }}
+              </div>
 
               <div class="flex items-center">
                 <svg
@@ -232,7 +235,7 @@
               </div>
               <div v-for="s in doctor.specialty" :key="s">
                 <div class="text-xs font-light text-gray-500 mt-3">
-                  {{ s.specialty.toUpperCase() }}
+                  {{ getByKey(s.specialty).toUpperCase() }}
                 </div>
               </div>
               <div class="text-xs font-light text-gray-500 mt-1">
@@ -255,6 +258,13 @@
                   class="flex items-center justify-center w-full md:w-auto text-colorDF9F1E bg-white font-medium rounded-xl text-sm px-4 py-2.5 hover:outline-1 outline-colorDF9F1E outline outline-0"
                 >
                   Chỉnh sửa
+                </button>
+                <button
+                  type="button"
+                  @click="showPopupDelete(doctor.id)"
+                  class="flex items-center justify-center w-full md:w-auto text-red-500 bg-white font-medium rounded-xl text-sm px-4 py-2.5 hover:outline-1 outline-red-500 outline outline-0"
+                >
+                  Xoá
                 </button>
               </div>
             </div>
@@ -387,7 +397,80 @@
         </ul>
       </nav>
     </div>
-    <!-- </div> -->
+    <div
+      id="delete-alert"
+      tabindex="-1"
+      aria-hidden="true"
+      class="hidden bg-black/50 overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 max-h-full"
+    >
+      <div class="relative p-4 w-full max-w-2xl max-h-full">
+        <!-- Modal content -->
+        <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+          <!-- Modal header -->
+          <div
+            class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600"
+          >
+            <h3
+              class="text-xl font-semibold text-gray-900 dark:text-white"
+              v-if="doctorStore.doctor"
+            >
+              Xoá tài khoản
+            </h3>
+            <button
+              type="button"
+              id="close-delete"
+              class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+            >
+              <svg
+                class="w-3 h-3"
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 14 14"
+              >
+                <path
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+                />
+              </svg>
+              <span class="sr-only">Close modal</span>
+            </button>
+          </div>
+          <!-- Modal body -->
+          <div class="p-4 md:p-5 space-y-4" v-if="doctorStore.doctor">
+            <div
+              class="text-base leading-relaxed text-gray-500 dark:text-gray-400"
+            >
+              Bấm xoá để xoá tài khoản
+              <p class="inline font-bold">{{ doctorStore.doctor.id }}</p>
+            </div>
+          </div>
+          <!-- Modal footer -->
+          <div
+            class="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600"
+          >
+            <button
+              id="button-delete"
+              type="button"
+              class="text-white bg-red-600 hover:bg-red-700 focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+            >
+              Xoá
+            </button>
+            <button
+              id="button-cancel"
+              type="button"
+              @click="closePopupDelete"
+              class="py-2.5 px-5 ms-3 text-sm font-medium text-primary focus:outline-none bg-white rounded-lg border border-primary hover:bg-gray-100"
+            >
+              Decline
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
   </section>
 </template>
 
@@ -408,6 +491,23 @@ const { doctorStore, consultationStore } = defineProps([
   "doctorStore",
   "consultationStore",
 ]);
+
+function showPopupDelete(id: string) {
+  try {
+    chooseDoctor(id);
+    // if (popUpDelete.value.isHidden) {
+    popUpDelete.value.show();
+    // }
+  } catch (e) {
+    console.log(e);
+  }
+}
+
+function closePopupDelete() {
+  // if (popUpDelete.value.isVisible()) {
+  popUpDelete.value.hide();
+  // }
+}
 
 onBeforeMount(async () => {
   result.value = await search(keySearch.value.trim(), {
@@ -436,6 +536,8 @@ onMounted(async () => {
       // select the two elements that we'll work with
       const $modalElement = document.getElementById("updateDoctor");
       const $closeButton = document.getElementById("buttonClose");
+      const $popupDelete = document.getElementById("delete-alert");
+      const $closeDelete = document.getElementById("close-delete");
       const $inputSeach = document.getElementById("input-search-doctor");
 
       if ($inputSeach) {
@@ -457,6 +559,12 @@ onMounted(async () => {
         // set event listeners for the button to show the modal
         $closeButton!.addEventListener("click", () => modal.value.hide());
       }
+      if ($modalElement) {
+        popUpDelete.value = new Modal($popupDelete, modalOptions);
+
+        // set event listeners for the button to show the modal
+        $closeDelete!.addEventListener("click", () => popUpDelete.value.hide());
+      }
     } catch (e) {
       console.log(e);
     }
@@ -477,6 +585,7 @@ function chooseDoctor(id: string) {
 }
 
 const modal = ref();
+const popUpDelete = ref();
 const keySearch = ref("");
 const resultSearch = ref();
 const hitsPerPage = ref(10);

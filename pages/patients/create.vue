@@ -1,6 +1,9 @@
 <template>
   <section>
     <PatientHeader />
-    <PatientFormcreate />
+    <PatientFormcreate :patientStore="patientStore"/>
   </section>
 </template>
+<script lang="ts" setup>
+const patientStore = useDataPatient();
+</script>

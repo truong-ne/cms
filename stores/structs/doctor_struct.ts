@@ -76,16 +76,16 @@ export const TopDoctorSchema = object({
   consultation: number(),
 });
 
-export const PatientConsultationSchema = object({
-  consultation: array(
-    object({
-      medical_id: any(),
-      phone: string(),
-      email: any(),
-    })
-  ),
-  quantity: number(),
-});
+// export const PatientConsultationSchema = object({
+//   consultation: array(
+//     object({
+//       medical_id: any(),
+//       phone: string(),
+//       email: any(),
+//     })
+//   ),
+//   quantity: number(),
+// });
 
 export const DoctorQuantitySchema = object({
   quantity: number(),
@@ -109,6 +109,7 @@ export const MoneyMonthSchema = object({
   month: number(),
   moneyByMonth: number(),
 });
+export const QuantityDoctorBySpecialtySchema = object()
 
 export type Doctor = Infer<typeof DoctorSchema>;
 export type Career = Infer<typeof CareerSchema>;
@@ -116,12 +117,13 @@ export type Specialty = Infer<typeof SpecialtySchema>;
 export type EducationAndCertification = Infer<
   typeof EducationAndCertificationSchema
 >;
-export type PatientConsultation = Infer<typeof PatientConsultationSchema>;
+// export type PatientConsultation = Infer<typeof PatientConsultationSchema>;
 export type DoctorQuantity = Infer<typeof DoctorQuantitySchema>;
 export type ConsultationQuantity = Infer<typeof ConsultationQuantitySchema>;
 export type ConsultationPie = Infer<typeof ConsultationPieSchema>;
 export type MoneyQuantity = Infer<typeof MoneyQuantitySchema>;
 export type MoneyMonth = Infer<typeof MoneyMonthSchema>;
 export type TopDoctor = Infer<typeof TopDoctorSchema>;
+export type QuantityDoctorBySpecialty = Infer<typeof QuantityDoctorBySpecialtySchema>
 // export type PatientRecord = Infer<typeof PatientRecordSchema>;
 // export type DoctorInfo = Infer<typeof DoctorInfoSchema>;

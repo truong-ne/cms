@@ -16,7 +16,7 @@
           <h3 class="text-lg font-semibold text-gray-900">Thêm tin</h3>
           <button
             type="button"
-            class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center "
+            class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
             data-modal-target="createNews"
             data-modal-toggle="createNews"
           >
@@ -80,7 +80,8 @@
                 type="text"
                 name="title"
                 id="title"
-                v-bind="title"
+                v-bind="titleAttrs"
+                v-model="title"
                 class="bg-gray-50 border text-gray-900 text-sm rounded-lg block w-full p-2.5"
                 :class="{
                   'border-gray-300 focus:border-primary focus:ring-primary':
@@ -110,7 +111,8 @@
                 name="content"
                 id="content"
                 rows="10"
-                v-bind="content"
+                v-model="content"
+                v-bind="contentAttrs"
                 class="resize-none bg-gray-50 border text-gray-900 text-sm rounded-lg block w-full p-2.5"
                 :class="{
                   'border-gray-300 focus:border-primary focus:ring-primary':
@@ -135,7 +137,7 @@
               <div role="status" v-if="isSubmitting">
                 <svg
                   aria-hidden="true"
-                  class="w-8 h-8 text-gray-200 animate-spin  fill-primary"
+                  class="w-8 h-8 text-gray-200 animate-spin fill-primary"
                   viewBox="0 0 100 101"
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
@@ -193,31 +195,29 @@ function addToast() {
   });
 }
 
-const { defineInputBinds, resetForm, isSubmitting, handleSubmit, errors } =
-  useForm({
-    validationSchema: yup.object({
-      title: yup
-        .string()
-        .trim()
-        .required("Bạn phải nhập tiêu đề cho bảng tin")
-        .min(8, "Tiêu đề phải có ít nhất 8 kí tự"),
-      // tag: yup.string().trim().required("Bạn phải nhập nhãn cho bảng tin"),
+const { defineField, resetForm, isSubmitting, handleSubmit, errors } = useForm({
+  validationSchema: yup.object({
+    title: yup
+      .string()
+      .trim()
+      .required("Bạn phải nhập tiêu đề cho bảng tin")
+      .min(8, "Tiêu đề phải có ít nhất 8 kí tự"),
+    // tag: yup.string().trim().required("Bạn phải nhập nhãn cho bảng tin"),
 
-      content: yup
-        .string()
-        .trim()
-        .required("Bạn phải nhập nôi dung cho bảng tin")
-        .min(100, "Nội dung phải có ít nhất 100 kí tự"),
-    }),
-  });
+    content: yup
+      .string()
+      .trim()
+      .required("Bạn phải nhập nôi dung cho bảng tin")
+      .min(100, "Nội dung phải có ít nhất 100 kí tự"),
+  }),
+});
 
 resetForm();
 
-const title = defineInputBinds("title", {
+const [title, titleAttrs] = defineField("title", {
   validateOnInput: true,
 });
-
-const content = defineInputBinds("content", {
+const [content, contentAttrs] = defineField("content", {
   validateOnInput: true,
 });
 const image = ref();

@@ -880,7 +880,7 @@ const onSubmit = handleSubmit(async (values: any) => {
         specialtyByDiploma: values.specialtyByDiploma,
         address: values.addressEdu,
         diplomaNumberAndSeries: values.diplomaNum,
-        dateOfReceiptOfDiploma: values.dateOfReceiptOfDiploma,
+        dateOfReceiptOfDiploma: values.dateOfReceipt,
       },
     ],
   };

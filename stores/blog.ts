@@ -143,7 +143,7 @@ export const useDataBlog = defineStore("Blog", () => {
     blog,
     blogs,
     editBlog,
-    getAllBlog,
+    // getAllBlog,
     getDetail,
     deleteBlog,
   };

@@ -4,11 +4,9 @@
       Biểu đồ và thống kê
     </div>
     <div class="gap-4">
-      <div
-        class="md:grid md:grid-cols-2 md:gap-4 gap-2 md:mb-4 mb-2 z-0 h-auto"
-      >
+      <div class="grid grid-cols-10 gap-4 mb-4 z-0 h-auto">
         <div
-          class="relative flex items-center justify-center bg-white rounded-2xl md:p-4 w-full md:mb-4 mb-2 h-full"
+          class="col-span-7 relative flex items-center justify-center bg-white rounded-2xl md:p-4 w-full md:mb-4 mb-2 h-full"
         >
           <div class="flex absolute top-4 left-4 items-center">
             <span class="text-md items font-extrabold leading-none text-black">
@@ -19,18 +17,18 @@
           <div class="md:h-96 h-56 w-full mt-6 border-t">
             <ClientOnly>
               <apexchart
-                :key="columnseries"
+                :key="moneyMonthSeries"
                 height="100%"
                 width="100%"
-                :options="columnoptions"
-                :series="columnseries"
+                :options="moneyMonthOptions"
+                :series="moneyMonthSeries"
               >
               </apexchart>
             </ClientOnly>
           </div>
         </div>
         <div
-          class="relative flex items-center justify-center bg-white rounded-2xl md:p-4 w-full md:mb-4 mb-2 h-full"
+          class="col-span-3 relative flex items-center justify-center bg-white rounded-2xl md:p-4 w-full md:mb-4 mb-2 h-full"
         >
           <div
             href="https://flowbite.com/"
@@ -41,7 +39,7 @@
               >Chi phí điều trị trung bình theo nhóm tuổi</span
             >
           </div>
-          <button
+          <!-- <button
             id="dropdownDefaultButton"
             data-dropdown-toggle="dropdownTreatmentCosts"
             class="absolute top-2 right-0 text-black bg-white font-medium text-xs px-5 py-2.5 text-center inline-flex items-center"
@@ -63,10 +61,10 @@
                 d="m1 1 4 4 4-4"
               />
             </svg>
-          </button>
+          </button> -->
 
           <!-- Dropdown menu -->
-          <div
+          <!-- <div
             id="dropdownTreatmentCosts"
             class="z-50 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44"
           >
@@ -95,7 +93,7 @@
                 >
               </li>
             </ul>
-          </div>
+          </div> -->
           <div class="h-96 w-full mt-6 border-t">
             <ClientOnly>
               <apexchart
@@ -118,18 +116,18 @@
         >
           <div class="flex absolute top-4 left-4 items-center">
             <span class="text-md items font-extrabold leading-none text-black">
-              Số lượng bệnh nhân theo tháng</span
+              Số lượng bệnh nhân khám theo tháng</span
             >
           </div>
 
           <div class="md:h-96 h-56 w-full mt-6 border-t">
             <ClientOnly>
               <apexchart
-                :key="patientMonthSeries"
+                :key="quantityMedicalOldNewSeries"
                 height="100%"
                 width="100%"
-                :options="patientMonthOptions"
-                :series="patientMonthSeries"
+                :options="quantityMedicalOldNewOptions"
+                :series="quantityMedicalOldNewSeries"
               >
               </apexchart>
             </ClientOnly>
@@ -140,17 +138,39 @@
         >
           <div class="flex absolute top-4 left-4 items-center">
             <span class="text-md items font-extrabold leading-none text-black">
-              Số lượng bệnh nhân theo chuyên khoa</span
+              Số lượng bệnh nhân mới theo tháng</span
+            >
+          </div>
+
+          <div class="md:h-96 h-56 w-full mt-6 border-t">
+            <ClientOnly>
+              <apexchart
+                :key="quantityNewPatientSeries"
+                height="100%"
+                width="100%"
+                :options="quantityNewPatientOptions"
+                :series="quantityNewPatientSeries"
+              >
+              </apexchart>
+            </ClientOnly>
+          </div>
+        </div>
+        <div
+          class="col-span-2 relative flex items-center justify-center bg-white rounded-2xl md:p-4 w-full md:mb-4 mb-2 h-full"
+        >
+          <div class="flex absolute top-4 left-4 items-center">
+            <span class="text-md items font-extrabold leading-none text-black">
+              Số lượng bác sĩ theo chuyên khoa</span
             >
           </div>
           <div class="md:h-96 h-56 w-full mt-6 border-t">
             <ClientOnly>
               <apexchart
-                :key="patientSpecialtySeries"
+                :key="quantityDoctorBySpecialtySeries"
                 height="100%"
                 width="100%"
-                :options="patientSpecialtyOptions"
-                :series="patientSpecialtySeries"
+                :options="quantityDoctorBySpecialtyOptions"
+                :series="quantityDoctorBySpecialtySeries"
               >
               </apexchart>
             </ClientOnly>
@@ -229,14 +249,17 @@
 </template>
 
 <script setup lang="ts">
-const { doctorStore, medicalStore, consultationStore } = defineProps([
-  "doctorStore",
-  "medicalStore",
-  "consultationStore",
-]);
+const { doctorStore, medicalStore, consultationStore, patientStore } =
+  defineProps([
+    "doctorStore",
+    "medicalStore",
+    "consultationStore",
+    "patientStore",
+  ]);
 
 //patients count by Specialties
-const patientMonthOptions = ref({
+const quantityNewPatient = ref<object[]>([]);
+const quantityNewPatientOptions = ref({
   chart: {
     height: "100%",
     maxWidth: "100%",
@@ -251,7 +274,7 @@ const patientMonthOptions = ref({
     size: 5,
     strokeWidth: 4,
     strokeOpacity: 1,
-    strokeColors: ["#DF9F1E", "#009DC7"],
+    strokeColors: ["#DF9F1E", "#5981FA"],
     colors: ["#fff"],
     hover: {
       size: 8,
@@ -346,26 +369,168 @@ const patientMonthOptions = ref({
       },
     },
   },
-  colors: ["#DF9F1E", "#009DC7"],
+  colors: ["#DF9F1E", "#5981FA"],
 });
-const patientMonthSeries = ref();
-const updatePatientMonthOptions = () => {
-  patientMonthOptions.value = {
-    ...patientMonthOptions.value,
+const quantityNewPatientSeries = ref([
+  {
+    name: "Bệnh nhân mới",
+    data: quantityNewPatient.value,
+  },
+]);
+const updateQuantityNewPatientChart = () => {
+  quantityNewPatientOptions.value = {
+    ...quantityNewPatientOptions.value,
   };
-  patientMonthSeries.value = [
-    // {
-    //   name: "Bệnh nhân cũ",
-    //   data: moneyMonth.value,
-    // },
+  quantityNewPatientSeries.value = [
     {
       name: "Bệnh nhân mới",
-      data: [10, 20, 50, 2, 30, 100, 98, 49, 90, 5, 60, 65],
+      data: quantityNewPatient.value,
+    },
+  ];
+};
+
+const quantityMedicalOld = ref<number[]>([0]);
+const quantityMedicalNew = ref<number[]>([0]);
+const quantityMedicalOldNewOptions = ref({
+  chart: {
+    height: "100%",
+    maxWidth: "100%",
+    type: "line",
+    fontFamily: "Helvetica, Arial, sans-serif",
+    dropShadow: {
+      enabled: false,
+    },
+    zoom: { enabled: false },
+  },
+  markers: {
+    size: 5,
+    strokeWidth: 4,
+    strokeOpacity: 1,
+    strokeColors: ["#DF9F1E", "#5981FA"],
+    colors: ["#fff"],
+    hover: {
+      size: 8,
+      sizeOffset: 3,
+    },
+  },
+  dataLabels: {
+    enabled: false,
+  },
+  stroke: {
+    curve: "straight",
+    width: 3,
+  },
+  grid: {
+    show: true,
+    padding: {
+      left: 20,
+      right: 20,
+      top: 10,
+      bottom: 10,
+    },
+  },
+  legend: {
+    position: "top",
+    fontSize: "14px",
+    fontFamily: "Helvetica, Arial",
+  },
+  xaxis: {
+    axisBorder: {
+      show: false,
+    },
+    axisTicks: {
+      show: false,
+    },
+    categories: [
+      "Tháng 1",
+      "Tháng 2",
+      "Tháng 3",
+      "Tháng 4",
+      "Tháng 5",
+      "Tháng 6",
+      "Tháng 7",
+      "Tháng 8",
+      "Tháng 9",
+      "Tháng 10",
+      "Tháng 11",
+      "Tháng 12",
+    ],
+    labels: {
+      style: {
+        fontSize: "12px",
+      },
+    },
+  },
+  yaxis: {
+    show: true,
+    title: {
+      text: "Người",
+      rotate: -90,
+      offsetX: 0,
+      offsetY: 0,
+      style: {
+        fontSize: "12px",
+        fontFamily: "Helvetica, Arial, sans-serif",
+        fontWeight: 600,
+      },
+    },
+    labels: {
+      show: true,
+      align: "right",
+      minWidth: 0,
+      maxWidth: 160,
+      style: {
+        colors: [],
+        fontSize: "12px",
+        fontFamily: "Helvetica, Arial, sans-serif",
+        fontWeight: 400,
+        cssClass: "apexcharts-yaxis-label",
+      },
+      offsetX: 0,
+      offsetY: 0,
+      rotate: 0,
+      formatter: (val: number) => {
+        return val;
+      },
+    },
+  },
+  tooltip: {
+    y: {
+      formatter: function (val: number) {
+        return val + " người";
+      },
+    },
+  },
+  colors: ["#DF9F1E", "#5981FA"],
+});
+const quantityMedicalOldNewSeries = ref([
+  {
+    name: "Bệnh nhân mới",
+    data: quantityMedicalNew.value,
+  },
+  {
+    name: "Bệnh nhân cũ",
+    data: quantityMedicalOld.value,
+  },
+]);
+const updateQuantityMedicalOldNewChart = () => {
+  quantityMedicalOldNewOptions.value = {
+    ...quantityMedicalOldNewOptions.value,
+  };
+  quantityMedicalOldNewSeries.value = [
+    {
+      name: "Bệnh nhân mới",
+      data: quantityMedicalNew.value,
+    },
+    {
+      name: "Bệnh nhân cũ",
+      data: quantityMedicalOld.value,
     },
   ];
 };
 
 //piechart
+const consultationPie = ref<number[]>([]);
 const pieoptions = ref({
   labels: ["Đã huỷ", "Hoàn thành", "Đã xác nhận", "Đang chờ"],
 
@@ -472,7 +637,7 @@ const pieoptions = ref({
     enabled: false,
   },
 });
-const pieseries = ref();
+const pieseries = ref(consultationPie.value);
 const updatePieChart = () => {
   pieoptions.value = {
     ...pieoptions.value,
@@ -556,8 +721,8 @@ const treatmentCostsOptions = ref({
   labels: ["0-10", "10-30", "30-40", "40-50", "Trên 50"],
 
   legend: {
-    position: "right",
-    fontSize: "14px",
+    position: "bottom",
+    fontSize: "12px",
     fontFamily: "Helvetica, Arial",
     formatter: function (seriesName: String, opts: any) {
       return (
@@ -586,7 +751,7 @@ const treatmentCostsOptions = ref({
     },
   },
 });
-const treatmentSeries = ref();
+const treatmentSeries = ref([15, 70, 45, 77, 44]);
 const updateTreatmentSeries = () => {
   treatmentCostsOptions.value = {
     ...treatmentCostsOptions.value,
@@ -594,18 +759,21 @@ const updateTreatmentSeries = () => {
   treatmentSeries.value = [15, 70, 45, 77, 44];
 };
 
-const columnoptions = ref({
+const moneyMonth = ref<number[]>([]);
+const moneyMonthOptions = ref({
   chart: {
     type: "bar",
     height: 350,
-    stacked: true,
+    stacked: false,
   },
 
   plotOptions: {
     bar: {
       horizontal: false,
-      columnWidth: "25%",
+      columnWidth: "50%",
       // endingShape: "rounded",
+      borderRadiusApplication: "start",
+      borderRadius: 5,
     },
   },
   dataLabels: {
@@ -655,26 +823,26 @@ const columnoptions = ref({
     },
     labels: {
       show: true,
-      align: "right",
+      align: "top",
       minWidth: 0,
       maxWidth: 160,
       style: {
         colors: [],
-        fontSize: "14px",
+        fontSize: "12px",
         fontFamily: "Helvetica, Arial, sans-serif",
         fontWeight: "normal",
         cssClass: "apexcharts-yaxis-label",
       },
+      rotate: 60,
       offsetX: 0,
       offsetY: 0,
-      rotate: 0,
       formatter: (val: number) => {
         return converCurrency(val);
       },
     },
   },
   grid: {
-    show: false,
+    show: true,
     xaxis: {
       lines: {
         show: false,
@@ -682,14 +850,14 @@ const columnoptions = ref({
     },
     yaxis: {
       lines: {
-        show: false,
+        show: true,
       },
     },
   },
   fill: {
     opacity: 1,
   },
-  colors: ["#5981FA", "#9D4B6C"],
+  colors: ["#5981FA"],
 
   tooltip: {
     y: {
@@ -699,24 +867,21 @@ const columnoptions = ref({
     },
   },
 });
-const columnseries = ref();
+const moneyMonthSeries = ref([{ name: "Tiền vào", data: moneyMonth.value }]);
 const updateColumnChart = () => {
-  columnoptions.value = {
-    ...columnoptions.value,
+  moneyMonthOptions.value = {
+    ...moneyMonthOptions.value,
   };
-  columnseries.value = [
+  moneyMonthSeries.value = [
     {
       name: "Tiền vào",
       data: moneyMonth.value,
     },
-    // {
-    //   name: "Tiền ra",
-    //   data: [-76, -85, -101, -98, -87, -105, -91, -114, -94, -10, -90, -100],
-    // },
   ];
 };
 
-const patientSpecialtyOptions = ref({
+const quantityDoctorBySpecialty = ref<object[]>([]);
+const quantityDoctorBySpecialtyOptions = ref({
   chart: {
     type: "bar",
     height: "100%",
@@ -725,8 +890,10 @@ const patientSpecialtyOptions = ref({
   plotOptions: {
     bar: {
       horizontal: false,
-      columnWidth: "25%",
+      columnWidth: "35%",
       endingShape: "rounded",
+      borderRadiusApplication: "start",
+      borderRadius: "5",
     },
   },
   dataLabels: {
@@ -745,13 +912,6 @@ const patientSpecialtyOptions = ref({
     axisTicks: {
       show: false,
     },
-    categories: [
-      "Ngoại khoa",
-      "Nội khoa",
-      "Chuẩn đoán",
-      "Sản phụ khoa",
-      "Các khoa khác",
-    ],
   },
   yaxis: {
     title: {
@@ -801,7 +961,7 @@ const patientSpecialtyOptions = ref({
   fill: {
     opacity: 1,
   },
-  colors: ["#DF9F1E", "#009DC7"],
+  colors: ["#DF9F1E"],
   tooltip: {
     y: {
       formatter: function (val: number) {
@@ -810,27 +970,32 @@ const patientSpecialtyOptions = ref({
     },
   },
 });
-const patientSpecialtySeries = ref();
-const updatePatientSpecialty = () => {
-  patientSpecialtyOptions.value = {
-    ...patientSpecialtyOptions.value,
+const quantityDoctorBySpecialtySeries = ref([
+  { name: "Số lượng bác sĩ", data: quantityDoctorBySpecialty.value },
+]);
+const updateQuantityDoctorSpecialty = () => {
+  quantityDoctorBySpecialtyOptions.value = {
+    ...quantityDoctorBySpecialtyOptions.value,
   };
-  patientSpecialtySeries.value = [
+  quantityDoctorBySpecialtySeries.value = [
     {
-      name: "Bệnh nhân cũ",
-      data: [44, 55, 57, 56, 61],
-    },
-    {
-      name: "Bệnh nhân mới",
-      data: [58, 63, 60, 66, 70],
+      name: "Số lượng bác sĩ",
+      data: quantityDoctorBySpecialty.value,
     },
   ];
 };
 
-const moneyMonth = ref<number[]>([]);
-const consultationPie = ref<number[]>([0, 0, 0, 0]);
-
 const topDoctors = ref<TopDoctor[]>([]);
+const mapSpecialty = Object.entries(Specialty).map(([key, value]) => ({
+  key: key,
+  value: value,
+}));
+function getByKey(searchKey: string) {
+  for (let { key, value } of mapSpecialty) {
+    if (key === searchKey) return value;
+  }
+  return "Không xác định";
+}
 
 onMounted(async () => {
   try {
@@ -866,12 +1031,51 @@ onMounted(async () => {
     } catch (e) {
       console.log(e);
     }
+    try {
+      await doctorStore.getQuantityDoctorBySpecialty();
+
+      quantityDoctorBySpecialty.value = Object.entries(
+        doctorStore.quantityDoctorBySpecialty
+      ).map(([key, value]) => {
+        return { x: getByKey(key), y: value };
+      });
+    } catch (e) {
+      console.log(e);
+    }
+    try {
+      await patientStore.getQuantityNewPatient(date.getFullYear());
+
+      quantityNewPatient.value =
+        patientStore.quantityNewPatient.userByMonth.map(
+          (ob: QuantityNewPatientMonth) => ({
+            x: ob.month,
+            y: ob.totalUserThisMonth,
+          })
+        );
+    } catch (e) {
+      console.log(e);
+    }
+    try {
+      await consultationStore.getQuantityMedicalOldNew(date.getFullYear());
+
+      quantityMedicalNew.value =
+        consultationStore.quantityMedicalOldNew.medicalByMonth.map(
+          (ob: QuantityMedicalOldNewByMonth) => ob.newMedical
+        );
+      quantityMedicalOld.value =
+        consultationStore.quantityMedicalOldNew.medicalByMonth.map(
+          (ob: QuantityMedicalOldNewByMonth) => ob.oldMedical
+        );
+    } catch (e) {
+      console.log(e);
+    }
 
     updatePieChart();
     updateColumnChart();
     updateTreatmentSeries();
-    updatePatientMonthOptions();
-    updatePatientSpecialty();
+    updateQuantityNewPatientChart();
+    updateQuantityDoctorSpecialty();
+    updateQuantityMedicalOldNewChart();
   } catch (e) {
     console.log(e);
   }

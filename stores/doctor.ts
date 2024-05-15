@@ -17,13 +17,14 @@ import { array, mask, number, string } from "superstruct";
 
 export const useDataDoctor = defineStore("doctor", () => {
   const doctorQuantity = ref<DoctorQuantity>();
+  const quantityDoctorBySpecialty = ref<QuantityDoctorBySpecialty>();
   const consultationQuantity = ref<ConsultationQuantity>();
   const consultationPie = ref<ConsultationPie>();
   const moneyQuantity = ref<MoneyQuantity>();
-  const feedbackBar = ref<number[]>([]);
+
   const doctors = ref<Doctor[]>([]);
   const doctor = ref<Doctor>();
-  const patientConsultation = ref<PatientConsultation>();
+  // const patientConsultation = ref<PatientConsultation>();
   const storeAuth = useAuthStore();
   const authorization = "Bearer " + (storeAuth.getAccesToken ?? "");
 
@@ -36,6 +37,31 @@ export const useDataDoctor = defineStore("doctor", () => {
     });
   }
 
+  async function getQuantityDoctorBySpecialty() {
+    try {
+      if (authorization === "Bearer ") throw "Không thể xác định danh tính";
+      const { data, error } = await useFetch(
+        "doctor-management/doctor/admin/specialty",
+        {
+          baseURL: useRuntimeConfig().public.baseURL,
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: authorization,
+          },
+        }
+      );
+
+      if (data.value !== null) {
+      const response = mask(data.value, DataObjectSchema);
+      quantityDoctorBySpecialty.value = mask(response.data, QuantityDoctorBySpecialtySchema);
+      } else {
+        throw error;
+      }
+    } catch (error) {
+      throw error;
+    }
+  }
   async function getQuantityDoctor() {
     try {
       if (authorization === "Bearer ") throw "Không thể xác định danh tính";
@@ -57,10 +83,6 @@ export const useDataDoctor = defineStore("doctor", () => {
       } else {
         throw error;
       }
-      // doctorQuantity.value = mask(
-      //   { quantity: 10, doctorThisMonth: 12 },
-      //   DoctorQuantitySchema
-      // );
     } catch (error) {
       throw error;
     }
@@ -296,37 +318,37 @@ export const useDataDoctor = defineStore("doctor", () => {
       throw error;
     }
   }
-  async function getPatientConsultation(id: string) {
-    try {
-      if (authorization === "Bearer ") throw "Không thể xác định danh tính";
+  // async function getPatientConsultation(id: string) {
+  //   try {
+  //     if (authorization === "Bearer ") throw "Không thể xác định danh tính";
 
-      const { data, error } = await useFetch(
-        "/consultation/doctor/information/" + id,
-        {
-          baseURL: useRuntimeConfig().public.baseURL,
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: authorization,
-          },
-        }
-      );
+  //     const { data, error } = await useFetch(
+  //       "/consultation/doctor/information/" + id,
+  //       {
+  //         baseURL: useRuntimeConfig().public.baseURL,
+  //         method: "GET",
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //           Authorization: authorization,
+  //         },
+  //       }
+  //     );
 
-      if (data.value !== null) {
-        const response = mask(data.value, DataObjectSchema);
-        patientConsultation.value = mask(
-          response.data,
-          PatientConsultationSchema
-        );
-      } else {
-        // navigateTo("/error");
-        doctors.value = [];
-        throw "Tải dữ liệu bệnh nhân thất bại";
-      }
-    } catch (error) {
-      throw error;
-    }
-  }
+  //     if (data.value !== null) {
+  //       const response = mask(data.value, DataObjectSchema);
+  //       patientConsultation.value = mask(
+  //         response.data,
+  //         PatientConsultationSchema
+  //       );
+  //     } else {
+  //       // navigateTo("/error");
+  //       doctors.value = [];
+  //       throw "Tải dữ liệu bệnh nhân thất bại";
+  //     }
+  //   } catch (error) {
+  //     throw error;
+  //   }
+  // }
   async function resetPassword(doctorId: string) {
     try {
       if (authorization === "Bearer ") throw "Không thể xác định danh tính";
@@ -384,28 +406,7 @@ export const useDataDoctor = defineStore("doctor", () => {
   //     throw error;
   //   }
   // }
-  async function getConsultationFeedbackBar(id: string) {
-    try {
-      if (authorization === "Bearer ") throw "Không thể xác định danh tính";
-      const { data, error } = await useFetch("consultation/feedback/" + id, {
-        baseURL: useRuntimeConfig().public.baseURL,
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: authorization,
-        },
-      });
-
-      if (data.value !== null) {
-        const response = mask(data.value, DataArraySchema);
-        feedbackBar.value = mask(response.data, array(number()));
-      } else {
-        throw error;
-      }
-    } catch (error) {
-      throw error;
-    }
-  }
+  
 
   return {
     doctor,
@@ -414,21 +415,21 @@ export const useDataDoctor = defineStore("doctor", () => {
     doctorQuantity,
     moneyQuantity,
     // moneyMonth,
-    feedbackBar,
     consultationQuantity,
     chooseDoctor,
     uploadImage,
-    patientConsultation,
+
     getQuantityDoctor,
     // getConsultationMoneyAreaById,
     getConsultationDashboard,
     getConsultationPie,
-    getConsultationFeedbackBar,
+
     updateDoctor,
     saveDoctors,
     createDoctor,
-    getPatientConsultation,
     resetPassword,
     getConsultationMoney,
+    quantityDoctorBySpecialty,
+    getQuantityDoctorBySpecialty,
   };
 });

@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
   <section
     class="grid md:grid-cols-3 grid-cols-1 md:gap-4 gap-2 h-full w-full mb-4"
   >
@@ -266,4 +266,4 @@ onMounted(async () => {
   updateLineChart();
   updateBarChart();
 });
-</script>
+</script> -->
