@@ -176,9 +176,8 @@
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5"
               >
                 <option selected disabled value="">Chọn giới tính</option>
-                <option value="male">Nam</option>
-                <option value="female">Nữ</option>
-                <option value="orther">Khác</option>
+                <option value="Male">Nam</option>
+                <option value="Female">Nữ</option>
               </select>
             </div>
             <div class="col-span-2">
@@ -427,13 +426,13 @@ const [gender, genderAttrs] = defineField("gender", {
 });
 const [address, addressAttrs] = defineField("address", {});
 
-function getFormattedDate(date: Date) {
-  let year = date.getFullYear();
-  let month = (1 + date.getMonth()).toString().padStart(2, "0");
-  let day = date.getDate().toString().padStart(2, "0");
+// function getFormattedDate(date: Date) {
+//   let year = date.getFullYear();
+//   let month = (1 + date.getMonth()).toString().padStart(2, "0");
+//   let day = date.getDate().toString().padStart(2, "0");
 
-  return month + "/" + day + "/" + year;
-}
+//   return month + "/" + day + "/" + year;
+// }
 
 const onSubmit = handleSubmit(async (values: any) => {
   const patient: Patient = {
@@ -442,8 +441,8 @@ const onSubmit = handleSubmit(async (values: any) => {
     password: "Pw@12345",
     passwordConfirm: "Pw@12345",
     full_name: values.fullName,
-    date_of_birth: values.dateOfBirth,
-    gender: values.gender,
+    date_of_birth:"2002-05-08T00:00:00.000Z",
+    gender: "Male",
     address: values.address,
   };
   clearNuxtData();

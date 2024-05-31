@@ -31,19 +31,13 @@
       </div>
     <!-- </form> -->
     <div class="flex gap-4">
-      <a
+      <!-- <a
         href="/patients/create"
         class="text-white inline-flex bg-primary items-center justify-center hover:bg-primary/80 focus:ring-0 font-medium rounded-xl text-sm px-5 py-2.5 text-center w-full sm:w-auto"
       >
         + Thêm bệnh nhân
-      </a>
-      <button
-        type="button"
-        id="button-delete"
-        class="text-white inline-flex bg-red-600 items-center justify-center hover:bg-red-500 focus:ring-0 font-medium rounded-xl text-sm px-5 py-2.5 text-center w-full sm:w-auto"
-      >
-        - Xoá
-      </button>
+      </a> -->
+      
     </div>
   </div>
 </template>

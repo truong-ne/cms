@@ -235,9 +235,10 @@
   </section>
 </template>
 <script setup lang="ts">
-import type { ModalOptions, ModalInterface } from "flowbite";
+import { type ModalOptions, Modal } from "flowbite";
 
 const { blogStore } = defineProps(["blogStore"]);
+
 const route = useRoute();
 const { search, result } = useMeiliSearch("blog");
 

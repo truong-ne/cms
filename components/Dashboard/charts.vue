@@ -212,7 +212,35 @@
                     >
                       {{ doctor.id }}
                     </th>
-                    <td class="px-4 py-3 mr-4">{{ doctor.avatar }}</td>
+                    <td class="px-4 mr-4">
+                      <div
+                        class="w-12 h-12 rounded-full overflow-hidden bg-black"
+                      >
+                        <NuxtImg
+                          v-if="
+                            doctor.avatar != 'default' &&
+                            doctor.avatar != null &&
+                            doctor.avatar != '' &&
+                            doctor
+                          "
+                          provider="cloudinary"
+                          :src="doctor.avatar"
+                          width="100"
+                          height="100"
+                          class="object-cover duration-200 transform ease-linear bg-primary/20"
+                          :alt="doctor.full_name"
+                        />
+                        <NuxtImg
+                          v-else
+                          provider="cloudinary"
+                          src="healthline/avatar/doctors/default"
+                          width="500"
+                          height="500"
+                          class="object-cover duration-200 transform ease-linear"
+                          :alt="doctor.full_name"
+                        />
+                      </div>
+                    </td>
 
                     <td class="px-4 py-3 mr-4">{{ doctor.full_name }}</td>
                     <td class="px-4 py-3 mr-4">{{ doctor.consultation }}</td>

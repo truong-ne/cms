@@ -54,6 +54,7 @@ export const useDataDiscount = defineStore("discount", () => {
         return;
       } else if (error.value != null) {
         if (error.value.statusCode == 409) throw "Trùng mã giảm giá";
+        else throw "Thêm thất bại"
       }
     } catch (error) {
       throw error;

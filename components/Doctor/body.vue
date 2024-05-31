@@ -252,13 +252,14 @@
                   class="flex items-center justify-center w-full md:w-auto text-white bg-colorDF9F1E font-medium rounded-xl text-sm px-4 py-2.5 hover:bg-colorDF9F1E/80"
                 >
                   Xem hồ sơ </a
-                ><button
+                >
+                <!-- <button
                   type="button"
                   @click="toggle"
                   class="flex items-center justify-center w-full md:w-auto text-colorDF9F1E bg-white font-medium rounded-xl text-sm px-4 py-2.5 hover:outline-1 outline-colorDF9F1E outline outline-0"
                 >
                   Chỉnh sửa
-                </button>
+                </button> -->
                 <button
                   type="button"
                   @click="showPopupDelete(doctor.id)"

@@ -118,7 +118,7 @@
                   >Danh sách bệnh nhân</a
                 >
               </li>
-              <li>
+              <!-- <li>
                 <a
                   href="/patients/create"
                   class="pl-11 group flex items-center p-2 text-secondary rounded-lg group hover:bg-primary hover:text-white w-full text-base transition duration-75 group"
@@ -127,7 +127,7 @@
                   }"
                   >Thêm bệnh nhân</a
                 >
-              </li>
+              </li> -->
             </ul>
           </li>
           <li>

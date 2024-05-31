@@ -4,11 +4,9 @@
     id="updateDiscount"
     tabindex="-1"
     aria-hidden="true"
-    class="hidden sm:overflow-y-auto sm:overflow-x-hidden sm:fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full"
+    class="hidden bg-black/20 sm:overflow-y-auto sm:overflow-x-hidden sm:fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full"
   >
-    <div
-      class="fixed overflow-y-auto overflow-x-hidden top-0 right-0 left-0 z-50 sm:relative p-4 w-full max-w-3xl max-h-full"
-    >
+    <div class="relative w-full max-w-3xl md:max-h-full">
       <!-- Modal content -->
       <div class="sm:relative p-4 bg-white rounded-lg shadow sm:p-5">
         <!-- Modal header -->
@@ -21,7 +19,7 @@
           <button
             type="button"
             id="buttonClose"
-            class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center  "
+            class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
           >
             <svg
               aria-hidden="true"
@@ -40,7 +38,11 @@
           </button>
         </div>
         <!-- Modal body -->
-        <form action="#" @submit.prevent="onSubmit">
+        <form
+          action="#"
+          @submit.prevent="onSubmit"
+          v-if="discountStore.discount != null"
+        >
           <div class="grid gap-4 mb-4 sm:grid-cols-2 w-full">
             <div class="col-span-1">
               <label
@@ -143,7 +145,7 @@
                   class="absolute inset-y-0 start-0 top-7 flex items-center ps-3.5 pointer-events-none"
                 >
                   <svg
-                    class="w-4 h-4 text-gray-500 "
+                    class="w-4 h-4 text-gray-500"
                     aria-hidden="true"
                     xmlns="http://www.w3.org/2000/svg"
                     fill="currentColor"
@@ -156,16 +158,14 @@
                 </div>
                 <input
                   datepicker
-                  datepicker-autohide
-                  datepicker-format="dd/mm/yyyy"
                   name="date"
                   type="text"
                   required
-                  id="expirationTime"
+                  id="expirationTimeUpdate"
                   v-model="expirationTime"
                   v-bind="expirationTimeAttrs"
                   class="bg-gray-50 ps-10 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5"
-                  placeholder="Chọn ngày nhận văn bằng"
+                  placeholder="Chọn ngày phát hành"
                 />
               </div>
             </div>
@@ -180,7 +180,7 @@
               <div role="status" v-if="isSubmitting">
                 <svg
                   aria-hidden="true"
-                  class="w-8 h-8 text-gray-200 animate-spin  fill-blue-600"
+                  class="w-8 h-8 text-gray-200 animate-spin fill-blue-600"
                   viewBox="0 0 100 101"
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
@@ -209,7 +209,7 @@
                     d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32v144H48c-17.7 0-32 14.3-32 32s14.3 32 32 32h144v144c0 17.7 14.3 32 32 32s32-14.3 32-32V288h144c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z"
                   />
                 </svg>
-                Tạo phiếu
+                Cập nhật
               </span>
             </button>
           </div>
@@ -227,6 +227,38 @@ import Datepicker from "flowbite-datepicker/Datepicker";
 
 const { discountStore } = defineProps(["discountStore"]);
 
+onUpdated(() => {
+  if (currentId.value != discountStore.discount.id) {
+    const expirationTimeDT = document.getElementById("expirationTimeUpdate");
+    new Datepicker(expirationTimeDT, {
+      todayHighlight: true,
+      autohide: true,
+      format: "dd/mm/yyyy",
+      language: "vi",
+      defaultDate: false,
+      maxDate: new Date(),
+      minDate: new Date(1900),
+    });
+    expirationTimeDT?.addEventListener("changeDate", (e) => {
+      expirationTime.value = getFormattedDate(new Date(e.detail.date));
+    });
+    currentId.value = discountStore.discount.id;
+    setFieldValue("code", discountStore.discount.code);
+    setFieldValue("type", discountStore.discount.type);
+    setFieldValue("value", discountStore.discount.value);
+    setFieldValue(
+      "expirationTime",
+      getDate(discountStore.discount.expiration_time)
+    );
+    //     setFieldValue("feePerMinute", doctorStore.doctor.fee_per_minutes);
+    //     setFieldValue("specialty", doctorStore.doctor.specialty);
+    // code.value = discountStore.discount.code;
+    // type.value = discountStore.discount.type;
+    // value.value = discountStore.discount.value;
+    // expirationTime.value = discountStore.discount.expiration_time;
+  }
+});
+
 const storeToast = toastStore();
 const toastStatus = ref("");
 const message = ref("");
@@ -238,7 +270,14 @@ function addToast() {
   });
 }
 
-const { defineField, resetForm, isSubmitting, handleSubmit, errors } = useForm({
+const {
+  defineField,
+  resetForm,
+  setFieldValue,
+  isSubmitting,
+  handleSubmit,
+  errors,
+} = useForm({
   validationSchema: yup.object({
     code: yup
       .string()
@@ -251,18 +290,18 @@ const { defineField, resetForm, isSubmitting, handleSubmit, errors } = useForm({
       .required("Bạn phải nhập giá trị "),
 
     type: yup.string().trim().required("Bạn chưa chọn loại"),
-    expirationTime: yup
-      .date()
-      .nullable()
-      .transform((curr: any, orig: any) => (orig === "" ? null : curr))
-      .required()
-      .min(new Date(1900), "Date cannot be this early")
-      .max(new Date(), "Date too much in the future")
-      .test(
-        "format",
-        "Date is invalid",
-        (date: Date) => (date?.getFullYear() ?? 0) > new Date().getFullYear()
-      ),
+    // expirationTime: yup
+    //   .date()
+    //   .nullable()
+    //   .transform((curr: any, orig: any) => (orig === "" ? null : curr))
+    //   .required()
+    //   .min(new Date(1900), "Date cannot be this early")
+    //   .max(new Date(), "Date too much in the future")
+    //   .test(
+    //     "format",
+    //     "Date is invalid",
+    //     (date: Date) => (date?.getFullYear() ?? 0) > new Date().getFullYear()
+    //   ),
   }),
   initialValues: {
     code: "",
@@ -288,32 +327,19 @@ const [expirationTime, expirationTimeAttrs] = defineField("expirationTime", {
   validateOnInput: true,
 });
 
-onMounted(() => {
-  const expirationTime = document.getElementById("expirationTime");
-  new Datepicker(expirationTime, {
-    todayHighlight: true,
-    autohide: true,
-    format: "dd/mm/yyyy",
-    language: "vi",
-    defaultDate: false,
-    maxDate: new Date(),
-    minDate: new Date(1900),
-  });
-});
+function getFormattedDate(date: Date) {
+  let year = date.getFullYear();
+  let month = (1 + date.getMonth()).toString().padStart(2, "0");
+  let day = date.getDate().toString().padStart(2, "0");
+
+  return day + "/" + month + "/" + year;
+}
+
+// onMounted(() => {
+
+// });
 
 const currentId = ref();
-// onUpdated(() => {
-//   if (currentId.value != discountStore.discount.id) {
-//     currentId.value = discountStore.discount.id;
-//     setFieldValue("code", discountStore.discount.code);
-//     setFieldValue("value", discountStore.discount.value);
-//     setFieldValue("type", discountStore.discount.type);
-//     expirationTime.value = discountStore.discount.expiration_time;
-//     if (expirationTime.value == undefined || expirationTime.value == null) {
-//       errorExpirationTime.value = "Vui lòng chọn ngày hết hanj";
-//     }
-//   }
-// });
 
 const onSubmit = handleSubmit(async (values: any) => {
   if (expirationTime.value == undefined || expirationTime.value == "") {
@@ -321,6 +347,7 @@ const onSubmit = handleSubmit(async (values: any) => {
     return;
   } else {
     // errorExpirationTime.value = undefined;
+    console.log(currentId.value)
     const discount: Discount = {
       id: currentId.value,
       code: values.code,
@@ -334,7 +361,7 @@ const onSubmit = handleSubmit(async (values: any) => {
       .updateDiscount(discount)
       .then(() => {
         toastStatus.value = "success";
-        message.value = "Thêm thành công";
+        message.value = "Cập nhật thành công";
         addToast();
       })
       .catch((e: string) => {

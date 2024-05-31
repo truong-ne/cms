@@ -252,7 +252,7 @@ function uploadImage(e: any) {
   }
 }
 
-const onSubmit = handleSubmit(async (values) => {
+const onSubmit = handleSubmit(async (values:any) => {
   try {
     clearNuxtData();
     await blogStore

@@ -32,7 +32,18 @@
             }}</span>
             <div class="grid">
               <span class="text-sm font-thin">ID: {{ mainAccount.id }}</span>
-              <span class="text-sm font-normal">Đau khớp</span>
+              <span class="text-sm font-normal"
+                >Hoạt động: {{ mainAccount.isActive }}</span
+              >
+              <span class="text-sm font-normal"
+                >Số dư: {{ converCurrency(mainAccount.account_balance) }}</span
+              >
+              <span class="text-sm font-normal"
+                >Email: {{ mainAccount.email }}</span
+              >
+              <span class="text-sm font-normal"
+                >Phone: {{ mainAccount.phone }}</span
+              >
             </div>
           </div>
         </div>
@@ -46,7 +57,7 @@
             data-tabs-inactive-classes=" text-gray-500 hover:text-gray-600 border-gray-100 hover:border-gray-300 "
             role="tablist"
           >
-            <li class="me-2" role="presentation">
+            <!-- <li class="me-2" role="presentation">
               <button
                 class="inline-block p-4 border-b-2 rounded-t-lg"
                 id="profile-styled-tab"
@@ -58,8 +69,22 @@
               >
                 Thông tin bệnh nhân
               </button>
-            </li>
+            </li> -->
+
             <li class="me-2" role="presentation">
+              <button
+                class="inline-block p-4 border-b-2 rounded-t-lg hover:text-gray-600 hover:border-gray-300"
+                id="medical-record-styled-tab"
+                data-tabs-target="#styled-medical-record"
+                type="button"
+                role="tab"
+                aria-controls="medical-record"
+                aria-selected="false"
+              >
+                Hồ sơ khám bệnh
+              </button>
+            </li>
+            <!-- <li class="me-2" role="presentation">
               <button
                 class="inline-block p-4 border-b-2 rounded-t-lg hover:text-gray-600 hover:border-gray-300"
                 id="file-styled-tab"
@@ -71,21 +96,8 @@
               >
                 Hồ sơ bệnh án
               </button>
-            </li>
-            <li class="me-2" role="presentation">
-              <button
-                class="inline-block p-4 border-b-2 rounded-t-lg hover:text-gray-600 hover:border-gray-300"
-                id="vaccination-his-styled-tab"
-                data-tabs-target="#styled-vaccination-his"
-                type="button"
-                role="tab"
-                aria-controls="vaccination-his"
-                aria-selected="false"
-              >
-                Lịch sử tiêm chủng
-              </button>
-            </li>
-            <li role="presentation">
+            </li> -->
+            <!-- <li role="presentation">
               <button
                 class="inline-block p-4 border-b-2 rounded-t-lg hover:text-gray-600 hover:border-gray-300"
                 id="prescriptions-styled-tab"
@@ -97,11 +109,11 @@
               >
                 Đơn thuốc
               </button>
-            </li>
+            </li> -->
           </ul>
         </div>
         <div id="default-styled-tab-content">
-          <div
+          <!-- <div
             class="hidden p-4 text-md font-normal text-gray-500"
             id="styled-profile"
             role="tabpanel"
@@ -155,9 +167,9 @@
                 <span class="text-gray-900">0389052819</span>
               </div>
             </div>
-          </div>
+          </div> -->
 
-          <div
+          <!-- <div
             class="hidden p-4"
             id="styled-file"
             role="tabpanel"
@@ -187,39 +199,100 @@
                 </div>
               </li>
             </ul>
-          </div>
+          </div> -->
           <div
             class="hidden p-4"
-            id="styled-vaccination-his"
+            id="styled-medical-record"
             role="tabpanel"
-            aria-labelledby="vaccination-his-tab"
+            aria-labelledby="medical-record-tab"
           >
             <ul class="mt-4">
               <li
                 class="my-2"
-                v-for="record in medicalStore.records"
-                :key="record.id"
+                v-for="medical in medicalStore.medicals"
+                :key="medical.id"
               >
-                <div class="flex items-center md:gap-2 gap-1 group">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    aria-hidden="true"
-                    class="h-7 w-7 text-orange-400"
-                    fill="currentColor"
-                    viewBox="0 0 384 512"
-                  >
-                    <path
-                      d="M0 64C0 28.7 28.7 0 64 0h160v128c0 17.7 14.3 32 32 32h128v288c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V64zm384 64H256V0l128 128z"
+                <div
+                  :class="{
+                    'border-2 border-secondary': currentId == medical.id,
+                  }"
+                  class="flex items-center md:gap-2 gap-1 group bg-colorCDDEFF rounded-2xl p-8"
+                  @click="chooseMedical(medical.id)"
+                >
+                  <div class="w-24 h-24 rounded-full overflow-hidden">
+                    <NuxtImg
+                      v-if="medical.avatar != 'default'"
+                      provider="cloudinary"
+                      width="400"
+                      height="400"
+                      :src="medical.avatar"
+                      :alt="medical.full_name"
+                      class="object-cover group-hover:scale-[1.15] duration-200 transform ease-linear"
                     />
-                  </svg>
-                  <span class="group-hover:underline cursor-pointer">
-                    {{ getNameFile(record.record) }}
-                  </span>
+
+                    <NuxtImg
+                      v-else
+                      provider="cloudinary"
+                      src="healthline/avatar/doctors/default"
+                      width="700"
+                      height="700"
+                      class="object-cover group-hover:scale-[1.15] duration-200 transform ease-linear"
+                      :alt="medical.full_name"
+                    />
+                  </div>
+                  <div class="">
+                    <div class="flex flex-col gap-2">
+                      <div class="grid grid-cols-2 gap-2">
+                        <span>Ngày sinh</span>
+                        <span class="text-gray-900">{{
+                          getDateTime(medical.date_of_birth)
+                        }}</span>
+                      </div>
+
+                      <div class="grid grid-cols-2 gap-2">
+                        <span>Giới tính</span>
+                        <span class="text-gray-900">{{ medical.gender }}</span>
+                      </div>
+                      <div class="grid grid-cols-2 gap-2">
+                        <span>Địa chỉ</span>
+                        <span class="text-gray-900">{{ medical.address }}</span>
+                      </div>
+                      <div
+                        class="grid grid-cols-2 gap-2"
+                        v-if="medical.relationship"
+                      >
+                        <span>Mối quan hệ</span>
+                        <span class="text-gray-900">{{
+                          medical.relationship
+                        }}</span>
+                      </div>
+                      <!-- <div class="grid grid-cols-2 gap-2">
+                        <span>Tình trạng hôn nhân</span>
+                        <span class="text-gray-900">Chưa kết hôn</span>
+                      </div>
+                      <div class="grid grid-cols-2 gap-2">
+                        <span>Số điện thoại</span>
+                        <span class="text-gray-900">0389052819</span>
+                      </div>
+                      <div class="grid grid-cols-2 gap-2">
+                        <span>Người giám hộ</span>
+                        <span class="text-gray-900">Huỳnh Thị Kim Yến</span>
+                      </div>
+                      <div class="grid grid-cols-2 gap-2">
+                        <span>Mối quan hệ</span>
+                        <span class="text-gray-900">Mẹ con</span>
+                      </div>
+                      <div class="grid grid-cols-2 gap-2">
+                        <span>Số điện thoại người giám hộ</span>
+                        <span class="text-gray-900">0389052819</span>
+                      </div> -->
+                    </div>
+                  </div>
                 </div>
               </li>
             </ul>
           </div>
-          <div
+          <!-- <div
             class="hidden p-4 rounded-lg bg-gray-50 "
             id="styled-prescriptions"
             role="tabpanel"
@@ -233,38 +306,42 @@
               the next. The tab JavaScript swaps classes to control the content
               visibility and styling.
             </p>
-          </div>
+          </div> -->
         </div>
       </div>
       <div class="flex flex-col gap-4">
         <div class="rounded-2xl bg-white p-12">
-          <div class="text-lg text-black font-extrabold py-5">Trạng thái</div>
-          <div class="flex flex-col gap-2 text-gray-500">
-            <div class="grid grid-cols-2 gap-2">
-              <span>Nhịp tim</span>
-              <span class="text-gray-900">110 bpm</span>
-            </div>
-            <div class="grid grid-cols-2 gap-2">
-              <span>Nhóm máu</span>
-              <span class="text-gray-900">A+</span>
-            </div>
-            <div class="grid grid-cols-2 gap-2">
-              <span>Chiều cao</span>
-              <span class="text-gray-900">180 cm</span>
-            </div>
-            <div class="grid grid-cols-2 gap-2">
-              <span>Cân nặng</span>
-              <span class="text-gray-900">70 kg</span>
-            </div>
-            <div class="grid grid-cols-2 gap-2">
-              <span>BMI</span>
-              <span class="text-gray-900">00</span>
-            </div>
-            <div class="grid grid-cols-2 gap-2">
-              <span>Nhiệt độ</span>
-              <span class="text-gray-900">37º</span>
-            </div>
-          </div>
+          <div class="text-lg text-black font-extrabold py-5">Bệnh án</div>
+          <ul class="">
+            <li
+              class="my-2"
+              v-for="record in medicalStore.records"
+              :key="record.id"
+            >
+              <a
+                class="flex items-center md:gap-2 gap-1 group"
+                :src="
+                  'https://res.cloudinary.com/dsvlwyl7i/image/upload/v1688608254/' +
+                  record.record
+                "
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  aria-hidden="true"
+                  class="h-7 w-7 text-orange-400"
+                  fill="currentColor"
+                  viewBox="0 0 384 512"
+                >
+                  <path
+                    d="M0 64C0 28.7 28.7 0 64 0h160v128c0 17.7 14.3 32 32 32h128v288c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V64zm384 64H256V0l128 128z"
+                  />
+                </svg>
+                <span class="group-hover:underline cursor-pointer text-xs">
+                  {{ getNameFile(record.record) }}
+                </span>
+              </a>
+            </li>
+          </ul>
         </div>
         <div
           class="relative flex items-center rounded-xl justify-center bg-white md:p-4 w-full h-full"
@@ -290,6 +367,27 @@
           </div>
         </div>
       </div>
+      <div class="col-span-3 bg-white rounded-2xl p-12">
+        <div class="text-lg text-black font-extrabold py-5">
+          Lịch sử tiêm chủng
+        </div>
+        <ul class="mt-4">
+          <li
+            class="my-2"
+            v-for="vacc in medicalStore.vaccinationRecord"
+            :key="vacc.id"
+          >
+            <div class="flex items-center md:gap-2 gap-1 group">
+              <div>
+                <div class="">Tên vaccine: {{ vacc.vaccine.disease }}</div>
+                <div class="">Số mũi tiêm: {{ vacc.vaccine.max_dose }}</div>
+                <div class="">Đã tiêm: {{ vacc.dose_number }}</div>
+                <div class="">Thời gian tiêm: {{ vacc.date }}</div>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
     </div>
   </section>
 </template>
@@ -303,6 +401,8 @@ const loading = ref(false);
 const storeToast = toastStore();
 const toastStatus = ref("");
 const message = ref("");
+
+const currentId = ref("");
 
 const baroptions = ref({
   chart: {
@@ -443,11 +543,16 @@ const mapGender = Object.entries(Gender).map(([key, value]) => ({
   key: key,
   value: value,
 }));
-function getByKey(searchKey: string) {
-  for (let { key, value } of mapGender) {
-    if (key === searchKey.toLowerCase()) return value;
-  }
-  return "Không xác định";
+async function chooseMedical(id: string) {
+  await Promise.all([
+    medicalStore.getVaccinationRecord(id),
+    medicalStore.getListRecordById(id),
+  ]);
+  currentId.value = id;
+  // for (let { key, value } of mapGender) {
+  //   if (key === searchKey.toLowerCase()) return value;
+  // }
+  // return "Không xác định";
 }
 async function resetPassword() {
   try {
@@ -469,6 +574,7 @@ async function resetPassword() {
     console.log(error);
   }
 }
+
 onMounted(async () => {
   param.value = route.params["slug"].toString();
   updateBarChart();
@@ -479,9 +585,11 @@ onMounted(async () => {
     ]);
     mainAccount.value = result.value.hits[0];
     await Promise.all([
+      medicalStore.getProfileById(param.value),
       medicalStore.getVaccinationRecord(medicalStore.medicals[0].id),
       medicalStore.getListRecordById(medicalStore.medicals[0].id),
     ]);
+    currentId.value = medicalStore.medicals[0].id;
   } catch (error) {
     console.log(error);
   }
