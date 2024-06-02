@@ -206,7 +206,7 @@
                 :alt="doctor.full_name"
               />
             </div>
-            <div class="relative col-span-4 p-4 flex flex-col">
+            <div class="relative col-span-4 p-4 flex flex-col place-items-start">
               <div class="text-lg text-black font-bold">
                 {{ doctor.full_name }}
               </div>
@@ -241,7 +241,7 @@
               <div class="text-xs font-light text-gray-500 mt-1">
                 {{ doctor.feePerMinutes ?? 0 }} ₫/phút
               </div>
-              <div class="text-sm font-normal text-gray-500 line-clamp-3 mt-6">
+              <div class="text-sm text-left font-normal text-gray-500 line-clamp-3 mt-6">
                 {{ doctor.biography }}
               </div>
               <div
@@ -275,7 +275,7 @@
                   @click="showPopupDelete(doctor.id)"
                   class="flex items-center justify-center w-full md:w-auto text-red-500 bg-white font-medium rounded-xl text-sm px-4 py-2.5 hover:outline-1 outline-red-500 outline outline-0"
                 >
-                  Xoá
+                  Khoá
                 </button>
               </div>
             </div>
@@ -425,7 +425,7 @@
               class="text-xl font-semibold text-gray-900 dark:text-white"
               v-if="doctorStore.doctor"
             >
-              Xoá tài khoản
+              Khoá tài khoản
             </h3>
             <button
               type="button"
@@ -455,7 +455,7 @@
             <div
               class="text-base leading-relaxed text-gray-500 dark:text-gray-400"
             >
-              Bấm xoá để xoá tài khoản
+              Bấm khoá để khoá tài khoản
               <p class="inline font-bold">{{ doctorStore.doctor.id }}</p>
             </div>
           </div>
@@ -469,7 +469,7 @@
               type="button"
               class="text-white bg-red-600 hover:bg-red-700 focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center"
             >
-              Chặn
+              Khoá
             </button>
             <button
               id="button-cancel"

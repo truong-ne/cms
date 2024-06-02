@@ -135,20 +135,23 @@
         >
           <thead class="text-black uppercase text-xs">
             <tr>
-              <th class="px-4 py-2 border-l-2">
+              <!-- <th class="px-4 py-2 border-l-2">
                 <input
                   disabled
                   type="checkbox"
                   value="false"
                   class="w-4 h-4 border-gray-300 rounded focus:ring-0"
                 />
-              </th>
-              <th class="px-4 border-l-2">Mã</th>
+              </th> -->
+              <th class="px-4 py-2 border-l-2">Mã</th>
               <th class="px-4 border-l-2">Giá trị</th>
               <th class="px-4 border-l-2">Loại</th>
               <th class="px-4 border-l-2">Thời gian hết hạn</th>
 
-              <th class="px-4 border-r-2 w-36">
+              <th class="px-4 w-36">
+                <span class="sr-only">Actions</span>
+              </th>
+              <th class="px-4 w-36">
                 <span class="sr-only">Actions</span>
               </th>
             </tr>
@@ -163,16 +166,16 @@
               }"
               @click="chooseDiscount(discount.id)"
             >
-              <th class="rounded-l-2xl px-4 items-center">
+              <!-- <th class="rounded-l-2xl px-4 items-center">
                 <input
                   type="checkbox"
                   value="false"
                   class="w-4 h-4 border-gray-300 rounded focus:ring-0"
                 />
-              </th>
-              <td class="p-4">
+              </th> -->
+              <th class="rounded-l-2xl px-4 items-center">
                 {{ discount.code }}
-              </td>
+              </th>
               <td class="p-4">
                 {{ getValue(discount.value, discount.type) }}
               </td>
@@ -182,7 +185,7 @@
                 {{ getDate(discount.expiration_time) }}
               </td>
               <td class="p-4" v-else></td>
-              <td class="rounded-r-2xl">
+              <td class="">
                 <button
                   v-show="currentId == discount.id"
                   type="button"
@@ -190,6 +193,16 @@
                   class="flex items-center justify-center w-full md:w-auto text-primary bg-white hover:bg-primary hover:text-white focus:ring-4 focus:ring-primary font-medium rounded-lg text-sm px-4 py-2 focus:outline-none"
                 >
                   Chỉnh sửa
+                </button>
+              </td>
+              <td class="rounded-r-2xl">
+                <button
+                  v-show="currentId == discount.id"
+                  type="button"
+                  @click="deleteDiscount()"
+                  class="flex items-center justify-center w-full md:w-auto text-red-500 bg-white hover:bg-red-500 hover:text-white font-medium rounded-lg text-sm px-4 py-2"
+                >
+                  Xoá
                 </button>
               </td>
             </tr>

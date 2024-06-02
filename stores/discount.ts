@@ -54,7 +54,7 @@ export const useDataDiscount = defineStore("discount", () => {
         return;
       } else if (error.value != null) {
         if (error.value.statusCode == 409) throw "Trùng mã giảm giá";
-        else throw "Thêm thất bại"
+        else throw "Thêm thất bại";
       }
     } catch (error) {
       throw error;
@@ -86,7 +86,7 @@ export const useDataDiscount = defineStore("discount", () => {
         const response = mask(data.value, DataObjectSchema);
         return response.message;
       } else if (error.value != null) {
-        throw error;
+        throw "Không thành công";
       }
     } catch (error) {
       throw error;
@@ -105,18 +105,15 @@ export const useDataDiscount = defineStore("discount", () => {
         },
       });
 
-      if (data.value !== null) {
-        const response = mask(data.value, DataStringSchema);
-        return response.message;
-      } else if (error.value != null) {
-        throw error;
+      if (error.value != null) {
+        throw error.value.statusCode == 404
+          ? "Không còn trong hệ thống"
+          : "Không thành công";
       }
     } catch (error) {
       throw error;
     }
   }
-
-  async function getDiscounts() {}
 
   return {
     discount,

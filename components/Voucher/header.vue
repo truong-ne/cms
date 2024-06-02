@@ -38,12 +38,12 @@
       >
         + Thêm phiếu giảm giá
       </button>
-      <button
+      <!-- <button
         type="button"
         class="text-white inline-flex bg-red-600 items-center justify-center hover:bg-red-500 focus:ring-0 font-medium rounded-xl text-sm px-5 py-2.5 text-center w-full sm:w-auto"
       >
         - Xoá
-      </button>
+      </button> -->
     </div>
   </div>
 </template>
@@ -51,14 +51,14 @@
 // import { Modal } from "flowbite";
 // import type { ModalOptions, ModalInterface } from "flowbite";
 
-const modal = ref();
+// const modal = ref();
 
-function toggle() {
-  modal.value.toggle();
-}
+// function toggle() {
+//   modal.value.toggle();
+// }
 
 onMounted(async () => {
-  setTimeout(() => {
+  // setTimeout(() => {
     // try {
     //   // select the two elements that we'll work with
     //   const $modalElement = document.getElementById("createDiscount");
@@ -79,7 +79,7 @@ onMounted(async () => {
     // } catch (e) {
     //   console.log(e);
     // }
-  }, 0);
+  // }, 0);
 });
 </script>
   

@@ -5,7 +5,7 @@
 
       <div class="grid grid-cols-2 gap-8" v-if="resultSearch">
         <div
-          v-for="blog in resultSearch"
+          v-for="blog in blogStore.blogs"
           :key="blog._id"
           class="group bg-white rounded-xl relative overflow-hidden mb-4 h-96"
           @click="chooseBlog(blog._id)"

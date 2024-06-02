@@ -115,7 +115,7 @@ export const useDataBlog = defineStore("Blog", () => {
   }
   async function deleteBlog(id: string) {
     try {
-      const { data, error } = await useFetch("/health-forum/blog/" + id, {
+      const { error } = await useFetch("/health-forum/blog/" + id, {
         baseURL: useRuntimeConfig().public.baseURL,
         method: "DELETE",
         headers: {
@@ -123,14 +123,8 @@ export const useDataBlog = defineStore("Blog", () => {
         },
       });
 
-      if (data.value !== null) {
-        const response = mask(data.value, DataObjectSchema);
-
-        blog.value = mask(response.data, BlogSchema);
-        return;
-      } else if (error.value != null) {
-        console.log(error.value);
-        throw error.value;
+      if (error.value != null) {
+        throw error.value.statusCode == 404 ? "Không còn trong hệ thống" : "Không thành công";
       }
     } catch (error) {
       throw error;
