@@ -110,6 +110,14 @@
                 Đơn thuốc
               </button>
             </li> -->
+            <li>
+              <button
+              @click="changePassword"
+                class="inline-block p-3 text-white rounded-xl bg-primary hover:bg-primary/80"
+              >
+                Đặt lại mật khẩu
+              </button>
+            </li>
           </ul>
         </div>
         <div id="default-styled-tab-content">
@@ -396,7 +404,7 @@ const { search, result } = useMeiliSearch("user");
 const route = useRoute();
 const mainAccount = ref();
 const param = ref("");
-const { medicalStore } = defineProps(["medicalStore"]);
+const { medicalStore, patientStore } = defineProps(["medicalStore", "patientStore"]);
 const loading = ref(false);
 const storeToast = toastStore();
 const toastStatus = ref("");
@@ -554,10 +562,10 @@ async function chooseMedical(id: string) {
   // }
   // return "Không xác định";
 }
-async function resetPassword() {
+async function changePassword() {
   try {
     loading.value = true;
-    await medicalStore
+    await patientStore
       .resetPassword(param.value)
       .then(() => {
         toastStatus.value = "success";

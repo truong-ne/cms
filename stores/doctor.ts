@@ -318,6 +318,60 @@ export const useDataDoctor = defineStore("doctor", () => {
       throw error;
     }
   }
+  async function banDoctor() {
+    try {
+      if (authorization === "Bearer " || doctor==undefined ) throw "Không thể xác định danh tính";
+
+      const { data, error } = await useFetch(
+        `doctor-management/doctor/admin/doctor/ban/${doctor.value!.id}`,
+        {
+          baseURL: useRuntimeConfig().public.baseURL,
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: authorization,
+          },
+          
+        }
+      );
+
+      if (data.value !== null) {
+      } else {
+        console.log(error);
+        doctors.value = [];
+        throw "Khoá tài khoản thất bại";
+      }
+    } catch (error) {
+      throw error;
+    }
+  }
+  // async function banDoctor() {
+  //   try {
+  //     if (authorization === "Bearer " || doctor==undefined ) throw "Không thể xác định danh tính";
+
+  //     const { data, error } = await useFetch(
+  //       `doctor-management/doctor/admin/doctor/ban/${doctor.value!.id}`,
+  //       {
+  //         baseURL: useRuntimeConfig().public.baseURL,
+  //         method: "GET",
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //           Authorization: authorization,
+  //         },
+          
+  //       }
+  //     );
+
+  //     if (data.value !== null) {
+  //     } else {
+  //       console.log(error);
+  //       doctors.value = [];
+  //       throw "Khoá tài khoản thất bại";
+  //     }
+  //   } catch (error) {
+  //     throw error;
+  //   }
+  // }
   // async function getPatientConsultation(id: string) {
   //   try {
   //     if (authorization === "Bearer ") throw "Không thể xác định danh tính";
@@ -431,5 +485,6 @@ export const useDataDoctor = defineStore("doctor", () => {
     getConsultationMoney,
     quantityDoctorBySpecialty,
     getQuantityDoctorBySpecialty,
+    banDoctor
   };
 });

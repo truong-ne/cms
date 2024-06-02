@@ -54,9 +54,36 @@ export const useDataPatient = defineStore("patient", () => {
       throw error;
     }
   }
+  async function resetPassword(id: string) {
+    try {
+      if (authorization === "Bearer ") throw "Không thể xác định danh tính";
+
+      const { data, error } = await useFetch(
+        `user-management/user/reset-password/${id}`,
+        {
+          baseURL: useRuntimeConfig().public.baseURL,
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: authorization,
+          },
+        }
+      );
+
+      if (data.value !== null) {
+        return;
+      } else {
+        console.log(error);
+        throw "Reset mật khẩu thất bại";
+      }
+    } catch (error) {
+      throw error;
+    }
+  }
   return {
     quantityNewPatient,
     getQuantityNewPatient,
     createPatient,
+    resetPassword,
   };
 });

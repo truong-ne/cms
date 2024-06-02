@@ -128,32 +128,32 @@ export const useDataMedicalRecord = defineStore("medical_record", () => {
     }
   }
 
-  async function resetPassword(id: string) {
-    try {
-      if (authorization === "Bearer ") throw "Không thể xác định danh tính";
+  // async function resetPassword(id: string) {
+  //   try {
+  //     if (authorization === "Bearer ") throw "Không thể xác định danh tính";
 
-      const { data, error } = await useFetch(
-        "user-management/user/reset-password/" + id,
-        {
-          baseURL: useRuntimeConfig().public.baseURL,
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: authorization,
-          },
-        }
-      );
+  //     const { data, error } = await useFetch(
+  //       "user-management/user/reset-password/" + id,
+  //       {
+  //         baseURL: useRuntimeConfig().public.baseURL,
+  //         method: "PATCH",
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //           Authorization: authorization,
+  //         },
+  //       }
+  //     );
 
-      if (data.value !== null) {
-        return;
-      } else {
-        console.log(error);
-        throw "Reset mật khẩu thất bại";
-      }
-    } catch (error) {
-      throw error;
-    }
-  }
+  //     if (data.value !== null) {
+  //       return;
+  //     } else {
+  //       console.log(error);
+  //       throw "Reset mật khẩu thất bại";
+  //     }
+  //   } catch (error) {
+  //     throw error;
+  //   }
+  // }
 
   async function getListRecordById(id: string) {
     try {
@@ -193,7 +193,6 @@ export const useDataMedicalRecord = defineStore("medical_record", () => {
     getProfileById,
     getVaccinationRecord,
     getQuantityMedical,
-    resetPassword,
     getListRecordById,
     // getQuantityPatient,
   };

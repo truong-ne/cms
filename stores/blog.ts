@@ -64,7 +64,7 @@ export const useDataBlog = defineStore("Blog", () => {
       if (data.value !== null) {
         return;
       } else if (error.value != null) {
-        throw "Thành công";
+        throw "Thất bại";
       }
     } catch (error) {
       throw error;

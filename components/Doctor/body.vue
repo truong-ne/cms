@@ -174,7 +174,7 @@
       <div class="text-2xl mb-6 mt-4 ml-4 font-bold">Danh sách bác sĩ</div>
 
       <div class="grid grid-cols-2 gap-8">
-        <div
+        <button
           class="relative col-span-1 w-full bg-white rounded-2xl group cursor-pointer outline outline-offset-2 outline-2 outline-primary/20 hover:outline-8"
           v-for="doctor in doctorStore.doctors"
           :key="doctor.id"
@@ -245,21 +245,31 @@
                 {{ doctor.biography }}
               </div>
               <div
+                class="text-xs mt-4"
+                :class="{
+                  'text-green-100': doctor.is_active,
+                  ' text-gray-300': !doctor.is_active,
+                }"
+              >
+                {{ doctor.is_active ? "Đã kích hoạt" : "Chưa kích hoạt" }}
+              </div>
+
+              <div
                 class="absolute bottom-0 left-0 right-0 my-5 flex gap-4 justify-center"
               >
                 <a
                   :href="'/doctors/' + doctor.id"
                   class="flex items-center justify-center w-full md:w-auto text-white bg-colorDF9F1E font-medium rounded-xl text-sm px-4 py-2.5 hover:bg-colorDF9F1E/80"
                 >
-                  Xem hồ sơ </a
-                >
-                <!-- <button
+                  Xem hồ sơ
+                </a>
+                <button
                   type="button"
                   @click="toggle"
                   class="flex items-center justify-center w-full md:w-auto text-colorDF9F1E bg-white font-medium rounded-xl text-sm px-4 py-2.5 hover:outline-1 outline-colorDF9F1E outline outline-0"
                 >
                   Chỉnh sửa
-                </button> -->
+                </button>
                 <button
                   type="button"
                   @click="showPopupDelete(doctor.id)"
@@ -270,7 +280,7 @@
               </div>
             </div>
           </div>
-        </div>
+        </button>
       </div>
 
       <nav
@@ -455,10 +465,11 @@
           >
             <button
               id="button-delete"
+              @click="banDoctor()"
               type="button"
               class="text-white bg-red-600 hover:bg-red-700 focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center"
             >
-              Xoá
+              Chặn
             </button>
             <button
               id="button-cancel"
@@ -466,7 +477,7 @@
               @click="closePopupDelete"
               class="py-2.5 px-5 ms-3 text-sm font-medium text-primary focus:outline-none bg-white rounded-lg border border-primary hover:bg-gray-100"
             >
-              Decline
+              Huỷ
             </button>
           </div>
         </div>
@@ -486,8 +497,11 @@ const mapSpecialty = Object.entries(Specialty).map(([key, value]) => ({
   value: value,
 }));
 const route = useRoute();
+const storeToast = toastStore();
+const toastStatus = ref("");
+const message = ref("");
 
-const isLoading = ref(false);
+const loading = ref(false);
 const { doctorStore, consultationStore } = defineProps([
   "doctorStore",
   "consultationStore",
@@ -573,16 +587,46 @@ onMounted(async () => {
 });
 
 function toggle() {
-  modal.value.toggle();
+  try {
+    modal.value.toggle();
+  } catch (e) {
+    console.log(e);
+  }
 }
 
 function chooseDoctor(id: string) {
-  if (id == currentId.value) {
-    currentId.value = undefined;
-  } else {
+  if (id != currentId.value) {
     currentId.value = id;
     doctorStore.chooseDoctor(id);
   }
+}
+
+function addToast() {
+  storeToast.add({
+    message: message.value,
+    toastStatus: toastStatus.value,
+  });
+}
+
+async function banDoctor() {
+  try {
+    await doctorStore
+      .banDoctor()
+      .then(() => {
+        toastStatus.value = "success";
+        message.value = "Khoá tài khoản thành công";
+        addToast();
+      })
+      .catch((error: string) => {
+        toastStatus.value = "error";
+        message.value = error;
+        addToast();
+      });
+    loading.value = false;
+  } catch (error) {
+    console.log(error);
+  }
+  closePopupDelete();
 }
 
 const modal = ref();
