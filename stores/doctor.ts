@@ -112,10 +112,6 @@ export const useDataDoctor = defineStore("doctor", () => {
       } else {
         throw error;
       }
-      // consultationQuantity.value = mask(
-      //   { quantity: 40, quantityThisMonth: 4 },
-      //   ConsultationQuantitySchema
-      // );
     } catch (error) {
       throw error;
     }
@@ -141,10 +137,6 @@ export const useDataDoctor = defineStore("doctor", () => {
       } else {
         throw error;
       }
-      // consultationPie.value = mask(
-      //   { cancel: 10, confirm: 12, finish: 5, pending: 7 },
-      //   ConsultationPieSchema
-      // );
     } catch (error) {
       throw error;
     }
@@ -302,16 +294,14 @@ export const useDataDoctor = defineStore("doctor", () => {
             phone: doctor.phone,
             email: doctor.email,
             full_name: doctor.full_name,
-            specialty: doctor.specialty,
+            is_Active:doctor.is_active,
             fee_per_minutes: doctor.fee_per_minutes,
           }),
         }
       );
 
-      if (data.value !== null) {
-      } else {
+      if (error.value!=null){
         console.log(error);
-        doctors.value = [];
         throw "Cập nhật tài khoản thất bại";
       }
     } catch (error) {

@@ -206,7 +206,9 @@
                 :alt="doctor.full_name"
               />
             </div>
-            <div class="relative col-span-4 p-4 flex flex-col place-items-start">
+            <div
+              class="relative col-span-4 p-4 flex flex-col place-items-start"
+            >
               <div class="text-lg text-black font-bold">
                 {{ doctor.full_name }}
               </div>
@@ -219,7 +221,7 @@
                   class="w-4 h-4 me-1"
                   :class="{
                     'text-gray-300': i > doctor.ratings,
-                    ' text-yellow-300': i < doctor.ratings,
+                    ' text-yellow-300': i <= doctor.ratings,
                   }"
                   aria-hidden="true"
                   xmlns="http://www.w3.org/2000/svg"
@@ -241,13 +243,15 @@
               <div class="text-xs font-light text-gray-500 mt-1">
                 {{ doctor.feePerMinutes ?? 0 }} ₫/phút
               </div>
-              <div class="text-sm text-left font-normal text-gray-500 line-clamp-3 mt-6">
+              <div
+                class="text-sm text-left font-normal text-gray-500 line-clamp-3 mt-6"
+              >
                 {{ doctor.biography }}
               </div>
               <div
                 class="text-xs mt-4"
                 :class="{
-                  'text-green-100': doctor.is_active,
+                  'text-green-500': doctor.is_active,
                   ' text-gray-300': !doctor.is_active,
                 }"
               >
@@ -352,7 +356,7 @@
             <button
               type="button"
               @click="choosePage(currentPage)"
-              class="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300"
+              class="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-gray-100 border border-gray-300"
             >
               {{ currentPage }}
             </button>
@@ -524,15 +528,21 @@ function closePopupDelete() {
   // }
 }
 
-onBeforeMount(async () => {
-  result.value = await search(keySearch.value.trim(), {
-    hitsPerPage: hitsPerPage.value,
-    page: currentPage.value,
-  });
-  resultSearch.value = result.value.hits;
-  totalHits.value = result.value.totalHits;
-  totalPages.value = result.value.totalPages;
-  doctorStore.saveDoctors(resultSearch.value);
+// onBeforeMount(async () => {
+//   meilisearch();
+//   try {
+//     let date = new Date();
+//     await consultationStore.getTop10Doctor(
+//       date.getMonth() + 1,
+//       date.getFullYear()
+//     );
+//     topDoctors.value = consultationStore.topDoctors;
+//   } catch (e) {
+//     console.log(e);
+//   }
+// });
+onMounted(async () => {
+  meilisearch();
   try {
     let date = new Date();
     await consultationStore.getTop10Doctor(
@@ -543,9 +553,6 @@ onBeforeMount(async () => {
   } catch (e) {
     console.log(e);
   }
-});
-onMounted(async () => {
-  // doctorStore.doctors = await search("", { sort: ["ratings:desc"], hitsPerPage: 1000 });
   setTimeout(() => {
     try {
       // select the two elements that we'll work with
@@ -692,8 +699,9 @@ async function choosePage(page: number) {
 }
 
 async function meilisearch() {
-  currentPage.value = 1;
+  currentId.value = 1;
   result.value = await search(keySearch.value.trim(), {
+    sort: ["ratings:desc"],
     hitsPerPage: hitsPerPage.value,
     page: 1,
   });

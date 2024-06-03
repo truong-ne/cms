@@ -20,9 +20,5 @@ try {
 definePageMeta({
   middleware: ["auth"],
 });
-const header = {
-  title: "Bác sĩ",
-  quantity: doctorStore.doctorQuantity?.quantity,
-  name: "Doctor",
-};
+
 </script>

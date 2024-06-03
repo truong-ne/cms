@@ -338,14 +338,15 @@ async function choosePage(page: number) {
 }
 
 onMounted(async () => {
-  result.value = await search(keySearch.value.trim(), {
-    hitsPerPage: hitsPerPage.value,
-    page: currentPage.value,
-  });
-  resultSearch.value = result.value.hits;
-  totalHits.value = result.value.totalHits;
-  totalPages.value = result.value.totalPages;
-  blogStore.saveBlogs(resultSearch.value);
+  // result.value = await search(keySearch.value.trim(), {
+  //   hitsPerPage: hitsPerPage.value,
+  //   page: currentPage.value,
+  // });
+  // resultSearch.value = result.value.hits;
+  // totalHits.value = result.value.totalHits;
+  // totalPages.value = result.value.totalPages;
+  // blogStore.saveBlogs(resultSearch.value);
+  meilisearch();
   setTimeout(() => {
     try {
       const $modalElement = document.getElementById("updateNews");
@@ -392,15 +393,14 @@ function toggle() {
 }
 
 async function meilisearch() {
-  if (keySearch.value.trim() !== "") {
-    result.value = await search(keySearch.value.trim(), {
-      hitsPerPage: hitsPerPage.value,
-      page: currentPage.value,
-    });
-    resultSearch.value = result.value;
-    totalHits.value = result.value.totalHits;
-    totalPages.value = result.value.totalPages;
-    blogStore.saveBlogs(resultSearch.value.hits);
-  }
+  currentId.value = 1;
+  result.value = await search(keySearch.value.trim(), {
+    hitsPerPage: hitsPerPage.value,
+    page: currentPage.value,
+  });
+  resultSearch.value = result.value;
+  totalHits.value = result.value.totalHits;
+  totalPages.value = result.value.totalPages;
+  blogStore.saveBlogs(resultSearch.value.hits);
 }
 </script>
