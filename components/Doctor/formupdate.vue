@@ -275,7 +275,7 @@ full_name: values.fullName,
     .updateDoctor(doctor)
     .then(() => {
       toastStatus.value = "success";
-      message.value = "Thêm thành công";
+      message.value = "Cập nhật thành công";
       addToast();
     })
     .catch((e: string) => {
