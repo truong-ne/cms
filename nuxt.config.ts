@@ -57,7 +57,7 @@ export default defineNuxtConfig({
     format: ["webp"],
     provider: "cloudinary",
     cloudinary: {
-      baseURL: "https://res.cloudinary.com/dsvlwyl7i/image/upload/",
+      baseURL: "https://res.cloudinary.com/dr3ozmc4o/image/upload/",
     },
   },
   vue: {
