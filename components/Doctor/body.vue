@@ -183,7 +183,6 @@
             <div class="col-span-3 h-80 rounded-s-2xl overflow-hidden">
               <NuxtImg
                 v-if="
-                  doctor.avatar != 'default' &&
                   doctor.avatar != null &&
                   doctor.avatar != ''
                 "
