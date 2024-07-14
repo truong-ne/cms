@@ -145,7 +145,6 @@
             </div>
             <NuxtImg
               v-if="
-                doctor.avatar != 'default' &&
                 doctor.avatar != null &&
                 doctor.avatar != ''
               "
