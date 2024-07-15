@@ -25,21 +25,14 @@
           v-for="(doctor, index) in topDoctors"
           :key="index"
         >
-          <div
-            class="rounded-full bg-primary border-4 overflow-hidden"
-            :class="{
-              'border-yellow-300': index == 0,
-              'border-gray-300': index == 1,
-              'border-orange-200': index == 2,
-            }"
-          >
+          <div>
             <div
-              class="absolute z-10 bottom-0 left-3 right-3 flex flex-col items-center"
+              class="absolute z-10 bottom-0 left-0 flex items-center gap-4 w-40"
             >
               <svg
                 v-if="index == 0"
-                width="72"
-                height="71"
+                width="32"
+                height="32"
                 viewBox="0 0 72 71"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
@@ -135,37 +128,42 @@
                   fill="#FBEBB7"
                 />
               </svg>
-              <div class="font-normal text-md text-balance">
-                {{
-                  doctor.full_name.split(" ")[
-                    doctor.full_name.split(" ").length - 1
-                  ]
-                }}
+              <div class="flex flex-col">
+                <div class="font-normal text-md text-balance">
+                  {{ doctor.full_name }}
+                </div>
               </div>
             </div>
-            <NuxtImg
-              v-if="
-                doctor.avatar != 'default' &&
-                doctor.avatar != null &&
-                doctor.avatar != ''
-              "
-              provider="cloudinary"
-              width="400"
-              height="400"
-              :src="doctor.avatar"
-              :alt="doctor.full_name"
-              class="object-cover h-full group-hover:scale-[1.15] duration-200 transform ease-linear"
-            />
+            <div
+              class="w-24 h-24 overflow-hidden rounded-full bg-primary border-4"
+              :class="{
+                'border-yellow-300': index == 0,
+                'border-gray-300': index == 1,
+                'border-orange-200': index == 2,
+              }"
+            >
+              <NuxtImg
+                v-if="
+                  doctor.avatar != 'default' &&
+                  doctor.avatar != null &&
+                  doctor.avatar != ''
+                "
+                provider="cloudinary"
+                :src="doctor.avatar"
+                :alt="doctor.full_name"
+                class="object-cover group-hover:scale-[1.15] duration-200 transform ease-linear"
+              />
 
-            <NuxtImg
-              v-else
-              provider="cloudinary"
-              src="healthline/avatar/doctors/default"
-              width="700"
-              height="700"
-              class="object-cover h-full group-hover:scale-[1.15] duration-200 transform ease-linear"
-              alt=""
-            />
+              <NuxtImg
+                v-else
+                provider="cloudinary"
+                src="healthline/avatar/doctors/default"
+                width="400"
+                height="400"
+                class="object-cover group-hover:scale-[1.15] duration-200 transform ease-linear"
+                alt=""
+              />
+            </div>
           </div>
         </div>
       </div>
@@ -180,8 +178,8 @@
           :key="doctor.id"
           @click="chooseDoctor(doctor.id)"
         >
-          <div class="grid grid-cols-7 rounded-s-2xl">
-            <div class="col-span-3 h-80 rounded-s-2xl overflow-hidden">
+          <div class="flex flex-cols rounded-s-2xl">
+            <div class="w-1/3 h-80 rounded-s-2xl overflow-hidden">
               <NuxtImg
                 v-if="
                   doctor.avatar != 'default' &&
@@ -189,8 +187,6 @@
                   doctor.avatar != ''
                 "
                 provider="cloudinary"
-                width="400"
-                height="400"
                 :src="doctor.avatar"
                 :alt="doctor.full_name"
                 class="object-cover h-full group-hover:scale-[1.15] duration-200 transform ease-linear bg-primary/80"
@@ -199,15 +195,13 @@
               <NuxtImg
                 v-else
                 provider="cloudinary"
-                src="healthline/avatar/doctors/default"
-                width="700"
-                height="700"
+                src="healthline/doctors/default"
                 class="object-cover h-full group-hover:scale-[1.15] duration-200 transform ease-linear"
                 :alt="doctor.full_name"
               />
             </div>
             <div
-              class="relative col-span-4 p-4 flex flex-col place-items-start"
+              class="relative w-2/3 p-4 flex flex-col place-items-start"
             >
               <div class="text-lg text-black font-bold">
                 {{ doctor.full_name }}

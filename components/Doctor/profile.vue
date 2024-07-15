@@ -22,18 +22,16 @@
               "
               provider="cloudinary"
               :src="mainAccount.avatar"
-              width="500"
-              height="500"
-              class="object-cover duration-200 transform ease-linear bg-primary/20"
+             
+              class="object-cover h-full w-full duration-200 transform ease-linear bg-primary/20"
               :alt="mainAccount.full_name"
             />
             <NuxtImg
               v-else
               provider="cloudinary"
-              src="healthline/avatar/doctors/default"
-              width="500"
-              height="500"
-              class="object-cover duration-200 transform ease-linear"
+              src="healthline/doctors/default"
+              
+              class="object-cover h-full w-full duration-200 transform ease-linear"
               :alt="mainAccount.full_name"
             />
           </div>
@@ -933,7 +931,6 @@ onMounted(async () => {
     format: "dd/mm/yyyy",
     language: "vi",
     defaultDate: false,
-    maxDate: new Date(),
     minDate: new Date(1900),
   });
   dayConsultation?.addEventListener("changeDate", (e) => {
