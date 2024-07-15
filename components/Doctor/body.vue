@@ -157,7 +157,7 @@
               <NuxtImg
                 v-else
                 provider="cloudinary"
-                src="healthline/avatar/doctors/default"
+                src="healthline/doctors/default"
                 width="400"
                 height="400"
                 class="object-cover group-hover:scale-[1.15] duration-200 transform ease-linear"
@@ -182,7 +182,6 @@
             <div class="w-1/3 h-80 rounded-s-2xl overflow-hidden">
               <NuxtImg
                 v-if="
-                  doctor.avatar != 'default' &&
                   doctor.avatar != null &&
                   doctor.avatar != ''
                 "

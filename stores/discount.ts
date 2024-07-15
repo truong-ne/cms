@@ -51,7 +51,7 @@ export const useDataDiscount = defineStore("discount", () => {
       });
 
       if (data.value !== null) {
-        return;
+        location.reload()
       } else if (error.value != null) {
         if (error.value.statusCode == 409) throw "Trùng mã giảm giá";
         else throw "Thêm thất bại";
@@ -84,6 +84,7 @@ export const useDataDiscount = defineStore("discount", () => {
 
       if (data.value !== null) {
         const response = mask(data.value, DataObjectSchema);
+        location.reload()
         return response.message;
       } else if (error.value != null) {
         throw "Không thành công";
@@ -110,6 +111,8 @@ export const useDataDiscount = defineStore("discount", () => {
           ? "Không còn trong hệ thống"
           : "Không thành công";
       }
+
+      location.reload()
     } catch (error) {
       throw error;
     }

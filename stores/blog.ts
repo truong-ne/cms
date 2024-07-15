@@ -62,7 +62,7 @@ export const useDataBlog = defineStore("Blog", () => {
       });
 
       if (data.value !== null) {
-        return;
+        location.reload()
       } else if (error.value != null) {
         throw "Thất bại";
       }
@@ -125,7 +125,8 @@ export const useDataBlog = defineStore("Blog", () => {
 
       if (error.value != null) {
         throw error.value.statusCode == 404 ? "Không còn trong hệ thống" : "Không thành công";
-      }
+      } else
+        location.reload()
     } catch (error) {
       throw error;
     }
