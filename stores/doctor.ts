@@ -266,6 +266,7 @@ export const useDataDoctor = defineStore("doctor", () => {
       });
 
       if (data.value !== null) {
+        location.reload()
         return;
       } else {
         console.log(error);
@@ -304,6 +305,8 @@ export const useDataDoctor = defineStore("doctor", () => {
         console.log(error);
         throw "Cập nhật tài khoản thất bại";
       }
+
+      location.reload()
     } catch (error) {
       throw error;
     }
@@ -331,6 +334,8 @@ export const useDataDoctor = defineStore("doctor", () => {
         doctors.value = [];
         throw "Khoá tài khoản thất bại";
       }
+
+      location.reload()
     } catch (error) {
       throw error;
     }
@@ -417,6 +422,8 @@ export const useDataDoctor = defineStore("doctor", () => {
       } else {
         throw "Đặt lại mật khẩu thất bại";
       }
+
+      location.reload()
     } catch (error) {
       throw error;
     }
